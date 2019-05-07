@@ -26,6 +26,11 @@ GamePlay.prototype = {
 	game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
     game.physics.p2.gravity.y = 800; // Add vertical gravity
 
+    this.bg = game.add.sprite(500,game.height/2, 'background');
+    game.physics.p2.enable(this.bg, true);
+    this.bg.body.setRectangle(50,game.height, 0, 0, 0);
+    this.bg.body.static = true;
+    console.log("here");
     //  Add 2 sprites which we'll join with a string
 
     this.player1 = game.add.sprite(100, 400, 'dude');
@@ -38,7 +43,7 @@ GamePlay.prototype = {
     
     this.player1.body.fixedRotation = true; // Prevents sprites from spinning wildly 
 
-	this.player2 = game.add.sprite(600, 400, 'ball');
+	this.player2 = game.add.sprite(800, 400, 'ball');
 
 	game.physics.p2.enable(this.player2); // Enable p2 physics for player1. This creates a default rectangular body.
     this.player2.body.fixedRotation = true;// Prevents sprites from spinning wildly
