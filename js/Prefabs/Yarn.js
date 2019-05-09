@@ -21,7 +21,7 @@ function Yarn(game, key, player1, player2){
 	// Creates the constraint between the players
 	this.createYarn = function(cat1,cat2){
 		var dist = Phaser.Math.difference(cat1.body.x, cat1.body.y, cat2.body.x, cat2.body.y);
-		this.constraint = game.physics.p2.createDistanceConstraint(cat1, cat2, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
+		this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
 	}
 
 	// Removes the constraint between the players
