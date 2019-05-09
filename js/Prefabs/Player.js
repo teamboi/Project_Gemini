@@ -10,6 +10,10 @@ function Player(game, x, y, key, whichPlayer){
 	// Which affects controls and gravity
 	this.whichPlayer = whichPlayer
 
+	// Define player constants
+	this.xVelocity = 400; // Velocity for left and right movement
+	this.jumpVelocity = 500; // Velocity for jumping
+
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	game.physics.p2.enable(this);
@@ -34,19 +38,19 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function(){
 	// Check for left and right movements
 	if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-    	this.body.moveLeft(400);
+		this.body.moveLeft(this.xVelocity);
     }
     else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-    	this.body.moveRight(400);
+    	this.body.moveRight(this.xVelocity);
     }
 
     // Check for jumping
     if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]])){
     	if(this.whichPlayer == 1){
-			this.body.moveUp(300);
+			this.body.moveUp(this.jumpVelocity);
 		}
 		else{
-			this.body.moveUp(-300);
+			this.body.moveDown(this.jumpVelocity);
 		}
     }
 }
