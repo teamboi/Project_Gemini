@@ -9,12 +9,24 @@ GamePlay.prototype = {
 	},
 	preload: function(){
 		// Assets from the example I used
-    game.load.image('ball', 'assets/sprites/blue_ball.png');
-    game.load.image('background', 'assets/games/starstruck/background2.png');
-    game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
+        game.load.image('ball', 'assets/sprites/blue_ball.png');
+        game.load.image('background', 'assets/games/starstruck/background2.png');
+        game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
+
+        game.load.spritesheet('mapTiles', 'assets/img/bg_floor.png', 32, 32);
+        game.load.tilemap('testLevel','assets/img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
 
 	},
 	create: function(){
+        this.testLevel = this.game.add.tilemap('testLevel');
+        this.testLevel.addTilesetImage('cat platformer', 'mapTiles');
+
+        this.testLevel.setCollisionByExclusion([]);
+
+        this.bgLayer = this.testLevel.createLayer('Background');
+
+        this.bgLayer.resizeWorld();
+
         // Add in the Level Manager
         this.levelManager = new LevelManager(game, "ball");
         game.add.existing(this.levelManager);
