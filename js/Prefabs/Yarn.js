@@ -19,14 +19,21 @@ function Yarn(game, key, player1, player2){
 	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
 
 	// Creates the constraint between the players
-	this.createYarn = function(cat1,cat2){
-		var dist = Phaser.Math.difference(cat1.body.x, cat1.body.y, cat2.body.x, cat2.body.y);
-		this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
+	this.createYarn = function(cat1,cat2){ // First cat will be the anchor
+		//var dist = Phaser.Math.difference(cat1.body.x, cat1.body.y, cat2.body.x, cat2.body.y);
+		var dist = Phaser.Math.difference(cat1.body.y, cat2.body.y);
+		cat1.body.data.gravityScale *= 2;
+		//this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
+		this.contraint = game.physics.p2.createSpring(cat1.body, cat2.body, dist, 20, 1);
 	}
 
 	// Removes the constraint between the players
 	this.removeYarn = function(){
-		game.physics.p2.removeConstraint(this.constraint); // Unlock the player's x difference
+		//game.physics.p2.removeConstraint(this.constraint); // Unlock the player's x difference
+		game.physics.p2.removeSpring(this.constraint); // Unlock the player's x difference
+		console.log("here0");
+		this.player2.body.data.gravityScale = -1;
+		this.player1.body.data.gravityScale = 1;
 	}
 }
 
@@ -51,6 +58,7 @@ Yarn.prototype.update = function(){
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
 			this.removeYarn();
+			//this.player1.body.data.gravityScale = 1;
 			this.anchored = 0;
 		}
 	}
@@ -58,6 +66,7 @@ Yarn.prototype.update = function(){
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
 			this.removeYarn();
+			//this.player2.body.data.gravityScale = -1;
 			this.anchored = 0;
 		}
 	}
