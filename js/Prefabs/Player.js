@@ -29,6 +29,30 @@ function Player(game, x, y, key, whichPlayer){
 		this.body.data.gravityScale = -1; // player2 will be on the roof
 		this.controls = ['J','K','L','COLON'];
 	}
+
+	// Checks if the ground is under the player
+	// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
+	this.checkIfCanJump = function(direction) {
+		var yAxis = p2.vec2.fromValues(0, 1);
+
+		console.log(game.physics.p2.world.narrowphase.contactEquations.length);
+	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
+	        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
+
+	        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
+	            var d = p2.vec2.dot(cE.normalA, yAxis);
+
+	            if (cE.bodyA === this.body.data){
+	                d *= -1;
+	            }
+
+	            if (d > 0.5){
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -45,7 +69,7 @@ Player.prototype.update = function(){
     }
 
     // Check for jumping
-    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]])){
+    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) ){ //&& this.checkIfCanJump() 
     	if(this.whichPlayer == 1){
 			this.body.moveUp(this.jumpVelocity);
 		}
