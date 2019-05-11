@@ -19,8 +19,8 @@ function Yarn(game, key, player1, player2){
 
 	// Creates the constraint between the players
 	this.createYarn = function(cat1,cat2){ // First cat will be the anchor
-		//var dist = Phaser.Math.difference(cat1.body.x, cat1.body.y, cat2.body.x, cat2.body.y);
-		var dist = Phaser.Math.difference(cat1.body.y, cat2.body.y);
+		var dist = Phaser.Math.distance(cat1.body.x, cat1.body.y, cat2.body.x, cat2.body.y);
+		//var dist = Phaser.Math.difference(cat1.body.y, cat2.body.y);
 		cat1.body.data.gravityScale *= 2;
 		//this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
 		spring = game.physics.p2.createSpring(cat1.body, cat2.body, dist, 20, 1);
