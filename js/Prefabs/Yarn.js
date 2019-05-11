@@ -37,12 +37,13 @@ function Yarn(game, key, player1, player2){
 
 			if(dist >= this.tautLength + deadband){ // If the player distance is greater than the taut length, create a constraint
 				if(constraint == null){ // if the constraint doesn't exist already, create a constraint
-					constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
+					constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
+					//constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				}
 			}
 			else{ // If the player distance is less than the taut length
 				if(constraint != null){ // If the constraint does exist, remove the constraint
-					game.physics.p2.removeConstraint(constraint);
+					game.physics.p2.removeSpring(constraint);
 					constraint = null;
 				}
 			}
@@ -55,7 +56,7 @@ function Yarn(game, key, player1, player2){
 
 		//If constraint does exist, remove it
 		if(constraint != null){
-			game.physics.p2.removeConstraint(constraint);
+			game.physics.p2.removeSpring(constraint);
 			constraint = null;
 		}
 
