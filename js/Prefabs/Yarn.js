@@ -14,7 +14,6 @@ function Yarn(game, key, player1, player2){
 	this.p2Key = this.player2.controls[3];
 
 	// Define some variables for the constraint
-	this.constraint; // constraint that will be the yarn
 	this.isYarn = false; // boolean for if the yarn is active
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	// Create a variable that tracks the status of who is anchored
@@ -37,14 +36,14 @@ function Yarn(game, key, player1, player2){
 			var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y);
 
 			if(dist >= this.tautLength + deadband){ // If the player distance is greater than the taut length, create a constraint
-				if(this.constraint == null){ // if the constraint doesn't exist already, create a constraint
-					this.constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
+				if(constraint == null){ // if the constraint doesn't exist already, create a constraint
+					constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				}
 			}
 			else{ // If the player distance is less than the taut length
-				if(this.constraint != null){ // If the constraint does exist, remove the constraint
-					game.physics.p2.removeConstraint(this.constraint);
-					this.constraint = null;
+				if(constraint != null){ // If the constraint does exist, remove the constraint
+					game.physics.p2.removeConstraint(constraint);
+					constraint = null;
 				}
 			}
 		}
@@ -55,9 +54,9 @@ function Yarn(game, key, player1, player2){
 		this.isYarn = false; // yarn is inactive
 
 		//If constraint does exist, remove it
-		if(this.constraint != null){
-			game.physics.p2.removeConstraint(this.constraint);
-			this.constraint = null;
+		if(constraint != null){
+			game.physics.p2.removeConstraint(constraint);
+			constraint = null;
 		}
 
 		// Reset gravity
