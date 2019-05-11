@@ -9,7 +9,9 @@ GamePlay.prototype = {
 	},
 	preload: function(){
 		// Assets from the example I used
-        game.load.image('ball', 'assets/sprites/blue_ball.png');
+        game.load.image('cat1', 'img/cat1.png');
+        game.load.image('cat2', 'img/cat2.png');
+        
         game.load.image('background', 'assets/games/starstruck/background2.png');
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
@@ -20,13 +22,13 @@ GamePlay.prototype = {
         game.add.existing(this.levelManager);
 
         // Add in the players
-        this.player1 = new Player(game, 100, game.world.height/2, "ball", 1);
+        this.player1 = new Player(game, 100, game.world.height/2, "cat1", 1);
         game.add.existing(this.player1);
-        this.player2 = new Player(game, 400, game.world.height/2, "ball", 2);
+        this.player2 = new Player(game, 400, game.world.height/2, "cat2", 2);
         game.add.existing(this.player2);
 
         // Add in the yarn
-        this.yarn = new Yarn(game, 'ball', this.player1, this.player2);
+        this.yarn = new Yarn(game, 'dude', this.player1, this.player2);
         game.add.existing(this.yarn);
 		 //this.bg = game.add.tileSprite(0, 0, 1080, 800, 'background');
         this.constraint; // Create the constraint object to be turned on/off
