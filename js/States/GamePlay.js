@@ -9,9 +9,9 @@ GamePlay.prototype = {
 	},
 	preload: function(){
 		// Assets from the example I used
-    game.load.image('ball', 'assets/sprites/blue_ball.png');
-    game.load.image('background', 'assets/games/starstruck/background2.png');
-    game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
+        game.load.image('ball', 'assets/sprites/blue_ball.png');
+        game.load.image('background', 'assets/games/starstruck/background2.png');
+        game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
 	},
 	create: function(){
@@ -53,6 +53,6 @@ GamePlay.prototype = {
         this.bg2.body.static = true;
 	},
 	update: function(){
-
+        
 	},
 }
