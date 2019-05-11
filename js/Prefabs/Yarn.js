@@ -14,35 +14,35 @@ function Yarn(game, key, player1, player2){
 	this.p2Key = this.player2.controls[3];
 
 	// Define some variables for the constraint
-	this.constraint;
-	this.isYarn = false;
-	this.tautLength = 0;
+	this.constraint; // constraint that will be the yarn
+	this.isYarn = false; // boolean for if the yarn is active
+	this.tautLength = 0; // the max length players can be if the yarn is active
 	// Create a variable that tracks the status of who is anchored
 	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
 
 	// Creates the constraint between the players
 	this.createYarn = function(cat1,cat2){ // First cat will be the anchor
-		this.isYarn = true;
+		this.isYarn = true; // yarn is active
 
 		var dist = Phaser.Math.distance(cat1.x, cat1.y, cat2.x, cat2.y);
-		this.tautLength = dist;
-		//var dist = Phaser.Math.difference(cat1.body.y, cat2.body.y);
+		this.tautLength = dist; // Sets the taut length
 		cat1.body.data.gravityScale *= 2;
-		//this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0.5], [0.5,0.5]); // Lock the player's x difference
-		//spring = game.physics.p2.createSpring(cat1.body, cat2.body, dist, 20, 1);
 	}
 
+	// Updates the yarn if it is active
 	this.updateYarn = function(){
+		// Only checks if the yarn is active
 		if(this.isYarn == true){
-			var deadband = 3;
+			var deadband = 3; // the margin of error to check beyond the taut length
 			var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y);
-			if(dist >= this.tautLength + deadband){
-				if(this.constraint == null){
+
+			if(dist >= this.tautLength + deadband){ // If the player distance is greater than the taut length, create a constraint
+				if(this.constraint == null){ // if the constraint doesn't exist already, create a constraint
 					this.constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				}
 			}
-			else{
-				if(this.constraint != null){
+			else{ // If the player distance is less than the taut length
+				if(this.constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(this.constraint);
 					this.constraint = null;
 				}
@@ -52,15 +52,15 @@ function Yarn(game, key, player1, player2){
 
 	// Removes the constraint between the players
 	this.removeYarn = function(){
-		this.isYarn = false;
+		this.isYarn = false; // yarn is inactive
 
+		//If constraint does exist, remove it
 		if(this.constraint != null){
 			game.physics.p2.removeConstraint(this.constraint);
 			this.constraint = null;
 		}
 
-		//game.physics.p2.removeConstraint(this.constraint); // Unlock the player's x difference
-		//game.physics.p2.removeSpring(spring); // Unlock the player's x difference
+		// Reset gravity
 		this.player2.body.data.gravityScale = -1;
 		this.player1.body.data.gravityScale = 1;
 	}
