@@ -51,8 +51,15 @@ GamePlay.prototype = {
         game.physics.p2.enable(this.bg2, true);
         this.bg2.body.setRectangle(game.width,50, 0, 0, 0);
         this.bg2.body.static = true;
+
+        // Add platform at top
+        this.bg3 = game.add.sprite(0,500, 'background');
+        game.add.existing(this.bg3);
+        game.physics.p2.enable(this.bg3, true);
+        this.bg3.body.setRectangle(50,game.height, 0, 0, 0);
+        this.bg3.body.static = true;
 	},
 	update: function(){
-        
+
 	},
 }

@@ -14,7 +14,6 @@ function Yarn(game, key, player1, player2){
 	this.p2Key = this.player2.controls[3];
 
 	// Define some variables for the constraint
-	this.constraint; // Create the constraint object to be turned on/off
 	// Create a variable that tracks the status of who is anchored
 	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
 
@@ -24,13 +23,13 @@ function Yarn(game, key, player1, player2){
 		var dist = Phaser.Math.difference(cat1.body.y, cat2.body.y);
 		cat1.body.data.gravityScale *= 2;
 		//this.constraint = game.physics.p2.createDistanceConstraint(cat1.body, cat2.body, dist, [0.5,0], [0.5,0]); // Lock the player's x difference
-		this.contraint = game.physics.p2.createSpring(cat1.body, cat2.body, dist, 20, 1);
+		spring = game.physics.p2.createSpring(cat1.body, cat2.body, dist, 20, 1);
 	}
 
 	// Removes the constraint between the players
 	this.removeYarn = function(){
 		//game.physics.p2.removeConstraint(this.constraint); // Unlock the player's x difference
-		game.physics.p2.removeSpring(this.constraint); // Unlock the player's x difference
+		game.physics.p2.removeSpring(spring); // Unlock the player's x difference
 		console.log("here0");
 		this.player2.body.data.gravityScale = -1;
 		this.player1.body.data.gravityScale = 1;

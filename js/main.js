@@ -3,6 +3,7 @@
 
 // define global variables
 var game;
+var spring;
 
 // when window loads, create the game
 window.onload = function(){
