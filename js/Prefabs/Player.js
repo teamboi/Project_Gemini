@@ -12,7 +12,7 @@ function Player(game, x, y, key, whichPlayer){
 
 	// Define player constants
 	this.xVelocity = 400; // Velocity for left and right movement
-	this.jumpVelocity = 500; // Velocity for jumping
+	this.jumpVelocity = 1500; // Velocity for jumping
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);

@@ -37,7 +37,7 @@ GamePlay.prototype = {
        
     	//	Enable p2 physics
     	game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
-        game.physics.p2.gravity.y = 800; // Add vertical gravity
+        game.physics.p2.gravity.y = 3000; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         // Add platform at bottom
