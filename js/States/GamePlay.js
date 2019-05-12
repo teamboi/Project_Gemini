@@ -24,6 +24,9 @@ GamePlay.prototype = {
         this.levelManager = new LevelManager(game, "ball");
         game.add.existing(this.levelManager);
 
+        this.beats = game.add.audio('beats');
+		this.beats.play('', 0, 1, true);	
+
         this.room = game.add.sprite(0,0,'backgroundInside');
         this.room.scale.setTo(0.11,0.11);
 

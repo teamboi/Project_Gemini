@@ -9,7 +9,7 @@ function Player(game, x, y, key, whichPlayer){
 	// Obtains whether this is player1 or player2
 	// Which affects controls and gravity
 	this.whichPlayer = whichPlayer
-
+	this.meow = game.add.audio('meow');
 	// Define player constants
 	this.xVelocity = 400; // Velocity for left and right movement
 	this.jumpVelocity = 1500; // Velocity for jumping
@@ -75,6 +75,7 @@ Player.prototype.update = function(){
 
     // Check for jumping
     if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump(this.jumpDirection) ){ //
+		this.meow.play('', 0, 1, false);
     	if(this.whichPlayer == 1){
 			this.body.moveUp(this.jumpVelocity);
 		}

@@ -10,7 +10,9 @@ Load.prototype = {
 
 		// load in the sprites
 		game.load.path = 'assets/';
+		game.load.audio('beats', ['audio/guitarsample2.mp3']);
 
+		game.load.audio('meow', ['audio/meow22.mp3']);
 		// load in the sprite atlases with animations
 		//game.load.atlas('spr_player', 'player.png', 'player.json');
 		//game.load.atlas('spr_freshman', 'freshman.png', 'freshman.json');
