@@ -17,7 +17,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this);
 	this.body.fixedRotation = true;
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -80,6 +80,8 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		else{
 			cat = this.gameplay.player2;
 		}
+
+		this.key = cat.key;
 
 		this.body.x = cat.body.x;
 		this.body.y = cat.body.y;
