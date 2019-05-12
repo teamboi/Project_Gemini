@@ -11,9 +11,6 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	// Which affects controls and gravity
 	this.whichPlayer = whichPlayer
 	this.meow = game.add.audio('meow');
-	// Define player constants
-	this.xVelocity = 400; // Velocity for left and right movement
-	this.jumpVelocity = 1500; // Velocity for jumping
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
@@ -23,8 +20,8 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.body.dynamic = true;
 
 	// Define player constants
-	this.xVelocity = 400; // Velocity for left and right movement
-	this.jumpVelocity = 1500; // Velocity for jumping
+	this.xVelocity = 200; // Velocity for left and right movement
+	this.jumpVelocity = 500; // Velocity for jumping
 
 	this.isAnchor = false;
 
