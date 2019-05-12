@@ -5,14 +5,14 @@
 // Constructor for Player
 function Player(game, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
-
+	this.scale.setTo(0.11, 0.11);
 	// Obtains whether this is player1 or player2
 	// Which affects controls and gravity
 	this.whichPlayer = whichPlayer
-
+	this.meow = game.add.audio('meow');
 	// Define player constants
 	this.xVelocity = 400; // Velocity for left and right movement
-	this.jumpVelocity = 500; // Velocity for jumping
+	this.jumpVelocity = 1500; // Velocity for jumping
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
@@ -24,18 +24,19 @@ function Player(game, x, y, key, whichPlayer){
 	// left, right, jump, anchor
 	if(whichPlayer == 1){
 		this.controls = ['A','S','D','F'];
+		this.jumpDirection = 'up';
 	}
 	else{
 		this.body.data.gravityScale = -1; // player2 will be on the roof
 		this.controls = ['J','K','L','COLON'];
+		this.jumpDirection = 'down';
 	}
 
 	// Checks if the ground is under the player
 	// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
 	this.checkIfCanJump = function(direction) {
 		var yAxis = p2.vec2.fromValues(0, 1);
-
-		console.log(game.physics.p2.world.narrowphase.contactEquations.length);
+		
 	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
 	        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
 
@@ -44,6 +45,10 @@ function Player(game, x, y, key, whichPlayer){
 
 	            if (cE.bodyA === this.body.data){
 	                d *= -1;
+	            }
+
+	            if(direction == 'down'){
+	            	d *= -1;
 	            }
 
 	            if (d > 0.5){
@@ -69,7 +74,8 @@ Player.prototype.update = function(){
     }
 
     // Check for jumping
-    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) ){ //&& this.checkIfCanJump() 
+    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump(this.jumpDirection) ){ //
+		this.meow.play('', 0, 1, false);
     	if(this.whichPlayer == 1){
 			this.body.moveUp(this.jumpVelocity);
 		}
