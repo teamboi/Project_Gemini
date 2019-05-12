@@ -13,8 +13,8 @@ GamePlay.prototype = {
         game.load.image('background', 'assets/games/starstruck/background2.png');
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
-        game.load.spritesheet('mapTiles', 'assets/img/bg_floor.png', 32, 32);
-        game.load.tilemap('testLevel','assets/img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
+        game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('cat1', 'img/cat1.png');
         game.load.image('cat2', 'img/cat2.png');
         
