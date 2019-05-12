@@ -13,6 +13,9 @@ GamePlay.prototype = {
         game.load.image('cat2', 'img/cat2.png');
         
         game.load.image('background', 'assets/games/starstruck/background2.png');
+        game.load.image('backgroundInside', 'img/background.png');
+        
+        
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
 	},
@@ -20,6 +23,9 @@ GamePlay.prototype = {
         // Add in the Level Manager
         this.levelManager = new LevelManager(game, "ball");
         game.add.existing(this.levelManager);
+
+        this.room = game.add.sprite(0,0,'backgroundInside');
+        this.room.scale.setTo(0.11,0.11);
 
         // Add in the players
         this.player1 = new Player(game, 100, game.world.height/2, "cat1", 1);

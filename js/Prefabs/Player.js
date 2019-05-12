@@ -5,7 +5,7 @@
 // Constructor for Player
 function Player(game, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
-	this.scale.setTo(0.15, 0.15);
+	this.scale.setTo(0.11, 0.11);
 	// Obtains whether this is player1 or player2
 	// Which affects controls and gravity
 	this.whichPlayer = whichPlayer
