@@ -13,6 +13,9 @@ GamePlay2.prototype = {
         game.load.image('background', 'assets/games/starstruck/background2.png');
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
+         game.load.image('cat1', 'img/cat1.png');
+        game.load.image('cat2', 'img/cat2.png');
+
         game.load.spritesheet('mapTiles', 'assets/img/bg_floor.png', 32, 32);
         game.load.tilemap('testLevel','assets/img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
 
@@ -32,9 +35,9 @@ GamePlay2.prototype = {
         game.add.existing(this.levelManager);
 
         // Add in the players
-        this.player1 = new Player(game, 100, game.world.height/2, "ball", 1);
+        this.player1 = new Player(game, 100, game.world.height/2, "cat1", 1);
         game.add.existing(this.player1);
-        this.player2 = new Player(game, 400, game.world.height/2, "ball", 2);
+        this.player2 = new Player(game, 400, game.world.height/2, "cat2", 2);
         game.add.existing(this.player2);
 
         // Add in the yarn
@@ -47,7 +50,7 @@ GamePlay2.prototype = {
        
     	//	Enable p2 physics
     	game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
-        game.physics.p2.gravity.y = 800; // Add vertical gravity
+        game.physics.p2.gravity.y = 3000; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         // Add platform at bottom

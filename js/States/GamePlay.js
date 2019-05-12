@@ -65,7 +65,7 @@ GamePlay.prototype = {
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         // Add platform at bottom
-        this.bg = game.add.sprite(500,game.height, 'background');
+        /*this.bg = game.add.sprite(500,game.height, 'background');
         game.add.existing(this.bg);
         game.physics.p2.enable(this.bg, true);
         this.bg.body.setRectangle(game.width,50, 0, 0, 0);
@@ -83,11 +83,11 @@ GamePlay.prototype = {
         game.add.existing(this.bg3);
         game.physics.p2.enable(this.bg3, true);
         this.bg3.body.setRectangle(50,game.height, 0, 0, 0);
-        this.bg3.body.static = true;
+        this.bg3.body.static = true;*/
 	},
 	update: function(){
 		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            //this.music.destroy(); // Kill the music
+            this.beats.destroy(); // Kill the music
             game.state.start('GamePlay2', true, false); // Change state to MainMenu
         }
 	},
