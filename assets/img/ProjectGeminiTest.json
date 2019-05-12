@@ -87,8 +87,30 @@
  "tileheight":32,
  "tilesets":[
         {
+         "columns":4,
          "firstgid":1,
-         "source":"..\/..\/..\/..\/GameMaker\/Projects\/80H_Second_Challenge\/Level\/bg_floor.tsx"
+         "image":"bg_floor.png",
+         "imageheight":128,
+         "imagewidth":128,
+         "margin":0,
+         "name":"bg_floor",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "columns":4,
+         "firstgid":17,
+         "image":"bg_floor.png",
+         "imageheight":128,
+         "imagewidth":128,
+         "margin":0,
+         "name":"bg_floor",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":32,
  "type":"map",

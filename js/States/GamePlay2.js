@@ -1,8 +1,8 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
-var GamePlay = function(game){};
-GamePlay.prototype = {
+var GamePlay2 = function(game){};
+GamePlay2.prototype = {
 	init: function(){
 		// initialize variables for gameplay
 		
@@ -28,7 +28,7 @@ GamePlay.prototype = {
         this.bgLayer.resizeWorld();
 
         // Add in the Level Manager
-        this.levelManager = new LevelManager(game, "ball");
+        this.levelManager = new LevelManager(game, 'testLevel');
         game.add.existing(this.levelManager);
 
         // Add in the players
@@ -51,7 +51,7 @@ GamePlay.prototype = {
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         // Add platform at bottom
-        this.bg = game.add.sprite(500,game.height, 'background');
+        this.bg = game.add.sprite(500,game.height/2, 'background');
         game.add.existing(this.bg);
         game.physics.p2.enable(this.bg, true);
         this.bg.body.setRectangle(game.width,50, 0, 0, 0);
@@ -65,9 +65,9 @@ GamePlay.prototype = {
         this.bg2.body.static = true;
 	},
 	update: function(){
-		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+        if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             //this.music.destroy(); // Kill the music
-            game.state.start('GamePlay2', true, false); // Change state to MainMenu
+            game.state.start('GameOver', true, false); // Change state to MainMenu
         }
 	},
 }
