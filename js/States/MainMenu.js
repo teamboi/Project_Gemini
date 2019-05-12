@@ -6,7 +6,9 @@ var MainMenu = function(game){
 };
 MainMenu.prototype = {
 	create: function(){
-		
+		this.menu = game.add.sprite(game.width/2,game.height/2,'catlove');
+		this.menu.anchor.setTo(0.5,0.5);
+        this.menu.scale.setTo(3,3);
 	},
 	update: function(){
 		// If the spacebar is pressed...
