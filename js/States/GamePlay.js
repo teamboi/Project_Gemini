@@ -11,7 +11,7 @@ GamePlay.prototype = {
 	},
 	preload: function(){
 		// Assets from the example I used
-        game.load.image('ball', 'assets/sprites/yarn_ball.png');
+        game.load.image('ball', 'img/yarn_ball.png');
         game.load.image('background', 'assets/games/starstruck/background2.png');
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
@@ -93,12 +93,14 @@ GamePlay.prototype = {
         this.createPlatform(400,200,400,10);
 
         this.yarnBall = game.add.sprite(50,400,'ball');
+       // this.yarnBall.scale.setTo(0.11,0.11);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
         this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
         this.yarnBall2 = game.add.sprite(50,300,'ball');
+       // this.yarnBall2.scale.setTo(0.11,0.11);
         game.add.existing(this.yarnBall2);
         game.physics.p2.enable(this.yarnBall2);
         this.yarnBall2.body.data.gravityScale = -1;
