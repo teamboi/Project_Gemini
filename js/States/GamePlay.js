@@ -52,7 +52,7 @@ GamePlay.prototype = {
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup]);
 
-        this.surrogate = new Player(game, this, 300, 100, "ball", 3);
+        this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
         this.surrogate.body.collides([this.platformCollisionGroup]);
