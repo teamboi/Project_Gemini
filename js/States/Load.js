@@ -9,17 +9,20 @@ Load.prototype = {
 		game.load.setPreloadSprite(loadingBar);
 
 		// load in the sprites
-		game.load.path = 'assets/img/';
+		game.load.path = 'assets/';
+		game.load.audio('beats', ['audio/guitarsample2.mp3']);
 
+		game.load.audio('meow', ['audio/meow22.mp3']);
+		game.load.image('catlove', 'img/CatLove.png');
 		// load in the sprite atlases with animations
 		//game.load.atlas('spr_player', 'player.png', 'player.json');
 		//game.load.atlas('spr_freshman', 'freshman.png', 'freshman.json');
 
 		// load in the beginning audio and music
-		game.load.path = 'assets/audio/';
+		//game.load.path = 'assets/audio/';
 
 		// load in the sound effects
-		game.load.path = 'assets/audio/SFX/';
+		//game.load.path = 'assets/audio/SFX/';
 
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;

@@ -9,8 +9,13 @@ GamePlay.prototype = {
 	},
 	preload: function(){
 		// Assets from the example I used
-        game.load.image('ball', 'assets/sprites/blue_ball.png');
+        game.load.image('cat1', 'img/cat1.png');
+        game.load.image('cat2', 'img/cat2.png');
+        
         game.load.image('background', 'assets/games/starstruck/background2.png');
+        game.load.image('backgroundInside', 'img/background.png');
+        
+        
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
 	},
@@ -30,13 +35,19 @@ GamePlay.prototype = {
         this.levelManager = new LevelManager(game, "ball");
         game.add.existing(this.levelManager);
 
+        this.beats = game.add.audio('beats');
+		this.beats.play('', 0, 1, true);	
+
+        this.room = game.add.sprite(0,0,'backgroundInside');
+        this.room.scale.setTo(0.11,0.11);
+
         // Add in the players
-        this.player1 = new Player(game, this, 100, game.world.height/2, "ball", 1);
+        this.player1 = new Player(game, this, 100, game.world.height/2, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup]);
 
-        this.player2 = new Player(game, this, 400, game.world.height/2, "ball", 2);
+        this.player2 = new Player(game, this, 400, game.world.height/2, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup]);

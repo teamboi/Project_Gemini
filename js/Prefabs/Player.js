@@ -6,10 +6,14 @@
 function Player(game, gameplay, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
 	this.gameplay = gameplay;
-
+	this.scale.setTo(0.11, 0.11);
 	// Obtains whether this is player1 or player2
 	// Which affects controls and gravity
-	this.whichPlayer = whichPlayer;
+	this.whichPlayer = whichPlayer
+	this.meow = game.add.audio('meow');
+	// Define player constants
+	this.xVelocity = 400; // Velocity for left and right movement
+	this.jumpVelocity = 1500; // Velocity for jumping
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
