@@ -8,6 +8,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 	this.gameplay = gameplay;
 
+	this.alpha = 0;
+
 	// Get references to the player objects
 	this.player1 = player1;
 	this.player2 = player2;
@@ -56,8 +58,11 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.updateYarn = function(){
 		// Only checks if the yarn is active
 		if(this.isYarn != true){
+			this.drawYarn("2", "#FF7070");
 			return;
 		}
+		this.drawYarn("4", "#FF3232");
+
 		var deadband = 3; // the margin of error to check beyond the taut length
 		var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y);
 
@@ -86,8 +91,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 				}
 			}
 		}
-
-		this.drawYarn();
 	}
 
 	// Removes the constraint between the players
@@ -115,11 +118,13 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	}
 
 	// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-	this.drawYarn = function(){
+	this.drawYarn = function(width, color){
 		var me = this;
 
 	    // Change the bitmap data to reflect the new rope position
 	    me.ropeBitmapData.clear();
+	    me.ropeBitmapData.ctx.lineWidth = width;
+	    me.ropeBitmapData.ctx.strokeStyle = color;
 	    me.ropeBitmapData.ctx.beginPath();
 	    me.ropeBitmapData.ctx.beginPath();
 	    me.ropeBitmapData.ctx.moveTo(this.player1.x, this.player1.y);
