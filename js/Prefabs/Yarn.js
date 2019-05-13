@@ -4,11 +4,11 @@
 
 // Constructor for Yarn
 function Yarn(game, gameplay, key, player1, player2, surrogate){
-	Phaser.Sprite.call(this, game, 0, 0, key); // Dunno if we want to keep the sprite constructor
+	Phaser.Sprite.call(this, game, 0, 0, key);
 
-	this.gameplay = gameplay;
+	this.gameplay = gameplay; // Obtains the reference to the gameplay state
 
-	this.alpha = 0;
+	this.alpha = 0; // Makes this invisible
 
 	// Get references to the player objects
 	this.player1 = player1;
@@ -25,6 +25,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Create a variable that tracks the status of who is anchored
 	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
 
+	// Some initialize rope code taken from
+	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 	var me = this;
 
     // Add bitmap data to draw the rope // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
@@ -42,30 +44,26 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.createYarn = function(anchorCat,cat2){ // First cat will be the anchor
 		this.isYarn = true; // yarn is active
 
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, cat2.x, cat2.y);
+		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, cat2.x, cat2.y); // Obtains distance between players
 		this.tautLength = dist; // Sets the taut length
-		//anchorCat.body.data.gravityScale *= 2;
 
-		//this.surrogate = new Player(game, anchorCat.x, anchorCat.y, "ball", anchorCat.whichPlayer, true);
-		//game.add.existing(this.surrogate);
-
-		anchorCat.isAnchor = true;
-		this.surrogate.activateSurrogate(anchorCat.whichPlayer);
-		//anchorCat.body.kinematic = true;
+		anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
 	}
 
 	// Updates the yarn if it is active
 	this.updateYarn = function(){
 		// Only checks if the yarn is active
 		if(this.isYarn != true){
-			this.drawYarn("2", "#FF7070");
+			this.drawYarn("2", "#FF7070"); // Draw it as the inactive state
 			return;
 		}
-		this.drawYarn("4", "#FF3232");
+		this.drawYarn("4", "#FF3232"); // Draw it in the active state
 
 		var deadband = 3; // the margin of error to check beyond the taut length
-		var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y);
+		var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y); // Obtains the distance between the players
 
+		// Obtains correct references to both cats
 		if(this.anchored == 1){
 			var anchorCat = this.player1;
 			var otherCat = this.player2;
@@ -104,19 +102,16 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			constraint = null;
 		}
 
-		//this.surrogate.destroy();
-
 		// Reset gravity
 		this.player2.body.data.gravityScale = -1;
 		this.player1.body.data.gravityScale = 1;
 
-		//this.player1.body.dynamic = true;
-		//this.player2.body.dynamic = true;
-
+		// None of the players are anchoring
 		this.player1.isAnchor = false;
 		this.player2.isAnchor = false;
 	}
 
+	// Draw yarn function taken from:
 	// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 	this.drawYarn = function(width, color){
 		var me = this;
@@ -141,7 +136,7 @@ Yarn.prototype = Object.create(Phaser.Sprite.prototype);
 Yarn.prototype.constructor = Yarn;
 
 Yarn.prototype.update = function(){
-	
+	// Update the yarn every frame
 	this.updateYarn();
 
 	if(this.anchored == 0){ // If no one is anchoring

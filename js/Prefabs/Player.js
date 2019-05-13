@@ -5,17 +5,15 @@
 // Constructor for Player
 function Player(game, gameplay, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
-	this.gameplay = gameplay;
-	this.scale.setTo(0.11, 0.11);
-	// Obtains whether this is player1 or player2
-	// Which affects controls and gravity
-	this.whichPlayer = whichPlayer
-	this.meow = game.add.audio('meow');
+	this.gameplay = gameplay; // Obtain reference to gameplay state
+	this.scale.setTo(0.11, 0.11); // Scales the sprite
+	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
+	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	game.physics.p2.enable(this);
-	this.body.fixedRotation = true;
+	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
 
@@ -23,26 +21,26 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
 
-	this.isAnchor = false;
+	this.isAnchor = false; // Whether or not this player is the anchor
 
-	// controls for:
-	// left, right, jump, anchor
+	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
-		this.controls = ['A','S','D','F'];
-		this.jumpDirection = 'up';
+		this.controls = ['A','S','D','F']; // Controls for: left, right, jump, anchor
+		this.jumpDirection = 'up'; // Direction that jump will push the player towards
 	}
 	else if(whichPlayer == 2){
-		this.body.data.gravityScale = -1; // player2 will be on the roof
+		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.controls = ['H','J','K','L'];//,'COLON'];
 		this.jumpDirection = 'down';
 	}
 	else{
-		this.controls = ['H','J','K','L'];//,'COLON'];
-		this.jumpDirection = 'down';
-		this.alpha = 0;
+		this.controls = ['H','J','K','L']; // Populates the controls for the surrogate so it can be read
+		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
+		this.alpha = 0; // Makes the surrogate invisible
 	}
 
 	// Checks if the ground is under the player
+	// Returns true if the player is on the ground
 	// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
 	this.checkIfCanJump = function(direction) {
 		var yAxis = p2.vec2.fromValues(0, 1);
@@ -57,7 +55,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	                d *= -1;
 	            }
 
-	            if(direction == 'down'){
+	            if(direction == 'down'){ // If player2, then reverse the vector
 	            	d *= -1;
 	            }
 
@@ -69,7 +67,9 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	    return false;
 	}
 
+	// surrogate player begins to copy the movement of a player
 	this.activateSurrogate = function(anchor){
+		// Obtains which cat to copy as the anchor cat
 		var cat;
 		if(anchor == 1){
 			cat = this.gameplay.player1;
@@ -78,31 +78,31 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 			cat = this.gameplay.player2;
 		}
 
-		this.key = cat.key;
+		this.key = cat.key; // Changes hitbox to match the cat
 
+		// Copies the x, y, velocity, and gravity variables
 		this.body.x = cat.body.x;
 		this.body.y = cat.body.y;
 		this.body.velocity.x = cat.body.velocity.x;
 		this.body.velocity.y = cat.body.velocity.y;
 		this.body.data.gravityScale = cat.body.data.gravityScale;
 		
+		// Copies additional physics forces
 		this.body.angularForce = cat.body.angularForce;
 		this.body.angularVelocity = cat.body.angularVelocity;
 		this.body.damping = cat.body.damping;
 		this.body.force = cat.body.force;
 		this.body.inertia = cat.body.inertia;
 
+		// Copies controls, jumpDirection, and whichPlayer correctly
 		this.controls = cat.controls;
 		this.jumpDirection = cat.jumpDirection;
 		this.whichPlayer = cat.whichPlayer;
 	}
 
-	this.deactivateSurrogate = function(){
-
-	}
-
+	// Called every frame when the yarn is active for the player to copy the surrogate's variables
 	this.puppetSurrogate = function(){
-		var surrogate = this.gameplay.surrogate;
+		var surrogate = this.gameplay.surrogate; // Obtains reference to the surrogate
 		this.body.x = surrogate.body.x;
 		this.body.y = surrogate.body.y;
 		this.body.velocity.x = surrogate.body.velocity.x;
@@ -115,6 +115,7 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
+	// If this player isn't anchoring, move the player around
 	if(this.isAnchor == false){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
@@ -125,7 +126,7 @@ Player.prototype.update = function(){
 	    }
 
 	    // Check for jumping
-	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump(this.jumpDirection) ){ //
+	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump(this.jumpDirection) ){
 	    	this.meow.play('', 0, 1, false);
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
@@ -135,6 +136,7 @@ Player.prototype.update = function(){
 			}
 	    }
 	}
+	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
 	else{
 		this.puppetSurrogate();
 	}
