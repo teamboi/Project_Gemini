@@ -33,11 +33,11 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof
-		this.controls = ['J','K','L','COLON'];
+		this.controls = ['H','J','K','L'];//,'COLON'];
 		this.jumpDirection = 'down';
 	}
 	else{
-		this.controls = ['J','K','L','COLON'];
+		this.controls = ['H','J','K','L'];//,'COLON'];
 		this.jumpDirection = 'down';
 		this.alpha = 0;
 	}

@@ -7,11 +7,14 @@ GamePlay.prototype = {
 		// initialize variables for gameplay
 		this.oneWon = false;
 		this.twoWon = false;
-			
+		this.timer = 0;
 	},
 	preload: function(){
 		// Assets from the example I used
-        game.load.image('ball', 'img/yarn_ball.png');
+        game.load.image('redball', 'img/redYarn.png');
+		game.load.image('blueball', 'img/blueYarn.png');
+
+
         game.load.image('background', 'assets/games/starstruck/background2.png');
         game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
 
@@ -20,7 +23,7 @@ GamePlay.prototype = {
         game.load.image('cat1', 'img/cat1.png');
         game.load.image('cat2', 'img/cat2.png');
         
-        game.load.image('background', 'assets/games/starstruck/background2.png');
+        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/background.png');
         
         
@@ -57,8 +60,15 @@ GamePlay.prototype = {
         this.beats = game.add.audio('beats');
 		this.beats.play('', 0, 1, true);	
 
-        this.room = game.add.sprite(0,0,'backgroundInside');
-        this.room.scale.setTo(0.11,0.11);
+        this.room = game.add.sprite(0,-0.03,'backgroundInside');
+        this.room.scale.setTo(0.12,0.112);
+
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + S to walk, D to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+		this.oneWinText.anchor.set(0.5);
+		this.oneWinText.inputEnabled = true;
+		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 20, 'H + J to walk, K to jump', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+		this.twoWinText.anchor.set(0.5);
+		this.twoWinText.inputEnabled = true;
 
         // Add in the players
         this.player1 = new Player(game, this, 100, 500, "cat1", 1);
@@ -85,22 +95,23 @@ GamePlay.prototype = {
         // var bounds = new Phaser.Rectangle(190, 100, 200, game.height);
 
         // Add platform at bottom
-        this.createPlatform(400,550,100,10);
-        this.createPlatform(500,450,100,10);
-        this.createPlatform(50,450,100,10);
+        this.createPlatform(380,530,120,10);
+        this.createPlatform(290,405,80,10);
+        //this.createPlatform(50,450,100,10);
 
-        this.createPlatform(50,200,100,10);
-        this.createPlatform(400,200,400,10);
+        this.createPlatform(90,155,130,10);
+        this.createPlatform(410,250,300,10);
+        //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
-        this.yarnBall = game.add.sprite(50,400,'ball');
-       // this.yarnBall.scale.setTo(0.11,0.11);
+        this.yarnBall = game.add.sprite(150,400,'blueball');
+       	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
         this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.yarnBall2 = game.add.sprite(50,300,'ball');
-       // this.yarnBall2.scale.setTo(0.11,0.11);
+        this.yarnBall2 = game.add.sprite(150,300,'redball');
+       	this.yarnBall2.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall2);
         game.physics.p2.enable(this.yarnBall2);
         this.yarnBall2.body.data.gravityScale = -1;
@@ -109,33 +120,53 @@ GamePlay.prototype = {
 
 	},
 	update: function(){
+		this.timer += 0.05;
+		//console.log(this.timer);
+		if(this.timer > 200) {
+			this.oneWinText.setText("Press Space for a puzzle!", true);
+		}
 
+		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.timer > 100){
+			this.beats.destroy(); // Kill the music
+			game.state.start('GamePlay2', true, false); // Change state to GamePlay
+		}
+		
+		
 		//if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-		if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 50){
-            var oneWin = game.add.text(game.width/2 + 4.5, game.height/2 + 32, 'Player 1 got their toy!', {font: 'Impact', fontSize: '32px', fill: '#ff0000'});
-			oneWin.anchor.set(0.5);
-			this.oneWon = true;
-        }
+		if(this.timer > 150 & this.timer < 200){
+            this.oneWinText.setText("Press F to hold the Thread", true);
+			//this.oneWon = true;
+        }/*
         else {
+        	if(this.oneWon == true) {
+        		this.oneWinText.setText("Get your toy back!", true);
+        	}
         	this.oneWon = false;
-        }
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 50){
-            var twoWin = game.add.text(game.width/2 + 4.5, game.height/2 - 32, 'Player 2 got their toy!', {font: 'Impact', fontSize: '32px', fill: '#ff0000'});
-			twoWin.anchor.set(0.5);
-			this.twoWon = true;
+        	
+        }*/
+        if(this.timer > 150){
+           this.twoWinText.setText("Press L to hold the Thread", true);
+			//this.twoWon = true;
 
-        }
+        }/*
         else {
+        	if(this.twoWon == true) {
+        		//this.twoWinText.destroy();
+        		//this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 32, '', {font: 'Impact', fontSize: '32px', fill: '#ff0000'});
+        		this.twoWinText.setText("Get your toy back!", true);
+        	}
+
         	this.twoWon = false;
         }
         if(this.oneWon && this.twoWon) {
         	this.beats.destroy(); // Kill the music
-            game.state.start('GameOver', true, false); // Change state to MainMenu
-        }
+            game.state.start('GamePlay2', true, false); // Change state to next level
+        }*/
 	},
 
     createPlatform: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'background');
+        var platform = game.add.sprite(x,y, 'bluePlat');
+      	platform.scale.setTo(0.08,0.08);
         game.physics.p2.enable(platform, true);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

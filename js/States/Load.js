@@ -15,7 +15,9 @@ Load.prototype = {
 
 
 		game.load.audio('meow', ['audio/meow22.mp3']);
-		game.load.image('catlove', 'img/CatLove.png');
+		game.load.image('title', 'img/title.png');
+		game.load.image('gameOver', 'img/gameOver.png');
+		
 		// load in the sprite atlases with animations
 		//game.load.atlas('spr_player', 'player.png', 'player.json');
 		//game.load.atlas('spr_freshman', 'freshman.png', 'freshman.json');
