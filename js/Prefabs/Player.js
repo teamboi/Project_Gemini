@@ -1,3 +1,6 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+
 // https://phaser.io/examples/v2/p2-physics/platformer-material
 // let's keep our code tidy with strict mode 👊
 "use strict";

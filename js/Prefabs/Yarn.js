@@ -1,3 +1,6 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+
 // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 // let's keep our code tidy with strict mode 👊
 "use strict";

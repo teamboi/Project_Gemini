@@ -1,3 +1,6 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+
 // Load state
 
 var Load = function(game) {};
@@ -8,23 +11,12 @@ Load.prototype = {
 		loadingBar.anchor.set(0.5);
 		game.load.setPreloadSprite(loadingBar);
 
-		// load in the sprites
-
+		// For now, this merely loads in the music and the title image, but it'll be expanded later
 		game.load.path = 'assets/';
-		game.load.audio('beats', ['audio/guitarsample2.mp3']);
-
-
-		game.load.audio('meow', ['audio/meow22.mp3']);
+		game.load.audio('beats', 'audio/guitarsample2.mp3');
+		game.load.audio('meow', 'audio/meow22.mp3');
 		game.load.image('title', 'img/title.png');
 		game.load.image('gameOver', 'img/gameOver.png');
-		
-		// load in the sprite atlases with animations
-		//game.load.atlas('spr_player', 'player.png', 'player.json');
-		//game.load.atlas('spr_freshman', 'freshman.png', 'freshman.json');
-
-		// load in the beginning audio and music
-		// load in the sound effects
-		//game.load.path = 'assets/audio/SFX/';
 
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;

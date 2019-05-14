@@ -1,3 +1,7 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+//https://github.com/teamboi/Project_Gemini
+
 // let's keep our code tidy with strict mode 👊
 "use strict";
 

@@ -1,3 +1,6 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+
 // Boot state
 
 // primarily for example, since we don't have much to boot into

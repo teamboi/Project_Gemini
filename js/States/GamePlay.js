@@ -1,37 +1,32 @@
+// WE ARE TEAM BOY (also known as group 14)
+// Herman Wu, Erica Li, and Georgio Klironomos
+
 // let's keep our code tidy with strict mode 👊
 "use strict";
-
+// Initialize the level 1 state
 var GamePlay = function(game){};
 GamePlay.prototype = {
 	init: function(){
 		// initialize variables for gameplay
-		this.oneWon = false;
-		this.twoWon = false;
 		this.timer = 0;
 	},
 	preload: function(){
-		// Assets from the example I used
+		// Load in the yarn balls
         game.load.image('redball', 'img/redYarn.png');
 		game.load.image('blueball', 'img/blueYarn.png');
-
-
-        game.load.image('background', 'assets/games/starstruck/background2.png');
-        game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
-
-        game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
-        game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
+		//Once we have a tilemap, we'll load it in
+        //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
+        //game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
+        
+        //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
         game.load.image('cat2', 'img/cat2.png');
-        
+        //Load the platforms and background
         game.load.image('bluePlat', 'img/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/background.png');
-        
-        
-        game.load.spritesheet('dude', 'assets/games/starstruck/dude.png', 32, 48);
-
 	},
 	create: function(){
-/*
+/* For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
         this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
 
@@ -46,23 +41,20 @@ GamePlay.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        //Instantiate the collision groups for the objects can interact
         this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
         this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
         this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
         this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
-
         game.physics.p2.updateBoundsCollisionGroup();
 
-        // Add in the Level Manager
-        //this.levelManager = new LevelManager(game, "ball");
-       // game.add.existing(this.levelManager);
-
+        //Begin this level's music
         this.beats = game.add.audio('beats');
 		this.beats.play('', 0, 1, true);	
-
+		//Add in the background sprite
         this.room = game.add.sprite(0,-0.03,'backgroundInside');
         this.room.scale.setTo(0.12,0.112);
-
+        //Create the tutorial text
         this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + S to walk, D to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);
 		this.oneWinText.inputEnabled = true;
@@ -70,17 +62,16 @@ GamePlay.prototype = {
 		this.twoWinText.anchor.set(0.5);
 		this.twoWinText.inputEnabled = true;
 
-        // Add in the players
+        // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 100, 500, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-
         this.player2 = new Player(game, this, 400, 100, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-
+        //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
@@ -89,20 +80,17 @@ GamePlay.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
-		 //this.bg = game.add.tileSprite(0, 0, 1080, 800, 'background');
         this.constraint; // Create the constraint object to be turned on/off
         this.anchored = false; // Create safety switch for anchoring
-        // var bounds = new Phaser.Rectangle(190, 100, 200, game.height);
 
-        // Add platform at bottom
+        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
         this.createPlatform(380,530,120,10);
         this.createPlatform(290,405,80,10);
-        //this.createPlatform(50,450,100,10);
-
         this.createPlatform(90,155,130,10);
         this.createPlatform(410,250,300,10);
         //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
+        //Add the yarnballs for a little fun
         this.yarnBall = game.add.sprite(150,400,'blueball');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
@@ -120,56 +108,34 @@ GamePlay.prototype = {
 
 	},
 	update: function(){
-		this.timer += 0.05;
-		//console.log(this.timer);
+		this.timer += 0.05; // Just using a hardcoded timer for now to let players learn the controls
+		
+		//Display text for level switching instructions
 		if(this.timer > 200) {
 			this.oneWinText.setText("Press Space for a puzzle!", true);
 		}
-
-		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.timer > 100){
+		//Let the players decide when they want to move onto the puzzle
+		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.timer > 200){
 			this.beats.destroy(); // Kill the music
-			game.state.start('GamePlay2', true, false); // Change state to GamePlay
+			game.state.start('GamePlay2', true, false); // Change state to level 2
 		}
-		
-		
-		//if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-		if(this.timer > 150 & this.timer < 200){
+	
+		//Display the thread instructions after a while
+		if(this.timer > 100 & this.timer < 200){
             this.oneWinText.setText("Press F to hold the Thread", true);
-			//this.oneWon = true;
-        }/*
-        else {
-        	if(this.oneWon == true) {
-        		this.oneWinText.setText("Get your toy back!", true);
-        	}
-        	this.oneWon = false;
-        	
-        }*/
-        if(this.timer > 150){
-           this.twoWinText.setText("Press L to hold the Thread", true);
-			//this.twoWon = true;
-
-        }/*
-        else {
-        	if(this.twoWon == true) {
-        		//this.twoWinText.destroy();
-        		//this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 32, '', {font: 'Impact', fontSize: '32px', fill: '#ff0000'});
-        		this.twoWinText.setText("Get your toy back!", true);
-        	}
-
-        	this.twoWon = false;
         }
-        if(this.oneWon && this.twoWon) {
-        	this.beats.destroy(); // Kill the music
-            game.state.start('GamePlay2', true, false); // Change state to next level
-        }*/
+        if(this.timer > 100){
+           this.twoWinText.setText("Press L to hold the Thread", true);
+        }
 	},
 
+	//Function to manually create the platforms
     createPlatform: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'bluePlat');
       	platform.scale.setTo(0.08,0.08);
         game.physics.p2.enable(platform, true);
         platform.body.setRectangle(width,height, 0, 0, 0);
-        platform.body.static = true;
+        platform.body.static = true; // SO the platforms aren't affected by outside forces
         platform.body.setCollisionGroup(this.platformCollisionGroup);
         platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
     }
