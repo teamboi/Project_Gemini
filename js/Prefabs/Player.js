@@ -28,16 +28,16 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
-		this.controls = ['A','S','D','F']; // Controls for: left, right, jump, anchor
+		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
-		this.controls = ['H','J','K','L'];//,'COLON'];
+		this.controls = ['LEFT','RIGHT','UP','DOWN'];//,'COLON'];
 		this.jumpDirection = 'down';
 	}
 	else{
-		this.controls = ['H','J','K','L']; // Populates the controls for the surrogate so it can be read
+		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
 	}

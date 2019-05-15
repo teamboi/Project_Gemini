@@ -55,10 +55,10 @@ GamePlay.prototype = {
         this.room = game.add.sprite(0,-0.03,'backgroundInside');
         this.room.scale.setTo(0.12,0.112);
         //Create the tutorial text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + S to walk, D to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + D to walk, W to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);
 		this.oneWinText.inputEnabled = true;
-		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 20, 'H + J to walk, K to jump', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 20, 'Left + Right to walk, Up to jump', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
 		this.twoWinText.anchor.set(0.5);
 		this.twoWinText.inputEnabled = true;
 
@@ -122,10 +122,10 @@ GamePlay.prototype = {
 	
 		//Display the thread instructions after a while
 		if(this.timer > 100 & this.timer < 200){
-            this.oneWinText.setText("Press F to hold the Thread", true);
+            this.oneWinText.setText("Press S to hold the Thread", true);
         }
         if(this.timer > 100){
-           this.twoWinText.setText("Press L to hold the Thread", true);
+           this.twoWinText.setText("Press Down to hold the Thread", true);
         }
 	},
 
