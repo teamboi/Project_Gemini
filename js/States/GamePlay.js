@@ -11,7 +11,7 @@ GamePlay.prototype = {
 		this.timer = 0;
 	},
 	preload: function(){
-		// Load in the yarn balls
+		/*// Load in the yarn balls
         game.load.image('redball', 'img/redYarn.png');
 		game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
@@ -23,7 +23,7 @@ GamePlay.prototype = {
         game.load.image('cat2', 'img/cat2.png');
         //Load the platforms and background
         game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/background.png');
+        game.load.image('backgroundInside', 'img/background.png');*/
 	},
 	create: function(){
 /* For when we create a tileset

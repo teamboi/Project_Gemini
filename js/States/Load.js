@@ -18,6 +18,20 @@ Load.prototype = {
 		game.load.image('title', 'img/title.png');
 		game.load.image('gameOver', 'img/gameOver.png');
 
+		game.load.image('redball', 'img/redYarn.png');
+		game.load.image('blueball', 'img/blueYarn.png');
+		//Once we have a tilemap, we'll load it in
+        //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
+        //game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
+        
+        //Load in the character sprites
+        game.load.image('cat1', 'img/cat1.png');
+        game.load.image('cat2', 'img/cat2.png');
+        //Load the platforms and background
+        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
+        game.load.image('backgroundInside', 'img/background.png');
+        game.load.image('backgroundPlain', 'img/120 bg both sides.png');
+
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;
 		game.scale.pageAlignVertically = true;

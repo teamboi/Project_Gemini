@@ -14,7 +14,7 @@ GamePlay2.prototype = {
             
     },
     preload: function(){
-        // Sprites for the yarnballs
+        /*// Sprites for the yarnballs
         game.load.image('redball', 'img/redYarn.png');
         game.load.image('blueball', 'img/blueYarn.png');
 
@@ -28,7 +28,7 @@ GamePlay2.prototype = {
         
         //load in the platform and backgrounds
         game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/120 bg both sides.png');
+        game.load.image('backgroundInside', 'img/120 bg both sides.png');*/
     },
     create: function(){
         //create platforms using the tilesets
@@ -59,7 +59,7 @@ GamePlay2.prototype = {
         this.beats.play('', 0, 1, true);    
 
         //Add the background image
-        this.room = game.add.sprite(0,-0.03,'backgroundInside');
+        this.room = game.add.sprite(0,-0.03,'backgroundPlain');
         this.room.scale.setTo(0.13,0.115);
 
         //Create the win state text
