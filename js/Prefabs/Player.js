@@ -12,6 +12,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
+	this.yarn; // Reference to the yarn; set in Yarn.js
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
@@ -25,6 +26,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.jumpVelocity = 500; // Velocity for jumping
 
 	this.isAnchor = false; // Whether or not this player is the anchor
+	this.beingAnchored = false; // Whether or not this player is being anchored
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
@@ -40,6 +42,22 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
+	}
+
+	this.move = function(direction, velocity){
+		var moveDist = velocity;
+		if(direction == "left"){
+			moveDist *= -1;
+		}
+		if(this.beingAnchored == true){
+			if(!this.checkIfCanJump(this.jumpDirection)){
+				moveDist *= Math.abs(Math.sin(this.yarn.yarnAngle));
+			}
+			this.body.moveRight(moveDist);
+		}
+		else{
+			this.body.moveRight(moveDist);
+		}
 	}
 
 	// Checks if the ground is under the player
@@ -150,10 +168,12 @@ Player.prototype.update = function(){
 	if(this.isAnchor == false){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.body.moveLeft(this.xVelocity);
+			this.move("left", this.xVelocity);
+			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.body.moveRight(this.xVelocity);
+	    	this.move("right", this.xVelocity);
+	    	//this.body.moveRight(this.xVelocity);
 	    }
 
 	    // Check for jumping
