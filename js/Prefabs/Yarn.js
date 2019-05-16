@@ -18,6 +18,9 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player2 = player2;
 	this.surrogate = surrogate;
 
+	this.player1.yarn = this;
+	this.player2.yarn = this;
+
 	// Obtain the players' anchor keys
 	this.p1Key = this.player1.controls[3];
 	this.p2Key = this.player2.controls[3];
@@ -25,9 +28,10 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
 	this.tautLength = 0; // the max length players can be if the yarn is active
-	// Create a variable that tracks the status of who is anchored
-	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
-	this.isOnRoof = false;
+	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
+	this.isOnRoof = false; // boolean for if otherCat is on the roof
+	this.isTaut = false; // boolean for if the yarn is at its taut length
+	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
 	// Some initialize rope code taken from
 	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
@@ -52,6 +56,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.tautLength = dist; // Sets the taut length
 
 		anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+		cat2.beingAnchored = true;
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
 	}
 
@@ -64,9 +69,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		}
 		this.drawYarn("4", "#FF3232"); // Draw it in the active state
 
-		var deadband = 3; // the margin of error to check beyond the taut length
-		var dist = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y); // Obtains the distance between the players
-
 		// Obtains correct references to both cats
 		if(this.anchored == 1){
 			var anchorCat = this.player1;
@@ -77,7 +79,48 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			var otherCat = this.player1;
 		}
 
+		var deadband = 3; // the margin of error to check beyond the taut length
+		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
+		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
+
+		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
+		if(this.isOnRoof == false && otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
+			anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
+			otherCat.isAnchor = true;
+			anchorCat.beingAnchored = true;
+			otherCat.beingAnchored = false;
+			otherCat.body.data.gravityScale *= -1;
+
+			this.surrogate.activateSurrogate(otherCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
+
+			this.isOnRoof = true;
+		}
+		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
+			anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+			otherCat.isAnchor = false;
+			anchorCat.beingAnchored = false;
+			otherCat.beingAnchored = true;
+			otherCat.body.data.gravityScale *= -1;
+
+			this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
+
+			this.isOnRoof = false;
+		}
+
+		// Reset the references if the isOnRoof condition is true
+		if(this.isOnRoof == true){
+			if(this.anchored == 1){
+				var anchorCat = this.player2;
+				var otherCat = this.player1;
+			}
+			else{
+				var anchorCat = this.player1;
+				var otherCat = this.player2;
+			}
+		}
+
 		if(dist >= this.tautLength + deadband){ // If the player distance is greater than the taut length, create a constraint
+			this.isTaut = true;
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
@@ -90,30 +133,13 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			// If the non anchored cat is falling upwards
 			// If the non anchored cat's velocity matches the anchor cat's velocity
 			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || Math.abs(anchorVel - otherVel) < Math.pow(deadband, 4)){ // If the player can jump OR is being pulled up
+				this.isTaut = false;
 				if(constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(constraint);
 					//game.physics.p2.removeSpring(constraint);
 					constraint = null;
 				}
 			}
-		}
-
-		// If the otherCat is on the roof and the anchorCat is not on the ground
-		if(otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
-			console.log("true");
-			anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
-			otherCat.isAnchor = true;
-			this.surrogate.activateSurrogate(otherCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
-
-			this.isOnRoof = true;
-		}
-		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
-			console.log("also true");
-			anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
-			otherCat.isAnchor = false;
-			this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
-
-			this.isOnRoof = false;
 		}
 	}
 
@@ -135,6 +161,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		// None of the players are anchoring
 		this.player1.isAnchor = false;
 		this.player2.isAnchor = false;
+		this.player1.beingAnchored = false;
+		this.player2.beingAnchored = false;
 	}
 
 	// Draw yarn function taken from:
