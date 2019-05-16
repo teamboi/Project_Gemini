@@ -15,6 +15,8 @@ Load.prototype = {
 		game.load.path = 'assets/';
 		game.load.audio('beats', 'audio/guitarsample2.mp3');
 		game.load.audio('meow', 'audio/meow22.mp3');
+		game.load.audio('narrate', 'audio/sfx_test_narration.mp3');
+		
 		game.load.image('title', 'img/title.png');
 		game.load.image('gameOver', 'img/gameOver.png');
 

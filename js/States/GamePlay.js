@@ -51,6 +51,9 @@ GamePlay.prototype = {
         //Begin this level's music
         this.beats = game.add.audio('beats');
 		this.beats.play('', 0, 1, true);	
+        this.narrate = game.add.audio('narrate');
+        this.narrate.play('', 0, 1, false);
+        this.narrate.volume = 0.35;
 		//Add in the background sprite
         this.room = game.add.sprite(0,-0.03,'backgroundInside');
         this.room.scale.setTo(0.12,0.112);
