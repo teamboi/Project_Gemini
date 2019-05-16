@@ -27,6 +27,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	// Create a variable that tracks the status of who is anchored
 	this.anchored = 0; // 0 = null, 1 = player1, 2 = player2
+	this.isOnRoof = false;
 
 	// Some initialize rope code taken from
 	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
@@ -80,17 +81,39 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
-				
 			}
 		}
-		else{ // If the player distance is less than the taut length
-			if(otherCat.checkIfCanJump() || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || otherCat.body.velocity.y == anchorCat.body.velocity.y){ // If the player can jump OR is being pulled up
+		else{ // If the player distance is less than or equal to the taut length
+			var anchorVel = Phaser.Math.distance(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
+			var otherVel = Phaser.Math.distance(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
+			// If the non anchored cat can jump
+			// If the non anchored cat is falling upwards
+			// If the non anchored cat's velocity matches the anchor cat's velocity
+			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || Math.abs(anchorVel - otherVel) < Math.pow(deadband, 4)){ // If the player can jump OR is being pulled up
 				if(constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(constraint);
 					//game.physics.p2.removeSpring(constraint);
 					constraint = null;
 				}
 			}
+		}
+
+		// If the otherCat is on the roof and the anchorCat is not on the ground
+		if(otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
+			console.log("true");
+			anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
+			otherCat.isAnchor = true;
+			this.surrogate.activateSurrogate(otherCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
+
+			this.isOnRoof = true;
+		}
+		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
+			console.log("also true");
+			anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+			otherCat.isAnchor = false;
+			this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
+
+			this.isOnRoof = false;
 		}
 	}
 

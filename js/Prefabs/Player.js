@@ -70,6 +70,34 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	    return false;
 	}
 
+	// Checks if a platform is above the player
+	// returns true if the player is on the roof
+	// Modified version of the above function
+	this.checkIfOnRoof = function(direction) {
+		var yAxis = p2.vec2.fromValues(0, 1);
+		
+	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
+	        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
+
+	        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
+	            var d = p2.vec2.dot(cE.normalA, yAxis);
+
+	            if (cE.bodyA === this.body.data){
+	                d *= -1;
+	            }
+
+	            if(direction == 'up'){ // If player1, then reverse the vector
+	            	d *= -1;
+	            }
+
+	            if (d > 0.5){
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
+
 	// surrogate player begins to copy the movement of a player
 	this.activateSurrogate = function(anchor){
 		// Obtains which cat to copy as the anchor cat
