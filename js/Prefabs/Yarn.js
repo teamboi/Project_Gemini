@@ -30,7 +30,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
 	this.isOnRoof = false; // boolean for if otherCat is on the roof
-	this.isTaut = false; // boolean for if the yarn is at its taut length
+	this.isTaut = false; // boolean for if the yarn is at its taut length // Currently unused
 	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
 	// Some initialize rope code taken from
@@ -79,7 +79,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			var otherCat = this.player1;
 		}
 
-		var deadband = 3; // the margin of error to check beyond the taut length
+		var tautDeadband = 3; // the margin of error to check beyond the taut length
+		var velDeadband = 10; // the margin of error to check for the velocity differences
 		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
@@ -119,20 +120,22 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			}
 		}
 
-		if(dist >= this.tautLength + deadband){ // If the player distance is greater than the taut length, create a constraint
+		if(dist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 			this.isTaut = true;
+			console.log("creating constraint");
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
 			}
 		}
 		else{ // If the player distance is less than or equal to the taut length
-			var anchorVel = Phaser.Math.distance(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
-			var otherVel = Phaser.Math.distance(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
+			var anchorVel = Phaser.Math.distanceSq(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
+			var otherVel = Phaser.Math.distanceSq(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
 			// If the non anchored cat can jump
 			// If the non anchored cat is falling upwards
-			// If the non anchored cat's velocity matches the anchor cat's velocity
-			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || Math.abs(anchorVel - otherVel) < Math.pow(deadband, 4)){ // If the player can jump OR is being pulled up
+			// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
+			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || (anchorVel > velDeadband && otherVel > velDeadband && Math.abs(anchorVel - otherVel) < Math.pow(velDeadband, 2) ) ){ // If the player can jump OR is being pulled up
+				console.log("destroying constraint");
 				this.isTaut = false;
 				if(constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(constraint);
@@ -146,6 +149,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Removes the constraint between the players
 	this.removeYarn = function(){
 		this.isYarn = false; // yarn is inactive
+		this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
 		//If constraint does exist, remove it
 		if(constraint != null){
