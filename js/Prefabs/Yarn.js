@@ -49,10 +49,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
     me.line = game.add.sprite(0, 0, me.ropeBitmapData);
 
     this.modifyAnchor = function(anchorCat,otherCat){
-    	/*anchorCat.isAnchor = true; // Tells the anchorCat to not be the anchor
-		otherCat.isAnchor = false;
-		anchorCat.beingAnchored = false;
-		otherCat.beingAnchored = true;*/
 		anchorCat.anchorState = "isAnchor";
 		otherCat.anchorState = "beingAnchored";
     }
@@ -65,8 +61,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.tautLength = dist; // Sets the taut length
 
 		this.modifyAnchor(anchorCat,otherCat);
-		//anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
-		//otherCat.beingAnchored = true;
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
 	}
 
@@ -97,10 +91,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 		if(this.isOnRoof == false && otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
 			this.modifyAnchor(otherCat,anchorCat);
-			/*anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
-			otherCat.isAnchor = true;
-			anchorCat.beingAnchored = true;
-			otherCat.beingAnchored = false;*/
 			otherCat.body.data.gravityScale *= -1;
 
 			this.surrogate.activateSurrogate(otherCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
@@ -109,10 +99,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		}
 		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
 			this.modifyAnchor(anchorCat,otherCat);
-			/*anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
-			otherCat.isAnchor = false;
-			anchorCat.beingAnchored = false;
-			otherCat.beingAnchored = true;*/
 			otherCat.body.data.gravityScale *= -1;
 
 			this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat

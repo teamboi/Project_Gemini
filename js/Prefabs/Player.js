@@ -12,7 +12,6 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
-	this.yarn; // Reference to the yarn; set in Yarn.js
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
@@ -50,7 +49,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		if(direction == "left"){
 			moveDist *= -1;
 		}
-		if(this.anchorState = "beingAnchored"){ //this.beingAnchored == true
+		if(this.anchorState == "beingAnchored"){
 			if(!this.checkIfCanJump(this.jumpDirection)){
 				moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); //this.yarn.yarnAngle
 			}
@@ -166,7 +165,7 @@ Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
 	// If this player isn't anchoring, move the player around
-	if(this.anchorState != "isAnchor"){ //this.isAnchor == false
+	if(this.anchorState != "isAnchor"){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.move("left", this.xVelocity);
