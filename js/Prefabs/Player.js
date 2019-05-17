@@ -25,8 +25,6 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.jumpVelocity = 500; // Velocity for jumping
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
-	//this.isAnchor = false; // Whether or not this player is the anchor
-	//this.beingAnchored = false; // Whether or not this player is being anchored
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){

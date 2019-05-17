@@ -158,13 +158,9 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.player2.body.data.gravityScale = -1;
 		this.player1.body.data.gravityScale = 1;
 
+		// None of the players are anchoring
 		this.player1.anchorState = "none";
 		this.player2.anchorState = "none";
-		// None of the players are anchoring
-		/*this.player1.isAnchor = false;
-		this.player2.isAnchor = false;
-		this.player1.beingAnchored = false;
-		this.player2.beingAnchored = false;*/
 	}
 
 	// Draw yarn function taken from:
