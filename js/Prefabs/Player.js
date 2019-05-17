@@ -25,8 +25,9 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
 
-	this.isAnchor = false; // Whether or not this player is the anchor
-	this.beingAnchored = false; // Whether or not this player is being anchored
+	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
+	//this.isAnchor = false; // Whether or not this player is the anchor
+	//this.beingAnchored = false; // Whether or not this player is being anchored
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
@@ -49,9 +50,9 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		if(direction == "left"){
 			moveDist *= -1;
 		}
-		if(this.beingAnchored == true){
+		if(this.anchorState = "beingAnchored"){ //this.beingAnchored == true
 			if(!this.checkIfCanJump(this.jumpDirection)){
-				moveDist *= Math.abs(Math.sin(this.yarn.yarnAngle));
+				moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); //this.yarn.yarnAngle
 			}
 			this.body.moveRight(moveDist);
 		}
@@ -165,7 +166,7 @@ Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
 	// If this player isn't anchoring, move the player around
-	if(this.isAnchor == false){
+	if(this.anchorState != "isAnchor"){ //this.isAnchor == false
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.move("left", this.xVelocity);

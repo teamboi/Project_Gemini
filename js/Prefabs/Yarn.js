@@ -18,8 +18,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player2 = player2;
 	this.surrogate = surrogate;
 
-	this.player1.yarn = this;
-	this.player2.yarn = this;
+	//this.player1.yarn = gameplay.yarn;
+	//this.player2.yarn = gameplay.yarn;
 
 	// Obtain the players' anchor keys
 	this.p1Key = this.player1.controls[3];
@@ -48,15 +48,25 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
     // Create a new sprite using the bitmap data
     me.line = game.add.sprite(0, 0, me.ropeBitmapData);
 
+    this.modifyAnchor = function(anchorCat,otherCat){
+    	/*anchorCat.isAnchor = true; // Tells the anchorCat to not be the anchor
+		otherCat.isAnchor = false;
+		anchorCat.beingAnchored = false;
+		otherCat.beingAnchored = true;*/
+		anchorCat.anchorState = "isAnchor";
+		otherCat.anchorState = "beingAnchored";
+    }
+
 	// Creates the constraint between the players
-	this.createYarn = function(anchorCat,cat2){ // First cat will be the anchor
+	this.createYarn = function(anchorCat,otherCat){ // First cat will be the anchor
 		this.isYarn = true; // yarn is active
 
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, cat2.x, cat2.y); // Obtains distance between players
+		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
 		this.tautLength = dist; // Sets the taut length
 
-		anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
-		cat2.beingAnchored = true;
+		this.modifyAnchor(anchorCat,otherCat);
+		//anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+		//otherCat.beingAnchored = true;
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
 	}
 
@@ -86,10 +96,11 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 		if(this.isOnRoof == false && otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
-			anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
+			this.modifyAnchor(otherCat,anchorCat);
+			/*anchorCat.isAnchor = false; // Tells the anchorCat to not be the anchor
 			otherCat.isAnchor = true;
 			anchorCat.beingAnchored = true;
-			otherCat.beingAnchored = false;
+			otherCat.beingAnchored = false;*/
 			otherCat.body.data.gravityScale *= -1;
 
 			this.surrogate.activateSurrogate(otherCat.whichPlayer); // activates the surrogate with reference to which cat is otherCat
@@ -97,10 +108,11 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			this.isOnRoof = true;
 		}
 		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
-			anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
+			this.modifyAnchor(anchorCat,otherCat);
+			/*anchorCat.isAnchor = true; // Tells the anchorCat to be the anchor
 			otherCat.isAnchor = false;
 			anchorCat.beingAnchored = false;
-			otherCat.beingAnchored = true;
+			otherCat.beingAnchored = true;*/
 			otherCat.body.data.gravityScale *= -1;
 
 			this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
@@ -122,7 +134,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 		if(dist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 			this.isTaut = true;
-			console.log("creating constraint");
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
 				//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
@@ -135,7 +146,6 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			// If the non anchored cat is falling upwards
 			// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
 			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || (anchorVel > velDeadband && otherVel > velDeadband && Math.abs(anchorVel - otherVel) < Math.pow(velDeadband, 2) ) ){ // If the player can jump OR is being pulled up
-				console.log("destroying constraint");
 				this.isTaut = false;
 				if(constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(constraint);
@@ -162,11 +172,13 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.player2.body.data.gravityScale = -1;
 		this.player1.body.data.gravityScale = 1;
 
+		this.player1.anchorState = "none";
+		this.player2.anchorState = "none";
 		// None of the players are anchoring
-		this.player1.isAnchor = false;
+		/*this.player1.isAnchor = false;
 		this.player2.isAnchor = false;
 		this.player1.beingAnchored = false;
-		this.player2.beingAnchored = false;
+		this.player2.beingAnchored = false;*/
 	}
 
 	// Draw yarn function taken from:
