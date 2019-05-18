@@ -11,13 +11,14 @@ GamePlay.prototype = {
 		this.timer = 0;
 	},
 	preload: function(){
-		/*// Load in the yarn balls
-        game.load.image('redball', 'img/redYarn.png');
-		game.load.image('blueball', 'img/blueYarn.png');
+		// Load in the yarn balls
+        //game.load.image('redball', 'img/redYarn.png');
+		//game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
-        //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
-        //game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
-        
+       
+        game.load.tilemap('testLevel','img/newTest.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/120 blue floor.png', 32, 32);
+        /*
         //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
         game.load.image('cat2', 'img/cat2.png');
@@ -26,27 +27,46 @@ GamePlay.prototype = {
         game.load.image('backgroundInside', 'img/background.png');*/
 	},
 	create: function(){
-/* For when we create a tileset
-        this.testLevel = this.game.add.tilemap('testLevel');
-        this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
 
-        this.testLevel.setCollisionByExclusion([]);
-
-        this.bgLayer = this.testLevel.createLayer('Background');
-
-        this.bgLayer.resizeWorld();
-*/
         //  Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+      //For when we create a tileset
+        this.testLevel = this.game.add.tilemap('testLevel');
+        this.testLevel.addTilesetImage('Ground', 'mapTiles');
+
+        //this.testLevel.setCollisionByExclusion([]);
+
+        this.bgLayer = this.testLevel.createLayer('Tile Layer 1');
+
+        this.bgLayer.resizeWorld();
+
+        
+        //this.testLevel.setCollisionBetween(1, 3000);
+
+    //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+    //  This call returns an array of body objects which you can perform addition actions on if
+    //  required. There is also a parameter to control optimising the map build.
+       
         //Instantiate the collision groups for the objects can interact
         this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
         this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
         this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
         this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
+
+        
+        //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
+     // this.testLevel.setCollisionBetween([], true);
+      this.testLevel.setCollisionByExclusion([]);
+      this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+     // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
+      console.log(this.platforms);
+      
+      this.platforms[0].setCollisionGroup(this.platformCollisionGroup);
+      //convertCollisionObjects(map, layer, addToWorld) 
 
         //Begin this level's music
         this.beats = game.add.audio('beats');
@@ -55,8 +75,8 @@ GamePlay.prototype = {
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
 		//Add in the background sprite
-        this.room = game.add.sprite(0,-0.03,'backgroundInside');
-        this.room.scale.setTo(0.12,0.112);
+        //this.room = game.add.sprite(0,-0.03,'backgroundInside');
+        //this.room.scale.setTo(0.12,0.112);
         //Create the tutorial text
         this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + D to walk, W to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);
@@ -87,10 +107,10 @@ GamePlay.prototype = {
         this.anchored = false; // Create safety switch for anchoring
 
         // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-        this.createPlatform(380,530,120,10);
+       /* this.createPlatform(380,530,120,10);
         this.createPlatform(290,405,80,10);
         this.createPlatform(90,155,130,10);
-        this.createPlatform(410,250,300,10);
+        this.createPlatform(410,250,300,10);*/
         //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
         //Add the yarnballs for a little fun
