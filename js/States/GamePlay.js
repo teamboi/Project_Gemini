@@ -64,8 +64,17 @@ GamePlay.prototype = {
       this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
      // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
       console.log(this.platforms);
+     // game.add.existing(this.platforms[0]);
+     for(var i = 0; i < this.platforms.length; i++){
+      this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
       
-      this.platforms[0].setCollisionGroup(this.platformCollisionGroup);
+      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+     }
+      
+      
+console.log(this.platforms[0].debug);
+console.log(this.platforms[1].debug);
+
       //convertCollisionObjects(map, layer, addToWorld) 
 
         //Begin this level's music
