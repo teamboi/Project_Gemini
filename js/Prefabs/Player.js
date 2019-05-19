@@ -103,28 +103,6 @@ function Player(game, gameplay, x, y, key, whichPlayer){
             return true;
         }
         return false;
-		/*var yAxis = p2.vec2.fromValues(0, 1);
-		
-	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
-	        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
-
-	        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
-	            var d = p2.vec2.dot(cE.normalA, yAxis);
-
-	            if (cE.bodyA === this.body.data){
-	                d *= -1;
-	            }
-
-	            if(direction == 'up'){ // If player1, then reverse the vector
-	            	d *= -1;
-	            }
-
-	            if (d > 0.5){
-	                return true;
-	            }
-	        }
-	    }
-	    return false;*/
 	}
 
 	// surrogate player begins to copy the movement of a player
