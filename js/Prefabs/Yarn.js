@@ -89,7 +89,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
-		if(this.isOnRoof == false && otherCat.checkIfOnRoof(otherCat.jumpDirection) && !anchorCat.checkIfCanJump(anchorCat.jumpDirection)){
+		if(this.isOnRoof == false && otherCat.checkIfOnRoof() && !anchorCat.checkIfCanJump()){
 			this.modifyAnchor(otherCat,anchorCat);
 			otherCat.body.data.gravityScale *= -1;
 
@@ -97,7 +97,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 			this.isOnRoof = true;
 		}
-		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof(otherCat.jumpDirection)){
+		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof()){
 			this.modifyAnchor(anchorCat,otherCat);
 			otherCat.body.data.gravityScale *= -1;
 
@@ -131,7 +131,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			// If the non anchored cat can jump
 			// If the non anchored cat is falling upwards
 			// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
-			if(otherCat.checkIfCanJump(otherCat.jumpDirection) || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || (anchorVel > velDeadband && otherVel > velDeadband && Math.abs(anchorVel - otherVel) < Math.pow(velDeadband, 2) ) ){ // If the player can jump OR is being pulled up
+			if(otherCat.checkIfCanJump() || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || (anchorVel > velDeadband && otherVel > velDeadband && Math.abs(anchorVel - otherVel) < Math.pow(velDeadband, 2) ) ){ // If the player can jump OR is being pulled up
 				this.isTaut = false;
 				if(constraint != null){ // If the constraint does exist, remove the constraint
 					game.physics.p2.removeConstraint(constraint);
