@@ -161,6 +161,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		// None of the players are anchoring
 		this.player1.anchorState = "none";
 		this.player2.anchorState = "none";
+
+		this.surrogate.deactivateSurrogate();
 	}
 
 	// Draw yarn function taken from:

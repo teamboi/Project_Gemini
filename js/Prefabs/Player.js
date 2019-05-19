@@ -138,6 +138,14 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.whichPlayer = cat.whichPlayer;
 	}
 
+	this.deactivateSurrogate = function(){
+		this.body.x = -2000;
+		this.body.y = -2000;
+		this.body.velocity.x = 0;
+		this.body.velocity.y = 0;
+		this.body.data.gravityScale = 0;
+	}
+
 	// Called every frame when the yarn is active for the player to copy the surrogate's variables
 	this.puppetSurrogate = function(){
 		var surrogate = this.gameplay.surrogate; // Obtains reference to the surrogate
