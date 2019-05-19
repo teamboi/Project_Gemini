@@ -23,8 +23,9 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	// Define player constants
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
+	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
-	this.isAnchor = false; // Whether or not this player is the anchor
+	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
@@ -42,10 +43,26 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.alpha = 0; // Makes the surrogate invisible
 	}
 
+	this.move = function(direction, velocity){
+		var moveDist = velocity;
+		if(direction == "left"){
+			moveDist *= -1;
+		}
+		if(this.anchorState == "beingAnchored"){
+			if(!this.checkIfCanJump()){
+				moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); //this.yarn.yarnAngle
+			}
+			this.body.moveRight(moveDist);
+		}
+		else{
+			this.body.moveRight(moveDist);
+		}
+	}
+
 	// Checks if the ground is under the player
-	// Returns true if the player is on the ground
+	// Can be reversed if checking for roof
 	// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
-	this.checkIfCanJump = function(direction) {
+	this.checkVertCollision = function(){
 		var yAxis = p2.vec2.fromValues(0, 1);
 		
 	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
@@ -58,16 +75,34 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	                d *= -1;
 	            }
 
-	            if(direction == 'down'){ // If player2, then reverse the vector
+	            if(this.jumpDirection == 'down'){ // If player2, then reverse the vector
 	            	d *= -1;
 	            }
 
-	            if (d > 0.5){
-	                return true;
-	            }
+	            this.vertCollision = d;
+	            return;
 	        }
 	    }
-	    return false;
+	    this.vertCollision = 0;
+	}
+
+	// Checks if the ground is under the player
+	// Returns true if the player is on the ground
+	this.checkIfCanJump = function() {
+		if (this.vertCollision > 0.5){
+            return true;
+        }
+        return false;
+	}
+
+	// Checks if a platform is above the player
+	// returns true if the player is on the roof
+	this.checkIfOnRoof = function() {
+		var vert = -1*this.vertCollision;
+		if (vert > 0.5){
+            return true;
+        }
+        return false;
 	}
 
 	// surrogate player begins to copy the movement of a player
@@ -103,6 +138,14 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.whichPlayer = cat.whichPlayer;
 	}
 
+	this.deactivateSurrogate = function(){
+		this.body.x = -2000;
+		this.body.y = -2000;
+		this.body.velocity.x = 0;
+		this.body.velocity.y = 0;
+		this.body.data.gravityScale = 0;
+	}
+
 	// Called every frame when the yarn is active for the player to copy the surrogate's variables
 	this.puppetSurrogate = function(){
 		var surrogate = this.gameplay.surrogate; // Obtains reference to the surrogate
@@ -118,18 +161,22 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
+	this.checkVertCollision();
+
 	// If this player isn't anchoring, move the player around
-	if(this.isAnchor == false){
+	if(this.anchorState != "isAnchor"){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.body.moveLeft(this.xVelocity);
+			this.move("left", this.xVelocity);
+			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.body.moveRight(this.xVelocity);
+	    	this.move("right", this.xVelocity);
+	    	//this.body.moveRight(this.xVelocity);
 	    }
 
 	    // Check for jumping
-	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump(this.jumpDirection) ){
+	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump() ){
 	    	this.meow.play('', 0, 1, false);
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
