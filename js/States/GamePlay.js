@@ -109,6 +109,8 @@ GamePlay.prototype = {
         this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
+        this.dialog = new DialogManager(game, 'blueball');
+        game.add.existing(this.dialog);
 	},
 	update: function(){
 		this.timer += 0.05; // Just using a hardcoded timer for now to let players learn the controls

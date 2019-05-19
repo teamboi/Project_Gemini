@@ -34,6 +34,9 @@ Load.prototype = {
         game.load.image('backgroundInside', 'img/background.png');
         game.load.image('backgroundPlain', 'img/120 bg both sides.png');
 
+        game.load.path = 'js/';
+        game.load.text('dialog', 'prefabs/Dialog.json');
+
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;
 		game.scale.pageAlignVertically = true;
