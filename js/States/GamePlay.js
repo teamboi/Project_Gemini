@@ -17,7 +17,7 @@ GamePlay.prototype = {
 		//Once we have a tilemap, we'll load it in
        
         game.load.tilemap('testLevel','img/newTest.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/120 blue floor.png', 32, 32);
+        game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
         /*
         //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
@@ -33,9 +33,11 @@ GamePlay.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        //this.room = game.add.sprite(0,-0.03,'backgroundInside');
+        //this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
-        this.testLevel.addTilesetImage('Ground', 'mapTiles');
+        this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
 
@@ -84,8 +86,8 @@ console.log(this.platforms[1].debug);
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
 		//Add in the background sprite
-        //this.room = game.add.sprite(0,-0.03,'backgroundInside');
-        //this.room.scale.setTo(0.12,0.112);
+        this.room = game.add.sprite(0,-0.03,'backgroundInside');
+        this.room.scale.setTo(0.12,0.112);
         //Create the tutorial text
         this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + D to walk, W to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);

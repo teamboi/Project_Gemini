@@ -11,7 +11,7 @@ var constraint;
 
 // when window loads, create the game
 window.onload = function(){
-	game = new Phaser.Game(560,630, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(960,640, Phaser.AUTO, 'myGame');
 
 	//Add the states
 	game.state.add('Boot', Boot);
