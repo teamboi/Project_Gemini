@@ -11,7 +11,7 @@ var constraint;
 
 // when window loads, create the game
 window.onload = function(){
-	game = new Phaser.Game(960,640, Phaser.AUTO, 'myGame');
+	game = new Phaser.Game(896,704, Phaser.AUTO, 'myGame');
 
 	//Add the states
 	game.state.add('Boot', Boot);
@@ -19,6 +19,10 @@ window.onload = function(){
 	game.state.add('MainMenu', MainMenu);
 	game.state.add('GamePlay', GamePlay);
 	game.state.add('GamePlay2', GamePlay2);
+	game.state.add('Fences', Fences);
+	game.state.add('Clouds', Clouds);
+	
+	
 	game.state.add('GameOver', GameOver);
 	
 	game.state.start('Boot');
