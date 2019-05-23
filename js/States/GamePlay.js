@@ -16,8 +16,8 @@ GamePlay.prototype = {
 		//game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
        
-        game.load.tilemap('testLevel','img/Tutorial.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
+        game.load.tilemap('testLevel','img/New.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/Pixel3.png', 1, 1);
         /*
         //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
@@ -37,7 +37,7 @@ GamePlay.prototype = {
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
-        this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
 
@@ -72,10 +72,8 @@ GamePlay.prototype = {
       
       this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
      }
+     console.log(this.testLevel.objects[0]);
       
-      
-console.log(this.platforms[0].debug);
-console.log(this.platforms[1].debug);
 
       //convertCollisionObjects(map, layer, addToWorld) 
 
@@ -101,7 +99,7 @@ console.log(this.platforms[1].debug);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-        this.player2 = new Player(game, this, 400, 300, "cat2", 2);
+        this.player2 = new Player(game, this, 400, 320, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
@@ -125,14 +123,14 @@ console.log(this.platforms[1].debug);
         //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
         //Add the yarnballs for a little fun
-        this.yarnBall = game.add.sprite(150,400,'blueball');
+        this.yarnBall = game.add.sprite(600,70,'redball');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
         this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.yarnBall2 = game.add.sprite(150,300,'redball');
+        this.yarnBall2 = game.add.sprite(400,500,'blueball');
        	this.yarnBall2.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall2);
         game.physics.p2.enable(this.yarnBall2);
