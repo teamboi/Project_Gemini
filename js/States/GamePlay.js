@@ -16,7 +16,9 @@ GamePlay.prototype = {
 		//game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
        
-        game.load.tilemap('testLevel','img/New.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('testLevel','img/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('House','img/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        
         game.load.spritesheet('mapTiles', 'img/Pixel3.png', 1, 1);
         /*
         //Load in the character sprites
@@ -38,9 +40,12 @@ GamePlay.prototype = {
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+        this.newTest = this.game.add.tilemap('House');
+        this.newTest.addTilesetImage('pixel3', 'mapTiles');
+
 
         //this.testLevel.setCollisionByExclusion([]);
-
+        this.newLayer = this.newTest.createLayer('Platforms');
         this.bgLayer = this.testLevel.createLayer('Platforms');
 
         this.bgLayer.resizeWorld();
