@@ -19,6 +19,7 @@ window.onload = function(){
 	game.state.add('MainMenu', MainMenu);
 	game.state.add('GamePlay', GamePlay);
 	game.state.add('GamePlay2', GamePlay2);
+	game.state.add('Windows', Windows);
 	game.state.add('Fences', Fences);
 	game.state.add('Clouds', Clouds);
 	

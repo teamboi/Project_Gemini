@@ -5,8 +5,8 @@
 "use strict";
 
 //INstantiate the level 2 state
-var GamePlay2 = function(game){};
-GamePlay2.prototype = {
+var Windows = function(game){};
+Windows.prototype = {
     init: function(){
         // initialize variables for win conditions
         this.oneWon = false;
@@ -19,7 +19,7 @@ GamePlay2.prototype = {
         //game.load.image('blueball', 'img/blueYarn.png');
 
         //Load in the tilemaps once w get them
-        game.load.tilemap('LevelOne','img/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('Windows','img/Windows.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('mapTiles', 'img/Pixel3.png', 32, 32);
         
         //Load in the character sprites
@@ -37,10 +37,10 @@ GamePlay2.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        this.room = game.add.sprite(0,0,'Houses');
+        this.room = game.add.sprite(0,0,'Windows');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('LevelOne');
+        this.testLevel = this.game.add.tilemap('Windows');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
@@ -90,11 +90,11 @@ GamePlay2.prototype = {
         this.twoWinText.inputEnabled = true;
 
         // Add in the players
-        this.player1 = new Player(game, this, 170, 682, "cat1", 1);
+        this.player1 = new Player(game, this, 273, 682, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-        this.player2 = new Player(game, this, 170, 40, "cat2", 2);
+        this.player2 = new Player(game, this, 170, 164, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
@@ -163,7 +163,7 @@ GamePlay2.prototype = {
         }
         if(this.oneWon && this.twoWon) {
             this.beats.destroy(); // Kill the music
-            game.state.start('Windows', true, false); // Change state to game over
+            game.state.start('Fences', true, false); // Change state to game over
         }
     },
 

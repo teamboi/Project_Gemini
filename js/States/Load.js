@@ -33,6 +33,10 @@ Load.prototype = {
         game.load.image('bluePlat', 'img/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/background.png');
         game.load.image('backgroundPlain', 'img/small_both_sides.png');
+		game.load.image('Houses', 'img/Houses.png');
+		game.load.image('Windows', 'img/Windows.png');
+
+
 
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;
