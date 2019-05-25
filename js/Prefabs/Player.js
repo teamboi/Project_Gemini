@@ -15,7 +15,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -41,6 +41,8 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
+		//http://www.html5gamedevs.com/topic/10454-how-to-disable-collision-for-body/
+		this.body.data.shapes[0].sensor = true; // SUrrogate does not collide
 	}
 
 	this.move = function(direction, velocity){
@@ -136,14 +138,16 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.controls = cat.controls;
 		this.jumpDirection = cat.jumpDirection;
 		this.whichPlayer = cat.whichPlayer;
+		this.body.data.shapes[0].sensor = false;
 	}
 
 	this.deactivateSurrogate = function(){
-		this.body.x = -2000;
-		this.body.y = -2000;
+		//this.body.x = 2000;
+		//this.body.y = 2000;
 		this.body.velocity.x = 0;
 		this.body.velocity.y = 0;
 		this.body.data.gravityScale = 0;
+		this.body.data.shapes[0].sensor = true;
 	}
 
 	// Called every frame when the yarn is active for the player to copy the surrogate's variables

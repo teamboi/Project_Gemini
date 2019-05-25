@@ -6,36 +6,39 @@
 "use strict";
 
 // Constructor for Yarn
-function Cloud(game, x, y, key, minY, maxY, direction, cloudCollision, limiterCollision){
+function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision){
 	Phaser.Sprite.call(this, game, x, y, key);
 
 	this.direction = direction;
-	this.min = new CloudLimiter();
-	game.add.existing(this.min);
+	this.gameplay = gameplay;
+	//this.min = new CloudLimiter();
+	//game.add.existing(this.min);
 
 	this.xCoord = x;
 	this.isMoving = false;
+	this.maxY = maxY;
 	//this.max = new CLoudLimiter();
 	//game.add.existing(this.max);
 
 	// Enable physics
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
 
-	this.body.setCollisionGroup(cloudCollision);
-    this.body.collides([limiterCollision, this.gameplay.playerCollisionGroup, this.gameplay.yarnBallCollisionGroup]);
+	//this.body.setCollisionGroup(cloudCollision);
+    //this.body.collides([this.gameplay.playerCollisionGroup, this.gameplay.yarnBallCollisionGroup]);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
 Cloud.prototype = Object.create(Phaser.Sprite.prototype);
-CLoud.prototype.constructor = Cloud;
+Cloud.prototype.constructor = Cloud;
 
 Cloud.prototype.update = function(){
-	this.x = this.xCoord;
-	if(this.body.velocity.y > 0){
+	//this.x = this.xCoord;
+	//Phaser.Math.clamp(this.y,this.maxY,this.y);
+	/*if(this.body.velocity.y > 0){
 		this.isMoving = true;
 	}
 	if(this.isMoving === true){
@@ -44,5 +47,5 @@ Cloud.prototype.update = function(){
 
 			this.min.updatePosition();
 		}
-	}
+	}*/
 }

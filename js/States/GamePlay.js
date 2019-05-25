@@ -46,6 +46,7 @@ GamePlay.prototype = {
         this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
         this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
         this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
 
         //Begin this level's music
@@ -69,16 +70,21 @@ GamePlay.prototype = {
         this.player1 = new Player(game, this, 100, 500, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
-        this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+        this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
         this.player2 = new Player(game, this, 400, 100, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
-        this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+        this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
         this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+
+        var newCloud = new Cloud(game, this, 200, 550, "ball", 550, 200, "up", this.cloudCollisionGroup);
+
+        newCloud.body.setCollisionGroup(this.cloudCollisionGroup);
+        newCloud.body.collides([this.playerCollisionGroup, this.yarnBallCollisionGroup]);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
@@ -97,14 +103,14 @@ GamePlay.prototype = {
         this.yarnBall = game.add.sprite(150,400,'blueball');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall);
+        game.physics.p2.enable(this.yarnBall, true);
         this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
         this.yarnBall2 = game.add.sprite(150,300,'redball');
        	this.yarnBall2.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2);
+        game.physics.p2.enable(this.yarnBall2, true);
         this.yarnBall2.body.data.gravityScale = -1;
         this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
