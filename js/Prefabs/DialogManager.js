@@ -3,7 +3,6 @@
 
 // Constructor for LevelManager
 function DialogManager(game, key){
-	console.log("created dialog");
 	Phaser.Sprite.call(this, game, 0, 0, key);
 	this.alpha = 0;
 
@@ -17,10 +16,10 @@ function DialogManager(game, key){
 	this.dialogTyping = false;
 
 	this.TypeText = function(){
-		console.log("typing text");
 		this.dialogTyping = true;
 
 		console.log(this.dialog);
+		console.log(this.levelNum);
 		console.log(this.dialog[this.levelNum]);
 		if(this.textBubbleNum >= this.dialog[this.levelNum].length){
 			this.textBubbleNum = 0;
@@ -44,6 +43,7 @@ DialogManager.prototype = Object.create(Phaser.Sprite.prototype);
 DialogManager.prototype.constructor = DialogManager;
 
 DialogManager.prototype.update = function(){
-	console.log("updating Dialog");
-	this.TypeText();
+	if(game.input.keyboard.justPressed(Phaser.KeyCode.SPACEBAR)){
+		this.TypeText();
+	}
 }
