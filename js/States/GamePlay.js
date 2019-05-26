@@ -40,12 +40,12 @@ GamePlay.prototype = {
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-        this.newTest = this.game.add.tilemap('House');
-        this.newTest.addTilesetImage('pixel3', 'mapTiles');
+       // this.newTest = this.game.add.tilemap('House');
+        //this.newTest.addTilesetImage('pixel3', 'mapTiles');
 
 
         //this.testLevel.setCollisionByExclusion([]);
-        this.newLayer = this.newTest.createLayer('Platforms');
+       // this.newLayer = this.newTest.createLayer('Platforms');
         this.bgLayer = this.testLevel.createLayer('Platforms');
 
         this.bgLayer.resizeWorld();
