@@ -47,6 +47,7 @@ GamePlay.prototype = {
         this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
         this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
         this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
 
         //Begin this level's music
@@ -67,7 +68,7 @@ GamePlay.prototype = {
 		this.twoWinText.inputEnabled = true;
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 100, 500, "cat1", 1);
+        this.player1 = new Player(game, this, 150, 500, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
@@ -81,10 +82,11 @@ GamePlay.prototype = {
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
         this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup]);
 
-        var newCloud = new Cloud(game, this, 200, 550, "ball", 550, 200, "up", this.cloudCollisionGroup);
+        this.newCloud = new Cloud(game, this, 200, 550, "cat2", 550, 200, "up", this.cloudCollisionGroup, this.limiterCollisionGroup);
+        game.add.existing(this.newCloud);
 
-        newCloud.body.setCollisionGroup(this.cloudCollisionGroup);
-        newCloud.body.collides([this.playerCollisionGroup, this.yarnBallCollisionGroup]);
+        //this.newCloud.body.setCollisionGroup(this.cloudCollisionGroup);
+        //this.newCloud.body.collides([this.playerCollisionGroup, this.yarnBallCollisionGroup]);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
