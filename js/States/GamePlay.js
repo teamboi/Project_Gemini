@@ -80,7 +80,7 @@ GamePlay.prototype = {
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
-        this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+        this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
 
         this.newCloud = new Cloud(game, this, 200, 550, "cat2", 550, 200, "up", this.cloudCollisionGroup, this.limiterCollisionGroup);
         game.add.existing(this.newCloud);

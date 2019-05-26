@@ -97,7 +97,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 			this.isOnRoof = true;
 		}
-		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof()){
+		else if( this.isOnRoof == true && ( !otherCat.checkIfOnRoof() || anchorCat.checkIfCanJump() ) ){
 			this.modifyAnchor(anchorCat,otherCat);
 			otherCat.body.data.gravityScale *= -1;
 
