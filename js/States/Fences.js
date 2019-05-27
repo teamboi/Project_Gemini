@@ -90,11 +90,11 @@ Fences.prototype = {
         this.twoWinText.inputEnabled = true;
 
         // Add in the players
-        this.player1 = new Player(game, this, 32, 500, "cat1", 1);
+        this.player1 = new Player(game, this, 853, 596, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-        this.player2 = new Player(game, this, 32, 200, "cat2", 2);
+        this.player2 = new Player(game, this, 808, 257, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
