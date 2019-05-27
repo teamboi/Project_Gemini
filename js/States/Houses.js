@@ -20,7 +20,7 @@ Houses.prototype = {
 
         //Load in the tilemaps once w get them
         game.load.tilemap('LevelOne','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
         
         //Load in the character sprites
        /* game.load.image('cat1', 'img/cat1.png');

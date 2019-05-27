@@ -17,7 +17,7 @@ Windows.prototype = {
         
         //Load in the tilemaps once w get them
         game.load.tilemap('Windows','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
         
     },
     create: function(){

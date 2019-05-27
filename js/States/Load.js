@@ -35,6 +35,8 @@ Load.prototype = {
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
 		game.load.image('Houses', 'img/bg/Houses.png');
 		game.load.image('Windows', 'img/bg/Windows.png');
+		game.load.image('Fences', 'img/bg/120_cloud_puzzle.png');
+
 
 
 

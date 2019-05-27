@@ -18,7 +18,7 @@ Cats.prototype = {
        
         game.load.tilemap('testLevel','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);
         
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 1, 1);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
         /*
         //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
@@ -155,21 +155,7 @@ Cats.prototype = {
 			this.beats.destroy(); // Kill the music
 			game.state.start('Threads', true, false); // Change state to level 2
 		}
-	
-		//Display the thread instructions after a while
-		/*if(this.timer > 100 & this.timer < 200){
-            this.oneWinText.setText("Press S to hold the Thread", true);
-        }
-        if(this.timer > 100){
-           this.twoWinText.setText("Press Down to hold the Thread", true);
-        }*/
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
-            this.oneWinText.setText("Press S to hold the Thread", true);
-        }
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
-           this.twoWinText.setText("Press Down to hold the Thread", true);
-        }
-
+        
 	},
 
 	//Function to manually create the platforms

@@ -20,7 +20,7 @@ Fences.prototype = {
 
         //Load in the tilemaps once w get them
         game.load.tilemap('LevelTwo','tilemaps/Fences.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/bg_floor.png', 32, 32);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
         
         //Load in the character sprites
        /* game.load.image('cat1', 'img/cat1.png');
@@ -37,11 +37,11 @@ Fences.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        this.room = game.add.sprite(0,0,'backgroundPlain');
+        this.room = game.add.sprite(0,0,'Fences');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('LevelTwo');
-        this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
 
