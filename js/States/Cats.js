@@ -16,7 +16,7 @@ Cats.prototype = {
 		//game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
        
-        game.load.tilemap('testLevel','tilemaps/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('testLevel','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);
         
         game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 1, 1);
         /*
@@ -99,16 +99,16 @@ Cats.prototype = {
 		this.twoWinText.inputEnabled = true;
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 400, 400, "cat1", 1);
+        this.player1 = new Player(game, this, 868, 516, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-        this.player2 = new Player(game, this, 400, 320, "cat2", 2);
+        this.player2 = new Player(game, this, 18, 199, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
         //Add the surrogate player so our string plays nicely
-        this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
+       /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
         this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup]);
