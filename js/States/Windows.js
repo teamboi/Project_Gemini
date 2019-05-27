@@ -14,21 +14,11 @@ Windows.prototype = {
             
     },
     preload: function(){
-        // Sprites for the yarnballs
-        //game.load.image('redball', 'img/redYarn.png');
-        //game.load.image('blueball', 'img/blueYarn.png');
-
+        
         //Load in the tilemaps once w get them
-        game.load.tilemap('Windows','img/Windows.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/Pixel3.png', 32, 32);
+        game.load.tilemap('Windows','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
         
-        //Load in the character sprites
-       /* game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
-        
-        //load in the platform and backgrounds
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/120 bg both sides.png');*/
     },
     create: function(){
         

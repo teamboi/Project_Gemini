@@ -19,8 +19,8 @@ Clouds.prototype = {
         //game.load.image('blueball', 'img/blueYarn.png');
 
         //Load in the tilemaps once w get them
-        game.load.tilemap('LevelTwo','img/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
+        game.load.tilemap('LevelTwo','tilemaps/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/objects/bg_floor.png', 32, 32);
         
         //Load in the character sprites
        /* game.load.image('cat1', 'img/cat1.png');

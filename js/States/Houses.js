@@ -5,8 +5,8 @@
 "use strict";
 
 //INstantiate the level 2 state
-var GamePlay2 = function(game){};
-GamePlay2.prototype = {
+var Houses = function(game){};
+Houses.prototype = {
     init: function(){
         // initialize variables for win conditions
         this.oneWon = false;
@@ -19,8 +19,8 @@ GamePlay2.prototype = {
         //game.load.image('blueball', 'img/blueYarn.png');
 
         //Load in the tilemaps once w get them
-        game.load.tilemap('LevelOne','img/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/Pixel3.png', 32, 32);
+        game.load.tilemap('LevelOne','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
         
         //Load in the character sprites
        /* game.load.image('cat1', 'img/cat1.png');

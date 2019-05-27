@@ -4,8 +4,8 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 // Initialize the level 1 state
-var GamePlay = function(game){};
-GamePlay.prototype = {
+var Threads = function(game){};
+Threads.prototype = {
 	init: function(){
 		// initialize variables for gameplay
 		this.timer = 0;
@@ -16,10 +16,9 @@ GamePlay.prototype = {
 		//game.load.image('blueball', 'img/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
        
-        game.load.tilemap('testLevel','img/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('House','img/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('testLevel','tilemaps/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
         
-        game.load.spritesheet('mapTiles', 'img/Pixel3.png', 1, 1);
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 1, 1);
         /*
         //Load in the character sprites
         game.load.image('cat1', 'img/cat1.png');
@@ -154,7 +153,7 @@ GamePlay.prototype = {
 		//Let the players decide when they want to move onto the puzzle
 		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
 			this.beats.destroy(); // Kill the music
-			game.state.start('GamePlay2', true, false); // Change state to level 2
+			game.state.start('Houses', true, false); // Change state to level 2
 		}
 	
 		//Display the thread instructions after a while
