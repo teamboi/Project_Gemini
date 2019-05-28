@@ -38,6 +38,9 @@ Threads.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        game.camera.onFadeComplete.add(this.resetFade, this);
+        game.camera.flash(0x000000, 2000);
+
         this.room = game.add.sprite(0,0,'backgroundPlain');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset

@@ -12,12 +12,19 @@ Tether.prototype = {
 		this.title.anchor.setTo(0.5,0.5);
 		this.title.alpha= 0;
 
-		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+		this.beats = game.add.audio('beats');
+		this.beats.play('', 0, 1, true);	
+        this.narrate = game.add.audio('narrate');
+        this.narrate.play('', 0, 1, false);
+        this.narrate.volume = 0.35;
+
+		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
 		
-		this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		this.space.onDown.add(this.fade, this);
+		//this.space.onDown.add(this.fade, this);
+		game.time.events.add(3000, this.fade, this);
 	},
 	fade: function() {
 
@@ -26,7 +33,7 @@ Tether.prototype = {
 
 	},
 	resetFade: function() {
-		game.state.start('Cats', true, false);
+		game.state.start('Fences', true, false);
 	    //game.camera.resetFX();
 	    
 

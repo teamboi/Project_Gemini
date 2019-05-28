@@ -9,8 +9,9 @@ var Clouds = function(game){};
 Clouds.prototype = {
     init: function(){
         // initialize variables for win conditions
-        this.oneWon = false;
-        this.twoWon = false;
+        this.oneWin = false;
+        this.twoWin = false;
+        this.complete = false;
             
     },
     preload: function(){
@@ -36,6 +37,9 @@ Clouds.prototype = {
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
+
+        game.camera.onFadeComplete.add(this.resetFade, this);
+        game.camera.flash(0x000000, 2000);
 
         this.room = game.add.sprite(0,0,'Clouds');
        // this.room.scale.setTo(0.12,0.112);
@@ -137,34 +141,29 @@ Clouds.prototype = {
     },
     update: function(){
         //Check for player one's win state
+        if(this.oneWin == true && this.twoWin == true && this.complete == false) {
+            this.complete = true;
+            game.time.events.add(1000, this.fade, this);
+        }
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
-            this.oneWinText.setText("Player 1 got their toy!", true);
-            this.oneWon = true;
+            this.oneWin = true;
         }
-        else {
-            if(this.oneWon == true) {
-                this.oneWinText.setText("Get your toy back!", true);
-            }
-            this.oneWon = false;
-            
-        }
-        //Check for player two's win state
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
-            this.twoWinText.setText("Player 2 got their toy!", true);
-            this.twoWon = true;
+           this.twoWin = true;
+        }
+    },
 
-        }
-        else {
-            if(this.twoWon == true) {
-                this.twoWinText.setText("Get your toy back!", true);
-            }
+    fade: function() {
 
-            this.twoWon = false;
-        }
-        if(this.oneWon && this.twoWon) {
-            this.beats.destroy(); // Kill the music
-            game.state.start('GameOver', true, false); // Change state to game over
-        }
+    //  You can set your own fade color and duration
+    game.camera.fade(0x000000, 1000);
+
+    },
+    resetFade: function() {
+        game.state.start('GameOver', true, false);
+        //game.camera.resetFX();
+        
+
     },
 
     //Helper function to create platforms the old fashion way
