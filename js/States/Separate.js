@@ -12,7 +12,7 @@ Separate.prototype = {
 		this.title.anchor.setTo(0.5,0.5);
 		this.title.alpha= 0;
 
-		this.beats = game.add.audio('beats');
+		this.beats = game.add.audio('Separate');
 		this.beats.play('', 0, 1, true);	
         this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
@@ -25,6 +25,9 @@ Separate.prototype = {
 		game.camera.onFadeComplete.add(this.resetFade, this);
 		//this.space.onDown.add(this.fade, this);
 		game.time.events.add(3000, this.fade, this);
+		if(game.add.audio('Together').isPlaying) {
+			game.add.audio('Together').destroy();
+		}
 	},
 	fade: function() {
 

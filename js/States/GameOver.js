@@ -12,6 +12,9 @@ GameOver.prototype = {
         this.menu.anchor.setTo(0.5,0.5);
         this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+        this.ost = game.add.audio('Cradle');
+        this.ost.play('', 0, 1, true);
+
         game.camera.onFadeComplete.add(this.resetFade, this);
         this.space.onDown.add(this.fade, this);
     },

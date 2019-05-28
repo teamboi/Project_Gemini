@@ -10,6 +10,14 @@ MainMenu.prototype = {
 		// Add in the title card
 		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
 		this.menu.anchor.setTo(0.5,0.5);
+
+		if(!game.add.audio('Cradle').isPlaying) {
+			this.ost = game.add.audio('Cradle');
+			this.ost.play('', 0, 1, true);	
+			this.music = true;
+		}
+		//this.ost = game.add.audio('Cradle');
+		//this.ost.play('', 0, 1, true);	
 		
 		this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -19,6 +27,9 @@ MainMenu.prototype = {
 	fade: function() {
 
     //  You can set your own fade color and duration
+    if(this.music) {
+    	this.ost.fadeOut(2000);
+	}
     game.camera.fade(0x000000, 2000);
 
 	},

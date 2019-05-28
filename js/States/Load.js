@@ -14,6 +14,11 @@ Load.prototype = {
 		// For now, this merely loads in the music and the title image, but it'll be expanded later
 		game.load.path = 'assets/';
 		game.load.audio('beats', 'audio/ost/guitarsample2.mp3');
+		game.load.audio('Cradle', 'audio/ost/Cradle.mp3');
+		game.load.audio('Together', 'audio/ost/Together.mp3');
+		game.load.audio('Separate', 'audio/ost/Separate.mp3');
+		game.load.audio('Tether', 'audio/ost/Tether.mp3');
+		
 		game.load.audio('meow', 'audio/sfx/meow22.mp3');
 		game.load.audio('narrate', 'audio/sfx/sfx_test_narration.mp3');
 		
