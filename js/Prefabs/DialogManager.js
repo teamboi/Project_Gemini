@@ -6,22 +6,16 @@ function DialogManager(game, key){
 	Phaser.Sprite.call(this, game, 0, 0, key);
 	this.alpha = 0;
 
-	this.levelNum = 0;
-	this.textBubbleNum = 0;
-
 	this.dialog = JSON.parse(this.game.cache.getText('dialog')); // This produces the meta array of all levels
-	//this.level = this.dialog[levelNum]; // This produces the array of text for a single level
-	//this.textBubble = this.level[textBubbleNum]; // This produces a single text bubble in the level
+	//this.level = this.dialog[this.levelNum]; // This produces the array of text for a single level
+	//this.textBubble = this.level[this.textBubbleNum]; // This produces a single text bubble in the level
 
 	this.dialogTyping = false;
 
-	this.TypeText = function(){
-		this.dialogTyping = true;
+	this.TypeText = function(levelNum, textBubbleNum){
+		//this.dialogTyping = true;
 
-		console.log(this.dialog);
-		console.log(this.levelNum);
-		console.log(this.dialog[this.levelNum]);
-		if(this.textBubbleNum >= this.dialog[this.levelNum].length){
+		/*if(this.textBubbleNum >= this.dialog[this.levelNum].length){
 			this.textBubbleNum = 0;
 			this.levelNum++;
 
@@ -29,12 +23,12 @@ function DialogManager(game, key){
 				console.log("End of Conversations");
 				return;
 			}
-		}
+		}*/
 
-		var textBubble = this.dialog[this.levelNum][this.textBubbleNum];
+		var textBubble = this.dialog[levelNum][textBubbleNum];
 		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["text"]);
 
-		this.textBubbleNum++;
+		//this.textBubbleNum++;
 	}
 }
 
@@ -44,6 +38,6 @@ DialogManager.prototype.constructor = DialogManager;
 
 DialogManager.prototype.update = function(){
 	if(game.input.keyboard.justPressed(Phaser.KeyCode.SPACEBAR)){
-		this.TypeText();
+		this.TypeText(0,0);
 	}
 }
