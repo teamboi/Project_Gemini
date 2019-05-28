@@ -28,11 +28,16 @@ Cats.prototype = {
         game.load.image('backgroundInside', 'img/background.png');*/
 	},
 	create: function(){
-
         //  Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
+
+        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+        game.camera.onFadeComplete.add(this.resetFade, this);
+        this.space.onDown.add(this.fade, this);
+        game.camera.flash(0x000000, 2000);
 
         this.room = game.add.sprite(0,0,'backgroundPlain');
        // this.room.scale.setTo(0.12,0.112);
@@ -82,11 +87,11 @@ Cats.prototype = {
       //convertCollisionObjects(map, layer, addToWorld) 
 
         //Begin this level's music
-        this.beats = game.add.audio('beats');
+        /*this.beats = game.add.audio('beats');
 		this.beats.play('', 0, 1, true);	
         this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;
+        this.narrate.volume = 0.35;*/
 		//Add in the background sprite
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);
@@ -151,12 +156,30 @@ Cats.prototype = {
 			this.oneWinText.setText("Press Space for a puzzle!", true);
 		}
 		//Let the players decide when they want to move onto the puzzle
-		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
+		/*if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
 			this.beats.destroy(); // Kill the music
 			game.state.start('Threads', true, false); // Change state to level 2
-		}
+		}*/
         
 	},
+    fade: function() {
+
+    //  You can set your own fade color and duration
+    game.camera.fade(0x000000, 2000);
+
+    },
+    resetFade: function() {
+        game.state.start('Threads', true, false);
+        //game.camera.resetFX();
+        
+
+    },
+    /*flash: function() {
+
+    //  You can set your own flash color and duration
+    game.camera.flash(0x000000, 2000);
+
+    },*/
 
 	//Function to manually create the platforms
     createPlatform: function(x,y,width,height){

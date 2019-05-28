@@ -9,6 +9,10 @@ Threads.prototype = {
 	init: function(){
 		// initialize variables for gameplay
 		this.timer = 0;
+        this.oneWin = false;
+        this.twoWin = false;
+        this.complete = false;
+          
 	},
 	preload: function(){
 		// Load in the yarn balls
@@ -82,11 +86,11 @@ Threads.prototype = {
       //convertCollisionObjects(map, layer, addToWorld) 
 
         //Begin this level's music
-        this.beats = game.add.audio('beats');
+        /*this.beats = game.add.audio('beats');
 		this.beats.play('', 0, 1, true);	
         this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;
+        this.narrate.volume = 0.35;*/
 		//Add in the background sprite
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);
@@ -147,14 +151,15 @@ Threads.prototype = {
 		this.timer += 0.05; // Just using a hardcoded timer for now to let players learn the controls
 		
 		//Display text for level switching instructions
-		if(this.timer > 200) {
-			this.oneWinText.setText("Press Space for a puzzle!", true);
+		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
+			this.complete = true;
+            game.time.events.add(1000, this.fade, this);
 		}
 		//Let the players decide when they want to move onto the puzzle
-		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
+		/*if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
 			this.beats.destroy(); // Kill the music
 			game.state.start('Houses', true, false); // Change state to level 2
-		}
+		}*/
 	
 		//Display the thread instructions after a while
 		/*if(this.timer > 100 & this.timer < 200){
@@ -164,13 +169,25 @@ Threads.prototype = {
            this.twoWinText.setText("Press Down to hold the Thread", true);
         }*/
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
-            this.oneWinText.setText("Press S to hold the Thread", true);
+            this.oneWin = true;
         }
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
-           this.twoWinText.setText("Press Down to hold the Thread", true);
+           this.twoWin = true;
         }
 
 	},
+    fade: function() {
+
+    //  You can set your own fade color and duration
+    game.camera.fade(0x000000, 1000);
+
+    },
+    resetFade: function() {
+        game.state.start('Separate', true, false);
+        //game.camera.resetFX();
+        
+
+    },
 
 	//Function to manually create the platforms
     createPlatform: function(x,y,width,height){

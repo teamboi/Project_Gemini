@@ -17,10 +17,16 @@ window.onload = function(){
 	game.state.add('Boot', Boot);
 	game.state.add('Load', Load);
 	game.state.add('MainMenu', MainMenu);
+	// Chapter One
+	game.state.add('Together', Together);
 	game.state.add('Cats', Cats);
 	game.state.add('Threads', Threads);
+	// Chapter Two
+	game.state.add('Separate', Separate);
 	game.state.add('Houses', Houses);
 	game.state.add('Windows', Windows);
+	// Chapter 3
+	game.state.add('Tether', Tether);
 	game.state.add('Fences', Fences);
 	game.state.add('Clouds', Clouds);
 	

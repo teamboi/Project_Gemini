@@ -30,6 +30,7 @@ Load.prototype = {
         game.load.image('cat1', 'img/cats/cat1.png');
         game.load.image('cat2', 'img/cats/cat2.png');
         //Load the platforms and background
+        game.load.image('Together', 'img/bg/Together.png');
         game.load.image('bluePlat', 'img/objects/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/bg/background.png');
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');

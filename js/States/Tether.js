@@ -4,12 +4,15 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 //Initialize the Main Menu state
-var MainMenu = function(game){};
-MainMenu.prototype = {
+var Tether = function(game){};
+Tether.prototype = {
 	create: function(){
 		// Add in the title card
-		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
-		this.menu.anchor.setTo(0.5,0.5);
+		this.title = game.add.sprite(game.width/2,game.height/2,'title');
+		this.title.anchor.setTo(0.5,0.5);
+		this.title.alpha= 0;
+
+		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		
 		this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -23,7 +26,7 @@ MainMenu.prototype = {
 
 	},
 	resetFade: function() {
-		game.state.start('Together', true, false);
+		game.state.start('Cats', true, false);
 	    //game.camera.resetFX();
 	    
 
