@@ -49,6 +49,14 @@ function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision,
 
     this.rightLimit.body.setCollisionGroup(limiterCollision);
     this.rightLimit.body.collides([cloudCollision]);
+
+    this.deleteCloud(){
+    	this.min.destroy();
+    	this.max.destroy();
+    	this.leftLimit.destroy();
+    	this.rightLimit.destroy();
+    	this.destroy();
+    }
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
