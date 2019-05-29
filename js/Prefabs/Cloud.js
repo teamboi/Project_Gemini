@@ -57,6 +57,31 @@ function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision,
     	this.rightLimit.destroy();
     	this.destroy();
     }
+
+    this.cloudUpdate(){
+    	if(this.body.velocity.y < 0){
+			this.isMoving = true;
+		}
+		if(this.isMoving === true){
+			this.leftLimit.updateYPosition(this.body.y);
+			this.rightLimit.updateYPosition(this.body.y);
+			if(this.body.velocity.y <= 0){
+				this.isMoving = false;
+
+				this.min.updateYPosition(this.body.y+this.height);
+			}
+		}
+    }
+
+    this.windowUpdate(){
+    	if(this.body.velocity.y != 0){
+			this.isMoving = true;
+		}
+		if(this.isMoving === true){
+			this.leftLimit.updateYPosition(this.body.y);
+			this.rightLimit.updateYPosition(this.body.y);
+		}
+    }
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
@@ -64,16 +89,5 @@ Cloud.prototype = Object.create(Phaser.Sprite.prototype);
 Cloud.prototype.constructor = Cloud;
 
 Cloud.prototype.update = function(){
-	if(this.body.velocity.y < 0){
-		this.isMoving = true;
-	}
-	if(this.isMoving === true){
-		this.leftLimit.updateYPosition(this.body.y);
-		this.rightLimit.updateYPosition(this.body.y);
-		if(this.body.velocity.y <= 0){
-			this.isMoving = false;
-
-			this.min.updateYPosition(this.body.y+this.height);
-		}
-	}
+	
 }
