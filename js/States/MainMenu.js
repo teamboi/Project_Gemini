@@ -15,7 +15,7 @@ MainMenu.prototype = {
 		// If the spacebar is pressed...
 		if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
 			//this.music.destroy(); // Kill the music, once we get intro music
-			game.state.start('GamePlay', true, false); // Change state to level 1
+			game.state.start('Cats', true, false); // Change state to level 1
 		}
 	},
 }
