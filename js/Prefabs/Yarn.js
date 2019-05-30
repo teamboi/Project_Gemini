@@ -48,6 +48,38 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
     // Create a new sprite using the bitmap data
     me.line = game.add.sprite(0, 0, me.ropeBitmapData);
 
+    // https://github.com/schteppe/p2.js/blob/master/demos/constraints.html
+    // https://phaser.io/examples/v2/p2-physics/chain
+
+    var lastRect;
+    var rectHeight = 20;
+    var rectWidth = 16;
+    var maxForce = 20000;
+    var numLinks = 20;
+
+    var playerXDiff = (this.player2.body.x - this.player1.body.x) / numLinks;
+    var playerYDiff = (this.player2.body.y - this.player1.body.y) / numLinks;
+
+    /*for(let i = 1; i <= numLinks; i++){
+    	var x = this.player1.body.x + playerXDiff*i;
+    	var y = this.player1.body.y + playerYDiff*i;
+
+    	var newRect = game.add.sprite(x,y, 'ball', 1);
+    	game.physics.p2.enable(newRect);
+
+    	if(i === 1){
+    		game.physics.p2.createRevoluteConstraint(this.player1, [0,-10], newRect, [0,10], maxForce);
+    	}
+    	else if(i === numLinks){
+			game.physics.p2.createRevoluteConstraint(newRect, [0,-10], this.player2, [0,10], maxForce);
+    	}
+    	else{
+    		game.physics.p2.createRevoluteConstraint(newRect, [0,-10], lastRect, [0,10], maxForce);
+    	}
+
+    	lastRect = newRect;
+    }*/
+
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
 		otherCat.anchorState = "beingAnchored";
