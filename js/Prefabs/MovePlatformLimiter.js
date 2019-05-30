@@ -5,7 +5,7 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
-// Constructor for Yarn
+// Constructor for MovePlatformLimiter
 function MovePlatformLimiter(game, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 
@@ -27,6 +27,6 @@ function MovePlatformLimiter(game, x, y, key){
 	}
 }
 
-// inherit prototype from Phaser.Sprite and set constructor to Yarn
+// inherit prototype from Phaser.Sprite and set constructor to MovePlatformLimiter
 MovePlatformLimiter.prototype = Object.create(Phaser.Sprite.prototype);
 MovePlatformLimiter.prototype.constructor = MovePlatformLimiter;

@@ -137,7 +137,7 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
     }
 }
 
-// inherit prototype from Phaser.Sprite and set constructor to Yarn
+// inherit prototype from Phaser.Sprite and set constructor to MovePlatform
 MovePlatform.prototype = Object.create(Phaser.Sprite.prototype);
 MovePlatform.prototype.constructor = MovePlatform;
 
