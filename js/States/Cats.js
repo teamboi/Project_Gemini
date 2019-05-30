@@ -67,21 +67,21 @@ Cats.prototype = {
 
         
         //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
-     // this.testLevel.setCollisionBetween([], true);
-      this.testLevel.setCollisionByExclusion([]);
-      this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-     // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
-      console.log(this.platforms);
-     // game.add.existing(this.platforms[0]);
-     for(var i = 0; i < this.platforms.length; i++){
-      this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+        // this.testLevel.setCollisionBetween([], true);
+        this.testLevel.setCollisionByExclusion([]);
+        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+        // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
+        console.log(this.platforms);
+        // game.add.existing(this.platforms[0]);
+        for(var i = 0; i < this.platforms.length; i++){
+            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
       
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
-     }
-     console.log(this.testLevel.objects[0]);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+        }
+        console.log(this.testLevel.objects[0]);
       
 
-      //convertCollisionObjects(map, layer, addToWorld) 
+        //convertCollisionObjects(map, layer, addToWorld) 
 
         //Begin this level's music
         this.beats = game.add.audio('beats');
@@ -104,7 +104,7 @@ Cats.prototype = {
         this.player1 = new Player(game, this, 400, 400, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
-        this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+        this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
         this.player2 = new Player(game, this, 400, 320, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
