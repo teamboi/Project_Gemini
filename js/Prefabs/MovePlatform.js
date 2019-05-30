@@ -6,6 +6,12 @@
 "use strict";
 
 // Constructor for movePlatform
+// gameplay = reference to gameplay state
+// x, y = starting coordinates
+// key = sprite
+// firstY, secondY = range in which the moving platform can move
+// gravityDir = direction of gravity imposed on platform
+// platformType = window or cloud
 function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, platformType){
 	Phaser.Sprite.call(this, game, x, y, key);
 
@@ -14,7 +20,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
 	this.isMoving = false;
 
 	this.gameplay = gameplay;
-	this.gravityDir = gravityDir;
 	this.platformType = platformType;
 
 	// Enable physics
