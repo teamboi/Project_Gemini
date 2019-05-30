@@ -82,11 +82,11 @@ GamePlay.prototype = {
         this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
         this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup, this.cloudCollisionGroup]);
 
-        this.newCloud = new Cloud(game, this, 200, 550, "cat2", 550, 200, "up", this.cloudCollisionGroup, this.limiterCollisionGroup);
+        this.newCloud = new MovePlatform(game, this, 200, 550, "cat2", 550, 400, "down", "window");
         game.add.existing(this.newCloud);
 
-        //this.newCloud.body.setCollisionGroup(this.cloudCollisionGroup);
-        //this.newCloud.body.collides([this.playerCollisionGroup, this.yarnBallCollisionGroup]);
+        this.newCloud2 = new MovePlatform(game, this, 200, 200, "cat2", 200, 300, "up", "window");
+        game.add.existing(this.newCloud2);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);

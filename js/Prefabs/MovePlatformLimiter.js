@@ -6,14 +6,14 @@
 "use strict";
 
 // Constructor for Yarn
-function CloudLimiter(game, x, y, key){
+function MovePlatformLimiter(game, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 
-	this.scale.setTo(0.11, 0.11); // Scales the sprite
+	this.scale.setTo(0.22, 0.11); // Scales the sprite
 	this.alpha = 0;
 
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.kinematic = true;
@@ -28,5 +28,5 @@ function CloudLimiter(game, x, y, key){
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
-CloudLimiter.prototype = Object.create(Phaser.Sprite.prototype);
-CloudLimiter.prototype.constructor = CloudLimiter;
+MovePlatformLimiter.prototype = Object.create(Phaser.Sprite.prototype);
+MovePlatformLimiter.prototype.constructor = MovePlatformLimiter;
