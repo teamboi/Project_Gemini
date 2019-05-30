@@ -50,7 +50,7 @@ function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision,
     this.rightLimit.body.setCollisionGroup(limiterCollision);
     this.rightLimit.body.collides([cloudCollision]);
 
-    this.deleteCloud(){
+    this.deleteCloud = function(){
     	this.min.destroy();
     	this.max.destroy();
     	this.leftLimit.destroy();
@@ -58,7 +58,7 @@ function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision,
     	this.destroy();
     }
 
-    this.cloudUpdate(){
+    this.cloudUpdate = function(){
     	if(this.body.velocity.y < 0){
 			this.isMoving = true;
 		}
@@ -73,7 +73,7 @@ function Cloud(game, gameplay, x, y, key, minY, maxY, direction, cloudCollision,
 		}
     }
 
-    this.windowUpdate(){
+    this.windowUpdate = function(){
     	if(this.body.velocity.y != 0){
 			this.isMoving = true;
 		}
@@ -89,5 +89,5 @@ Cloud.prototype = Object.create(Phaser.Sprite.prototype);
 Cloud.prototype.constructor = Cloud;
 
 Cloud.prototype.update = function(){
-	
+	this.cloudUpdate();
 }
