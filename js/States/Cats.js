@@ -6,9 +6,12 @@
 // Initialize the level 1 state
 var Cats = function(game){};
 Cats.prototype = {
-	init: function(){
+	init: function(ost){
 		// initialize variables for gameplay
+        this.ost = ost;
 		this.timer = 0;
+        this.introPlaying = false;
+        this.outroPlaying = false;
 	},
 	preload: function(){
 		// Load in the yarn balls
@@ -28,6 +31,7 @@ Cats.prototype = {
         game.load.image('backgroundInside', 'img/background.png');*/
 	},
 	create: function(){
+        //this.ost.volume = 0.1;
         //  Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
@@ -95,23 +99,29 @@ Cats.prototype = {
 		//Add in the background sprite
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);
-        //Create the tutorial text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + D to walk, W to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
-		this.oneWinText.anchor.set(0.5);
-		this.oneWinText.inputEnabled = true;
-		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 20, 'Left + Right to walk, Up to jump', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
-		this.twoWinText.anchor.set(0.5);
-		this.twoWinText.inputEnabled = true;
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 868, 516, "cat1", 1);
+        this.player1 = new Player(game, this, 68, 516, "cat1", 1);
         game.add.existing(this.player1);
         this.player1.body.setCollisionGroup(this.playerCollisionGroup);
         this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
-        this.player2 = new Player(game, this, 18, 199, "cat2", 2);
+        
+        this.player2 = new Player(game, this, 818, 199, "cat2", 2);
         game.add.existing(this.player2);
         this.player2.body.setCollisionGroup(this.playerCollisionGroup);
         this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
+
+        //Create the tutorial text
+        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y, 'A          D', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
+        this.p1Controls.anchor.set(0.5);
+        this.p1Controls.inputEnabled = true;
+        this.p1ControlsPosition = this.p1Controls.worldPosition;
+        
+        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y, '🡨          🡪', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
+        this.p2Controls.anchor.set(0.5);
+        this.p2Controls.inputEnabled = true;
+        this.p2ControlsPosition = this.p2Controls.worldPosition;
+
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
@@ -132,7 +142,7 @@ Cats.prototype = {
         //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
         //Add the yarnballs for a little fun
-        this.yarnBall = game.add.sprite(600,70,'redball');
+        /*this.yarnBall = game.add.sprite(600,70,'redball');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
@@ -146,21 +156,28 @@ Cats.prototype = {
         this.yarnBall2.body.data.gravityScale = -1;
         this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
+*/
 	},
 	update: function(){
-		this.timer += 0.05; // Just using a hardcoded timer for now to let players learn the controls
-		
-		//Display text for level switching instructions
-		if(this.timer > 200) {
-			this.oneWinText.setText("Press Space for a puzzle!", true);
-		}
-		//Let the players decide when they want to move onto the puzzle
-		/*if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
-			this.beats.destroy(); // Kill the music
-			game.state.start('Threads', true, false); // Change state to level 2
-		}*/
         
+        if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
+            this.p1Controls.setText("W", true);
+            this.p1Controls.x = 246;
+            this.p1Controls.y = 440;
+            if(!this.outroPlaying) {
+                this.outroPlaying = true;
+                this.narrate = game.add.audio('oneOutro');
+                this.narrate.play('', 0, 1, false);
+                this.narrate.volume = 1;
+
+            }
+        }
+        if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
+            this.p2Controls.setText("🡫", true);
+            this.p2Controls.x = 678;
+            this.p2Controls.y = 282;
+        }
+
 	},
     fade: function() {
 
@@ -169,7 +186,7 @@ Cats.prototype = {
 
     },
     resetFade: function() {
-        game.state.start('Threads', true, false);
+        game.state.start('Threads', true, false, this.ost);
         //game.camera.resetFX();
         
 

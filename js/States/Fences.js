@@ -7,8 +7,9 @@
 //INstantiate the level 2 state
 var Fences = function(game){};
 Fences.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
+        this.ost = ost;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -41,7 +42,7 @@ Fences.prototype = {
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0x000000, 2000);
 
-        this.room = game.add.sprite(0,0,'Fences');
+        //this.room = game.add.sprite(0,0,'Fences');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('LevelTwo');
@@ -74,13 +75,8 @@ Fences.prototype = {
       this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
      }
 
-        //Instantiate the music for this level
-        this.beats = game.add.audio('beats');
-        this.beats.play('', 0, 1, true);
-        //this.beats = game.add.audio('narrate');
-        //this.beats.play('', 0, 1, false);
-
-
+        
+        this.room = game.add.sprite(0,0,'Fences');
         //Add the background image
         //this.room = game.add.sprite(0,-0.03,'backgroundPlain');
         //this.room.scale.setTo(0.13,0.115);
@@ -160,7 +156,7 @@ Fences.prototype = {
 
     },
     resetFade: function() {
-        game.state.start('Clouds', true, false);
+        game.state.start('Clouds', true, false, this.ost);
         //game.camera.resetFX();
         
 

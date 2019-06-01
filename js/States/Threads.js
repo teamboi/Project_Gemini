@@ -6,12 +6,14 @@
 // Initialize the level 1 state
 var Threads = function(game){};
 Threads.prototype = {
-	init: function(){
+	init: function(ost){
 		// initialize variables for gameplay
+        this.ost = ost;
 		this.timer = 0;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
+        this.outroPlaying = false;
           
 	},
 	preload: function(){
@@ -42,6 +44,9 @@ Threads.prototype = {
         game.camera.flash(0x000000, 2000);
 
         this.room = game.add.sprite(0,0,'backgroundPlain');
+        this.narrate = game.add.audio('twoIntro');
+        this.narrate.play('', 0, 1, false);
+        this.narrate.volume = 1;
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('testLevel');
@@ -98,10 +103,10 @@ Threads.prototype = {
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);
         //Create the tutorial text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 20, 'A + D to walk, W to jump', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);
 		this.oneWinText.inputEnabled = true;
-		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 20, 'Left + Right to walk, Up to jump', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
 		this.twoWinText.anchor.set(0.5);
 		this.twoWinText.inputEnabled = true;
 
@@ -173,17 +178,26 @@ Threads.prototype = {
         }*/
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
+            if(!this.outroPlaying) {
+                this.outroPlaying = true;
+                this.narrate = game.add.audio('twoOutro');
+                this.narrate.play('', 0, 1, false);
+                this.narrate.volume = 1;
+            }
         }
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;
         }
 
 	},
+    shutdown: function() {
+        
+    },
     fade: function() {
 
     //  You can set your own fade color and duration
     game.camera.fade(0x000000, 2000);
-    game.add.audio('Together').fadeOut(2000);
+    this.ost.fadeOut(2000);
 
     },
     resetFade: function() {

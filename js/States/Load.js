@@ -20,7 +20,12 @@ Load.prototype = {
 		game.load.audio('Tether', 'audio/ost/Tether.mp3');
 		
 		game.load.audio('meow', 'audio/sfx/meow22.mp3');
-		game.load.audio('narrate', 'audio/sfx/sfx_test_narration.mp3');
+		game.load.audio('oneIntro', 'audio/sfx/sfx_level_one_intro.mp3');
+		game.load.audio('oneOutro', 'audio/sfx/sfx_level_one_outro.mp3');
+		game.load.audio('twoIntro', 'audio/sfx/sfx_level_two_intro.mp3');
+		game.load.audio('twoOutro', 'audio/sfx/sfx_level_two_outro.mp3');
+		
+		
 		
 		game.load.image('title', 'img/cats/title.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
@@ -41,7 +46,7 @@ Load.prototype = {
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
 		game.load.image('Houses', 'img/bg/Houses.png');
 		game.load.image('Windows', 'img/bg/Windows.png');
-		game.load.image('Fences', 'img/bg/120_cloud_puzzle.png');
+		game.load.image('Fences', 'img/bg/120 cloud puzzle.png');
 		game.load.image('Clouds', 'img/bg/120_cloud_puzzle2.png');
 
 

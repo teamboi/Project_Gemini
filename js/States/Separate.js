@@ -12,8 +12,8 @@ Separate.prototype = {
 		this.title.anchor.setTo(0.5,0.5);
 		this.title.alpha= 0;
 
-		this.beats = game.add.audio('Separate');
-		this.beats.play('', 0, 1, true);	
+		this.ost = game.add.audio('Separate');
+		this.ost.play('', 0, 1, true);	
         this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
@@ -36,7 +36,7 @@ Separate.prototype = {
 
 	},
 	resetFade: function() {
-		game.state.start('Houses', true, false);
+		game.state.start('Houses', true, false, this.ost);
 	    //game.camera.resetFX();
 	    
 

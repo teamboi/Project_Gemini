@@ -34,11 +34,11 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
-		this.controls = ['LEFT','RIGHT','UP','DOWN'];//,'COLON'];
+		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down';
 	}
 	else{
-		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
+		this.controls = ['LEFT','RIGHT','DOWN','UP']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
 	}

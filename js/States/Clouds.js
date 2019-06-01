@@ -7,8 +7,9 @@
 //INstantiate the level 2 state
 var Clouds = function(game){};
 Clouds.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
+        this.ost = ost;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -73,17 +74,6 @@ Clouds.prototype = {
       
       this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
      }
-
-        //Instantiate the music for this level
-        this.beats = game.add.audio('beats');
-        this.beats.play('', 0, 1, true);
-        //this.beats = game.add.audio('narrate');
-        //this.beats.play('', 0, 1, false);
-
-
-        //Add the background image
-        //this.room = game.add.sprite(0,-0.03,'backgroundPlain');
-        //this.room.scale.setTo(0.13,0.115);
 
         //Create the win state text
         this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 32, '', {font: 'Impact', fontSize: '32px', fill: '#FF7373'});
@@ -157,7 +147,7 @@ Clouds.prototype = {
 
     //  You can set your own fade color and duration
     game.camera.fade(0x000000, 2000);
-    game.add.audio('Tether').fadeOut(2000);
+    this.ost.fadeOut(2000);
 
     },
     resetFade: function() {

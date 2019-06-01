@@ -12,8 +12,8 @@ Tether.prototype = {
 		this.title.anchor.setTo(0.5,0.5);
 		this.title.alpha= 0;
 
-		this.beats = game.add.audio('Tether');
-		this.beats.play('', 0, 1, true);	
+		this.ost = game.add.audio('Tether');
+		this.ost.play('', 0, 1, true);	
         this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
@@ -36,7 +36,7 @@ Tether.prototype = {
 
 	},
 	resetFade: function() {
-		game.state.start('Fences', true, false);
+		game.state.start('Fences', true, false, this.ost);
 	    //game.camera.resetFX();
 	    
 

@@ -7,8 +7,9 @@
 //INstantiate the level 2 state
 var Houses = function(game){};
 Houses.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
+        this.ost = ost;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -41,7 +42,7 @@ Houses.prototype = {
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0x000000, 2000);
 
-        this.room = game.add.sprite(0,0,'Houses');
+        //this.room = game.add.sprite(0,0,'Houses');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('LevelOne');
@@ -74,17 +75,9 @@ Houses.prototype = {
       this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
      }
 
+        this.room = game.add.sprite(0,0,'Houses');
         //Instantiate the music for this level
-        this.beats = game.add.audio('beats');
-        this.beats.play('', 0, 1, true);
-        //this.beats = game.add.audio('narrate');
-        //this.beats.play('', 0, 1, false);
-
-
-        //Add the background image
-        //this.room = game.add.sprite(0,-0.03,'backgroundPlain');
-        //this.room.scale.setTo(0.13,0.115);
-
+       
         //Create the win state text
         this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 32, '', {font: 'Impact', fontSize: '32px', fill: '#FF7373'});
         this.oneWinText.anchor.set(0.5);

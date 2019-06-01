@@ -12,9 +12,10 @@ Together.prototype = {
 		this.title.anchor.setTo(0.5,0.5);
 		this.title.alpha= 0;
 
-		this.beats = game.add.audio('Together');
-		this.beats.play('', 0, 1, true);	
-        this.narrate = game.add.audio('narrate');
+		this.ost = game.add.audio('Together');
+		this.ost.play('', 0, 1, true);
+		this.ost.volume = 0.5;	
+        this.narrate = game.add.audio('oneIntro');
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
 
@@ -36,7 +37,7 @@ Together.prototype = {
 
 	},
 	resetFade: function() {
-		game.state.start('Cats', true, false);
+		game.state.start('Cats', true, false, this.ost);
 	    //game.camera.resetFX();
 	    
 

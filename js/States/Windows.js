@@ -7,8 +7,9 @@
 //INstantiate the level 2 state
 var Windows = function(game){};
 Windows.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
+        this.ost = ost;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -145,9 +146,9 @@ Windows.prototype = {
 
     fade: function() {
 
-    //  You can set your own fade color and duration
-    game.camera.fade(0x000000, 2000);
-    game.add.audio('Separate').fadeOut(2000);
+        //Fade camera and level theme
+        game.camera.fade(0x000000, 2000);
+        this.ost.fadeOut(2000);
 
     },
     resetFade: function() {
