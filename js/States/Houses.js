@@ -15,23 +15,6 @@ Houses.prototype = {
         this.complete = false;
             
     },
-    preload: function(){
-        // Sprites for the yarnballs
-        //game.load.image('redball', 'img/redYarn.png');
-        //game.load.image('blueball', 'img/blueYarn.png');
-
-        //Load in the tilemaps once w get them
-        game.load.tilemap('LevelOne','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
-        
-        //Load in the character sprites
-       /* game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
-        
-        //load in the platform and backgrounds
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/120 bg both sides.png');*/
-    },
     create: function(){
         
         // Enable p2 physics
@@ -45,7 +28,7 @@ Houses.prototype = {
         //this.room = game.add.sprite(0,0,'Houses');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('LevelOne');
+        this.testLevel = this.game.add.tilemap('levelThree');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);

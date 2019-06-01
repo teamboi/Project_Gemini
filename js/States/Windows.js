@@ -15,13 +15,6 @@ Windows.prototype = {
         this.complete = false;
             
     },
-    preload: function(){
-        
-        //Load in the tilemaps once w get them
-        game.load.tilemap('Windows','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
-        
-    },
     create: function(){
         
         // Enable p2 physics
@@ -35,7 +28,7 @@ Windows.prototype = {
         this.room = game.add.sprite(0,0,'Windows');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('Windows');
+        this.testLevel = this.game.add.tilemap('levelFour');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);

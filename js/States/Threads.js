@@ -16,23 +16,6 @@ Threads.prototype = {
         this.outroPlaying = false;
           
 	},
-	preload: function(){
-		// Load in the yarn balls
-        //game.load.image('redball', 'img/redYarn.png');
-		//game.load.image('blueball', 'img/blueYarn.png');
-		//Once we have a tilemap, we'll load it in
-       
-        game.load.tilemap('testLevel','tilemaps/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
-        
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 1, 1);
-        /*
-        //Load in the character sprites
-        game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
-        //Load the platforms and background
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/background.png');*/
-	},
 	create: function(){
 
         //  Enable p2 physics
@@ -49,7 +32,7 @@ Threads.prototype = {
         this.narrate.volume = 1;
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('testLevel');
+        this.testLevel = this.game.add.tilemap('levelTwo');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
        // this.newTest = this.game.add.tilemap('House');
         //this.newTest.addTilesetImage('pixel3', 'mapTiles');

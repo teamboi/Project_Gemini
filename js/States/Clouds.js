@@ -15,24 +15,7 @@ Clouds.prototype = {
         this.complete = false;
             
     },
-    preload: function(){
-        // Sprites for the yarnballs
-        //game.load.image('redball', 'img/redYarn.png');
-        //game.load.image('blueball', 'img/blueYarn.png');
-
-        //Load in the tilemaps once w get them
-        game.load.tilemap('LevelTwo','tilemaps/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
-        
-        //Load in the character sprites
-       /* game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
-        
-        //load in the platform and backgrounds
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/120 bg both sides.png');*/
-    },
-    create: function(){
+   create: function(){
         
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
@@ -45,7 +28,7 @@ Clouds.prototype = {
         this.room = game.add.sprite(0,0,'Clouds');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('LevelTwo');
+        this.testLevel = this.game.add.tilemap('levelSix');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
