@@ -12,23 +12,30 @@ function DialogManager(game, key){
 
 	this.dialogTyping = false;
 
+	this.TypeIntro = function(levelNum){
+		this.intro = this.TypeText(levelNum-1,0);
+	}
+
+	this.TypeOutro = function(levelNum){
+		this.outro = this.TypeText(levelNum-1,1);
+	}
+
 	this.TypeText = function(levelNum, textBubbleNum){
 		//this.dialogTyping = true;
 
-		/*if(this.textBubbleNum >= this.dialog[this.levelNum].length){
-			this.textBubbleNum = 0;
-			this.levelNum++;
-
-			if(this.levelNum >= this.dialog.length){
-				console.log("End of Conversations");
-				return;
-			}
-		}*/
-
 		var textBubble = this.dialog[levelNum][textBubbleNum];
+
+		this.narrate = game.add.audio('narrate');
+        this.narrate.play('', 0, 1, false);
+        this.narrate.volume = 0.35;
+
+		if(textBubble["destroyIntro"]){
+			this.intro.fadeOut();
+		}
+
 		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["text"]);
 
-		//this.textBubbleNum++;
+		return currentText;
 	}
 }
 
@@ -37,7 +44,10 @@ DialogManager.prototype = Object.create(Phaser.Sprite.prototype);
 DialogManager.prototype.constructor = DialogManager;
 
 DialogManager.prototype.update = function(){
-	if(game.input.keyboard.justPressed(Phaser.KeyCode.SPACEBAR)){
-		this.TypeText(0,0);
+	if(game.input.keyboard.justPressed(Phaser.KeyCode.L)){
+		this.TypeIntro(1);
+	}
+	if(game.input.keyboard.justPressed(Phaser.KeyCode.K)){
+		this.TypeOutro(1);
 	}
 }

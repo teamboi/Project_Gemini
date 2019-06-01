@@ -82,13 +82,12 @@ Cats.prototype = {
       
 
         //convertCollisionObjects(map, layer, addToWorld) 
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
 
         //Begin this level's music
         this.beats = game.add.audio('beats');
-		this.beats.play('', 0, 1, true);	
-        this.narrate = game.add.audio('narrate');
-        this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;
+		this.beats.play('', 0, 1, true);
 		//Add in the background sprite
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);

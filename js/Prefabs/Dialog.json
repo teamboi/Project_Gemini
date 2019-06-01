@@ -4,14 +4,14 @@
 			"x" : 100,
 			"y" : 100,
 			"text" : "Our story begins with two cats tethered by love, and it is connected to stories that came before",
-			"audio" : "sfx_test_narration.mp3",
-			"destroyPrev" : "true"
+			"audio" : "narrate"
 		},
 		{
 			"x" : 200,
 			"y" : 200,
 			"text" : "Our story begins with two cats tethered by love, and it is connected to stories that came before",
-			"audio" : "sfx_test_narration.mp3"
+			"audio" : "sfx_test_narration.mp3",
+			"destroyIntro" : "true"
 		}
 	],
 	[

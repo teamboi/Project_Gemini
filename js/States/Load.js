@@ -41,6 +41,8 @@ Load.prototype = {
         game.load.path = 'js/';
         game.load.text('dialog', 'prefabs/Dialog.json');
 
+        game.load.path = 'assets/';
+
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;
 		game.scale.pageAlignVertically = true;
