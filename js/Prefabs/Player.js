@@ -14,8 +14,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	// Enable physics
-	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -27,20 +26,39 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
+	var playerCG = this.gameplay.playerCollisionGroup;
+	var platformCG = this.gameplay.platformCollisionGroup;
+	var objectCG = this.gameplay.objectCollisionGroup;
+	var cloudCG = this.gameplay.cloudCollisionGroup;
+	var surrogateCG = this.gameplay.surrogateCollisionGroup;
+
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
+		this.yarnColor = 0xFF0400;
+
+		this.body.setCollisionGroup(playerCG);
+        this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.controls = ['LEFT','RIGHT','UP','DOWN'];//,'COLON'];
 		this.jumpDirection = 'down';
+		this.yarnColor = 0x0008FF;
+
+		this.body.setCollisionGroup(playerCG);
+        this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else{
 		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
+		//http://www.html5gamedevs.com/topic/10454-how-to-disable-collision-for-body/
+		this.body.data.shapes[0].sensor = true; // Surrogate does not collide
+
+		this.body.setCollisionGroup(surrogateCG);
+        this.body.collides([platformCG, objectCG, cloudCG]);
 	}
 
 	this.move = function(direction, velocity){
@@ -136,14 +154,16 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.controls = cat.controls;
 		this.jumpDirection = cat.jumpDirection;
 		this.whichPlayer = cat.whichPlayer;
+		this.body.data.shapes[0].sensor = false;
 	}
 
 	this.deactivateSurrogate = function(){
-		this.body.x = -2000;
-		this.body.y = -2000;
+		//this.body.x = 2000;
+		//this.body.y = 2000;
 		this.body.velocity.x = 0;
 		this.body.velocity.y = 0;
 		this.body.data.gravityScale = 0;
+		this.body.data.shapes[0].sensor = true;
 	}
 
 	// Called every frame when the yarn is active for the player to copy the surrogate's variables

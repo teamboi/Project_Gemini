@@ -13,26 +13,30 @@ Load.prototype = {
 
 		// For now, this merely loads in the music and the title image, but it'll be expanded later
 		game.load.path = 'assets/';
-		game.load.audio('beats', 'audio/guitarsample2.mp3');
-		game.load.audio('meow', 'audio/meow22.mp3');
-		game.load.audio('narrate', 'audio/sfx_test_narration.mp3');
+		game.load.audio('beats', 'audio/ost/guitarsample2.mp3');
+		game.load.audio('meow', 'audio/sfx/meow22.mp3');
+		game.load.audio('narrate', 'audio/sfx/sfx_test_narration.mp3');
 		
-		game.load.image('title', 'img/title.png');
-		game.load.image('gameOver', 'img/gameOver.png');
+		game.load.image('title', 'img/cats/title.png');
+		game.load.image('gameOver', 'img/cats/gameOver.png');
 
-		game.load.image('redball', 'img/redYarn.png');
-		game.load.image('blueball', 'img/blueYarn.png');
+		game.load.image('redball', 'img/cats/redYarn.png');
+		game.load.image('blueball', 'img/cats/blueYarn.png');
 		//Once we have a tilemap, we'll load it in
         //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
         //game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
         
         //Load in the character sprites
-        game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
+        game.load.image('cat1', 'img/cats/cat1.png');
+        game.load.image('cat2', 'img/cats/cat2.png');
         //Load the platforms and background
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/background.png');
-        game.load.image('backgroundPlain', 'img/120 bg both sides.png');
+        game.load.image('bluePlat', 'img/objects/120 blue ledge 1.png');
+        game.load.image('backgroundInside', 'img/bg/background.png');
+        game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
+		game.load.image('Houses', 'img/bg/Houses.png');
+		game.load.image('Windows', 'img/bg/Windows.png');
+
+
 
         game.load.path = 'js/';
         game.load.text('dialog', 'prefabs/Dialog.json');

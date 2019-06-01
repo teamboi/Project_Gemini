@@ -28,25 +28,18 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
 	this.tautLength = 0; // the max length players can be if the yarn is active
+	this.playerDist = 0;
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
 	this.isOnRoof = false; // boolean for if otherCat is on the roof
 	this.isTaut = false; // boolean for if the yarn is at its taut length // Currently unused
 	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
-	// Some initialize rope code taken from
-	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-	var me = this;
-
-    // Add bitmap data to draw the rope // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-    me.ropeBitmapData = game.add.bitmapData(me.game.world.width, me.game.world.height);
-
-    me.ropeBitmapData.ctx.beginPath();
-    me.ropeBitmapData.ctx.lineWidth = "4";
-    me.ropeBitmapData.ctx.strokeStyle = "#FF7070";
-    me.ropeBitmapData.ctx.stroke();
-
-    // Create a new sprite using the bitmap data
-    me.line = game.add.sprite(0, 0, me.ropeBitmapData);
+	this.player1BAnchor = game.add.sprite(0, 100, "point");
+	this.player2BAnchor = game.add.sprite(100, 0, "point");
+	this.player1BAnchor.alpha = 0;
+	this.player2BAnchor.alpha = 0;
+	this.bezierGraphics = game.add.graphics(0, 0);
+	this.neutralColor = 0x9D00FF;
 
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
@@ -57,8 +50,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.createYarn = function(anchorCat,otherCat){ // First cat will be the anchor
 		this.isYarn = true; // yarn is active
 
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
-		this.tautLength = dist; // Sets the taut length
+		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
+		this.tautLength = this.playerDist; // Sets the taut length
 
 		this.modifyAnchor(anchorCat,otherCat);
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
@@ -68,10 +61,9 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.updateYarn = function(){
 		// Only checks if the yarn is active
 		if(this.isYarn != true){
-			this.drawYarn("2", "#FF7070"); // Draw it as the inactive state
+			this.drawYarn("2", this.neutralColor); // Draw it as the inactive state
 			return;
 		}
-		this.drawYarn("4", "#FF3232"); // Draw it in the active state
 
 		// Obtains correct references to both cats
 		if(this.anchored == 1){
@@ -83,9 +75,11 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			var otherCat = this.player1;
 		}
 
+		this.drawYarn("4", anchorCat.yarnColor); // Draw it in the active state
+
 		var tautDeadband = 3; // the margin of error to check beyond the taut length
 		var velDeadband = 10; // the margin of error to check for the velocity differences
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
+		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
@@ -97,7 +91,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 			this.isOnRoof = true;
 		}
-		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof()){
+		else if( this.isOnRoof == true && ( !otherCat.checkIfOnRoof() || anchorCat.checkIfCanJump() ) ){
 			this.modifyAnchor(anchorCat,otherCat);
 			otherCat.body.data.gravityScale *= -1;
 
@@ -118,7 +112,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			}
 		}
 
-		if(dist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
+		if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 			this.isTaut = true;
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
@@ -147,6 +141,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.isYarn = false; // yarn is inactive
 		this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
+		this.tautLength = 0; // Resets the visual for the yarn
+
 		//If constraint does exist, remove it
 		if(constraint != null){
 			game.physics.p2.removeConstraint(constraint);
@@ -168,20 +164,56 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Draw yarn function taken from:
 	// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 	this.drawYarn = function(width, color){
-		var me = this;
+		var playerXDiff = (this.player2.body.x - this.player1.body.x)*.35;
+    	var playerYDiff = (this.player2.body.y - this.player1.body.y)*.35;
 
-	    // Change the bitmap data to reflect the new rope position
-	    me.ropeBitmapData.clear();
-	    me.ropeBitmapData.ctx.lineWidth = width;
-	    me.ropeBitmapData.ctx.strokeStyle = color;
-	    me.ropeBitmapData.ctx.beginPath();
-	    me.ropeBitmapData.ctx.beginPath();
-	    me.ropeBitmapData.ctx.moveTo(this.player1.x, this.player1.y);
-	    me.ropeBitmapData.ctx.lineTo(this.player2.x, this.player2.y);
-	    me.ropeBitmapData.ctx.lineWidth = 4;
-	    me.ropeBitmapData.ctx.stroke();
-	    me.ropeBitmapData.ctx.closePath();
-	    me.ropeBitmapData.render();
+    	var slackLength = this.tautLength - this.playerDist;
+
+    	var tautThreshold = 5;
+    	var slackThreshold = 100;
+    	var slackMaxValue = 50;
+
+    	if(slackLength < tautThreshold){
+    		var handleOffsetMult = 0
+    	}
+    	else if(slackLength < slackThreshold){
+    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
+    	}
+    	else{
+    		var handleOffsetMult = slackMaxValue;
+    	}
+
+    	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
+    	var handleYOffset = Math.cos(this.yarnAngle)*handleOffsetMult;
+
+    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
+    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
+
+		this.updateDrag(width, color);
+	}
+
+	// https://www.emanueleferonato.com/2015/08/21/playing-with-phaser-tweens-and-bezier-curves/
+	this.updateDrag = function(width, color){
+		var pointsArray = [this.player1, this.player1BAnchor, this.player2BAnchor, this.player2]
+		this.bezierGraphics.clear();
+		this.bezierGraphics.lineStyle(width, color, 1);
+		this.bezierGraphics.moveTo(pointsArray[0].x, pointsArray[0].y);
+		for (var i=0; i<1; i+=0.01){
+			var p = this.bezierPoint(pointsArray[0], pointsArray[1], pointsArray[2], pointsArray[3], i);
+			this.bezierGraphics.lineTo(p.x, p.y);
+		}  
+	}
+
+	this.bezierPoint = function(p0, p1, p2, p3, t){
+		var cX = 3 * (p1.x - p0.x);
+		var bX = 3 * (p2.x - p1.x) - cX;
+		var aX = p3.x - p0.x - cX - bX;
+		var cY = 3 * (p1.y - p0.y);
+		var bY = 3 * (p2.y - p1.y) - cY;
+		var aY = p3.y - p0.y - cY - bY;
+		var x = (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0.x;
+		var y = (aY * Math.pow(t, 3)) + (bY * Math.pow(t, 2)) + (cY * t) + p0.y;
+		return {x: x, y: y};     
 	}
 }
 

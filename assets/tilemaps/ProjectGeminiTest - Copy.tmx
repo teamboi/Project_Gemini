@@ -3,9 +3,6 @@
  <tileset firstgid="1" name="bg_floor" tilewidth="32" tileheight="32" tilecount="16" columns="4">
   <image source="bg_floor.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="17" name="bg_floor" tilewidth="32" tileheight="32" tilecount="16" columns="4">
-  <image source="bg_floor.png" width="128" height="128"/>
- </tileset>
  <layer id="1" name="Background" width="16" height="18">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
