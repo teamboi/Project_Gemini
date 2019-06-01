@@ -6,6 +6,7 @@
 "use strict";
 
 // Constructor for movePlatform
+// game = reference to game
 // gameplay = reference to gameplay state
 // x, y = starting coordinates
 // key = sprite
