@@ -36,6 +36,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 	this.player1BAnchor = game.add.sprite(0, 100, "point");
 	this.player2BAnchor = game.add.sprite(100, 0, "point");
+	this.player1BAnchor.alpha = 0;
+	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
 
     this.modifyAnchor = function(anchorCat,otherCat){
