@@ -48,6 +48,8 @@ Load.prototype = {
 		game.load.image('Windows', 'img/bg/Windows.png');
 		game.load.image('Fences', 'img/bg/120 cloud puzzle.png');
 		game.load.image('Clouds', 'img/bg/120_cloud_puzzle2.png');
+		//Load in object sprites
+		game.load.image('redWindow', 'img/objects/120 red window.png');
 
 
 

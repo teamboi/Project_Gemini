@@ -75,6 +75,7 @@ Threads.prototype = {
         this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
         this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
         this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
 
         

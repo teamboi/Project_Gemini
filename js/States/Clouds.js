@@ -74,7 +74,7 @@ Clouds.prototype = {
      for(var i = 0; i < this.platforms.length; i++){
       this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
       
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
      }
 
         //Create the win state text
@@ -107,22 +107,7 @@ Clouds.prototype = {
         this.createPlatform(400,200,400,10);
        */ this.createPlatform(game.width/2, game.height/2, game.width, 1);
 
-        //Add in the yarn balls to act as player goals
-        this.yarnBall = game.add.sprite(744,400,'blueball');
-        this.yarnBall.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall);
-        this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
-        this.yarnBall2 = game.add.sprite(744,300,'redball');
-        this.yarnBall2.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2);
-        this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
+       
     },
     update: function(){
         //Check for player one's win state
@@ -130,10 +115,10 @@ Clouds.prototype = {
             this.complete = true;
             game.time.events.add(1000, this.fade, this);
         }
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
+        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
         }
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
+        if(Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;
         }
     },
@@ -160,6 +145,6 @@ Clouds.prototype = {
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
     }
 }

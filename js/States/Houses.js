@@ -74,7 +74,7 @@ Houses.prototype = {
      for(var i = 0; i < this.platforms.length; i++){
       this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
       
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
      }
 
         this.room = game.add.sprite(0,0,'Houses');
@@ -101,16 +101,18 @@ Houses.prototype = {
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(400,550,100,10);
-        this.createPlatform(500,450,100,10);
-        this.createPlatform(50,450,100,10);
-        this.createPlatform(50,200,100,10);
-        this.createPlatform(400,200,400,10);*/
+        this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
+      //  game.add.existing(this.fishBowl);
+        //game.physics.p2.enable(this.fishBowl);
+
+        this.flower = game.add.sprite(839, 299, 'flower');
+        //game.add.existing(this.flower);
+        //game.physics.p2.enable(this.flower);        
+
         this.createPlatform(game.width/2, game.height/2, game.width, 1);
 
         //Add in the yarn balls to act as player goals
-        this.yarnBall = game.add.sprite(811,402,'blueball');
+       /* this.yarnBall = game.add.sprite(811,402,'blueball');
         this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
@@ -124,7 +126,7 @@ Houses.prototype = {
         this.yarnBall2.body.data.gravityScale = -1;
         this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
+    */
     },
     update: function(){
         //Check for player one's win state
@@ -132,10 +134,10 @@ Houses.prototype = {
             this.complete = true;
             game.time.events.add(1000, this.fade, this);
         }
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
+        if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
         }
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
+        if(Phaser.Math.distance(this.flower.x, this.flower.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;
         }
     },
@@ -161,6 +163,6 @@ Houses.prototype = {
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
     }
 }

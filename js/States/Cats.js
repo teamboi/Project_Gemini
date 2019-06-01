@@ -122,14 +122,14 @@ Cats.prototype = {
 
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
-        game.add.existing(this.surrogate);
+        game.add.existing(this.surrogate);*/
 
-        this.newCloud = new MovePlatform(game, this, 200, 550, "cat2", 550, 400, "down", "cloud");
+        this.newCloud = new MovePlatform(game, this, 600, 450, "cat2", 450, 300, "down", "cloud");
         game.add.existing(this.newCloud);
 
         this.newCloud2 = new MovePlatform(game, this, 200, 200, "cat2", 200, 300, "up", "cloud");
         game.add.existing(this.newCloud2);
-
+/*
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);

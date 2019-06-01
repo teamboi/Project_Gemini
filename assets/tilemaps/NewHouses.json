@@ -3,7 +3,7 @@
  "layers":[
         {
          "id":2,
-         "image":"Houses.png",
+         "image":"..\/img\/bg\/Houses.png",
          "name":"Background",
          "opacity":1,
          "type":"imagelayer",
@@ -72,8 +72,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":811,
-                 "y":402
+                 "x":834,
+                 "y":428
                 }, 
                 {
                  "height":0,
@@ -84,8 +84,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":808,
-                 "y":312
+                 "x":839,
+                 "y":299
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -103,7 +103,7 @@
         {
          "columns":1,
          "firstgid":1,
-         "image":"Pixel3.png",
+         "image":"..\/img\/objects\/Pixel3.png",
          "imageheight":8,
          "imagewidth":8,
          "margin":0,
