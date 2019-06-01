@@ -107,7 +107,11 @@ Clouds.prototype = {
         this.createPlatform(400,200,400,10);
        */ this.createPlatform(game.width/2, game.height/2, game.width, 1);
 
-       
+        this.cloud1 = new MovePlatform(game, this, 450, 607, 'cat2', 607, 405, 'down', 'window');
+        game.add.existing(this.cloud1);
+
+        this.cloud2 = new MovePlatform(game, this, 450, 99, 'cat2', 99, 300, 'up', 'window');
+        game.add.existing(this.cloud2);
     },
     update: function(){
         //Check for player one's win state
@@ -115,10 +119,10 @@ Clouds.prototype = {
             this.complete = true;
             game.time.events.add(1000, this.fade, this);
         }
-        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+        if(this.cloud1.isMoving == 'locked'){
             this.oneWin = true;
         }
-        if(Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y) < 70){
+        if(this.cloud2.isMoving == 'locked'){
            this.twoWin = true;
         }
     },

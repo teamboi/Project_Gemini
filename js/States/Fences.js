@@ -134,7 +134,7 @@ Fences.prototype = {
     fade: function() {
 
     //  You can set your own fade color and duration
-    game.camera.fade(0x000000, 1000);
+        game.camera.fade(0x000000, 1000);
 
     },
     resetFade: function() {

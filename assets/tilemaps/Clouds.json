@@ -25,6 +25,89 @@
         }, 
         {
          "draworder":"topdown",
+         "id":5,
+         "name":"Goals",
+         "objects":[
+                {
+                 "height":0,
+                 "id":4,
+                 "name":"Goal1",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":451,
+                 "y":388.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":5,
+                 "name":"Cloud1Final",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":451,
+                 "y":405.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":6,
+                 "name":"Goal2",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":451.333333333333,
+                 "y":316.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"Cloud2Final",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":451.333333333333,
+                 "y":300.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"Cloud2Start",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":450,
+                 "y":607
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"Cloud2Start",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":451.333333333333,
+                 "y":99
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":4,
          "name":"Players",
          "objects":[
@@ -58,8 +141,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":3,
+ "nextlayerid":6,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",
