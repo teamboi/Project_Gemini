@@ -23,7 +23,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
 	this.platformType = platformType;
 
 	// Enable physics
-	game.physics.startSystem(Phaser.Physics.P2JS);
 	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
@@ -66,10 +65,10 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
 	var limiterCG = this.gameplay.limiterCollisionGroup;
 	var playerCG = this.gameplay.playerCollisionGroup;
 	var surrogateCG = this.gameplay.surrogateCollisionGroup;
-	var yarnBallCG = this.gameplay.yarnBallCollisionGroup
+	var objectCG = this.gameplay.objectCollisionGroup
 
 	this.body.setCollisionGroup(cloudCG);
-    this.body.collides([limiterCG, playerCG, surrogateCG, yarnBallCG]);
+    this.body.collides([limiterCG, playerCG, surrogateCG, objectCG]);
 
     this.min.body.setCollisionGroup(limiterCG);
     this.min.body.collides([cloudCG]);
