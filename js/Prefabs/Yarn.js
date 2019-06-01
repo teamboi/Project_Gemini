@@ -169,14 +169,18 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
     	var slackLength = this.tautLength - this.playerDist;
 
-    	if(slackLength < 5){
+    	var tautThreshold = 5;
+    	var slackThreshold = 100;
+    	var slackMaxValue = 50;
+
+    	if(slackLength < tautThreshold){
     		var handleOffsetMult = 0
     	}
-    	else if(slackLength < 100){
-    		var handleOffsetMult = (10/19)*slackLength - (50/19);
+    	else if(slackLength < slackThreshold){
+    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
     	}
     	else{
-    		var handleOffsetMult = 50;
+    		var handleOffsetMult = slackMaxValue;
     	}
 
     	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
