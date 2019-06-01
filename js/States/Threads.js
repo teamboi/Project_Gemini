@@ -103,10 +103,10 @@ Threads.prototype = {
         //this.room = game.add.sprite(0,-0.03,'backgroundInside');
         //this.room.scale.setTo(0.12,0.112);
         //Create the tutorial text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
 		this.oneWinText.anchor.set(0.5);
 		this.oneWinText.inputEnabled = true;
-		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
 		this.twoWinText.anchor.set(0.5);
 		this.twoWinText.inputEnabled = true;
 
