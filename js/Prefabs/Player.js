@@ -36,6 +36,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	if(whichPlayer == 1){
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
+		this.yarnColor = 0xFF0400;
 
 		this.body.setCollisionGroup(playerCG);
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
@@ -44,6 +45,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.controls = ['LEFT','RIGHT','UP','DOWN'];//,'COLON'];
 		this.jumpDirection = 'down';
+		this.yarnColor = 0x0008FF;
 
 		this.body.setCollisionGroup(playerCG);
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);

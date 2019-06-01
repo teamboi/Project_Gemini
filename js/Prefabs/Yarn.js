@@ -39,6 +39,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player1BAnchor.alpha = 0;
 	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
+	this.neutralColor = 0x9D00FF;
 
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
@@ -60,10 +61,9 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.updateYarn = function(){
 		// Only checks if the yarn is active
 		if(this.isYarn != true){
-			this.drawYarn("2", "#FF7070"); // Draw it as the inactive state
+			this.drawYarn("2", this.neutralColor); // Draw it as the inactive state
 			return;
 		}
-		this.drawYarn("4", "#FF3232"); // Draw it in the active state
 
 		// Obtains correct references to both cats
 		if(this.anchored == 1){
@@ -74,6 +74,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			var anchorCat = this.player2;
 			var otherCat = this.player1;
 		}
+
+		this.drawYarn("4", anchorCat.yarnColor); // Draw it in the active state
 
 		var tautDeadband = 3; // the margin of error to check beyond the taut length
 		var velDeadband = 10; // the margin of error to check for the velocity differences
