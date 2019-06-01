@@ -44,9 +44,10 @@ Windows.prototype = {
         this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
         this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
         this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
-
           //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
      // this.testLevel.setCollisionBetween([], true);
       this.testLevel.setCollisionByExclusion([]);
@@ -82,17 +83,11 @@ Windows.prototype = {
         // Add in the players
         this.player1 = new Player(game, this, 273, 682, "cat1", 1);
         game.add.existing(this.player1);
-        this.player1.body.setCollisionGroup(this.playerCollisionGroup);
-        this.player1.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
         this.player2 = new Player(game, this, 170, 164, "cat2", 2);
         game.add.existing(this.player2);
-        this.player2.body.setCollisionGroup(this.playerCollisionGroup);
-        this.player2.body.collides([this.playerCollisionGroup, this.platformCollisionGroup, this.yarnBallCollisionGroup]);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
-        this.surrogate.body.setCollisionGroup(this.surrogateCollisionGroup);
-        this.surrogate.body.collides([this.platformCollisionGroup, this.yarnBallCollisionGroup]);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
