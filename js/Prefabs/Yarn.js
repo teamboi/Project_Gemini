@@ -28,36 +28,15 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
 	this.tautLength = 0; // the max length players can be if the yarn is active
+	this.playerDist = 0;
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
 	this.isOnRoof = false; // boolean for if otherCat is on the roof
 	this.isTaut = false; // boolean for if the yarn is at its taut length // Currently unused
 	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
-	//this.yarnArray = [];
-	//this.yarnConstraintArray = [];
-
-	// Some initialize rope code taken from
-	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-	var me = this;
-
-    // Add bitmap data to draw the rope // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-    me.ropeBitmapData = game.add.bitmapData(me.game.world.width, me.game.world.height);
-
-    me.ropeBitmapData.ctx.beginPath();
-    me.ropeBitmapData.ctx.lineWidth = "4";
-    me.ropeBitmapData.ctx.strokeStyle = "#FF7070";
-    me.ropeBitmapData.ctx.stroke();
-
-    // Create a new sprite using the bitmap data
-    me.line = game.add.sprite(0, 0, me.ropeBitmapData);
-
-    // https://github.com/schteppe/p2.js/blob/master/demos/constraints.html
-    // https://phaser.io/examples/v2/p2-physics/chain
-
-    this.anchor1 = new YarnAnchor(game, this.gameplay, this.player1.body.x, this.player1.body.y, key, 1);
-    game.add.existing(this.anchor1);
-    this.anchor2 = new YarnAnchor(game, this.gameplay,  this.player2.body.x, this.player2.body.y, key, 2);
-    game.add.existing(this.anchor2);
+	this.player1BAnchor = game.add.sprite(0, 100, "point");
+	this.player2BAnchor = game.add.sprite(100, 0, "point");
+	this.bezierGraphics = game.add.graphics(0, 0);
 
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
@@ -68,60 +47,11 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.createYarn = function(anchorCat,otherCat){ // First cat will be the anchor
 		this.isYarn = true; // yarn is active
 
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
-		this.tautLength = dist; // Sets the taut length
+		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
+		this.tautLength = this.playerDist; // Sets the taut length
 
 		this.modifyAnchor(anchorCat,otherCat);
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
-
-		/*var lastRect;
-	    var rectHeight = 20;
-	    var rectWidth = 16;
-	    var maxForce = 20000;
-	    var numLinks = 2;
-
-		var playerXDiff = (this.player2.body.x - this.player1.body.x) / (numLinks+1);
-    	var playerYDiff = (this.player2.body.y - this.player1.body.y) / (numLinks+1);
-    	var linkLength = Phaser.Math.distance(0,0, playerXDiff, playerYDiff);
-
-		for(let i = 1; i <= numLinks; i++){
-	    	var x = this.player1.body.x + playerXDiff*i;
-	    	var y = this.player1.body.y + playerYDiff*i;
-
-	    	var newRect = game.add.sprite(x,y, 'ball', 1);
-	    	game.physics.p2.enable(newRect);
-	    	newRect.body.data.shapes[0].sensor = true;
-	    	newRect.body.data.gravityScale = 0;
-	    	newRect.body.fixedRotation = true;
-	    	this.yarnArray.push(newRect);
-
-	    	if(i === 1){
-	    		//var link = game.physics.p2.createRevoluteConstraint(this.anchor1.body, [0,0], newRect.body, [0,0], maxForce);
-	    		var link = game.physics.p2.createDistanceConstraint(this.anchor1.body, newRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
-	    		//var link = game.physics.p2.createSpring(this.anchor1.body, newRect.body, linkLength, 500,1);
-	    	}
-	    	else if(i === numLinks){
-				//var link = game.physics.p2.createRevoluteConstraint(lastRect.body, [0,0], newRect.body, [0,0], maxForce);
-				var link = game.physics.p2.createDistanceConstraint(lastRect.body, newRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
-				//var link = game.physics.p2.createSpring(newRect.body, lastRect.body, linkLength, 500, 1);
-				this.yarnConstraintArray.push(link);
-				//var link = game.physics.p2.createRevoluteConstraint(newRect.body, [0,0], this.anchor2.body, [0,0], maxForce);
-				var link = game.physics.p2.createDistanceConstraint(newRect.body, this.anchor2.body, linkLength, [0.5,0.5], [0.5,0.5]);
-				//var link = game.physics.p2.createSpring(newRect.body, this.anchor2.body, linkLength, 500, 1);
-	    	}
-	    	else{
-	    		//var link = game.physics.p2.createRevoluteConstraint(newRect.body, [0,0], lastRect.body, [0,0], maxForce);
-	    		var link = game.physics.p2.createDistanceConstraint(newRect.body, lastRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
-	    		//var link = game.physics.p2.createSpring(newRect.body, lastRect.body, linkLength, 500, 1);
-	    	}
-
-	    	this.yarnConstraintArray.push(link);
-
-	    	lastRect = newRect;
-	    }
-
-	    console.log(this.yarnArray);
-	    console.log(this.yarnConstraintArray);*/
 	}
 
 	// Updates the yarn if it is active
@@ -145,7 +75,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 		var tautDeadband = 3; // the margin of error to check beyond the taut length
 		var velDeadband = 10; // the margin of error to check for the velocity differences
-		var dist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
+		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
@@ -178,7 +108,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			}
 		}
 
-		if(dist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
+		if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 			this.isTaut = true;
 			if(constraint == null){ // if the constraint doesn't exist already, create a constraint
 				constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
@@ -207,6 +137,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.isYarn = false; // yarn is inactive
 		this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
+		this.tautLength = 0; // Resets the visual for the yarn
+
 		//If constraint does exist, remove it
 		if(constraint != null){
 			game.physics.p2.removeConstraint(constraint);
@@ -223,37 +155,57 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.player2.anchorState = "none";
 
 		this.surrogate.deactivateSurrogate();
-
-		/*for(let i = 0; i < this.yarnConstraintArray.length; i++){
-			game.physics.p2.removeConstraint(this.yarnConstraintArray[i]);
-			//game.physics.p2.removeSpring(this.yarnConstraintArray[i]);
-		}
-
-		for(let i = 0; i < this.yarnArray.length; i++){
-			this.yarnArray[i].destroy();
-		}
-		
-		this.yarnConstraintArray = [];
-		this.yarnArray = [];*/
 	}
 
 	// Draw yarn function taken from:
 	// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 	this.drawYarn = function(width, color){
-		var me = this;
+		var playerXDiff = (this.player2.body.x - this.player1.body.x)*.35;
+    	var playerYDiff = (this.player2.body.y - this.player1.body.y)*.35;
 
-	    // Change the bitmap data to reflect the new rope position
-	    me.ropeBitmapData.clear();
-	    me.ropeBitmapData.ctx.lineWidth = width;
-	    me.ropeBitmapData.ctx.strokeStyle = color;
-	    me.ropeBitmapData.ctx.beginPath();
-	    me.ropeBitmapData.ctx.beginPath();
-	    me.ropeBitmapData.ctx.moveTo(this.player1.x, this.player1.y);
-	    me.ropeBitmapData.ctx.lineTo(this.player2.x, this.player2.y);
-	    me.ropeBitmapData.ctx.lineWidth = 4;
-	    me.ropeBitmapData.ctx.stroke();
-	    me.ropeBitmapData.ctx.closePath();
-	    me.ropeBitmapData.render();
+    	var slackLength = this.tautLength - this.playerDist;
+
+    	if(slackLength < 5){
+    		var handleOffsetMult = 0
+    	}
+    	else if(slackLength < 100){
+    		var handleOffsetMult = (10/19)*slackLength - (50/19);
+    	}
+    	else{
+    		var handleOffsetMult = 50;
+    	}
+
+    	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
+    	var handleYOffset = Math.cos(this.yarnAngle)*handleOffsetMult;
+
+    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
+    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
+
+		this.updateDrag(width, color);
+	}
+
+	// https://www.emanueleferonato.com/2015/08/21/playing-with-phaser-tweens-and-bezier-curves/
+	this.updateDrag = function(width, color){
+		var pointsArray = [this.player1, this.player1BAnchor, this.player2BAnchor, this.player2]
+		this.bezierGraphics.clear();
+		this.bezierGraphics.lineStyle(width, color, 1);
+		this.bezierGraphics.moveTo(pointsArray[0].x, pointsArray[0].y);
+		for (var i=0; i<1; i+=0.01){
+			var p = this.bezierPoint(pointsArray[0], pointsArray[1], pointsArray[2], pointsArray[3], i);
+			this.bezierGraphics.lineTo(p.x, p.y);
+		}  
+	}
+
+	this.bezierPoint = function(p0, p1, p2, p3, t){
+		var cX = 3 * (p1.x - p0.x);
+		var bX = 3 * (p2.x - p1.x) - cX;
+		var aX = p3.x - p0.x - cX - bX;
+		var cY = 3 * (p1.y - p0.y);
+		var bY = 3 * (p2.y - p1.y) - cY;
+		var aY = p3.y - p0.y - cY - bY;
+		var x = (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0.x;
+		var y = (aY * Math.pow(t, 3)) + (bY * Math.pow(t, 2)) + (cY * t) + p0.y;
+		return {x: x, y: y};     
 	}
 }
 
