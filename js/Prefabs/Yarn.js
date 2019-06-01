@@ -33,6 +33,9 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.isTaut = false; // boolean for if the yarn is at its taut length // Currently unused
 	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
+	//this.yarnArray = [];
+	//this.yarnConstraintArray = [];
+
 	// Some initialize rope code taken from
 	// // https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 	var me = this;
@@ -48,6 +51,14 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
     // Create a new sprite using the bitmap data
     me.line = game.add.sprite(0, 0, me.ropeBitmapData);
 
+    // https://github.com/schteppe/p2.js/blob/master/demos/constraints.html
+    // https://phaser.io/examples/v2/p2-physics/chain
+
+    this.anchor1 = new YarnAnchor(game, this.gameplay, this.player1.body.x, this.player1.body.y, key, 1);
+    game.add.existing(this.anchor1);
+    this.anchor2 = new YarnAnchor(game, this.gameplay,  this.player2.body.x, this.player2.body.y, key, 2);
+    game.add.existing(this.anchor2);
+
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
 		otherCat.anchorState = "beingAnchored";
@@ -62,6 +73,55 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 		this.modifyAnchor(anchorCat,otherCat);
 		this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
+
+		/*var lastRect;
+	    var rectHeight = 20;
+	    var rectWidth = 16;
+	    var maxForce = 20000;
+	    var numLinks = 2;
+
+		var playerXDiff = (this.player2.body.x - this.player1.body.x) / (numLinks+1);
+    	var playerYDiff = (this.player2.body.y - this.player1.body.y) / (numLinks+1);
+    	var linkLength = Phaser.Math.distance(0,0, playerXDiff, playerYDiff);
+
+		for(let i = 1; i <= numLinks; i++){
+	    	var x = this.player1.body.x + playerXDiff*i;
+	    	var y = this.player1.body.y + playerYDiff*i;
+
+	    	var newRect = game.add.sprite(x,y, 'ball', 1);
+	    	game.physics.p2.enable(newRect);
+	    	newRect.body.data.shapes[0].sensor = true;
+	    	newRect.body.data.gravityScale = 0;
+	    	newRect.body.fixedRotation = true;
+	    	this.yarnArray.push(newRect);
+
+	    	if(i === 1){
+	    		//var link = game.physics.p2.createRevoluteConstraint(this.anchor1.body, [0,0], newRect.body, [0,0], maxForce);
+	    		var link = game.physics.p2.createDistanceConstraint(this.anchor1.body, newRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
+	    		//var link = game.physics.p2.createSpring(this.anchor1.body, newRect.body, linkLength, 500,1);
+	    	}
+	    	else if(i === numLinks){
+				//var link = game.physics.p2.createRevoluteConstraint(lastRect.body, [0,0], newRect.body, [0,0], maxForce);
+				var link = game.physics.p2.createDistanceConstraint(lastRect.body, newRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
+				//var link = game.physics.p2.createSpring(newRect.body, lastRect.body, linkLength, 500, 1);
+				this.yarnConstraintArray.push(link);
+				//var link = game.physics.p2.createRevoluteConstraint(newRect.body, [0,0], this.anchor2.body, [0,0], maxForce);
+				var link = game.physics.p2.createDistanceConstraint(newRect.body, this.anchor2.body, linkLength, [0.5,0.5], [0.5,0.5]);
+				//var link = game.physics.p2.createSpring(newRect.body, this.anchor2.body, linkLength, 500, 1);
+	    	}
+	    	else{
+	    		//var link = game.physics.p2.createRevoluteConstraint(newRect.body, [0,0], lastRect.body, [0,0], maxForce);
+	    		var link = game.physics.p2.createDistanceConstraint(newRect.body, lastRect.body, linkLength, [0.5,0.5], [0.5,0.5]);
+	    		//var link = game.physics.p2.createSpring(newRect.body, lastRect.body, linkLength, 500, 1);
+	    	}
+
+	    	this.yarnConstraintArray.push(link);
+
+	    	lastRect = newRect;
+	    }
+
+	    console.log(this.yarnArray);
+	    console.log(this.yarnConstraintArray);*/
 	}
 
 	// Updates the yarn if it is active
@@ -97,7 +157,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 			this.isOnRoof = true;
 		}
-		else if(this.isOnRoof == true && !otherCat.checkIfOnRoof()){
+		else if( this.isOnRoof == true && ( !otherCat.checkIfOnRoof() || anchorCat.checkIfCanJump() ) ){
 			this.modifyAnchor(anchorCat,otherCat);
 			otherCat.body.data.gravityScale *= -1;
 
@@ -163,6 +223,18 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.player2.anchorState = "none";
 
 		this.surrogate.deactivateSurrogate();
+
+		/*for(let i = 0; i < this.yarnConstraintArray.length; i++){
+			game.physics.p2.removeConstraint(this.yarnConstraintArray[i]);
+			//game.physics.p2.removeSpring(this.yarnConstraintArray[i]);
+		}
+
+		for(let i = 0; i < this.yarnArray.length; i++){
+			this.yarnArray[i].destroy();
+		}
+		
+		this.yarnConstraintArray = [];
+		this.yarnArray = [];*/
 	}
 
 	// Draw yarn function taken from:
