@@ -10,6 +10,10 @@ Clouds.prototype = {
     init: function(ost){
         // initialize variables for win conditions
         this.ost = ost;
+        this.oneCanWin = false;
+        this.twoCanWin = false;
+        this.canWin = false;
+
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -95,19 +99,35 @@ Clouds.prototype = {
 
         this.cloud2 = new MovePlatform(game, this, 450, 99, 'cat2', 99, 300, 'up', 'window');
         game.add.existing(this.cloud2);
+
+        this.fishBowl = game.add.sprite(450, 405, 'fishbowl'); 
+      //  game.add.existing(this.fishBowl);
+        //game.physics.p2.enable(this.fishBowl);
+
+        this.flower = game.add.sprite(450, 300, 'flower');
     },
     update: function(){
         //Check for player one's win state
         if(this.oneWin == true && this.twoWin == true && this.complete == false) {
             this.complete = true;
-            game.time.events.add(1000, this.fade, this);
+            game.time.events.add(2000, this.fade, this);
         }
         if(this.cloud1.isMoving == 'locked'){
-            this.oneWin = true;
+            this.oneCanWin = true;
         }
         if(this.cloud2.isMoving == 'locked'){
-           this.twoWin = true;
+           this.twoCanWin = true;
         }
+
+        if(this.oneCanWin == true && this.twoCanWin == true) {
+            if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70){
+                this.oneWin = true;
+            }
+            if(Phaser.Math.distance(this.flower.x, this.flower.y, this.player2.x, this.player2.y) < 70){
+               this.twoWin = true;
+            }
+        }
+
     },
 
     fade: function() {
