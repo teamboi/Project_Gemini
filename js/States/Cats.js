@@ -31,6 +31,9 @@ Cats.prototype = {
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
+
+        // Call the background image
+        this.room = game.add.sprite(0,0,'Cats');
       
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 1);
@@ -117,8 +120,7 @@ Cats.prototype = {
 
         // Load in the platforms layer
         this.bgLayer = this.testLevel.createLayer('Platforms');
-        // Call the background image
-        this.room = game.add.sprite(0,0,'Cats');
+        
         // Just for safety
         this.bgLayer.resizeWorld();
        
