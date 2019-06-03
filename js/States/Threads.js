@@ -9,7 +9,6 @@ Threads.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
-		this.timer = 0;
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
@@ -26,75 +25,14 @@ Threads.prototype = {
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0x000000, 2000);
 
-        this.room = game.add.sprite(0,0,'backgroundPlain');
         this.narrate = game.add.audio('twoIntro');
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 1;
-       // this.room.scale.setTo(0.12,0.112);
-      //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('levelTwo');
-        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-       // this.newTest = this.game.add.tilemap('House');
-        //this.newTest.addTilesetImage('pixel3', 'mapTiles');
 
-
-        //this.testLevel.setCollisionByExclusion([]);
-       // this.newLayer = this.newTest.createLayer('Platforms');
-        this.bgLayer = this.testLevel.createLayer('Platforms');
-
-        this.bgLayer.resizeWorld();
-
-        
-        //this.testLevel.setCollisionBetween(1, 3000);
-
-    //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
-    //  This call returns an array of body objects which you can perform addition actions on if
-    //  required. There is also a parameter to control optimising the map build.
-       
-        //Instantiate the collision groups for the objects can interact
-        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
-        game.physics.p2.updateBoundsCollisionGroup();
-
-        
-        //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
-     // this.testLevel.setCollisionBetween([], true);
-      this.testLevel.setCollisionByExclusion([]);
-      this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-     // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
-      console.log(this.platforms);
-     // game.add.existing(this.platforms[0]);
-     for(var i = 0; i < this.platforms.length; i++){
-      this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-      
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
-     }
-     console.log(this.testLevel.objects[0]);
-      
-
-      //convertCollisionObjects(map, layer, addToWorld) 
-
-        //Begin this level's music
-        /*this.beats = game.add.audio('beats');
-		this.beats.play('', 0, 1, true);	
-        this.narrate = game.add.audio('narrate');
-        this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;*/
-		//Add in the background sprite
-        //this.room = game.add.sprite(0,-0.03,'backgroundInside');
-        //this.room.scale.setTo(0.12,0.112);
+        //For when we create a tileset
+        this.createPlatforms();
         //Create the tutorial text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
-		this.oneWinText.anchor.set(0.5);
-		this.oneWinText.inputEnabled = true;
-		this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
-		this.twoWinText.anchor.set(0.5);
-		this.twoWinText.inputEnabled = true;
+        this.tutorialText();
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 400, 400, "cat1", 1);
@@ -108,13 +46,6 @@ Threads.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
-
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(380,530,120,10);
-        this.createPlatform(290,405,80,10);
-        this.createPlatform(90,155,130,10);
-        this.createPlatform(410,250,300,10);*/
-        //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
 
         //Add the yarnballs for a little fun
         this.yarnBall = game.add.sprite(600,70,'redball');
@@ -145,26 +76,14 @@ Threads.prototype = {
         }
         if(game.math.difference(this.player2.body.y, 100) < 100) {
             this.twoWinText.setText("Hold on to the other cat and let them swing", true);
-        } // Just using a hardcoded timer for now to let players learn the controls
+        } 
 		
 		//Display text for level switching instructions
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
 			this.complete = true;
             game.time.events.add(1000, this.fade, this);
 		}
-		//Let the players decide when they want to move onto the puzzle
-		/*if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {//} && this.timer > 200){
-			this.beats.destroy(); // Kill the music
-			game.state.start('Houses', true, false); // Change state to level 2
-		}*/
-	
-		//Display the thread instructions after a while
-		/*if(this.timer > 100 & this.timer < 200){
-            this.oneWinText.setText("Press S to hold the Thread", true);
-        }
-        if(this.timer > 100){
-           this.twoWinText.setText("Press Down to hold the Thread", true);
-        }*/
+		
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
         }
@@ -173,31 +92,59 @@ Threads.prototype = {
         }
 
 	},
-    shutdown: function() {
-        
-    },
     fade: function() {
 
-    //  You can set your own fade color and duration
-    game.camera.fade(0x000000, 2000);
-    this.ost.fadeOut(2000);
-
+        //  You can set your own fade color and duration
+        game.camera.fade(0x000000, 2000);
+        this.ost.fadeOut(2000);
     },
     resetFade: function() {
         game.state.start('Separate', true, false);
-        //game.camera.resetFX();
-        
-
     },
 
 	//Function to manually create the platforms
-    createPlatform: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'bluePlat');
-      	platform.scale.setTo(0.08,0.08);
-        game.physics.p2.enable(platform, true);
-        platform.body.setRectangle(width,height, 0, 0, 0);
-        platform.body.static = true; // SO the platforms aren't affected by outside forces
-        platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+    createPlatforms: function() {
+
+        this.room = game.add.sprite(0,0,'backgroundPlain');
+
+        this.testLevel = this.game.add.tilemap('levelTwo');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+
+        // Load in the platforms layer
+        this.bgLayer = this.testLevel.createLayer('Platforms');
+        // Call the background image
+        //this.room = game.add.sprite(0,0,'Cats');
+        // Just for safety
+        this.bgLayer.resizeWorld();
+       
+        //Instantiate the collision groups for the objects can interact
+        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.yarnBallCollisionGroup = game.physics.p2.createCollisionGroup();
+        game.physics.p2.updateBoundsCollisionGroup();
+
+        
+        //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+        //  This call returns an array of body objects which you can perform addition actions on if
+        //  required. There is also a parameter to control optimising the map build.
+        this.testLevel.setCollisionByExclusion([]);
+        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+        for(var i = 0; i < this.platforms.length; i++){
+            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
+        }
+        console.log(this.testLevel.objects[0]);
+    },
+    tutorialText: function() {
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+        this.oneWinText.anchor.set(0.5);
+        this.oneWinText.inputEnabled = true;
+        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+        this.twoWinText.anchor.set(0.5);
+        this.twoWinText.inputEnabled = true;
     }
 }

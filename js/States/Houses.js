@@ -65,7 +65,7 @@ Houses.prototype = {
         //game.physics.p2.enable(this.fishBowl);
 
         this.flower = game.add.sprite(839, 299, 'flower');
-        
+
         this.room = game.add.sprite(0,0,'Houses');
         //Instantiate the music for this level
        
@@ -89,29 +89,10 @@ Houses.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
-
-        
-        //game.add.existing(this.flower);
-        //game.physics.p2.enable(this.flower);        
+   
 
         this.createPlatform(game.width/2, game.height/2, game.width, 1);
 
-        //Add in the yarn balls to act as player goals
-       /* this.yarnBall = game.add.sprite(811,402,'blueball');
-        this.yarnBall.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall);
-        this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
-        this.yarnBall2 = game.add.sprite(811,312,'redball');
-        this.yarnBall2.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2);
-        this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-    */
     },
     update: function(){
         //Check for player one's win state
@@ -142,8 +123,9 @@ Houses.prototype = {
 
     //Helper function to create platforms the old fashion way
     createPlatform: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'bluePlat');
-        platform.scale.setTo(0.08,0.08);
+        var platform = game.add.sprite(x,y, 'line');
+        platform.anchor.setTo(0.5,0.5);
+        //platform.scale.setTo(0.08,0.08);
         game.physics.p2.enable(platform, true);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

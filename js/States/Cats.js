@@ -9,7 +9,6 @@ Cats.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
-		this.timer = 0;
         this.introPlaying = false;
         this.outroPlaying = false;
         this.showExit = false;
@@ -26,63 +25,13 @@ Cats.prototype = {
 
         // Fade into the scene
         game.camera.flash(0x000000, 2000);
-        // 
+        // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
         this.space.onDown.add(this.fade, this);
 
-        //this.room = game.add.sprite(0,0,'Cats');
-       // this.room.scale.setTo(0.12,0.112);
-      //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('levelOne');
-        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-
-
-        //this.testLevel.setCollisionByExclusion([]);
-       // this.newLayer = this.newTest.createLayer('Platforms');
-        this.bgLayer = this.testLevel.createLayer('Platforms');
-        this.room = game.add.sprite(0,0,'Cats');
-        this.bgLayer.resizeWorld();
-
-
-    //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
-    //  This call returns an array of body objects which you can perform addition actions on if
-    //  required. There is also a parameter to control optimising the map build.
-       
-        //Instantiate the collision groups for the objects can interact
-        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
-        game.physics.p2.updateBoundsCollisionGroup();
-
-        
-
-        this.testLevel.setCollisionByExclusion([]);
-        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-        console.log(this.platforms);
-        // game.add.existing(this.platforms[0]);
-        for(var i = 0; i < this.platforms.length; i++){
-            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+        // Call the loaded in tilemap assets
+        this.createPlatforms();
       
-            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
-        }
-        console.log(this.testLevel.objects[0]);
-      
-
-        //convertCollisionObjects(map, layer, addToWorld) 
-
-        //Begin this level's music
-        /*this.beats = game.add.audio('beats');
-		this.beats.play('', 0, 1, true);	
-        this.narrate = game.add.audio('narrate');
-        this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;*/
-		//Add in the background sprite
-        //this.room = game.add.sprite(0,-0.03,'backgroundInside');
-        //this.room.scale.setTo(0.12,0.112);
-
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 1);
         game.add.existing(this.player1);
@@ -91,19 +40,7 @@ Cats.prototype = {
         game.add.existing(this.player2);
 
         //Create the tutorial text
-        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y, 'A          D', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
-        this.p1Controls.anchor.set(0.5);
-        this.p1Controls.inputEnabled = true;
-        this.p1ControlsPosition = this.p1Controls.worldPosition;
-        
-        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y, '🡨          🡪', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
-        this.p2Controls.anchor.set(0.5);
-        this.p2Controls.inputEnabled = true;
-        this.p2ControlsPosition = this.p2Controls.worldPosition;
-
-        this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
-        this.exit.anchor.set(0.5);
-        this.exit.inputEnabled = true;
+        this.tutorialText();
 
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
@@ -173,21 +110,52 @@ Cats.prototype = {
         
 
     },
-    /*flash: function() {
-
-    //  You can set your own flash color and duration
-    game.camera.flash(0x000000, 2000);
-
-    },*/
-
 	//Function to manually create the platforms
-    createPlatform: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'bluePlat');
-      	platform.scale.setTo(0.08,0.08);
-        game.physics.p2.enable(platform, true);
-        platform.body.setRectangle(width,height, 0, 0, 0);
-        platform.body.static = true; // SO the platforms aren't affected by outside forces
-        platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+    createPlatforms: function(){
+        this.testLevel = this.game.add.tilemap('levelOne');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+
+        // Load in the platforms layer
+        this.bgLayer = this.testLevel.createLayer('Platforms');
+        // Call the background image
+        this.room = game.add.sprite(0,0,'Cats');
+        // Just for safety
+        this.bgLayer.resizeWorld();
+       
+        //Instantiate the collision groups for the objects can interact
+        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
+        game.physics.p2.updateBoundsCollisionGroup();
+
+        
+        //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+        //  This call returns an array of body objects which you can perform addition actions on if
+        //  required. There is also a parameter to control optimising the map build.
+        this.testLevel.setCollisionByExclusion([]);
+        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+        for(var i = 0; i < this.platforms.length; i++){
+            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
+        }
+        console.log(this.testLevel.objects[0]);
+    },
+    tutorialText: function() {
+        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y, 'A          D', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
+        this.p1Controls.anchor.set(0.5);
+        this.p1Controls.inputEnabled = true;
+        this.p1ControlsPosition = this.p1Controls.worldPosition;
+        
+        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y, '🡨          🡪', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
+        this.p2Controls.anchor.set(0.5);
+        this.p2Controls.inputEnabled = true;
+        this.p2ControlsPosition = this.p2Controls.worldPosition;
+
+        this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
+        this.exit.anchor.set(0.5);
+        this.exit.inputEnabled = true;
     }
 }

@@ -51,6 +51,7 @@ Load.prototype = {
 		game.load.image('Clouds', 'img/bg/120_cloud_puzzle2.png');
 		//Load in object sprites
 		game.load.image('redWindow', 'img/objects/120 red window.png');
+		game.load.image('line', 'img/bg/line.png');
 
 
 
