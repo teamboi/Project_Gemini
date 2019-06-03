@@ -134,7 +134,18 @@ Threads.prototype = {
 
 	},
 	update: function(){
-		this.timer += 0.05; // Just using a hardcoded timer for now to let players learn the controls
+		if(game.math.difference(this.player1.body.y, game.height-100) < 100) {
+            this.oneWinText.setText("Give each cat their color ball of string", true);
+            if(!this.outroPlaying) {
+                this.outroPlaying = true;
+                this.narrate = game.add.audio('twoOutro');
+                this.narrate.play('', 0, 1, false);
+                this.narrate.volume = 1;
+            }
+        }
+        if(game.math.difference(this.player2.body.y, 100) < 100) {
+            this.twoWinText.setText("Hold on to the other cat and let them swing", true);
+        } // Just using a hardcoded timer for now to let players learn the controls
 		
 		//Display text for level switching instructions
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
@@ -156,12 +167,6 @@ Threads.prototype = {
         }*/
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
-            if(!this.outroPlaying) {
-                this.outroPlaying = true;
-                this.narrate = game.add.audio('twoOutro');
-                this.narrate.play('', 0, 1, false);
-                this.narrate.volume = 1;
-            }
         }
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;

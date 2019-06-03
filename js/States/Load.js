@@ -44,6 +44,7 @@ Load.prototype = {
         game.load.image('bluePlat', 'img/objects/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/bg/background.png');
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
+        game.load.image('Cats', 'img/bg/adoption_center floor_bg_2.png');
 		game.load.image('Houses', 'img/bg/Houses.png');
 		game.load.image('Windows', 'img/bg/Windows.png');
 		game.load.image('Fences', 'img/bg/120 cloud puzzle.png');

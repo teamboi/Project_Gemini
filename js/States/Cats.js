@@ -12,37 +12,37 @@ Cats.prototype = {
 		this.timer = 0;
         this.introPlaying = false;
         this.outroPlaying = false;
+        this.showExit = false;
 	},
 	create: function(){
-        //this.ost.volume = 0.1;
+
         //  Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        // Check for spacebar input
         this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+        // Fade into the scene
+        game.camera.flash(0x000000, 2000);
+        // 
         game.camera.onFadeComplete.add(this.resetFade, this);
         this.space.onDown.add(this.fade, this);
-        game.camera.flash(0x000000, 2000);
 
-        this.room = game.add.sprite(0,0,'backgroundPlain');
+        //this.room = game.add.sprite(0,0,'Cats');
        // this.room.scale.setTo(0.12,0.112);
       //For when we create a tileset
         this.testLevel = this.game.add.tilemap('levelOne');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-       // this.newTest = this.game.add.tilemap('House');
-        //this.newTest.addTilesetImage('pixel3', 'mapTiles');
 
 
         //this.testLevel.setCollisionByExclusion([]);
        // this.newLayer = this.newTest.createLayer('Platforms');
         this.bgLayer = this.testLevel.createLayer('Platforms');
-
+        this.room = game.add.sprite(0,0,'Cats');
         this.bgLayer.resizeWorld();
 
-        
-        //this.testLevel.setCollisionBetween(1, 3000);
 
     //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
     //  This call returns an array of body objects which you can perform addition actions on if
@@ -58,11 +58,9 @@ Cats.prototype = {
         game.physics.p2.updateBoundsCollisionGroup();
 
         
-        //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
-        // this.testLevel.setCollisionBetween([], true);
+
         this.testLevel.setCollisionByExclusion([]);
         this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-        // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
         console.log(this.platforms);
         // game.add.existing(this.platforms[0]);
         for(var i = 0; i < this.platforms.length; i++){
@@ -103,11 +101,15 @@ Cats.prototype = {
         this.p2Controls.inputEnabled = true;
         this.p2ControlsPosition = this.p2Controls.worldPosition;
 
+        this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
+        this.exit.anchor.set(0.5);
+        this.exit.inputEnabled = true;
+
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);*/
 
-        this.newCloud = new MovePlatform(game, this, 600, 450, "cat2", 450, 300, "down", "cloud");
+       /* this.newCloud = new MovePlatform(game, this, 600, 450, "cat2", 450, 300, "down", "cloud");
         game.add.existing(this.newCloud);
 
         this.newCloud2 = new MovePlatform(game, this, 200, 200, "cat2", 200, 300, "up", "cloud");
@@ -115,7 +117,7 @@ Cats.prototype = {
 /*
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
+        game.add.existing(this.yarn);*/
 
         // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
        /* this.createPlatform(380,530,120,10);
@@ -132,21 +134,14 @@ Cats.prototype = {
         this.yarnBall.body.setCollisionGroup(this.objectCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.yarnBall2 = game.add.sprite(400,500,'blueball');
-       	this.yarnBall2.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2, true);
-        this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.objectCollisionGroup);
-        this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 */
 	},
 	update: function(){
         
         if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
             this.p1Controls.setText("W", true);
-            this.p1Controls.x = 246;
-            this.p1Controls.y = 440;
+            this.p1Controls.x = 668;
+            this.p1Controls.y = 410;
             if(!this.outroPlaying) {
                 this.outroPlaying = true;
                 this.narrate = game.add.audio('oneOutro');
@@ -157,8 +152,12 @@ Cats.prototype = {
         }
         if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
             this.p2Controls.setText("🡫", true);
-            this.p2Controls.x = 678;
+            this.p2Controls.x = 200;
             this.p2Controls.y = 282;
+            this.showExit = true;
+        }
+        if(this.showExit == true && this.outroPlaying == true) {
+           // this.exit.setText("Press SPACE for more.", true);
         }
 
 	},

@@ -60,6 +60,12 @@ Houses.prototype = {
       this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
      }
 
+        this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
+      //  game.add.existing(this.fishBowl);
+        //game.physics.p2.enable(this.fishBowl);
+
+        this.flower = game.add.sprite(839, 299, 'flower');
+        
         this.room = game.add.sprite(0,0,'Houses');
         //Instantiate the music for this level
        
@@ -84,11 +90,7 @@ Houses.prototype = {
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
-        this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
-      //  game.add.existing(this.fishBowl);
-        //game.physics.p2.enable(this.fishBowl);
-
-        this.flower = game.add.sprite(839, 299, 'flower');
+        
         //game.add.existing(this.flower);
         //game.physics.p2.enable(this.flower);        
 
