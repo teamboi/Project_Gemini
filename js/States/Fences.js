@@ -32,7 +32,7 @@ Fences.prototype = {
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
-
+        this.room = game.add.sprite(0,0,'Fences');
         this.bgLayer = this.testLevel.createLayer('Platforms');
 
         this.bgLayer.resizeWorld();
@@ -63,7 +63,7 @@ Fences.prototype = {
         this.fishBowl = game.add.sprite(79, 404, 'fishbowl');
         this.flower = game.add.sprite(79, 304, 'flower');
 
-        this.room = game.add.sprite(0,0,'Fences');
+        
         //Add the background image
 
 
@@ -79,7 +79,7 @@ Fences.prototype = {
         this.player1 = new Player(game, this, 853, 596, "cat1", 1);
         game.add.existing(this.player1);
 
-        this.player2 = new Player(game, this, 32, 200, "cat2", 2);
+        this.player2 = new Player(game, this, 808, 257, "cat2", 2);
         game.add.existing(this.player2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
@@ -89,15 +89,14 @@ Fences.prototype = {
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(400,550,100,10);
-        this.createPlatform(500,450,100,10);
-        this.createPlatform(50,450,100,10);
-        this.createPlatform(50,200,100,10);
-        this.createPlatform(400,200,400,10);
-       */ this.createPlatform(game.width/2, game.height/2, game.width, 1);
+ 
+        this.createPlatform(game.width/2, game.height/2, game.width, 1);
 
-        
+        this.cloud1 = new MovePlatform(game, this, 836, 535, 'cat2', 535, 405, 'down', 'window');
+        game.add.existing(this.cloud1);
+
+        this.cloud2 = new MovePlatform(game, this, 234, 114, 'cat2', 114, 200, 'up', 'window');
+        game.add.existing(this.cloud2);
 
     },
     update: function(){

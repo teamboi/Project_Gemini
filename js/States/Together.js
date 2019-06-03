@@ -47,12 +47,11 @@ Together.prototype = {
         this.narrate.volume = 0.35;
 	},
 	fade: function() {
-	    //  You can set your own fade color and duration
+	    // You can set your own fade color and duration
 	    game.camera.fade(0x000000, 2000);
-
 	},
 	resetFade: function() {
-		// Once the fade is complete, begin level one
+		// Once the fade is complete, begin Chapter 1
 		game.state.start('Cats', true, false, this.ost);
 	}
 };

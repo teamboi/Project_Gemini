@@ -30,8 +30,10 @@ Load.prototype = {
 		game.load.image('title', 'img/cats/title.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
 
-		game.load.image('redball', 'img/cats/redYarn.png');
-		game.load.image('blueball', 'img/cats/blueYarn.png');
+		game.load.image('redBall', 'img/cats/redYarn.png');
+		game.load.image('blueBall', 'img/cats/blueYarn.png');
+		game.load.image('purpBall', 'img/cats/purpleYarn.png');
+		
 		//Once we have a tilemap, we'll load it in
         //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
         //game.load.tilemap('testLevel','img/ProjectGeminiTest.json', null, Phaser.Tilemap.TILED_JSON);
