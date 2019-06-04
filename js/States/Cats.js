@@ -34,7 +34,12 @@ Cats.prototype = {
 
         // Call the background image
         this.room = game.add.sprite(0,0,'Cats');
-      
+
+
+        //convertCollisionObjects(map, layer, addToWorld) 
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 1);
         game.add.existing(this.player1);

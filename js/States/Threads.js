@@ -64,6 +64,8 @@ Threads.prototype = {
         this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
+        this.dialog = new DialogManager(game, 'blueball');
+        game.add.existing(this.dialog);
 	},
 	update: function(){
 		if(game.math.difference(this.player1.body.y, game.height-100) < 100) {
