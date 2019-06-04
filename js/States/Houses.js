@@ -26,13 +26,13 @@ Houses.prototype = {
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
-        
+
         // Add the level objectives
         this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
         this.flower = game.add.sprite(839, 299, 'flower');
 
         // Call the background image
-        this.room = game.add.sprite(0,0,'Houses');
+       // this.room = game.add.sprite(0,0,'Houses');
         // Add in objective glow
         this.glow();
       
@@ -100,10 +100,14 @@ Houses.prototype = {
     //Helper function to create platforms the old fashion way
     createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelThree');
+        this.visuals = this.game.add.tilemap('levelThreeVis');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+        this.visuals.addTilesetImage('Objects', 'visuals');
+
 
         // Load in the platforms layer
         this.bgLayer = this.testLevel.createLayer('Platforms');
+        this.visuals.createLayer('Tiles');
         
         // Just for safety
         this.bgLayer.resizeWorld();

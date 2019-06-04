@@ -60,10 +60,14 @@ Load.prototype = {
         game.load.tilemap('levelOne','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelTwo','tilemaps/NewTutorial.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelThree','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelThreeVis','tilemaps/Houses_Visual.json', null, Phaser.Tilemap.TILED_JSON);
+        
         game.load.tilemap('levelFour','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelFive','tilemaps/Fences.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelSix','tilemaps/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
+		game.load.spritesheet('visuals', 'tilesets/120_tileset.png', 32, 32);
+3
 
 
 		// align the game to be centered in the window
