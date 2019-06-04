@@ -2,11 +2,12 @@
 "use strict";
 
 // Constructor for LevelManager
-function TextBubble(game, key, x, y, text){
+function TextBubble(game, key, x, y, width, text){
 	Phaser.Sprite.call(this, game, 0, 0, key);
 
 	//this.text = text;
-	this.text = game.add.text(x, y, text, {font: 'Impact', fontSize: '27px', fill: '#FF7373', wordWrap: true, wordWrapWidth: 250});
+	var style = {font: 'Impact', fontSize: '27px', fill: '#FF7373', align: "center", wordWrap: true, wordWrapWidth: width};
+	this.text = game.add.text(x, y, text, style);
 	this.alpha = 0;
 	this.text.alpha = 0;
 

@@ -33,7 +33,7 @@ function DialogManager(game, key){
 			this.intro.fadeOut();
 		}
 
-		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["text"]);
+		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"]);
 
 		return currentText;
 	}
