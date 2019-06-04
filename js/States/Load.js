@@ -49,7 +49,7 @@ Load.prototype = {
         game.load.image('Cats', 'img/bg/adoption_center floor_bg_2.png');
         game.load.image('Threads', 'img/bg/adoption center bg.png');
 		game.load.image('Houses', 'img/bg/new_Houses.png');
-		game.load.image('Windows', 'img/bg/Windows.png');
+		game.load.image('Windows', 'img/bg/new_Windows.png');
 		game.load.image('Fences', 'img/bg/120 cloud puzzle.png');
 		game.load.image('Clouds', 'img/bg/120_cloud_puzzle2.png');
 		//Load in object sprites
