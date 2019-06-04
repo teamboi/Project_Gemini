@@ -31,13 +31,14 @@ Threads.prototype = {
 
         //For when we create a tileset
         this.createPlatforms();
+        this.room = game.add.sprite(0,0,'Cats');
         //Create the tutorial text
         this.tutorialText();
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 400, 400, "cat1", 1);
+        this.player1 = new Player(game, this, 450, 400, "cat1", 1);
         game.add.existing(this.player1);
-        this.player2 = new Player(game, this, 400, 320, "cat2", 2);
+        this.player2 = new Player(game, this, 460, 320, "cat2", 2);
         game.add.existing(this.player2);
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
@@ -48,14 +49,14 @@ Threads.prototype = {
         game.add.existing(this.yarn);
 
         //Add the yarnballs for a little fun
-        this.yarnBall = game.add.sprite(600,70,'redball');
+        this.yarnBall = game.add.sprite(700,320,'redBall');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
         this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.yarnBall2 = game.add.sprite(400,500,'blueball');
+        this.yarnBall2 = game.add.sprite(300,400,'blueBall');
        	this.yarnBall2.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall2);
         game.physics.p2.enable(this.yarnBall2);
@@ -105,9 +106,7 @@ Threads.prototype = {
 	//Function to manually create the platforms
     createPlatforms: function() {
 
-        this.room = game.add.sprite(0,0,'backgroundPlain');
-
-        this.testLevel = this.game.add.tilemap('levelTwo');
+        this.testLevel = this.game.add.tilemap('levelOne');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         // Load in the platforms layer
@@ -135,7 +134,7 @@ Threads.prototype = {
         this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
         for(var i = 0; i < this.platforms.length; i++){
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup, this.yarnBallCollisionGroup]);
         }
         console.log(this.testLevel.objects[0]);
     },

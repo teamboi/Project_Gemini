@@ -21,6 +21,7 @@ Houses.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0x000000, 2000);
 
@@ -31,8 +32,9 @@ Houses.prototype = {
         this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
         this.flower = game.add.sprite(839, 299, 'flower');
 
-        // Call the background image
-       // this.room = game.add.sprite(0,0,'Houses');
+        // Call the background sprite
+        this.room = game.add.sprite(0,0,'Houses');
+
         // Add in objective glow
         this.glow();
       
@@ -100,14 +102,14 @@ Houses.prototype = {
     //Helper function to create platforms the old fashion way
     createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelThree');
-        this.visuals = this.game.add.tilemap('levelThreeVis');
+        //this.visuals = this.game.add.tilemap('levelThreeVis');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-        this.visuals.addTilesetImage('Objects', 'visuals');
+        //this.visuals.addTilesetImage('Objects', 'visuals');
 
 
         // Load in the platforms layer
         this.bgLayer = this.testLevel.createLayer('Platforms');
-        this.visuals.createLayer('Tiles');
+        //this.visuals.createLayer('Tiles');
         
         // Just for safety
         this.bgLayer.resizeWorld();
