@@ -12,6 +12,7 @@ Cats.prototype = {
         this.introPlaying = false;
         this.outroPlaying = false;
         this.showExit = false;
+        this.complete = false;
 	},
 	create: function(){
 
@@ -24,7 +25,7 @@ Cats.prototype = {
         this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         // Fade into the scene
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
         this.space.onDown.add(this.fade, this);
@@ -46,6 +47,8 @@ Cats.prototype = {
 
         this.player2 = new Player(game, this, 818, 199, "cat2", 2);
         game.add.existing(this.player2);
+
+        this.glow();
 
         //Create the tutorial text
         this.tutorialText();
@@ -83,10 +86,14 @@ Cats.prototype = {
 	},
 	update: function(){
         
+        this.p1Controls.x = this.player1.x;
+        this.p1Controls.y = this.player1.y;
+        
+        this.p2Controls.x = this.player2.x;
+        this.p2Controls.y = this.player2.y;
+
         if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
             this.p1Controls.setText("W", true);
-            this.p1Controls.x = 668;
-            this.p1Controls.y = 410;
             if(!this.outroPlaying) {
                 this.outroPlaying = true;
                 this.narrate = game.add.audio('oneOutro');
@@ -96,19 +103,33 @@ Cats.prototype = {
         }
         if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
             this.p2Controls.setText("🡫", true);
-            this.p2Controls.x = 200;
-            this.p2Controls.y = 282;
             this.showExit = true;
         }
-        if(this.showExit == true && this.outroPlaying == true) {
+        if(this.complete == true && this.outroPlaying == true) {
             game.time.events.add(1000, this.exitText, this);
+        }
+        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+            this.complete = true;
+            game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.redGlow.x = (this.player1.x + this.player2.x)/2;
+            this.redGlow.y = (this.player1.y + this.player2.y)/2;
+        }
+        else { 
+            this.complete = false;
+            game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
 
 	},
+    glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.alpha = 0;
+    },
     fade: function() {
 
     //  You can set your own fade color and duration
-    game.camera.fade(0x000000, 2000);
+    game.camera.fade(0xffffff, 2000);
 
     },
     resetFade: function() {

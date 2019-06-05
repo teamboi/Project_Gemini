@@ -25,7 +25,7 @@ Windows.prototype = {
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         game.camera.onFadeComplete.add(this.resetFade, this);
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
 
         this.createPlatforms();
 
@@ -89,20 +89,20 @@ Windows.prototype = {
 
     fade: function() {
         //Fade camera and level theme
-        game.camera.fade(0x000000, 2000);
+        game.camera.fade(0xffffff, 2000);
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
         game.state.start('Tether', true, false);
     },
     glow: function() {
-        this.redGlow = game.add.sprite(834, 428, 'purpBall');
+        this.redGlow = game.add.sprite(834, 428, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
-        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.scale.setTo(1.3,1.3);
         this.redGlow.alpha = 0;
-        this.blueGlow = game.add.sprite(839, 299, 'purpBall');
+        this.blueGlow = game.add.sprite(839, 299, 'heart');
         this.blueGlow.anchor.setTo(0.5,0.5);
-        this.blueGlow.scale.setTo(1.7,1.7);
+        this.blueGlow.scale.setTo(1.3, -1.3);
         this.blueGlow.alpha = 0;
           
     },

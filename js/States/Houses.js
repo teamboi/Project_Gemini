@@ -23,7 +23,7 @@ Houses.prototype = {
 
         // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
@@ -63,7 +63,7 @@ Houses.prototype = {
         }
         if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70) {
             this.oneWin = true;
-            game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            game.add.tween(this.redGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
         else { 
             this.oneWin = false;
@@ -71,7 +71,7 @@ Houses.prototype = {
         }
         if(Phaser.Math.distance(this.flower.x, this.flower.y, this.player2.x, this.player2.y) < 70) {
            this.twoWin = true;
-           game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+           game.add.tween(this.blueGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
         else {
             this.twoWin = false;
@@ -80,19 +80,19 @@ Houses.prototype = {
     },
 
     glow: function() {
-        this.redGlow = game.add.sprite(834, 428, 'purpBall');
+        this.redGlow = game.add.sprite(834, 428, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
-        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.scale.setTo(1.3,1.3);
         this.redGlow.alpha = 0;
-        this.blueGlow = game.add.sprite(839, 299, 'purpBall');
+        this.blueGlow = game.add.sprite(839, 299, 'heart');
         this.blueGlow.anchor.setTo(0.5,0.5);
-        this.blueGlow.scale.setTo(1.7,1.7);
+        this.blueGlow.scale.setTo(1.3, -1.3);
         this.blueGlow.alpha = 0;
     },
 
     fade: function() {
         //  You can set your own fade color and duration
-        game.camera.fade(0x000000, 1000);
+        game.camera.fade(0xffffff, 1000);
     },
     resetFade: function() {
         game.state.start('Windows', true, false);

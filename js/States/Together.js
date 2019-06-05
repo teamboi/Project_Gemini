@@ -48,7 +48,7 @@ Together.prototype = {
 	},
 	fade: function() {
 	    // You can set your own fade color and duration
-	    game.camera.fade(0x000000, 2000);
+	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
 		// Once the fade is complete, begin Chapter 1

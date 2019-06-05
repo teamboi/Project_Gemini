@@ -29,10 +29,15 @@ Load.prototype = {
 		
 		game.load.image('title', 'img/cats/title.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
+		game.load.image('housesTitle', 'img/cats/housesTitle.png');
+		game.load.image('tetherTitle', 'img/cats/tetherTitle.png');
+
 
 		game.load.image('redBall', 'img/cats/redYarn.png');
 		game.load.image('blueBall', 'img/cats/blueYarn.png');
 		game.load.image('purpBall', 'img/cats/purpleYarn.png');
+		game.load.image('heart', 'img/cats/heart.png');
+		
 		
 		//Once we have a tilemap, we'll load it in
         //game.load.spritesheet('mapTiles', 'img/bg_floor.png', 32, 32);
@@ -57,6 +62,8 @@ Load.prototype = {
 		game.load.image('blueWindow', 'img/objects/bluePullWindow.png');
 		game.load.image('redLatch', 'img/objects/redLatch.png');
 		game.load.image('blueLatch', 'img/objects/blueLatch.png');
+		game.load.image('cloud2', 'img/objects/cloud2.png');
+		
 		
 		
 		game.load.image('line', 'img/bg/line.png');

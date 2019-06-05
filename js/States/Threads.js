@@ -23,7 +23,7 @@ Threads.prototype = {
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         game.camera.onFadeComplete.add(this.resetFade, this);
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
 
         this.narrate = game.add.audio('twoIntro');
         this.narrate.play('', 0, 1, false);
@@ -33,7 +33,9 @@ Threads.prototype = {
         this.createPlatforms();
         this.room = game.add.sprite(0,0,'Cats');
 
-        // Create objective glow
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(2);
         
         //Create the tutorial text
         this.tutorialText();
@@ -46,6 +48,7 @@ Threads.prototype = {
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
+
         this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
@@ -67,8 +70,7 @@ Threads.prototype = {
         this.yarnBall2.body.setCollisionGroup(this.objectCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.dialog = new DialogManager(game, 'blueball');
-        game.add.existing(this.dialog);
+        game.time.events.add(1300, this.dialog.TypeOutro(2), this);
 	},
 	update: function(){
 		if(game.math.difference(this.player1.body.y, game.height-100) < 100) {
@@ -92,7 +94,7 @@ Threads.prototype = {
 		
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
-            game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            game.add.tween(this.redGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = this.player1.x;
             this.redGlow.y = this.player1.y;
         }
@@ -102,7 +104,7 @@ Threads.prototype = {
         }
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;
-            game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            game.add.tween(this.blueGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.blueGlow.x = this.player2.x;
             this.blueGlow.y = this.player2.y;
         }
@@ -112,20 +114,20 @@ Threads.prototype = {
         }
 
 	},
-     glow: function() {
-        this.redGlow = game.add.sprite(this.player1.x, this.player1.y, 'purpBall');
+    glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player1.y, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
-        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.scale.setTo(1.3,1.3);
         this.redGlow.alpha = 0;
-        this.blueGlow = game.add.sprite(this.player2.x, this.player2.y, 'purpBall');
+        this.blueGlow = game.add.sprite(this.player2.x, this.player2.y, 'heart');
         this.blueGlow.anchor.setTo(0.5,0.5);
-        this.blueGlow.scale.setTo(1.7,1.7);
+        this.blueGlow.scale.setTo(1.3,-1.3);
         this.blueGlow.alpha = 0;
     },
     fade: function() {
 
         //  You can set your own fade color and duration
-        game.camera.fade(0x000000, 2000);
+        game.camera.fade(0xffffff, 2000);
         this.ost.fadeOut(2000);
     },
     resetFade: function() {

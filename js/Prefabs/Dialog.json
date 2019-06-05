@@ -17,32 +17,83 @@
 	],
 	[
 		{
-			"speaker" : "neptune",
-			"dialog" : "See now, how men lay blame upon us gods for what is after all nothing but their own folly.",
-			"newSpeaker" : "true"
+			"x" : 168,
+			"y" : 50,
+			"width" : 450,
+			"text" : "The connection between the two could become physical, keeping them close when pulled by one or the other...",
+			"audio" : "narrate"
 		},
 		{
-			"speaker" : "neptune",
-			"dialog" : "Look at Aegisthus; he must needs make love to Agamemnon's wife unrighteously and then kill Agamemnon, though he knew it would be the death of him."
+			"x" : 650,
+			"y" : 550,
+			"width" : 350,
+			"text" : "...Though these cats were very different, they became very close.",
+			"audio" : "sfx_test_narration.mp3"
+		}
+	],
+	[
+		{
+			"x" : 168,
+			"y" : 50,
+			"width" : 250,
+			"text" : "Adopted into separate homes, the cats tried to reunite...",
+			"audio" : "narrate"
 		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "Father, son of Saturn, King of kings, it served Aegisthus right, and so it would any one else who does as he did; but Aegisthus is neither here nor there.",
-			"newSpeaker" : "true"
+		{
+			"x" : 650,
+			"y" : 550,
+			"width" : 250,
+			"text" : "...But for them to be together again, they would scale even greater heights.",
+			"audio" : "sfx_test_narration.mp3"
+		}
+	],
+	[
+		{
+			"x" : 168,
+			"y" : 50,
+			"width" : 250,
+			"text" : "The weight of cannot be lifted alone...",
+			"audio" : "narrate"
 		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "It is for Ulysses that my heart bleeds, when I think of his sufferings in that lonely sea-girt island, far away, poor man, from all his friends."
+		{
+			"x" : 650,
+			"y" : 550,
+			"width" : 250,
+			"text" : "...sometimes you gotta open a window to get a better view of home.",
+			"audio" : "sfx_test_narration.mp3"
+		}
+	],
+	[
+		{
+			"x" : 168,
+			"y" : 50,
+			"width" : 250,
+			"text" : "The two cats would need to grapple with a natural push and pull...",
+			"audio" : "narrate"
 		},
-		{	
-			"speaker" : "jove",
-			"dialog" : "My child, what are you talking about? How can I forget Ulysses than whom there is no more capable man on earth, nor more liberal in his offerings to the immortal gods that live in heaven?",
-			"newSpeaker" : "true"
+		{
+			"x" : 650,
+			"y" : 550,
+			"width" : 250,
+			"text" : "...The pathway up was difficult, but looked as soft as wool.",
+			"audio" : "sfx_test_narration.mp3"
+		}
+	],
+	[
+		{
+			"x" : 168,
+			"y" : 50,
+			"width" : 250,
+			"text" : "So close and yet so far away, they had to use their tether...",
+			"audio" : "narrate"
 		},
-		{	
-			"speaker" : "minerva",
-			"dialog" : "If, then, the gods now mean that Ulysses should get home, we should first send Mercury to the Ogygian island to tell Calypso that we have made up our minds and that he is to return.",
-			"newSpeaker" : "true"
+		{
+			"x" : 650,
+			"y" : 550,
+			"width" : 250,
+			"text" : "...Now high up in cradling clouds, the cat's had come together.",
+			"audio" : "sfx_test_narration.mp3"
 		}
 	]
 ]
+		

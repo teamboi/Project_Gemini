@@ -8,9 +8,10 @@ var Tether = function(game){};
 Tether.prototype = {
 	create: function(){
 		// Add in the title card
-		this.title = game.add.sprite(game.width/2,game.height/2,'title');
-		this.title.anchor.setTo(0.5,0.5);
-		this.title.alpha= 0;
+		this.title = game.add.sprite(0,0,'tetherTitle');
+		//this.title.anchor.setTo(0.5,0.5);
+		//this.title.alpha= 0;
+		game.camera.flash(0xffffff, 2000);
 
 		this.ost = game.add.audio('Tether');
 		this.ost.play('', 0, 1, true);	
@@ -18,7 +19,7 @@ Tether.prototype = {
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
 
-		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
+		//game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
 		
 		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -32,7 +33,7 @@ Tether.prototype = {
 	fade: function() {
 
     //  You can set your own fade color and duration
-    game.camera.fade(0x000000, 2000);
+    game.camera.fade(0xffffff, 2000);
 
 	},
 	resetFade: function() {

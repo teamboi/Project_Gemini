@@ -15,11 +15,12 @@ Separate.prototype = {
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(1000);
 		}
+		game.camera.flash(0xffffff, 2000);
 
 		// Add in the title card
-		this.title = game.add.sprite(game.width/2,game.height/2,'title');
-		this.title.anchor.setTo(0.5,0.5);
-		this.title.alpha= 0;
+		this.title = game.add.sprite(0,0,'housesTitle');
+		//this.title.anchor.setTo(0.5,0.5);
+		//this.title.alpha= 0;
 
 		this.ost = game.add.audio('Separate');
 		this.ost.onDecoded.add(this.startOST, this);
@@ -27,12 +28,12 @@ Separate.prototype = {
         this.narrate = game.add.audio('narrate');
         this.narrate.onDecoded.add(this.startNar, this);
 
-		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
+		//game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
 		
 		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(3000, this.fade, this);
+		game.time.events.add(6000, this.fade, this);
 	},
 	startOST: function() {
 		// Begin playing the level theme
@@ -46,7 +47,7 @@ Separate.prototype = {
 	},
 	fade: function() {
 	    //  You can set your own fade color and duration
-	    game.camera.fade(0x000000, 2000);
+	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
 		// ONce fade is complete, begin Chapter 2

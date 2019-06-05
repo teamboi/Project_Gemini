@@ -24,10 +24,11 @@ Fences.prototype = {
 
         // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
+        this.room = game.add.sprite(0,0,'Fences');
         
         // Add the level objectives
         this.fishBowl = game.add.sprite(79, 404, 'fishbowl');
@@ -44,6 +45,7 @@ Fences.prototype = {
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
 
+        this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
@@ -51,10 +53,10 @@ Fences.prototype = {
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 836, 535, 'redLatch', 535, 405, 'down', 'window');
+        this.cloud1 = new MovePlatform(game, this, 780, 505, 'cloud2', 505, 310, 'down', 'window');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 234, 114, 'blueLatch', 114, 200, 'up', 'window');
+        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud2', 114, 300, 'up', 'window');
         game.add.existing(this.cloud2);
 
     },
@@ -66,15 +68,38 @@ Fences.prototype = {
         }
         if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
+            game.add.tween(this.redGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.redGlow.x = this.player1.x;
+            this.redGlow.y = this.player1.y;
+        }
+        else { 
+            this.oneWin = false;
+            game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
         if(Phaser.Math.distance(this.flower.x, this.flower.y, this.player2.x, this.player2.y) < 70){
-           this.twoWin = true;
+            this.twoWin = true;
+            game.add.tween(this.blueGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.blueGlow.x = this.player2.x;
+            this.blueGlow.y = this.player2.y;
+        }
+        else {
+            this.twoWin = false;
+            game.add.tween(this.blueGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
     },
-
+    glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player1.y, 'heart');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.3,1.3);
+        this.redGlow.alpha = 0;
+        this.blueGlow = game.add.sprite(this.player2.x, this.player2.y, 'heart');
+        this.blueGlow.anchor.setTo(0.5,0.5);
+        this.blueGlow.scale.setTo(1.3,-1.3);
+        this.blueGlow.alpha = 0;
+    },
     fade: function() {
     //  You can set your own fade color and duration
-        game.camera.fade(0x000000, 1000);
+        game.camera.fade(0xffffff, 1000);
     },
     resetFade: function() {
         game.state.start('Clouds', true, false, this.ost);
@@ -97,7 +122,7 @@ Fences.prototype = {
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
         //this.testLevel.setCollisionByExclusion([]);
-        this.room = game.add.sprite(0,0,'Fences');
+ 
         this.bgLayer = this.testLevel.createLayer('Platforms');
 
         this.bgLayer.resizeWorld();
