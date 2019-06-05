@@ -32,6 +32,9 @@ Threads.prototype = {
         //For when we create a tileset
         this.createPlatforms();
         this.room = game.add.sprite(0,0,'Cats');
+
+        // Create objective glow
+        
         //Create the tutorial text
         this.tutorialText();
 
@@ -43,25 +46,25 @@ Threads.prototype = {
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
-
+        this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
         //Add the yarnballs for a little fun
-        this.yarnBall = game.add.sprite(700,320,'redBall');
+        this.yarnBall = game.add.sprite(183,212,'redBall');
        	this.yarnBall.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall);
         game.physics.p2.enable(this.yarnBall);
-        this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
+        this.yarnBall.body.setCollisionGroup(this.objectCollisionGroup);
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        this.yarnBall2 = game.add.sprite(300,400,'blueBall');
+        this.yarnBall2 = game.add.sprite(666,496,'blueBall');
        	this.yarnBall2.scale.setTo(0.08,0.08);
         game.add.existing(this.yarnBall2);
         game.physics.p2.enable(this.yarnBall2);
         this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
+        this.yarnBall2.body.setCollisionGroup(this.objectCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
         this.dialog = new DialogManager(game, 'blueball');
@@ -89,12 +92,36 @@ Threads.prototype = {
 		
         if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
             this.oneWin = true;
+            game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.redGlow.x = this.player1.x;
+            this.redGlow.y = this.player1.y;
+        }
+        else { 
+            this.oneWin = false;
+            game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
         if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
            this.twoWin = true;
+            game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.blueGlow.x = this.player2.x;
+            this.blueGlow.y = this.player2.y;
+        }
+        else {
+            this.twoWin = false;
+            game.add.tween(this.blueGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
 
 	},
+     glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player1.y, 'purpBall');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.alpha = 0;
+        this.blueGlow = game.add.sprite(this.player2.x, this.player2.y, 'purpBall');
+        this.blueGlow.anchor.setTo(0.5,0.5);
+        this.blueGlow.scale.setTo(1.7,1.7);
+        this.blueGlow.alpha = 0;
+    },
     fade: function() {
 
         //  You can set your own fade color and duration
@@ -136,15 +163,15 @@ Threads.prototype = {
         this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
         for(var i = 0; i < this.platforms.length; i++){
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup, this.yarnBallCollisionGroup]);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
         }
         console.log(this.testLevel.objects[0]);
     },
     tutorialText: function() {
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 180, 'Press S  and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 250, 'Press S and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
         this.oneWinText.anchor.set(0.5);
         this.oneWinText.inputEnabled = true;
-        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 180, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
+        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 250, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
         this.twoWinText.anchor.set(0.5);
         this.twoWinText.inputEnabled = true;
     }

@@ -9,7 +9,7 @@
 function MovePlatformLimiter(game, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 
-	this.scale.setTo(0.22, 0.11); // Scales the sprite
+	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 	this.alpha = 0;
 
 	game.physics.p2.enable(this, true);

@@ -88,7 +88,6 @@ Houses.prototype = {
         this.blueGlow.anchor.setTo(0.5,0.5);
         this.blueGlow.scale.setTo(1.7,1.7);
         this.blueGlow.alpha = 0;
-          
     },
 
     fade: function() {

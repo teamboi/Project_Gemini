@@ -1,19 +1,18 @@
 [
 	[
 		{
-			"x" : 100,
-			"y" : 100,
+			"x" : 168,
+			"y" : 50,
 			"width" : 250,
-			"text" : "Our story begins with two cats tethered by love, and it is connected to stories that came before",
+			"text" : "In a shelter of separate gravities, a special bond arose... ",
 			"audio" : "narrate"
 		},
 		{
-			"x" : 200,
-			"y" : 200,
+			"x" : 650,
+			"y" : 550,
 			"width" : 250,
-			"text" : "Our story begins with two cats tethered by love, and it is connected to stories that came before",
-			"audio" : "sfx_test_narration.mp3",
-			"destroyIntro" : "true"
+			"text" : "...Though these cats were very different, they became very close.",
+			"audio" : "sfx_test_narration.mp3"
 		}
 	],
 	[

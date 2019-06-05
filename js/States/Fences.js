@@ -51,10 +51,10 @@ Fences.prototype = {
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 836, 535, 'cat2', 535, 405, 'down', 'window');
+        this.cloud1 = new MovePlatform(game, this, 836, 535, 'redLatch', 535, 405, 'down', 'window');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 234, 114, 'cat2', 114, 200, 'up', 'window');
+        this.cloud2 = new MovePlatform(game, this, 234, 114, 'blueLatch', 114, 200, 'up', 'window');
         game.add.existing(this.cloud2);
 
     },
@@ -84,6 +84,7 @@ Fences.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         //platform.scale.setTo(0.08,0.08);
+        game.physics.p2.enable(platform, true);
         platform.anchor.setTo(0.5,0.5);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

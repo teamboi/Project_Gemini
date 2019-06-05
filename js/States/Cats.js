@@ -92,7 +92,6 @@ Cats.prototype = {
                 this.narrate = game.add.audio('oneOutro');
                 this.narrate.play('', 0, 1, false);
                 this.narrate.volume = 1;
-
             }
         }
         if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
@@ -102,7 +101,7 @@ Cats.prototype = {
             this.showExit = true;
         }
         if(this.showExit == true && this.outroPlaying == true) {
-           // this.exit.setText("Press SPACE for more.", true);
+            game.time.events.add(1000, this.exitText, this);
         }
 
 	},
@@ -164,5 +163,10 @@ Cats.prototype = {
         this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
         this.exit.anchor.set(0.5);
         this.exit.inputEnabled = true;
+    },
+    exitText: function() {
+        this.exit.setText("Press SPACE for more.", true);
+        this.exit.alpha = 0;
+        game.add.tween(this.exit).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
     }
 }

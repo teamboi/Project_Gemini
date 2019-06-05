@@ -51,10 +51,10 @@ Windows.prototype = {
         // Create the world barriers
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.window1 = new MovePlatform(game, this, 727, 600, 'cat2', 600, 500, 'down', 'window');
+        this.window1 = new MovePlatform(game, this, 727, 600, 'blueLatch', 600, 381, 'down', 'window');
         game.add.existing(this.window1);
 
-        this.window2 = new MovePlatform(game, this, 727, 106, 'cat2', 106, 288, 'up', 'window');
+        this.window2 = new MovePlatform(game, this, 656, 106, 'redLatch', 106, 288, 'up', 'window');
         game.add.existing(this.window2);
     },
     update: function(){
