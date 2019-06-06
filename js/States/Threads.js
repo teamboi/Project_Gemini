@@ -91,7 +91,7 @@ Threads.prototype = {
             game.time.events.add(1000, this.fade, this);
 		}
 		
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
+        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 90){
             this.oneWin = true;
             game.add.tween(this.redGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = this.player1.x;
@@ -101,7 +101,7 @@ Threads.prototype = {
             this.oneWin = false;
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
+        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 90){
            this.twoWin = true;
             game.add.tween(this.blueGlow).to( { alpha: 0.4 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.blueGlow.x = this.player2.x;
