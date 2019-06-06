@@ -99,7 +99,7 @@ Houses.prototype = {
         game.camera.fade(0xffffff, 1000);
     },
     resetFade: function() {
-        game.state.start('Windows', true, false);
+        game.state.start('Windows', true, false, this.ost);
     },
 
     //Helper function to create platforms the old fashion way

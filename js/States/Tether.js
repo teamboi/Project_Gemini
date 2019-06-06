@@ -25,7 +25,7 @@ Tether.prototype = {init: function(ost){
 
 		// Begin to play the level one narration
         this.narrate = game.add.audio('oneIntro');
-        this.narrate.onDecoded.add(this.startNar, this);
+        //this.narrate.onDecoded.add(this.startNar, this);
 
 		game.camera.onFadeComplete.add(this.resetFade, this);
 		//this.space.onDown.add(this.fade, this);
@@ -33,8 +33,8 @@ Tether.prototype = {init: function(ost){
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.play('', 0, 1, true);
-		this.ost.volume = 0.5;	
+		this.ost.fadeIn(1000, true);
+		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {
 		// Begin playing the intro narration

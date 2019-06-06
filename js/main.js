@@ -20,6 +20,7 @@ window.onload = function(){
 	// Chapter One
 	game.state.add('Together', Together);
 	game.state.add('Cats', Cats);
+	game.state.add('Cradle', Cradle);
 	game.state.add('Threads', Threads);
 	// Chapter Two
 	game.state.add('Separate', Separate);

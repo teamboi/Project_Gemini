@@ -116,7 +116,7 @@ Clouds.prototype = {
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
-        game.state.start('Ending', true, false);
+        game.state.start('Ending', true, false, this.ost);
     },
     destoyBarrier: function() {
         this.barrier.destroy();

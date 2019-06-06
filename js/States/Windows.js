@@ -97,7 +97,7 @@ Windows.prototype = {
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
-        game.state.start('Tether', true, false);
+        game.state.start('Tether', true, false, this.ost);
     },
     glow: function() {
         this.redGlow = game.add.sprite(834, 428, 'heart');

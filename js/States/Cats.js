@@ -13,6 +13,8 @@ Cats.prototype = {
         this.outroPlaying = false;
         this.showExit = false;
         this.complete = false;
+        this.oneVertOffset = 0;
+        this.twoVertOffset = 0;
 	},
 	create: function(){
 
@@ -38,8 +40,8 @@ Cats.prototype = {
 
 
         //convertCollisionObjects(map, layer, addToWorld) 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        //this.dialog = new DialogManager(game, "ball");
+        //game.add.existing(this.dialog);
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 1);
@@ -87,22 +89,24 @@ Cats.prototype = {
 	update: function(){
         
         this.p1Controls.x = this.player1.x;
-        this.p1Controls.y = this.player1.y;
+        this.p1Controls.y = this.player1.y - this.oneVertOffset;
         
         this.p2Controls.x = this.player2.x;
-        this.p2Controls.y = this.player2.y;
+        this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
         if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
             this.p1Controls.setText("W", true);
+            this.oneVertOffset = 40;
             if(!this.outroPlaying) {
                 this.outroPlaying = true;
-                this.narrate = game.add.audio('oneOutro');
-                this.narrate.play('', 0, 1, false);
-                this.narrate.volume = 1;
+                //this.narrate = game.add.audio('oneOutro');
+                //this.narrate.play('', 0, 1, false);
+                //this.narrate.volume = 1;
             }
         }
         if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
             this.p2Controls.setText("🡫", true);
+            this.twoVertOffset = 40;
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
@@ -136,7 +140,7 @@ Cats.prototype = {
         game.camera.fade(0xffffff, 2000);
     },
     resetFade: function() {
-        game.state.start('Threads', true, false, this.ost);
+        game.state.start('Cradle', true, false, this.ost);
         //game.camera.resetFX();
     },
 	//Function to manually create the platforms
