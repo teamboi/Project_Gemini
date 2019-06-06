@@ -9,12 +9,14 @@
 function Player(game, gameplay, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
 	this.gameplay = gameplay; // Obtain reference to gameplay state
-	this.scale.setTo(0.13, 0.13); // Scales the sprite
+	this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	// Enable physics
 	game.physics.p2.enable(this);
+	this.body.clearShapes();
+	this.body.addRectangle(44, 31, -3, 5, 0);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -69,7 +71,6 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
 		//var jumpToFallArr = Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2);
 		this.jumpToFallEnd = 12; //jumpToFallArr[jumpToFallArr.length-1];
-		console.log(this.jumpToFallEnd);
 		this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
 		//var landArr = Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2);
 		this.landEnd = 17; //landArr[landArr.length-1];
