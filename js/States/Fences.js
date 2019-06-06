@@ -53,7 +53,7 @@ Fences.prototype = {
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 780, 505, 'cloud2', 505, 310, 'down', 'window');
+        this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
         game.add.existing(this.cloud1);
 
         this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud2', 114, 300, 'up', 'window');

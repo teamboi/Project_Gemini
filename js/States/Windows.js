@@ -72,14 +72,18 @@ Windows.prototype = {
         if(Phaser.Math.difference(this.window1.x, this.player1.x, ) < 70 && this.oneCanWin == true) {
             this.oneWin = true;
             game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.redGlow.x = this.player1.x;
+            this.redGlow.y = this.player1.y;
         }
         else { 
             this.oneWin = false;
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
         if(Phaser.Math.difference(this.window2.x, this.player2.x, ) < 70 && this.twoCanWin == true) {
-           this.twoWin = true;
-           game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.twoWin = true;
+            game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.blueGlow.x = this.player2.x;
+            this.blueGlow.y = this.player2.y;
         }
         else {
             this.twoWin = false;

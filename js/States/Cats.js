@@ -106,7 +106,7 @@ Cats.prototype = {
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
-            game.time.events.add(1000, this.exitText, this);
+            game.time.events.add(3000, this.fade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
@@ -127,16 +127,12 @@ Cats.prototype = {
         this.redGlow.alpha = 0;
     },
     fade: function() {
-
-    //  You can set your own fade color and duration
-    game.camera.fade(0xffffff, 2000);
-
+        //  You can set your own fade color and duration
+        game.camera.fade(0xffffff, 2000);
     },
     resetFade: function() {
         game.state.start('Threads', true, false, this.ost);
         //game.camera.resetFX();
-        
-
     },
 	//Function to manually create the platforms
     createPlatforms: function(){

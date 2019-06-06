@@ -36,9 +36,6 @@ Threads.prototype = {
         this.dialog = new DialogManager(game, "ball");
         game.add.existing(this.dialog);
         this.dialog.TypeIntro(2);
-        
-        //Create the tutorial text
-        this.tutorialText();
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 450, 400, "cat1", 1);
@@ -48,6 +45,8 @@ Threads.prototype = {
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);
+
+        this.tutorialText();
 
         this.glow();
         // Add in the yarn
@@ -70,11 +69,10 @@ Threads.prototype = {
         this.yarnBall2.body.setCollisionGroup(this.objectCollisionGroup);
         this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
-        game.time.events.add(1300, this.dialog.TypeOutro(2), this);
+        //game.time.events.add(1300, this.dialog.TypeOutro(2), this);
 	},
 	update: function(){
 		if(game.math.difference(this.player1.body.y, game.height-100) < 100) {
-            this.oneWinText.setText("Give each cat their color ball of string", true);
             if(!this.outroPlaying) {
                 this.outroPlaying = true;
                 this.narrate = game.add.audio('twoOutro');
@@ -82,9 +80,9 @@ Threads.prototype = {
                 this.narrate.volume = 1;
             }
         }
-        if(game.math.difference(this.player2.body.y, 100) < 100) {
+        /*if(game.math.difference(this.player2.body.y, 100) < 100) {
             this.twoWinText.setText("Hold on to the other cat and let them swing", true);
-        } 
+        } */
 		
 		//Display text for level switching instructions
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
@@ -111,6 +109,38 @@ Threads.prototype = {
         else {
             this.twoWin = false;
             game.add.tween(this.blueGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
+        }
+
+        this.p1Controls.x = this.player1.x;
+        this.p1Controls.y = this.player1.y;
+        
+        this.p2Controls.x = this.player2.x;
+        this.p2Controls.y = this.player2.y;
+
+        if(this.player1.checkIfCanJump()) {
+            this.p1Controls.setText("W", true);
+        }
+        else if(this.player2.anchorState == "isAnchor") {
+        	this.p1Controls.setText('A          D', true);
+        }
+        else if(this.player2.anchorState != "beingAnchored") {
+        	this.p1Controls.setText('S', true);
+        }
+        else {
+        	this.p1Controls.setText('', true);
+        }
+
+        if(this.player2.checkIfCanJump()) {
+            this.p2Controls.setText("🡫", true);
+        }
+        else if(this.player1.anchorState == "isAnchor") {
+        	this.p2Controls.setText('🡨          🡪 ', true);
+        }
+        else if(this.player1.anchorState != "beingAnchored") {
+        	this.p2Controls.setText('🡩', true);
+        }
+        else {
+        	this.p2Controls.setText('', true);
         }
 
 	},
@@ -170,11 +200,18 @@ Threads.prototype = {
         console.log(this.testLevel.objects[0]);
     },
     tutorialText: function() {
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 250, 'Press S and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#FF7373'});
-        this.oneWinText.anchor.set(0.5);
-        this.oneWinText.inputEnabled = true;
-        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 250, 'Press 🡩 and fall to hold the string tight', {font: 'Impact', fontSize: '27px', fill: '#9C6EB2'});
-        this.twoWinText.anchor.set(0.5);
-        this.twoWinText.inputEnabled = true;
+        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y, 'W', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
+        this.p1Controls.anchor.set(0.5);
+        this.p1Controls.inputEnabled = true;
+        this.p1ControlsPosition = this.p1Controls.worldPosition;
+        
+        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y, '🡫', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
+        this.p2Controls.anchor.set(0.5);
+        this.p2Controls.inputEnabled = true;
+        this.p2ControlsPosition = this.p2Controls.worldPosition;
+
+        this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
+        this.exit.anchor.set(0.5);
+        this.exit.inputEnabled = true;
     }
 }

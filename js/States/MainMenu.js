@@ -35,6 +35,6 @@ MainMenu.prototype = {
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Threads', true, false, this.ost);
+		game.state.start('Together', true, false, this.ost);
 	}
 };

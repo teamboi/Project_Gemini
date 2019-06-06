@@ -17,6 +17,7 @@ Clouds.prototype = {
         this.oneWin = false;
         this.twoWin = false;
         this.complete = false;
+        this.barrierDestroyed = false;
             
     },
    create: function(){
@@ -28,7 +29,7 @@ Clouds.prototype = {
 
         // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
-        game.camera.flash(0x000000, 2000);
+        game.camera.flash(0xffffff, 2000);
 
         this.room = game.add.sprite(0,0,'Clouds');
 
@@ -50,22 +51,20 @@ Clouds.prototype = {
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+        this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 450, 607, 'cloud2', 607, 405, 'down', 'window');
+        this.cloud1 = new MovePlatform(game, this, 450, 607, 'cloud2', 607, 380, 'down', 'window');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 450, 99, 'cloud2', 99, 300, 'up', 'window');
+        this.cloud2 = new MovePlatform(game, this, 450, 99, 'cloud2', 99, 320, 'up', 'window');
         game.add.existing(this.cloud2);
 
-        this.fishBowl = game.add.sprite(450, 405, 'fishbowl'); 
-        this.flower = game.add.sprite(450, 300, 'flower');
+        this.glow();
     },
     update: function(){
         //Check for player one's win state
-        if(this.oneWin == true && this.twoWin == true && this.complete == false) {
-            this.complete = true;
-            game.time.events.add(2000, this.fade, this);
+        if(this.complete == true) {
+            game.time.events.add(3000, this.fade, this);
         }
         if(this.cloud1.isMoving == 'locked'){
             this.oneCanWin = true;
@@ -75,19 +74,28 @@ Clouds.prototype = {
         }
 
         if(this.oneCanWin == true && this.twoCanWin == true) {
-            if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70){
-                this.oneWin = true;
+            if(this.barrierDestroyed == false) {
+                this.barrierDestroyed = true;
+                this.barrier.destroy();
             }
-            if(Phaser.Math.distance(this.flower.x, this.flower.y, this.player2.x, this.player2.y) < 70){
-               this.twoWin = true;
+            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+                this.complete = true;
+                game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
+                this.redGlow.x = (this.player1.x + this.player2.x)/2;
+                this.redGlow.y = (this.player1.y + this.player2.y)/2;
             }
         }
-
+    },
+    glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.alpha = 0;
     },
 
     fade: function() {
         //  You can set your own fade color and duration
-        game.camera.fade(0x000000, 2000);
+        game.camera.fade(0xffffff, 2000);
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
@@ -103,6 +111,7 @@ Clouds.prototype = {
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
         platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
+        return platform;
     },
     createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelSix');

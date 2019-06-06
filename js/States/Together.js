@@ -17,9 +17,9 @@ Together.prototype = {
 		}
 
 		// Add in the title card, initally invisible
-		this.title = game.add.sprite(game.width/2,game.height/2,'Together');
-		this.title.anchor.setTo(0.5,0.5);
-		this.title.alpha = 0;
+		this.title = game.add.sprite(0,0,'Together');
+
+		game.camera.flash(0xffffff, 2000);
 
 		// Begin to play the chapter one theme
 		this.ost = game.add.audio('Together');
@@ -29,12 +29,9 @@ Together.prototype = {
         this.narrate = game.add.audio('oneIntro');
         this.narrate.onDecoded.add(this.startNar, this);
         
-        // Fade in the title card
-		game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
-	
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(3000, this.fade, this);
+		game.time.events.add(5000, this.fade, this);
 	},
 	startOST: function() {
 		// Begin playing the level theme
