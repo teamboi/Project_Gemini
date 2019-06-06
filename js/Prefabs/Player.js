@@ -43,6 +43,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
+		this.scale.y = -1*this.scale.y;
 		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down';
 		this.yarnColor = 0x0008FF;
@@ -310,6 +311,17 @@ Player.prototype.update = function(){
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
 	else{
 		this.puppetSurrogate();
+		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
+			this.fsmIsMoving = true;
+			this.scale.x = Math.abs(this.scale.x);
+	    }
+	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
+	    	this.fsmIsMoving = true;
+	    	this.scale.x = -1*Math.abs(this.scale.x);
+	    }
+	    else{
+	    	this.fsmIsMoving = false;
+	    }
 	}
 
 	if(this.fsm){
