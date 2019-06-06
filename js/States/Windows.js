@@ -114,7 +114,7 @@ Windows.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         platform.anchor.setTo(0.5,0.5);
-        game.physics.p2.enable(platform, true);
+        game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);

@@ -17,7 +17,7 @@ Together.prototype = {
 		}
 
 		// Add in the title card, initally invisible
-		this.title = game.add.sprite(0,0,'Together');
+		this.title = game.add.sprite(0,0,'togetherTitle');
 
 		game.camera.flash(0xffffff, 2000);
 

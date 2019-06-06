@@ -30,7 +30,7 @@ window.onload = function(){
 	game.state.add('Fences', Fences);
 	game.state.add('Clouds', Clouds);
 	
-	
+	game.state.add('Ending', Ending);
 	game.state.add('GameOver', GameOver);
 	
 	game.state.start('Boot');

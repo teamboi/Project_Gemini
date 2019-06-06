@@ -29,8 +29,10 @@ Load.prototype = {
 		
 		game.load.image('title', 'img/cats/title.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
+		game.load.image('togetherTitle', 'img/cats/togetherTitle.png');
 		game.load.image('housesTitle', 'img/cats/housesTitle.png');
 		game.load.image('tetherTitle', 'img/cats/tetherTitle.png');
+		game.load.image('endTitle', 'img/cats/endTitle.png');
 
 
 		game.load.image('redBall', 'img/cats/redYarn.png');
@@ -55,14 +57,21 @@ Load.prototype = {
         game.load.image('Threads', 'img/bg/adoption center bg.png');
 		game.load.image('Houses', 'img/bg/new_Houses.png');
 		game.load.image('Windows', 'img/bg/new_Windows.png');
-		game.load.image('Fences', 'img/bg/120 cloud puzzle.png');
-		game.load.image('Clouds', 'img/bg/120_cloud_puzzle2.png');
+		game.load.image('Fences', 'img/bg/new_Fences.png');
+		game.load.image('Clouds1', 'img/bg/new_cloud_puzzle2.png');
+		game.load.image('Clouds2', 'img/bg/new_cloud_puzzle3.png');
+		game.load.image('Clouds3', 'img/bg/new_cloud_puzzle4.png');
+		
 		//Load in object sprites
 		game.load.image('redWindow', 'img/objects/redPullWindow.png');
 		game.load.image('blueWindow', 'img/objects/bluePullWindow.png');
 		game.load.image('redLatch', 'img/objects/redLatch.png');
 		game.load.image('blueLatch', 'img/objects/blueLatch.png');
 		game.load.image('cloud2', 'img/objects/cloud2.png');
+		game.load.image('cloud6', 'img/objects/cloud6.png');
+		game.load.image('purpCloud', 'img/objects/purpCloud.png');
+		game.load.image('purpCloud2', 'img/objects/purpCloud2.png');
+		
 		
 		
 		

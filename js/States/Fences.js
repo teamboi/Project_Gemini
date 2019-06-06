@@ -28,11 +28,12 @@ Fences.prototype = {
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
-        this.room = game.add.sprite(0,0,'Fences');
-        
-        // Add the level objectives
+
+         // Add the level objectives
         this.fishBowl = game.add.sprite(79, 404, 'fishbowl');
         this.flower = game.add.sprite(79, 304, 'flower');
+
+        this.room = game.add.sprite(0,0,'Fences');
 
 
         // Add in the players
@@ -56,7 +57,7 @@ Fences.prototype = {
         this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud2', 114, 300, 'up', 'window');
+        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud6', 114, 300, 'up', 'window');
         game.add.existing(this.cloud2);
 
     },
@@ -109,7 +110,7 @@ Fences.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         //platform.scale.setTo(0.08,0.08);
-        game.physics.p2.enable(platform, true);
+        game.physics.p2.enable(platform);
         platform.anchor.setTo(0.5,0.5);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

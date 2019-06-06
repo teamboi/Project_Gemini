@@ -106,7 +106,7 @@ Cats.prototype = {
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
-            game.time.events.add(3000, this.fade, this);
+            game.time.events.add(2000, this.preFade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
@@ -125,6 +125,11 @@ Cats.prototype = {
         this.redGlow.anchor.setTo(0.5,0.5);
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
+    },
+    preFade: function() {
+        if(this.complete == true) {
+            game.time.events.add(1000, this.fade, this);
+        }
     },
     fade: function() {
         //  You can set your own fade color and duration

@@ -142,7 +142,7 @@ Houses.prototype = {
         var platform = game.add.sprite(x,y, 'line');
         //platform.scale.setTo(0.08,0.08);
         platform.anchor.setTo(0.5,0.5);
-        game.physics.p2.enable(platform, true);
+        game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
