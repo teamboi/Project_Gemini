@@ -7,18 +7,15 @@
 //INstantiate the level 2 state
 var Windows = function(game){};
 Windows.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
-        this.oneWon = false;
-        this.twoWon = false;
+        this.ost = ost;
+        this.oneWin = false;
+        this.twoWin = false;
+        this.oneCanWin = false;
+        this.twoCanWin = false;
+        this.complete = false;
             
-    },
-    preload: function(){
-        
-        //Load in the tilemaps once w get them
-        game.load.tilemap('Windows','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 32, 32);
-        
     },
     create: function(){
         
@@ -27,58 +24,16 @@ Windows.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        game.camera.onFadeComplete.add(this.resetFade, this);
+        game.camera.flash(0xffffff, 2000);
+
+        this.createPlatforms();
+
         this.room = game.add.sprite(0,0,'Windows');
-       // this.room.scale.setTo(0.12,0.112);
-      //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('Windows');
-        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+       
+        this.tutorialText();
 
-        //this.testLevel.setCollisionByExclusion([]);
-
-        this.bgLayer = this.testLevel.createLayer('Platforms');
-
-        this.bgLayer.resizeWorld();
-
-
-        // Create the collision groups
-        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
-        game.physics.p2.updateBoundsCollisionGroup();
-          //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
-     // this.testLevel.setCollisionBetween([], true);
-      this.testLevel.setCollisionByExclusion([]);
-      this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-     // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
-      console.log(this.platforms);
-     // game.add.existing(this.platforms[0]);
-     for(var i = 0; i < this.platforms.length; i++){
-      this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-      
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
-     }
-
-        //Instantiate the music for this level
-        this.beats = game.add.audio('beats');
-        this.beats.play('', 0, 1, true);
-        //this.beats = game.add.audio('narrate');
-        //this.beats.play('', 0, 1, false);
-
-
-        //Add the background image
-        //this.room = game.add.sprite(0,-0.03,'backgroundPlain');
-        //this.room.scale.setTo(0.13,0.115);
-
-        //Create the win state text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 32, '', {font: 'Impact', fontSize: '32px', fill: '#FF7373'});
-        this.oneWinText.anchor.set(0.5);
-        this.oneWinText.inputEnabled = true;
-        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 30, '', {font: 'Impact', fontSize: '32px', fill: '#9C6EB2'});
-        this.twoWinText.anchor.set(0.5);
-        this.twoWinText.inputEnabled = true;
+        this.glow();
 
         // Add in the players
         this.player1 = new Player(game, this, 273, 682, "cat1", 1);
@@ -92,74 +47,117 @@ Windows.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
-        this.constraint; // Create the constraint object to be turned on/off
-        this.anchored = false; // Create safety switch for anchoring
+        
+        // Create the world barriers
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(400,550,100,10);
-        this.createPlatform(500,450,100,10);
-        this.createPlatform(50,450,100,10);
-        this.createPlatform(50,200,100,10);
-        this.createPlatform(400,200,400,10);*/
-        this.createPlatform(game.width/2, game.height/2, game.width, 1);
+        this.window1 = new MovePlatform(game, this, 727, 600, 'blueLatch', 600, 381, 'down', 'window');
+        game.add.existing(this.window1);
 
-        //Add in the yarn balls to act as player goals
-        this.yarnBall = game.add.sprite(811,402,'blueball');
-        this.yarnBall.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall);
-        this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
-        this.yarnBall2 = game.add.sprite(811,312,'redball');
-        this.yarnBall2.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2);
-        this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
+        this.window2 = new MovePlatform(game, this, 656, 106, 'redLatch', 106, 288, 'up', 'window');
+        game.add.existing(this.window2);
     },
     update: function(){
         //Check for player one's win state
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
-            this.oneWinText.setText("Player 1 got their toy!", true);
-            this.oneWon = true;
+        if(this.oneWin == true && this.twoWin == true && this.complete == false) {
+            this.complete = true;
+            game.time.events.add(1000, this.fade, this);
+        }
+       if(this.window1.isMoving == 'locked' && this.oneCanWin == false){
+            this.oneCanWin = true;
+        }
+        if(this.window2.isMoving == 'locked' && this.twoCanWin == false){
+           this.twoCanWin = true;
+        }
+        if(Phaser.Math.difference(this.window1.x, this.player1.x, ) < 70 && this.oneCanWin == true) {
+            this.oneWin = true;
+            game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.redGlow.x = this.player1.x;
+            this.redGlow.y = this.player1.y;
+        }
+        else { 
+            this.oneWin = false;
+            game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
+        }
+        if(Phaser.Math.difference(this.window2.x, this.player2.x, ) < 70 && this.twoCanWin == true) {
+            this.twoWin = true;
+            game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.blueGlow.x = this.player2.x;
+            this.blueGlow.y = this.player2.y;
         }
         else {
-            if(this.oneWon == true) {
-                this.oneWinText.setText("Get your toy back!", true);
-            }
-            this.oneWon = false;
-            
-        }
-        //Check for player two's win state
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
-            this.twoWinText.setText("Player 2 got their toy!", true);
-            this.twoWon = true;
-
-        }
-        else {
-            if(this.twoWon == true) {
-                this.twoWinText.setText("Get your toy back!", true);
-            }
-
-            this.twoWon = false;
-        }
-        if(this.oneWon && this.twoWon) {
-            this.beats.destroy(); // Kill the music
-            game.state.start('Fences', true, false); // Change state to game over
+            this.twoWin = false;
+            game.add.tween(this.blueGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
     },
 
+    fade: function() {
+        //Fade camera and level theme
+        game.camera.fade(0xffffff, 2000);
+        this.ost.fadeOut(2000);
+    },
+    resetFade: function() {
+        game.state.start('Tether', true, false);
+    },
+    glow: function() {
+        this.redGlow = game.add.sprite(834, 428, 'heart');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.3,1.3);
+        this.redGlow.alpha = 0;
+        this.blueGlow = game.add.sprite(839, 299, 'heart');
+        this.blueGlow.anchor.setTo(0.5,0.5);
+        this.blueGlow.scale.setTo(1.3, -1.3);
+        this.blueGlow.alpha = 0;
+          
+    },
     //Helper function to create platforms the old fashion way
-    createPlatform: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'bluePlat');
-        platform.scale.setTo(0.08,0.08);
+    createBarrier: function(x,y,width,height){
+        var platform = game.add.sprite(x,y, 'line');
+        platform.anchor.setTo(0.5,0.5);
         game.physics.p2.enable(platform, true);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
+    },
+    //Helper function to create platforms the new fancy way
+    createPlatforms: function(){
+        this.testLevel = this.game.add.tilemap('levelFour');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+
+        // Load in the platforms layer
+        this.bgLayer = this.testLevel.createLayer('Platforms');
+        
+        // Just for safety
+        this.bgLayer.resizeWorld();
+       
+        //Instantiate the collision groups for the objects can interact
+        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
+        game.physics.p2.updateBoundsCollisionGroup();
+
+        //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+        //  This call returns an array of body objects which you can perform addition actions on if
+        //  required. There is also a parameter to control optimising the map build.
+        this.testLevel.setCollisionByExclusion([]);
+        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+        for(var i = 0; i < this.platforms.length; i++){
+            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
+        }
+        console.log(this.testLevel.objects[0]);
+    },
+     tutorialText: function() {
+        //Create the win state text
+        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 32, '', {font: 'Impact', fontSize: '32px', fill: '#FF7373'});
+        this.oneWinText.anchor.set(0.5);
+        this.oneWinText.inputEnabled = true;
+        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 30, '', {font: 'Impact', fontSize: '32px', fill: '#9C6EB2'});
+        this.twoWinText.anchor.set(0.5);
+        this.twoWinText.inputEnabled = true;
     }
 }

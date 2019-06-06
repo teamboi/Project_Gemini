@@ -7,93 +7,40 @@
 //INstantiate the level 2 state
 var Clouds = function(game){};
 Clouds.prototype = {
-    init: function(){
+    init: function(ost){
         // initialize variables for win conditions
-        this.oneWon = false;
-        this.twoWon = false;
+        this.ost = ost;
+        this.oneCanWin = false;
+        this.twoCanWin = false;
+        this.canWin = false;
+
+        this.oneWin = false;
+        this.twoWin = false;
+        this.complete = false;
+        this.barrierDestroyed = false;
             
     },
-    preload: function(){
-        // Sprites for the yarnballs
-        //game.load.image('redball', 'img/redYarn.png');
-        //game.load.image('blueball', 'img/blueYarn.png');
-
-        //Load in the tilemaps once w get them
-        game.load.tilemap('LevelTwo','tilemaps/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/bg_floor.png', 32, 32);
-        
-        //Load in the character sprites
-       /* game.load.image('cat1', 'img/cat1.png');
-        game.load.image('cat2', 'img/cat2.png');
-        
-        //load in the platform and backgrounds
-        game.load.image('bluePlat', 'img/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/120 bg both sides.png');*/
-    },
-    create: function(){
+   create: function(){
         
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        this.room = game.add.sprite(0,0,'backgroundPlain');
-       // this.room.scale.setTo(0.12,0.112);
-      //For when we create a tileset
-        this.testLevel = this.game.add.tilemap('LevelTwo');
-        this.testLevel.addTilesetImage('bg_floor', 'mapTiles');
+        // Fade in scene
+        game.camera.onFadeComplete.add(this.resetFade, this);
+        game.camera.flash(0xffffff, 2000);
 
-        //this.testLevel.setCollisionByExclusion([]);
+        this.room = game.add.sprite(0,0,'Clouds');
 
-        this.bgLayer = this.testLevel.createLayer('Platforms');
+        //For when we create a tileset
+        this.createPlatforms();
 
-        this.bgLayer.resizeWorld();
-
-
-        // Create the collision groups
-        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
-        game.physics.p2.updateBoundsCollisionGroup();
-
-          //this.testLevel.setCollisionGroup(this.platformCollisionGroup);
-     // this.testLevel.setCollisionBetween([], true);
-      this.testLevel.setCollisionByExclusion([]);
-      this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-     // console.log(game.physics.p2.convertTilemap(this.testLevel, 'Tile Layer 1', true));
-      console.log(this.platforms);
-     // game.add.existing(this.platforms[0]);
-     for(var i = 0; i < this.platforms.length; i++){
-      this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-      
-      this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
-     }
-
-        //Instantiate the music for this level
-        this.beats = game.add.audio('beats');
-        this.beats.play('', 0, 1, true);
-        //this.beats = game.add.audio('narrate');
-        //this.beats.play('', 0, 1, false);
-
-
-        //Add the background image
-        //this.room = game.add.sprite(0,-0.03,'backgroundPlain');
-        //this.room.scale.setTo(0.13,0.115);
-
-        //Create the win state text
-        this.oneWinText = game.add.text(game.width/2 + 4.5, game.height/2 + 32, '', {font: 'Impact', fontSize: '32px', fill: '#FF7373'});
-        this.oneWinText.anchor.set(0.5);
-        this.oneWinText.inputEnabled = true;
-        this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 30, '', {font: 'Impact', fontSize: '32px', fill: '#9C6EB2'});
-        this.twoWinText.anchor.set(0.5);
-        this.twoWinText.inputEnabled = true;
 
         // Add in the players
-        this.player1 = new Player(game, this, 32, 500, "cat1", 1);
+        this.player1 = new Player(game, this, 85, 500, "cat1", 1);
         game.add.existing(this.player1);
+
         this.player2 = new Player(game, this, 32, 200, "cat2", 2);
         game.add.existing(this.player2);
         //Create the surrogate player for the yarn
@@ -104,71 +51,96 @@ Clouds.prototype = {
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
         game.add.existing(this.yarn);
 
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(400,550,100,10);
-        this.createPlatform(500,450,100,10);
-        this.createPlatform(50,450,100,10);
-        this.createPlatform(50,200,100,10);
-        this.createPlatform(400,200,400,10);
-       */ this.createPlatform(game.width/2, game.height/2, game.width, 1);
+        this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        //Add in the yarn balls to act as player goals
-        this.yarnBall = game.add.sprite(744,400,'blueball');
-        this.yarnBall.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall);
-        this.yarnBall.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
+        this.cloud1 = new MovePlatform(game, this, 450, 607, 'cloud2', 607, 380, 'down', 'window');
+        game.add.existing(this.cloud1);
 
-        this.yarnBall2 = game.add.sprite(744,300,'redball');
-        this.yarnBall2.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall2);
-        game.physics.p2.enable(this.yarnBall2);
-        this.yarnBall2.body.data.gravityScale = -1;
-        this.yarnBall2.body.setCollisionGroup(this.yarnBallCollisionGroup);
-        this.yarnBall2.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
+        this.cloud2 = new MovePlatform(game, this, 450, 99, 'cloud2', 99, 320, 'up', 'window');
+        game.add.existing(this.cloud2);
 
+        this.glow();
     },
     update: function(){
         //Check for player one's win state
-        if(Phaser.Math.distance(this.yarnBall.x, this.yarnBall.y, this.player1.x, this.player1.y) < 70){
-            this.oneWinText.setText("Player 1 got their toy!", true);
-            this.oneWon = true;
+        if(this.complete == true) {
+            game.time.events.add(3000, this.fade, this);
         }
-        else {
-            if(this.oneWon == true) {
-                this.oneWinText.setText("Get your toy back!", true);
-            }
-            this.oneWon = false;
-            
+        if(this.cloud1.isMoving == 'locked'){
+            this.oneCanWin = true;
         }
-        //Check for player two's win state
-        if(Phaser.Math.distance(this.yarnBall2.x, this.yarnBall2.y, this.player2.x, this.player2.y) < 70){
-            this.twoWinText.setText("Player 2 got their toy!", true);
-            this.twoWon = true;
+        if(this.cloud2.isMoving == 'locked'){
+           this.twoCanWin = true;
+        }
 
-        }
-        else {
-            if(this.twoWon == true) {
-                this.twoWinText.setText("Get your toy back!", true);
+        if(this.oneCanWin == true && this.twoCanWin == true) {
+            if(this.barrierDestroyed == false) {
+                this.barrierDestroyed = true;
+                this.barrier.destroy();
             }
+            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+                this.complete = true;
+                game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
+                this.redGlow.x = (this.player1.x + this.player2.x)/2;
+                this.redGlow.y = (this.player1.y + this.player2.y)/2;
+            }
+        }
+    },
+    glow: function() {
+        this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
+        this.redGlow.anchor.setTo(0.5,0.5);
+        this.redGlow.scale.setTo(1.7,1.7);
+        this.redGlow.alpha = 0;
+    },
 
-            this.twoWon = false;
-        }
-        if(this.oneWon && this.twoWon) {
-            this.beats.destroy(); // Kill the music
-            game.state.start('GameOver', true, false); // Change state to game over
-        }
+    fade: function() {
+        //  You can set your own fade color and duration
+        game.camera.fade(0xffffff, 2000);
+        this.ost.fadeOut(2000);
+    },
+    resetFade: function() {
+        game.state.start('GameOver', true, false);
     },
 
     //Helper function to create platforms the old fashion way
-    createPlatform: function(x,y,width,height){
+    createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'bluePlat');
         platform.scale.setTo(0.08,0.08);
         game.physics.p2.enable(platform, true);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);
-        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.yarnBallCollisionGroup]);
+        platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
+        return platform;
+    },
+    createPlatforms: function(){
+        this.testLevel = this.game.add.tilemap('levelSix');
+        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
+
+        // Load in the platforms layer
+        this.bgLayer = this.testLevel.createLayer('Platforms');
+
+        // Just for safety
+        this.bgLayer.resizeWorld();
+       
+        //Instantiate the collision groups for the objects can interact
+        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
+        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
+        game.physics.p2.updateBoundsCollisionGroup();
+        
+        //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+        //  This call returns an array of body objects which you can perform addition actions on if
+        //  required. There is also a parameter to control optimising the map build.
+        this.testLevel.setCollisionByExclusion([]);
+        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
+        for(var i = 0; i < this.platforms.length; i++){
+            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
+            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
+        }
+        console.log(this.testLevel.objects[0]);
     }
 }

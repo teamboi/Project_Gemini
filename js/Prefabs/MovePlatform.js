@@ -16,7 +16,7 @@
 function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, key);
 
-	this.scale.setTo(0.22, 0.11); // Scales the sprite
+	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 
 	this.isMoving = false;
 

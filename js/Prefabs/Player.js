@@ -14,7 +14,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	// Enable physics
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -43,7 +43,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
-		this.controls = ['LEFT','RIGHT','UP','DOWN'];//,'COLON'];
+		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down';
 		this.yarnColor = 0x0008FF;
 
@@ -51,7 +51,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else{
-		this.controls = ['LEFT','RIGHT','UP','DOWN']; // Populates the controls for the surrogate so it can be read
+		this.controls = ['LEFT','RIGHT','DOWN','UP']; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
 		//http://www.html5gamedevs.com/topic/10454-how-to-disable-collision-for-body/
