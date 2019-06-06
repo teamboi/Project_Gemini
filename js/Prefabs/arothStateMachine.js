@@ -23,7 +23,7 @@ var StateMachine = function(entity, opts) {
       return this.states[name];
     }
     this.states[name] = definition;
-    if (!this.initialState) {
+    if (!this.initialState) { // if initialState is not defined, define it now. First state added is initial state
       this.initialState = name;
     }
   };
