@@ -21,7 +21,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	this.isMoving = false;
 
 	this.gameplay = gameplay;
-	this.platformType = platformType;
 
 	// Enable physics
 	game.physics.p2.enable(this, true);
