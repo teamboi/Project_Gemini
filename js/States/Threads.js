@@ -31,7 +31,7 @@ Threads.prototype = {
 
         //For when we create a tileset
         this.createPlatforms();
-        this.room = game.add.sprite(0,0,'Cats');
+        this.room = game.add.sprite(0,0,'Threads');
 
         this.dialog = new DialogManager(game, "ball");
         game.add.existing(this.dialog);

@@ -51,10 +51,10 @@ Windows.prototype = {
         // Create the world barriers
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.window1 = new MovePlatform(game, this, 727, 600, 'blueLatch', 600, 381, 'down', 'window');
+        this.window1 = new MovePlatform(game, this, 729, 621, 'blueLatch', 621, 481, 'down', 'window');
         game.add.existing(this.window1);
 
-        this.window2 = new MovePlatform(game, this, 656, 106, 'redLatch', 106, 288, 'up', 'window');
+        this.window2 = new MovePlatform(game, this, 664, 110, 'redLatch', 110, 288, 'up', 'window');
         game.add.existing(this.window2);
     },
     update: function(){
@@ -69,7 +69,7 @@ Windows.prototype = {
         if(this.window2.isMoving == 'locked' && this.twoCanWin == false){
            this.twoCanWin = true;
         }
-        if(Phaser.Math.difference(this.window1.x, this.player1.x, ) < 70 && this.oneCanWin == true) {
+        if(Phaser.Math.difference(this.window1.x, this.player1.x, ) < 300 && this.oneCanWin == true) {
             this.oneWin = true;
             game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = this.player1.x;
@@ -79,7 +79,7 @@ Windows.prototype = {
             this.oneWin = false;
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
-        if(Phaser.Math.difference(this.window2.x, this.player2.x, ) < 70 && this.twoCanWin == true) {
+        if(Phaser.Math.difference(this.window2.x, this.player2.x, ) < 205 && this.twoCanWin == true) {
             this.twoWin = true;
             game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.blueGlow.x = this.player2.x;
