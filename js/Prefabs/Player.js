@@ -61,88 +61,99 @@ function Player(game, gameplay, x, y, key, whichPlayer){
         this.body.collides([platformCG, objectCG, cloudCG]);
 	}
 
-	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
-	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);
-	this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,1,'',2),30, true);
-	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, false);
-	this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, false);
-	this.animations.add('walk', Phaser.Animation.generateFrameNames('PG Cat 5-Walk-',0,19,'',2),30, true);
+	if(whichPlayer === 1 || whichPlayer === 2){
+		this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
+		this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);
+		this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,1,'',2),30, true);
+		this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
+		//var jumpToFallArr = Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2);
+		this.jumpToFallEnd = 12; //jumpToFallArr[jumpToFallArr.length-1];
+		console.log(this.jumpToFallEnd);
+		this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
+		//var landArr = Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2);
+		this.landEnd = 17; //landArr[landArr.length-1];
+		this.animations.add('walk', Phaser.Animation.generateFrameNames('PG Cat 5-Walk-',0,19,'',2),30, true);
 
-	this.fsm = new StateMachine(this, {debug: true});
+		this.fsm = new StateMachine(this, {debug: true});
 
-	var self = this;
-	this.fsmIsMoving = false;
-	this.fsmIsJump = false;
+		var self = this;
+		this.fsmIsMoving = false;
+		this.fsmIsJump = false;
 
-	this.fsm.state('idle', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});
+		this.fsm.state('idle', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	this.fsm.state('walk', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});
+		this.fsm.state('walk', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	/*this.fsm.state('jump', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});
+		this.fsm.state('jump', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	this.fsm.state('jumpToFall', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});
+		this.fsm.state('jumpToFall', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	this.fsm.state('fall', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});
+		this.fsm.state('fall', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	this.fsm.state('land', {
-		enter: function(){ },
-		update: function(){ },
-		exit: function(){ }
-	});*/
+		this.fsm.state('land', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
 
-	this.fsm.transition('idle_to_walk', 'idle', 'walk', function(){
-		return ( self.fsmIsMoving === true );
-	});
+		this.fsm.transition('idle_to_walk', 'idle', 'walk', function(){
+			return ( self.fsmIsMoving === true );
+		});
 
-	this.fsm.transition('walk_to_idle', 'walk', 'idle', function(){
-		return ( self.fsmIsMoving === false );
-	});
+		this.fsm.transition('walk_to_idle', 'walk', 'idle', function(){
+			return ( self.fsmIsMoving === false );
+		});
 
-	/*this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
-		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
-	});
+		this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
+			return ( !self.checkIfCanJump() );
+		});
 
-	this.fsm.transition('walk_to_jump', 'walk', 'jump', function(){
-		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
-	});
+		this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
+			return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
+		});
 
-	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
-		return ( self.body.velocity.y*-1*self.body.data.gravityScale < 5);
-	});*/
+		this.fsm.transition('walk_to_jump', 'walk', 'jump', function(){
+			return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
+		});
 
-	/*this.fsm.transition('jumpToFall_to_fall', 'jumpToFall', 'fall', function(){
-		return (  );
-	});*/
+		this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
+			return ( self.body.velocity.y*-1*self.body.data.gravityScale < 5);
+		});
 
-	/*this.fsm.transition('fall_to_land', 'fall', 'land', function(){
-		return ( self.checkIfCanJump() );
-	});*/
+		this.fsm.transition('jumpToFall_to_fall', 'jumpToFall', 'fall', function(){
+			return ( self.animations.frame === self.jumpToFallEnd );
+		});
 
-	/*this.fsm.transition('land_to_idle', 'land', 'idle', function(){
-		return (  );
-	});*/
+		this.fsm.transition('fall_to_land', 'fall', 'land', function(){
+			return ( self.checkIfCanJump() );
+		});
 
-	this.animations.play(self.fsm.initialState);
+		this.fsm.transition('land_to_idle', 'land', 'idle', function(){
+			return ( self.animations.frame === self.landEnd ); //self.animations.loopCount > 0
+		});
+
+		this.animations.play(self.fsm.initialState);
+	}
 
 	this.move = function(direction, velocity){
 		var moveDist = velocity;
@@ -301,5 +312,7 @@ Player.prototype.update = function(){
 		this.puppetSurrogate();
 	}
 
-	this.fsm.update();
+	if(this.fsm){
+		this.fsm.update();
+	}
 }
