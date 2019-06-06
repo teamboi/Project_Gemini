@@ -9,7 +9,7 @@
 function Player(game, gameplay, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
 	this.gameplay = gameplay; // Obtain reference to gameplay state
-	this.scale.setTo(0.11, 0.11); // Scales the sprite
+	this.scale.setTo(0.13, 0.13); // Scales the sprite
 	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
@@ -59,6 +59,100 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 		this.body.setCollisionGroup(surrogateCG);
         this.body.collides([platformCG, objectCG, cloudCG]);
+	}
+
+	if(whichPlayer === 1 || whichPlayer === 2){
+		this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
+		this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);
+		this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,1,'',2),30, true);
+		this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
+		//var jumpToFallArr = Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2);
+		this.jumpToFallEnd = 12; //jumpToFallArr[jumpToFallArr.length-1];
+		console.log(this.jumpToFallEnd);
+		this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
+		//var landArr = Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2);
+		this.landEnd = 17; //landArr[landArr.length-1];
+		this.animations.add('walk', Phaser.Animation.generateFrameNames('PG Cat 5-Walk-',0,19,'',2),30, true);
+
+		this.fsm = new StateMachine(this, {debug: true});
+
+		var self = this;
+		this.fsmIsMoving = false;
+		this.fsmIsJump = false;
+
+		this.fsm.state('idle', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.state('walk', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.state('jump', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.state('jumpToFall', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.state('fall', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.state('land', {
+			enter: function(){ },
+			update: function(){ },
+			exit: function(){ }
+		});
+
+		this.fsm.transition('idle_to_walk', 'idle', 'walk', function(){
+			return ( self.fsmIsMoving === true );
+		});
+
+		this.fsm.transition('walk_to_idle', 'walk', 'idle', function(){
+			return ( self.fsmIsMoving === false );
+		});
+
+		this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
+			return ( !self.checkIfCanJump() );
+		});
+
+		this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
+			return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
+		});
+
+		this.fsm.transition('walk_to_jump', 'walk', 'jump', function(){
+			return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.controls[2]]) && self.checkIfCanJump() );
+		});
+
+		this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
+			return ( self.body.velocity.y*-1*self.body.data.gravityScale < 5);
+		});
+
+		this.fsm.transition('jumpToFall_to_fall', 'jumpToFall', 'fall', function(){
+			return ( self.animations.frame === self.jumpToFallEnd );
+		});
+
+		this.fsm.transition('fall_to_land', 'fall', 'land', function(){
+			return ( self.checkIfCanJump() );
+		});
+
+		this.fsm.transition('land_to_idle', 'land', 'idle', function(){
+			return ( self.animations.frame === self.landEnd ); //self.animations.loopCount > 0
+		});
+
+		this.animations.play(self.fsm.initialState);
 	}
 
 	this.move = function(direction, velocity){
@@ -188,11 +282,18 @@ Player.prototype.update = function(){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.move("left", this.xVelocity);
+			this.fsmIsMoving = true;
+			this.scale.x = Math.abs(this.scale.x);
 			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.move("right", this.xVelocity);
+	    	this.fsmIsMoving = true;
+	    	this.scale.x = -1*Math.abs(this.scale.x);
 	    	//this.body.moveRight(this.xVelocity);
+	    }
+	    else{
+	    	this.fsmIsMoving = false;
 	    }
 
 	    // Check for jumping
@@ -209,5 +310,9 @@ Player.prototype.update = function(){
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
 	else{
 		this.puppetSurrogate();
+	}
+
+	if(this.fsm){
+		this.fsm.update();
 	}
 }
