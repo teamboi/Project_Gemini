@@ -77,7 +77,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 		this.drawYarn("4", anchorCat.yarnColor); // Draw it in the active state
 
-		var tautDeadband = 3; // the margin of error to check beyond the taut length
+		var tautDeadband = 1; // the margin of error to check beyond the taut length
 		var velDeadband = 10; // the margin of error to check for the velocity differences
 		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn

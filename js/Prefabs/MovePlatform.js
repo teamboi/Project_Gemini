@@ -13,7 +13,7 @@
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
 // platformType = window or cloud
-function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, platformType){
+function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, key);
 
 	//this.scale.setTo(0.22, 0.11); // Scales the sprite
@@ -21,7 +21,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
 	this.isMoving = false;
 
 	this.gameplay = gameplay;
-	this.platformType = platformType;
 
 	// Enable physics
 	game.physics.p2.enable(this);
@@ -90,51 +89,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, pl
     	this.rightLimit.destroy();
     	this.destroy();
     }
-
-    this.cloudUpdate = function(){
-    	if(this.isMoving === "locked"){
-    		return;
-    	}
-    	else if(this.isMoving === false){
-    		if(this.gravDirMultiplier*this.body.velocity.y < 0){
-				this.isMoving = true;
-			}
-    	}
-    	else{
-    		this.leftLimit.updateYPosition(this.body.y);
-			this.rightLimit.updateYPosition(this.body.y);
-			if(this.gravDirMultiplier*this.body.velocity.y <= 0){
-				this.isMoving = false;
-
-				this.min.updateYPosition(this.body.y + (this.gravDirMultiplier*this.height));
-
-				if((this.gravDirMultiplier*this.body.y) - this.height < this.gravDirMultiplier*this.max.body.y){
-					this.isMoving = "locked";
-					this.static = true;
-				}
-			}
-    	}
-    }
-
-    this.windowUpdate = function(){
-    	if(this.isMoving === "locked"){
-    		return;
-    	}
-    	else if(this.isMoving === false){
-    		if(this.body.velocity.y != 0){
-				this.isMoving = true;
-			}
-    	}
-    	else{
-    		this.leftLimit.updateYPosition(this.body.y);
-			this.rightLimit.updateYPosition(this.body.y);
-			if((this.gravDirMultiplier*this.body.y) - this.height < this.gravDirMultiplier*this.max.body.y){
-				this.min.updateYPosition(this.body.y + (this.gravDirMultiplier*this.height));
-				this.isMoving = "locked";
-				this.static = true;
-			}
-    	}
-    }
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to MovePlatform
@@ -142,14 +96,21 @@ MovePlatform.prototype = Object.create(Phaser.Sprite.prototype);
 MovePlatform.prototype.constructor = MovePlatform;
 
 MovePlatform.prototype.update = function(){
-	switch(this.platformType){
-		case "cloud":
-			this.cloudUpdate();
-			break;
-		case "window":
-			this.windowUpdate();
-			break;
-		default:
-			console.log("Invalid platform type");
+	if(this.isMoving === "locked"){
+		return;
+	}
+	else if(this.isMoving === false){
+		if(this.body.velocity.y != 0){
+			this.isMoving = true;
+		}
+	}
+	else{
+		this.leftLimit.updateYPosition(this.body.y);
+		this.rightLimit.updateYPosition(this.body.y);
+		if((this.gravDirMultiplier*this.body.y) - this.height < this.gravDirMultiplier*this.max.body.y){
+			this.min.updateYPosition(this.body.y + (this.gravDirMultiplier*this.height));
+			this.isMoving = "locked";
+			this.static = true;
+		}
 	}
 }
