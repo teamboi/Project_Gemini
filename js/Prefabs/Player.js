@@ -14,7 +14,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	// Enable physics
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this);
 	this.body.clearShapes();
 	this.body.addRectangle(44, 31, -3, 5, 0);
 	this.body.fixedRotation = true; // Player cannot rotate
