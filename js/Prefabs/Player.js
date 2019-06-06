@@ -26,6 +26,22 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
+	this.fsm = new StateMachine(this, {debug: true});
+
+	var self = this;
+
+	this.fsm.state("idle", {
+		enter: function(){ },
+		update: function(){ },
+		exit: function(){ }
+	});
+
+	this.fsm.state("idle", {
+		enter: function(){ },
+		update: function(){ },
+		exit: function(){ }
+	});
+
 	var playerCG = this.gameplay.playerCollisionGroup;
 	var platformCG = this.gameplay.platformCollisionGroup;
 	var objectCG = this.gameplay.objectCollisionGroup;
