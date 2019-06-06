@@ -12,7 +12,7 @@ function MovePlatformLimiter(game, x, y, key){
 	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 	this.alpha = 0;
 
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this);
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.kinematic = true;
