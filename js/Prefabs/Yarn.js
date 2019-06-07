@@ -27,6 +27,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
+	this.wasYarnJustReleased = false;
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	this.playerDist = 0;
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
@@ -40,6 +41,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
 	this.neutralColor = 0x9D00FF;
+
+	this.midPoint = new YarnMidPoint(game, gameplay, key, player1, player2);
 
     this.modifyAnchor = function(anchorCat,otherCat){
 		anchorCat.anchorState = "isAnchor";
@@ -61,7 +64,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.updateYarn = function(){
 		// Only checks if the yarn is active
 		if(this.isYarn != true){
-			this.drawYarn("2", this.neutralColor); // Draw it as the inactive state
+			this.drawYarn("2", this.neutralColor, 'slack'); // Draw it as the inactive state
 			return;
 		}
 
@@ -75,7 +78,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 			var otherCat = this.player1;
 		}
 
-		this.drawYarn("4", anchorCat.yarnColor); // Draw it in the active state
+		this.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
 
 		var tautDeadband = 1; // the margin of error to check beyond the taut length
 		var velDeadband = 10; // the margin of error to check for the velocity differences
@@ -163,57 +166,58 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 	// Draw yarn function taken from:
 	// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
-	this.drawYarn = function(width, color){
-		var playerXDiff = (this.player2.body.x - this.player1.body.x)*.35;
-    	var playerYDiff = (this.player2.body.y - this.player1.body.y)*.35;
+	this.drawYarn = function(width, color, anchored){
+		if(anchored === 'taut'){
+			var playerXDiff = (this.player2.body.x - this.player1.body.x)*.35;
+	    	var playerYDiff = (this.player2.body.y - this.player1.body.y)*.35;
 
-    	var slackLength = this.tautLength - this.playerDist;
+	    	var slackLength = this.tautLength - this.playerDist;
 
-    	var tautThreshold = 5;
-    	var slackThreshold = 100;
-    	var slackMaxValue = 50;
+	    	var tautThreshold = 5;
+	    	var slackThreshold = .45*this.tautLength;
+	    	var slackMaxValue = 75;
 
-    	if(slackLength < tautThreshold){
-    		var handleOffsetMult = 0
-    	}
-    	else if(slackLength < slackThreshold){
-    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
-    	}
-    	else{
-    		var handleOffsetMult = slackMaxValue;
-    	}
+	    	if(slackLength < tautThreshold){
+	    		var handleOffsetMult = 0
+	    	}
+	    	else if(slackLength < slackThreshold){
+	    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
+	    	}
+	    	else{
+	    		var handleOffsetMult = slackMaxValue;
+	    	}
 
-    	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
-    	var handleYOffset = Math.cos(this.yarnAngle)*handleOffsetMult;
+	    	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
+	    	var handleYOffset = Math.cos(this.yarnAngle)*handleOffsetMult;
 
-    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
-    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
+	    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
+	    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
 
-		this.updateDrag(width, color);
-	}
+	    	this.bezierGraphics.clear();
+	    	this.bezierGraphics.lineStyle(width, color, 1);
+	    	this.bezierGraphics.moveTo(this.player1.x,this.player1.y);
+	    	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y);
+		}
+		else if(anchored === 'slack'){
+			if(this.wasYarnJustReleased === true){
+				this.wasYarnJustReleased = false;
 
-	// https://www.emanueleferonato.com/2015/08/21/playing-with-phaser-tweens-and-bezier-curves/
-	this.updateDrag = function(width, color){
-		var pointsArray = [this.player1, this.player1BAnchor, this.player2BAnchor, this.player2]
-		this.bezierGraphics.clear();
-		this.bezierGraphics.lineStyle(width, color, 1);
-		this.bezierGraphics.moveTo(pointsArray[0].x, pointsArray[0].y);
-		for (var i=0; i<1; i+=0.01){
-			var p = this.bezierPoint(pointsArray[0], pointsArray[1], pointsArray[2], pointsArray[3], i);
-			this.bezierGraphics.lineTo(p.x, p.y);
-		}  
-	}
+				this.midPoint.midAnchor.x = this.midPoint.x;
+				this.midPoint.midAnchor.y = this.midPoint.y;
 
-	this.bezierPoint = function(p0, p1, p2, p3, t){
-		var cX = 3 * (p1.x - p0.x);
-		var bX = 3 * (p2.x - p1.x) - cX;
-		var aX = p3.x - p0.x - cX - bX;
-		var cY = 3 * (p1.y - p0.y);
-		var bY = 3 * (p2.y - p1.y) - cY;
-		var aY = p3.y - p0.y - cY - bY;
-		var x = (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0.x;
-		var y = (aY * Math.pow(t, 3)) + (bY * Math.pow(t, 2)) + (cY * t) + p0.y;
-		return {x: x, y: y};     
+				this.midPoint.tweenMidPoint();
+			}
+			this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
+	    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
+
+			this.bezierGraphics.clear();
+	    	this.bezierGraphics.lineStyle(width, color, 1);
+	    	this.bezierGraphics.moveTo(this.player1.x,this.player1.y);
+	    	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y);
+		}
+		else{
+			console.log(anchored + " is not a valid state. taut or slack");
+		}
 	}
 }
 
@@ -240,6 +244,8 @@ Yarn.prototype.update = function(){
 	else if(this.anchored == 1){ // If player1 is anchoring
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
+			this.wasYarnJustReleased = true;
+			this.midPoint.changeMidAnchorYMult(this.player1);
 			this.removeYarn();
 			//this.player1.body.data.gravityScale = 1;
 			this.anchored = 0;
@@ -248,6 +254,8 @@ Yarn.prototype.update = function(){
 	else if(this.anchored == 2){ // If player2 is anchoring
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
+			this.wasYarnJustReleased = true;
+			this.midPoint.changeMidAnchorYMult(this.player2);
 			this.removeYarn();
 			//this.player2.body.data.gravityScale = -1;
 			this.anchored = 0;

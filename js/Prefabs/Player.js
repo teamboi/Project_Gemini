@@ -16,7 +16,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 	// Enable physics
 	game.physics.p2.enable(this);
 	this.body.clearShapes();
-	this.body.addRectangle(44, 31, -3, 5, 0);
+	this.body.addRectangle(44, 40, -3, 5, 0);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -36,6 +36,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
+		//this.body.data.gravityScale = 0;
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
 		this.yarnColor = 0xFF0400;
@@ -127,7 +128,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		});
 
 		this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
-			return ( !self.checkIfCanJump() );
+			return ( self.body.velocity.y*-1*self.body.data.gravityScale < -5); //!self.checkIfCanJump()
 		});
 
 		this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
@@ -147,7 +148,7 @@ function Player(game, gameplay, x, y, key, whichPlayer){
 		});
 
 		this.fsm.transition('fall_to_land', 'fall', 'land', function(){
-			return ( self.checkIfCanJump() );
+			return ( self.body.velocity.y*-1*self.body.data.gravityScale > -1 ); //self.checkIfCanJump()
 		});
 
 		this.fsm.transition('land_to_idle', 'land', 'idle', function(){
@@ -277,6 +278,10 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
+	if(this.whichPlayer === 1){
+		//console.log(this.body.velocity.y);
+	}
+
 	this.checkVertCollision();
 
 	// If this player isn't anchoring, move the player around
