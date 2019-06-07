@@ -58,7 +58,7 @@ function YarnMidPoint(game, gameplay, key, player1, player2){
 	this.calcMidPoint();
 
 	this.midAnchor = game.add.sprite(this.x, this.y, "point");
-	this.midAnchor = 0;
+	this.midAnchor.alpha = 0;
 	this.midAnchorYOffset = 0;
 	this.midAnchorYMult = 1;
 }
