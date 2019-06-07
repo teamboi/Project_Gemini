@@ -30,6 +30,11 @@ Windows.prototype = {
         this.createPlatforms();
 
         this.room = game.add.sprite(0,0,'Windows');
+
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(5);
+        this.dialog.TypeOutro(5);
        
         this.tutorialText();
 
@@ -51,10 +56,12 @@ Windows.prototype = {
         // Create the world barriers
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.window1 = new WindowMask(game, this, 727, 624, 'blueWindow', 'blueLatch', 600, 381, 'down');
+
+        this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
         game.add.existing(this.window1);
 
-        this.window2 = new WindowMask(game, this, 656, 106, 'redWindow', 'redLatch', 106, 288, 'up');
+        this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
+
         game.add.existing(this.window2);
     },
     update: function(){
@@ -63,13 +70,15 @@ Windows.prototype = {
             this.complete = true;
             game.time.events.add(1000, this.fade, this);
         }
-       if(this.window1.isMoving == 'locked' && this.oneCanWin == false){
+       if(this.window1.latch.isMoving == 'locked'){
             this.oneCanWin = true;
+            console.log("here");
         }
-        if(this.window2.isMoving == 'locked' && this.twoCanWin == false){
+        if(this.window2.latch.isMoving == 'locked'){
            this.twoCanWin = true;
+           console.log("here");
         }
-        if(Phaser.Math.difference(this.window1.x, this.player1.x, ) < 70 && this.oneCanWin == true) {
+        if(Phaser.Math.difference(this.window1.x, this.player1.x) < 300 && this.oneCanWin == true) {
             this.oneWin = true;
             game.add.tween(this.redGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = this.player1.x;
@@ -79,7 +88,7 @@ Windows.prototype = {
             this.oneWin = false;
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
-        if(Phaser.Math.difference(this.window2.x, this.player2.x, ) < 70 && this.twoCanWin == true) {
+        if(Phaser.Math.difference(this.window2.x, this.player2.x) < 205 && this.twoCanWin == true) {
             this.twoWin = true;
             game.add.tween(this.blueGlow).to( { alpha: 0.3 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.blueGlow.x = this.player2.x;
@@ -97,7 +106,7 @@ Windows.prototype = {
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
-        game.state.start('Tether', true, false);
+        game.state.start('Tether', true, false, this.ost);
     },
     glow: function() {
         this.redGlow = game.add.sprite(834, 428, 'heart');
@@ -114,7 +123,7 @@ Windows.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         platform.anchor.setTo(0.5,0.5);
-        game.physics.p2.enable(platform, true);
+        game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);

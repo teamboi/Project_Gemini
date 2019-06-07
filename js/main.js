@@ -16,10 +16,12 @@ window.onload = function(){
 	//Add the states
 	game.state.add('Boot', Boot);
 	game.state.add('Load', Load);
+	game.state.add('Theme', Theme);
 	game.state.add('MainMenu', MainMenu);
 	// Chapter One
 	game.state.add('Together', Together);
 	game.state.add('Cats', Cats);
+	game.state.add('Cradle', Cradle);
 	game.state.add('Threads', Threads);
 	// Chapter Two
 	game.state.add('Separate', Separate);
@@ -30,7 +32,7 @@ window.onload = function(){
 	game.state.add('Fences', Fences);
 	game.state.add('Clouds', Clouds);
 	
-	
+	game.state.add('Ending', Ending);
 	game.state.add('GameOver', GameOver);
 	
 	game.state.start('Boot');

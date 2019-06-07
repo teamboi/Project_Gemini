@@ -26,15 +26,26 @@ Fences.prototype = {
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0xffffff, 2000);
 
+
+        //this.room = game.add.sprite(0,0,'Fences');
+
+
         // Call the loaded in tilemap assets
         this.createPlatforms();
-        this.room = game.add.sprite(0,0,'Fences');
-        
-        // Add the level objectives
+
+         // Add the level objectives
         this.fishBowl = game.add.sprite(79, 404, 'fishbowl');
         this.flower = game.add.sprite(79, 304, 'flower');
 
+        this.room = game.add.sprite(0,0,'Fences');
 
+
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(6);
+        this.dialog.TypeOutro(6);
+
+        
         // Add in the players
         this.player1 = new Player(game, this, 853, 596, "cat1", 'cat1Hitbox', 1);
         game.add.existing(this.player1);
@@ -53,11 +64,11 @@ Fences.prototype = {
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
+        /*this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud2', 114, 300, 'up', 'window');
-        game.add.existing(this.cloud2);
+        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud6', 114, 300, 'up', 'window');
+        game.add.existing(this.cloud2);*/
 
     },
     update: function(){
@@ -109,7 +120,7 @@ Fences.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         //platform.scale.setTo(0.08,0.08);
-        game.physics.p2.enable(platform, true);
+        game.physics.p2.enable(platform);
         platform.anchor.setTo(0.5,0.5);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

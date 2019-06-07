@@ -26,7 +26,7 @@ Separate.prototype = {
 		this.ost.onDecoded.add(this.startOST, this);
 
         this.narrate = game.add.audio('narrate');
-        this.narrate.onDecoded.add(this.startNar, this);
+        //this.narrate.onDecoded.add(this.startNar, this);
 
 		//game.add.tween(this.title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0);
 		
@@ -37,8 +37,8 @@ Separate.prototype = {
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.play('', 0, 1, true);
-		this.ost.volume = 0.5;	
+		this.ost.fadeIn(1000, true);
+		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {
 		// Begin playing the intro narration

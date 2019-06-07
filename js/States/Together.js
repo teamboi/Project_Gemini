@@ -17,7 +17,7 @@ Together.prototype = {
 		}
 
 		// Add in the title card, initally invisible
-		this.title = game.add.sprite(0,0,'Together');
+		this.title = game.add.sprite(0,0,'togetherTitle');
 
 		game.camera.flash(0xffffff, 2000);
 
@@ -27,7 +27,7 @@ Together.prototype = {
 
 		// Begin to play the level one narration
         this.narrate = game.add.audio('oneIntro');
-        this.narrate.onDecoded.add(this.startNar, this);
+        //this.narrate.onDecoded.add(this.startNar, this);
         
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
@@ -35,8 +35,8 @@ Together.prototype = {
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.play('', 0, 1, true);
-		this.ost.volume = 0.5;	
+		this.ost.fadeIn(1000, true);
+		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {
 		// Begin playing the intro narration

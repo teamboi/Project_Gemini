@@ -31,11 +31,21 @@ Clouds.prototype = {
         game.camera.onFadeComplete.add(this.resetFade, this);
         game.camera.flash(0xffffff, 2000);
 
-        this.room = game.add.sprite(0,0,'Clouds');
-
         //For when we create a tileset
         this.createPlatforms();
 
+        this.room = game.add.sprite(0,0,'Clouds1');
+        this.room2 = game.add.sprite(0,0,'Clouds2');
+        this.room2.alpha = 0;
+        this.room3 = game.add.sprite(0,0,'Clouds3');
+        this.room3.alpha = 0;
+
+        
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(7);
+        this.dialog.TypeOutro(7);
+        
 
         // Add in the players
         this.player1 = new Player(game, this, 85, 500, "cat1",'cat1Hitbox', 1);
@@ -53,10 +63,10 @@ Clouds.prototype = {
 
         this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new Cloud(game, this, 450, 607, 'cloud2', 607, 380, 'down');
+        this.cloud1 = new MovePlatform(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new Cloud(game, this, 450, 99, 'cloud2', 99, 320, 'up');
+        this.cloud2 = new MovePlatform(game, this, 450, 99, 'purpCloud', 99, 350, 'up');
         game.add.existing(this.cloud2);
 
         this.glow();
@@ -64,10 +74,11 @@ Clouds.prototype = {
     update: function(){
         //Check for player one's win state
         if(this.complete == true) {
-            game.time.events.add(3000, this.fade, this);
+            game.time.events.add(2000, this.preFade, this);
         }
         if(this.cloud1.isMoving == 'locked'){
             this.oneCanWin = true;
+            game.add.tween(this.room2).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
         }
         if(this.cloud2.isMoving == 'locked'){
            this.twoCanWin = true;
@@ -76,13 +87,19 @@ Clouds.prototype = {
         if(this.oneCanWin == true && this.twoCanWin == true) {
             if(this.barrierDestroyed == false) {
                 this.barrierDestroyed = true;
-                this.barrier.destroy();
+                game.time.events.add(1000, this.destoyBarrier, this);
+                game.add.tween(this.barrier).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 0);
+                game.add.tween(this.room3).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
             }
-            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 && Phaser.Math.distance(this.player2.x, this.player2.y, game.width/2, game.height/2)){
                 this.complete = true;
                 game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
                 this.redGlow.x = (this.player1.x + this.player2.x)/2;
                 this.redGlow.y = (this.player1.y + this.player2.y)/2;
+            }
+            else { 
+                this.complete = false;
+                game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
             }
         }
     },
@@ -92,21 +109,29 @@ Clouds.prototype = {
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
     },
-
+    preFade: function() {
+        if(this.complete == true) {
+            game.time.events.add(1000, this.fade, this);
+        }
+    },
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
         this.ost.fadeOut(2000);
     },
     resetFade: function() {
-        game.state.start('GameOver', true, false);
+        game.state.start('Ending', true, false, this.ost);
+    },
+    destoyBarrier: function() {
+        this.barrier.destroy();
     },
 
     //Helper function to create platforms the old fashion way
     createBarrier: function(x,y,width,height){
-        var platform = game.add.sprite(x,y, 'bluePlat');
-        platform.scale.setTo(0.08,0.08);
-        game.physics.p2.enable(platform, true);
+        var platform = game.add.sprite(x,y, 'line');
+        //platform.scale.setTo(0.08,0.08);
+        platform.anchor.setTo(0.5,0.5);
+        game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);

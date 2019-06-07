@@ -13,6 +13,8 @@ Cats.prototype = {
         this.outroPlaying = false;
         this.showExit = false;
         this.complete = false;
+        this.oneVertOffset = 0;
+        this.twoVertOffset = 0;
 	},
 	create: function(){
 
@@ -21,14 +23,10 @@ Cats.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        // Check for spacebar input
-        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
         // Fade into the scene
         game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
-        this.space.onDown.add(this.fade, this);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
@@ -40,18 +38,24 @@ Cats.prototype = {
         //convertCollisionObjects(map, layer, addToWorld) 
         this.dialog = new DialogManager(game, "ball");
         game.add.existing(this.dialog);
+        this.dialog.TypeIntro(1);
+        this.dialog.TypeOutro(1);
+        
+        
 
         // Add in the players with the Player prefab constructor
+
         this.player1 = new Player(game, this, 68, 516, "cat1", 'cat1Hitbox', 1);
         game.add.existing(this.player1);
 
         this.player2 = new Player(game, this, 818, 199, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
 
+        game.add.existing(this.player2);
+        this.tutorialText();
         this.glow();
 
         //Create the tutorial text
-        this.tutorialText();
+        //this.tutorialText();
 
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
@@ -87,26 +91,28 @@ Cats.prototype = {
 	update: function(){
         
         this.p1Controls.x = this.player1.x;
-        this.p1Controls.y = this.player1.y;
+        this.p1Controls.y = this.player1.y - this.oneVertOffset;
         
         this.p2Controls.x = this.player2.x;
-        this.p2Controls.y = this.player2.y;
+        this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
+        if(game.math.difference(this.player1.body.x, game.width) < 400) {
             this.p1Controls.setText("W", true);
+            this.oneVertOffset = 40;
             if(!this.outroPlaying) {
                 this.outroPlaying = true;
-                this.narrate = game.add.audio('oneOutro');
-                this.narrate.play('', 0, 1, false);
-                this.narrate.volume = 1;
+                //this.narrate = game.add.audio('oneOutro');
+                //this.narrate.play('', 0, 1, false);
+                //this.narrate.volume = 1;
             }
         }
-        if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
+        if(game.math.difference(this.player2.body.x, 0) < 400) {
             this.p2Controls.setText("🡫", true);
+            this.twoVertOffset = 40;
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
-            game.time.events.add(3000, this.fade, this);
+            game.time.events.add(2000, this.preFade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
@@ -126,12 +132,17 @@ Cats.prototype = {
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
     },
+    preFade: function() {
+        if(this.complete == true) {
+            game.time.events.add(1000, this.fade, this);
+        }
+    },
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
     },
     resetFade: function() {
-        game.state.start('Threads', true, false, this.ost);
+        game.state.start('Cradle', true, false, this.ost);
         //game.camera.resetFX();
     },
 	//Function to manually create the platforms
