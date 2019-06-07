@@ -23,7 +23,7 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	this.gameplay = gameplay;
 
 	// Enable physics
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this);
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;

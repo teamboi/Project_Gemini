@@ -53,10 +53,10 @@ Clouds.prototype = {
 
         this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 450, 607, 'cloud2', 607, 380, 'down', 'window');
+        this.cloud1 = new Cloud(game, this, 450, 607, 'cloud2', 607, 380, 'down');
         game.add.existing(this.cloud1);
 
-        this.cloud2 = new MovePlatform(game, this, 450, 99, 'cloud2', 99, 320, 'up', 'window');
+        this.cloud2 = new Cloud(game, this, 450, 99, 'cloud2', 99, 320, 'up');
         game.add.existing(this.cloud2);
 
         this.glow();

@@ -22,7 +22,7 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir);
 	game.add.existing(this.cloud);
 
-	this.cloud.alpha = 0.5;
+	this.cloud.alpha = 0.95;
 
 	if(gravityDir == "down"){
 
@@ -41,6 +41,6 @@ Cloud.prototype.constructor = Cloud;
 
 Cloud.prototype.update = function(){
 	if(this.cloud.isMoving === "locked"){
-		game.add.tween(this).to( { alpha: 1 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0, false);
+		game.add.tween(this.cloud).to( { alpha: 1 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0, false);
 	}
 }
