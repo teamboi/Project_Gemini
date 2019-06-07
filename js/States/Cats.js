@@ -23,14 +23,10 @@ Cats.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        // Check for spacebar input
-        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
         // Fade into the scene
         game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
-        this.space.onDown.add(this.fade, this);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
@@ -40,20 +36,29 @@ Cats.prototype = {
 
 
         //convertCollisionObjects(map, layer, addToWorld) 
-        //this.dialog = new DialogManager(game, "ball");
-        //game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(1);
+        this.dialog.TypeOutro(1);
+        
+        
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 1);
-        game.add.existing(this.player1);
+        
 
         this.player2 = new Player(game, this, 818, 199, "cat2", 2);
+        
+
+        //Create the tutorial text
+        this.tutorialText();
+        game.add.existing(this.player1);
         game.add.existing(this.player2);
 
         this.glow();
 
         //Create the tutorial text
-        this.tutorialText();
+        //this.tutorialText();
 
         //Add the surrogate player so our string plays nicely
        /* this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
@@ -94,7 +99,7 @@ Cats.prototype = {
         this.p2Controls.x = this.player2.x;
         this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        if(game.math.difference(this.player1.body.x, game.width/2) < 100) {
+        if(game.math.difference(this.player1.body.x, game.width) < 400) {
             this.p1Controls.setText("W", true);
             this.oneVertOffset = 40;
             if(!this.outroPlaying) {
@@ -104,7 +109,7 @@ Cats.prototype = {
                 //this.narrate.volume = 1;
             }
         }
-        if(game.math.difference(this.player2.body.x, game.width/2) < 100) {
+        if(game.math.difference(this.player2.body.x, 0) < 400) {
             this.p2Controls.setText("🡫", true);
             this.twoVertOffset = 40;
             this.showExit = true;

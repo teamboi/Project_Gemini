@@ -38,22 +38,30 @@ Cradle.prototype = {
         this.room = game.add.sprite(0,0,'Cradle');
 
 
-        //convertCollisionObjects(map, layer, addToWorld) 
-        //this.dialog = new DialogManager(game, "ball");
-        //game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(2);
+        this.dialog.TypeOutro(2);
+
+        //Create the tutorial text
+        //this.tutorialText();
+
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 68, 516, "cat1", 1);
-        game.add.existing(this.player1);
+        this.player1 = new Player(game, this, 707, 416, "cat1", 1);
+        //game.add.existing(this.player1);
 
-        this.player2 = new Player(game, this, 818, 199, "cat2", 2);
+        this.player2 = new Player(game, this, 175, 350, "cat2", 2);
+        //game.add.existing(this.player2);
+
+        //Create the tutorial text
+        this.tutorialText();
+        game.add.existing(this.player1);
         game.add.existing(this.player2);
 
         this.glow();
 
-        //Create the tutorial text
-        this.tutorialText();
-
+        
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
         game.add.existing(this.surrogate);

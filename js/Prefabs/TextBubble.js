@@ -5,9 +5,12 @@
 function TextBubble(game, key, x, y, width, text){
 	Phaser.Sprite.call(this, game, 0, 0, key);
 
+	this.bubble = game.add.sprite(x,y,'bubble');
+	this.bubble.anchor.setTo(0.5, 0.5);
 	//this.text = text;
-	var style = {font: 'Impact', fontSize: '27px', fill: '#FF7373', align: "center", wordWrap: true, wordWrapWidth: width};
+	var style = {font: "Lucida Sans Unicode", fontSize: '28px', fill: '#212121', align: "center", wordWrap: true, wordWrapWidth: width};
 	this.text = game.add.text(x, y, text, style);
+	this.text.anchor.setTo(0.5, 0.5);
 	this.alpha = 0;
 	this.text.alpha = 0;
 

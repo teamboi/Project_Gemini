@@ -61,9 +61,9 @@ Load.prototype = {
 		game.load.image('Houses', 'img/bg/new_Houses.png');
 		game.load.image('Windows', 'img/bg/new_Windows.png');
 		game.load.image('Fences', 'img/bg/new_Fences.png');
-		game.load.image('Clouds1', 'img/bg/new_cloud_puzzle2.png');
-		game.load.image('Clouds2', 'img/bg/new_cloud_puzzle3.png');
-		game.load.image('Clouds3', 'img/bg/new_cloud_puzzle4.png');
+		game.load.image('Clouds1', 'img/bg/newer_cloud_puzzle2.png');
+		game.load.image('Clouds2', 'img/bg/newer_cloud_puzzle3.png');
+		game.load.image('Clouds3', 'img/bg/newer_cloud_puzzle4.png');
 		
 		//Load in object sprites
 		game.load.image('redWindow', 'img/objects/redPullWindow.png');
@@ -75,12 +75,8 @@ Load.prototype = {
 		game.load.image('purpCloud', 'img/objects/purpCloud.png');
 		game.load.image('purpCloud2', 'img/objects/purpCloud2.png');
 		
-		
-		
-		
 		game.load.image('line', 'img/bg/line.png');
-
-
+		game.load.image('bubble', 'img/bg/bubble.png');
 
 
         game.load.tilemap('levelOne','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);

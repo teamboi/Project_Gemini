@@ -35,6 +35,11 @@ Houses.prototype = {
         // Call the background sprite
         this.room = game.add.sprite(0,0,'Houses');
 
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(4);
+        this.dialog.TypeOutro(4);
+
         // Add in objective glow
         this.glow();
       

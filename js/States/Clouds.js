@@ -41,7 +41,11 @@ Clouds.prototype = {
         this.room3.alpha = 0;
 
         
-
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(7);
+        this.dialog.TypeOutro(7);
+        
 
         // Add in the players
         this.player1 = new Player(game, this, 85, 500, "cat1", 1);
@@ -87,7 +91,7 @@ Clouds.prototype = {
                 game.add.tween(this.barrier).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 0);
                 game.add.tween(this.room3).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
             }
-            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70 && Phaser.Math.distance(this.player2.x, this.player2.y, game.width/2, game.height/2)){
+            if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 && Phaser.Math.distance(this.player2.x, this.player2.y, game.width/2, game.height/2)){
                 this.complete = true;
                 game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
                 this.redGlow.x = (this.player1.x + this.player2.x)/2;

@@ -30,6 +30,11 @@ Windows.prototype = {
         this.createPlatforms();
 
         this.room = game.add.sprite(0,0,'Windows');
+
+        this.dialog = new DialogManager(game, "ball");
+        game.add.existing(this.dialog);
+        this.dialog.TypeIntro(5);
+        this.dialog.TypeOutro(5);
        
         this.tutorialText();
 
@@ -52,10 +57,10 @@ Windows.prototype = {
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
 
-        this.window1 = new WindowMask(game, this, 727, 624, 'blueWindow', 'blueLatch', 600, 381, 'down');
+        this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
         game.add.existing(this.window1);
 
-        this.window2 = new WindowMask(game, this, 656, 106, 'redWindow', 'redLatch', 106, 288, 'up');
+        this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
 
         game.add.existing(this.window2);
     },
