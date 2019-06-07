@@ -35,12 +35,12 @@ MainMenu.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(2000);
+    	this.ost.fadeOut(2500);
     	game.camera.fade(0xffffff, 2000);
 
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Together', true, false, this.ost);
+		game.state.start('Clouds', true, false, this.ost);
 	}
 };

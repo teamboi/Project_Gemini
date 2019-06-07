@@ -11,9 +11,9 @@ Ending.prototype = {
         this.theme = ost;
     },
 	create: function(){
-        if(this.theme.isPlaying == true) {
+        /*if(this.theme.isPlaying == true) {
             this.theme.fadeOut(1000);
-        }
+        }*/
         //Add in the game over picture
         this.menu = game.add.sprite(0,0,'endTitle');
         game.camera.flash(0xffffff, 2000);
@@ -28,7 +28,7 @@ Ending.prototype = {
         game.time.events.add(5000, this.fade, this);
     },
     startOST: function() {
-        this.ost.fadeIn(1000, true);
+        this.ost.fadeIn(3000, true);
         //this.ost.play('', 0, 1, true);    
         //this.ost.volume = 0.5;
     },

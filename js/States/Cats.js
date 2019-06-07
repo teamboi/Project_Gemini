@@ -96,7 +96,7 @@ Cats.prototype = {
         this.p2Controls.x = this.player2.x;
         this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        if(game.math.difference(this.player1.body.x, game.width) < 400) {
+        if(game.math.difference(this.player1.body.x, game.width/2) < 10) {
             this.p1Controls.setText("W", true);
             this.oneVertOffset = 40;
             if(!this.outroPlaying) {
@@ -106,7 +106,7 @@ Cats.prototype = {
                 //this.narrate.volume = 1;
             }
         }
-        if(game.math.difference(this.player2.body.x, 0) < 400) {
+        if(game.math.difference(this.player2.body.x, game.width/2) < 10) {
             this.p2Controls.setText("🡫", true);
             this.twoVertOffset = 40;
             this.showExit = true;

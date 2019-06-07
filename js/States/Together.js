@@ -12,9 +12,9 @@ Together.prototype = {
     },
 	create: function(){
 		// Fade out the title theme
-		if(this.theme.isPlaying == true) {
+		/*if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(1000);
-		}
+		}*/
 
 		// Add in the title card, initally invisible
 		this.title = game.add.sprite(0,0,'togetherTitle');
@@ -24,6 +24,7 @@ Together.prototype = {
 		// Begin to play the chapter one theme
 		this.ost = game.add.audio('Together');
 		this.ost.onDecoded.add(this.startOST, this);
+		this.theme.onFadeComplete(this.stopTheme, this);
 
 		// Begin to play the level one narration
         this.narrate = game.add.audio('oneIntro');
@@ -35,7 +36,12 @@ Together.prototype = {
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.fadeIn(1000, true);
+		this.ost.fadeIn(3000, true);
+		//this.ost.volume = 0.5;	
+	},
+	stopTheme: function() {
+		// Stop playaing prev theme
+		this.theme.stop();
 		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {

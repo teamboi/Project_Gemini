@@ -103,7 +103,7 @@ Windows.prototype = {
     fade: function() {
         //Fade camera and level theme
         game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2000);
+        this.ost.fadeOut(2500);
     },
     resetFade: function() {
         game.state.start('Tether', true, false, this.ost);

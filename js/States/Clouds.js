@@ -117,7 +117,7 @@ Clouds.prototype = {
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2000);
+        this.ost.fadeOut(2500);
     },
     resetFade: function() {
         game.state.start('Ending', true, false, this.ost);

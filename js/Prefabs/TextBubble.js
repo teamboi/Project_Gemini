@@ -8,7 +8,7 @@ function TextBubble(game, key, x, y, width, text){
 	this.bubble = game.add.sprite(x,y,'bubble');
 	this.bubble.anchor.setTo(0.5, 0.5);
 	//this.text = text;
-	var style = {font: "Lucida Sans Unicode", fontSize: '28px', fill: '#212121', align: "center", wordWrap: true, wordWrapWidth: width};
+	var style = {font: "Lucida Sans Unicode", fontSize: '22px', fill: '#212121', align: "center", wordWrap: true, wordWrapWidth: width};
 	this.text = game.add.text(x, y, text, style);
 	this.text.anchor.setTo(0.5, 0.5);
 	this.alpha = 0;
