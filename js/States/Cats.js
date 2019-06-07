@@ -44,17 +44,14 @@ Cats.prototype = {
         
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 68, 516, "cat1", 1);
-        
 
-        this.player2 = new Player(game, this, 818, 199, "cat2", 2);
-        
-
-        //Create the tutorial text
-        this.tutorialText();
+        this.player1 = new Player(game, this, 68, 516, "cat1", 'cat1Hitbox', 1);
         game.add.existing(this.player1);
-        game.add.existing(this.player2);
 
+        this.player2 = new Player(game, this, 818, 199, "cat2", 'cat1Hitbox', 2);
+
+        game.add.existing(this.player2);
+        this.tutorialText();
         this.glow();
 
         //Create the tutorial text

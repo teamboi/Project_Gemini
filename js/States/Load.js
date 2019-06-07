@@ -52,6 +52,7 @@ Load.prototype = {
         //Load in the character sprites
        	//game.load.image('cat1', 'img/cats/cat1.png');
         game.load.atlas('cat1', 'img/cats/redCat.png', 'img/cats/redCat.json');
+        game.load.image('cat1Hitbox', 'img/cats/cat1HitBox.png');
         //game.load.image('cat2', 'img/cats/cat2.png');
         game.load.atlas('cat2', 'img/cats/redCat.png', 'img/cats/redCat.json');
         //Load the platforms and background

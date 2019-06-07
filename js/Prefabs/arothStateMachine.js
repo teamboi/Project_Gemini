@@ -75,12 +75,12 @@ var StateMachine = function(entity, opts) {
       if( this.lastTransition ){
         this.entity.animations.play(this.lastTransition.name);
         if( this.opts.debug ){
-          console.log("Play transitional animation: " + this.lastTransition.name);
+          //console.log("Play transitional animation: " + this.lastTransition.name);
         }
       }
       if (state.enter) {
         if(this.opts.debug) {
-          console.log("%cEnter state " + this.currentState, "color: green; font-size: 14px");
+          //console.log("%cEnter state " + this.currentState, "color: green; font-size: 14px");
         }
         // set timer to current time using JS Date object
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
@@ -97,7 +97,7 @@ var StateMachine = function(entity, opts) {
 
     if(this.entity.animations.currentAnim.name != this.currentState){
       if(this.opts.debug ){
-        console.log("Play animation: " + this.currentState);
+        //console.log("Play animation: " + this.currentState);
       }
       this.entity.animations.play(this.currentState);
     }
