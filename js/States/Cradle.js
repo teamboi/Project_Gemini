@@ -29,7 +29,6 @@ Cradle.prototype = {
         game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
-        this.space.onDown.add(this.fade, this);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
@@ -48,10 +47,10 @@ Cradle.prototype = {
 
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 707, 416, "cat1", 1);
+        this.player1 = new Player(game, this, 707, 416, "cat1", 'cat1Hitbox', 1);
         //game.add.existing(this.player1);
 
-        this.player2 = new Player(game, this, 175, 350, "cat2", 2);
+        this.player2 = new Player(game, this, 175, 350, "cat2", 'cat1Hitbox', 2);
         //game.add.existing(this.player2);
 
         //Create the tutorial text
