@@ -41,7 +41,7 @@ Windows.prototype = {
         this.player2 = new Player(game, this, 170, 164, "cat2", 'cat1Hitbox', 2);
         game.add.existing(this.player2);
         //Create the surrogate player for the yarn
-        this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
+        this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
         game.add.existing(this.surrogate);
 
         // Add in the yarn

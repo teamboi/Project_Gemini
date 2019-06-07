@@ -36,13 +36,13 @@ Fences.prototype = {
 
 
         // Add in the players
-        this.player1 = new Player(game, this, 853, 596, "cat1", 1);
+        this.player1 = new Player(game, this, 853, 596, "cat1", 'cat1Hitbox', 1);
         game.add.existing(this.player1);
 
-        this.player2 = new Player(game, this, 808, 257, "cat2", 2);
+        this.player2 = new Player(game, this, 808, 257, "cat2", 'cat1Hitbox', 2);
         game.add.existing(this.player2);
         //Create the surrogate player for the yarn
-        this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
+        this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
         game.add.existing(this.surrogate);
 
         this.glow();

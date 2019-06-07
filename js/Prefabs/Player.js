@@ -15,7 +15,11 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	this.meow = game.add.audio('meow'); // Adds in meow sfx
 
 	if(whichPlayer === 1 || whichPlayer === 2){
-		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key);
+		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key, whichPlayer);
+	}
+	else{
+		this.catSprite = game.add.sprite(x,y,hitboxKey);
+		this.catSprite.alpha = 0;
 	}
 
 	// Enable physics
@@ -33,6 +37,9 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
+
+	this.fsmIsMoving = false;
+	this.fsmIsJump = false;
 
 	var playerCG = this.gameplay.playerCollisionGroup;
 	var platformCG = this.gameplay.platformCollisionGroup;
@@ -70,9 +77,6 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		this.body.setCollisionGroup(surrogateCG);
         this.body.collides([platformCG, objectCG, cloudCG]);
 	}
-
-	this.fsmIsMoving = false;
-	this.fsmIsJump = false;
 
 	this.move = function(direction, velocity){
 		var moveDist = velocity;

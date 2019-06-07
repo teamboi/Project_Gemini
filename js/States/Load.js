@@ -97,6 +97,6 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		game.state.start('Windows');
+		game.state.start('Threads');
 	}
 };

@@ -6,7 +6,7 @@
 "use strict";
 
 // Constructor for Player
-function PlayerFSM(game, gameplay, player, x, y, key){
+function PlayerFSM(game, gameplay, player, x, y, key, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this);
 	this.scale.setTo(0.11, 0.11); // Scales the sprite
@@ -14,6 +14,7 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	this.player = player;
+	this.whichPlayer = whichPlayer;
 
 	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
 	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);
@@ -111,4 +112,7 @@ PlayerFSM.prototype.constructor = PlayerFSM;
 
 PlayerFSM.prototype.update = function(){
 	this.fsm.update();
+	if(this.whichPlayer === 2){
+		console.log("I exist");
+	}
 }
