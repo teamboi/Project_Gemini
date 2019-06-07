@@ -4,29 +4,24 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 //Initialize the Main Menu state
-var MainMenu = function(game){};
-MainMenu.prototype = {
-	init: function(ost){
-		// initialize variables for gameplay
-        this.ost = ost;
-    },
+var Theme = function(game){};
+Theme.prototype = {
 	create: function(){
 		// Add in the title card
-		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
-		this.menu.anchor.setTo(0.5,0.5);
-
+		this.menu = game.add.sprite(0,0,'theme');
+		//this.menu.anchor.setTo(0.5,0.5);
+		game.camera.flash(0xffffff, 2000);
 		// Play the Main Theme
-		//this.ost = game.add.audio('Cradle');
-		//this.ost.onDecoded.add(this.startOST, this);
+		this.ost = game.add.audio('Cradle');
+		this.ost.onDecoded.add(this.startOST, this);
 		//this.ost.fadeIn(500, true);
 		//this.ost.play('', 0, 1, true);
 		
 		// Check for the spacebar to start the game
-		this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		this.space.onDown.add(this.fade, this);
+		game.time.events.add(3000, this.fade, this);
 	},
 	startOST: function() {
 		this.ost.fadeIn(500, true);
@@ -35,12 +30,12 @@ MainMenu.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(2000);
+    	//this.ost.fadeOut(2000);
     	game.camera.fade(0xffffff, 2000);
 
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Together', true, false, this.ost);
+		game.state.start('MainMenu', true, false, this.ost);
 	}
 };

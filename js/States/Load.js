@@ -19,7 +19,10 @@ Load.prototype = {
 		game.load.audio('Separate', 'audio/ost2/Separate2.mp3');
 		game.load.audio('Tether', 'audio/ost2/Tether2.mp3');
 		
-		game.load.audio('meow', 'audio/sfx/meow22.mp3');
+		game.load.audio('short_meow1', 'audio/sfx/Cat_1_Short.mp3');
+		game.load.audio('short_meow2', 'audio/sfx/Cat_2_Short.mp3');
+		game.load.audio('long_meow1', 'audio/sfx/Cat_1_Long.mp3');
+		game.load.audio('long_meow2', 'audio/sfx/Cat_2_Long.mp3');
 		game.load.audio('oneIntro', 'audio/sfx/sfx_level_one_intro.mp3');
 		game.load.audio('oneOutro', 'audio/sfx/sfx_level_one_outro.mp3');
 		game.load.audio('twoIntro', 'audio/sfx/sfx_level_two_intro.mp3');
@@ -28,6 +31,7 @@ Load.prototype = {
 		
 		
 		game.load.image('title', 'img/cats/title.png');
+		game.load.image('theme', 'img/cats/theme.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
 		game.load.image('togetherTitle', 'img/cats/togetherTitle.png');
 		game.load.image('housesTitle', 'img/cats/housesTitle.png');
@@ -101,6 +105,6 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		game.state.start('MainMenu');
+		game.state.start('Theme');
 	}
 };

@@ -5,7 +5,8 @@
 "use strict";
 //Initialize the Main Menu state
 var Tether = function(game){};
-Tether.prototype = {init: function(ost){
+Tether.prototype = {
+	init: function(ost){
 		// initialize variables for gameplay
         this.theme = ost;
     },
