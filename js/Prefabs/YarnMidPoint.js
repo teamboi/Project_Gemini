@@ -71,5 +71,5 @@ YarnMidPoint.prototype.update = function(){
 	this.calcMidPoint();
 
 	this.midAnchor.x = this.x;
-	this.midAnchor.y = this.y + (175 * this.midAnchorYOffset * this.midAnchorYMult);
+	this.midAnchor.y = this.y + (125 * this.midAnchorYOffset * this.midAnchorYMult);
 }
