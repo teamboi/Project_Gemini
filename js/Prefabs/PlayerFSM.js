@@ -77,7 +77,7 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 	});
 
 	this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
-		return ( !self.player.checkIfCanJump()); //!self.checkIfCanJump()
+		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -15); //!self.checkIfCanJump()
 	});
 
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
