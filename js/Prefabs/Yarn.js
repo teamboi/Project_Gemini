@@ -199,10 +199,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
 	    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
 
-	    	this.bezierGraphics.clear();
-	    	this.bezierGraphics.lineStyle(width, color, 1);
-	    	this.bezierGraphics.moveTo(this.player1.x,this.player1.y);
-	    	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y);
+	    	this.drawBezierYarn(width, color);
 		}
 		else if(anchored === 'slack'){
 			if(this.wasYarnJustReleased === true){
@@ -213,17 +210,28 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 				this.midPoint.tweenMidPoint();
 			}
-			this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
-	    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
+			var player1XDist = this.midPoint.midAnchor.x - this.player1.x;
+			var player1YDist = this.midPoint.midAnchor.y - this.player1.y;
+			var player2XDist = this.midPoint.midAnchor.x - this.player2.x;
+			var player2YDist = this.midPoint.midAnchor.y - this.player2.y;
 
-			this.bezierGraphics.clear();
-	    	this.bezierGraphics.lineStyle(width, color, 1);
-	    	this.bezierGraphics.moveTo(this.player1.x,this.player1.y);
-	    	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y);
+			var margin = .2;
+
+			this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x - player1XDist*margin, this.midPoint.midAnchor.y - player1YDist*margin);
+	    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x - player2XDist*margin, this.midPoint.midAnchor.y - player2YDist*margin);
+
+			this.drawBezierYarn(width, color);
 		}
 		else{
 			console.log(anchored + " is not a valid state. taut or slack");
 		}
+	}
+
+	this.drawBezierYarn = function(width, color){
+		this.bezierGraphics.clear();
+    	this.bezierGraphics.lineStyle(width, color, 1);
+    	this.bezierGraphics.moveTo(this.player1.x,this.player1.y);
+    	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y);
 	}
 }
 

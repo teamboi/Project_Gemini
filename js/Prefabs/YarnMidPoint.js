@@ -70,6 +70,8 @@ YarnMidPoint.prototype.constructor = YarnMidPoint;
 YarnMidPoint.prototype.update = function(){
 	this.calcMidPoint();
 
+	this.midAnchorYScalar = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y)/400;
+
 	this.midAnchor.x = this.x;
-	this.midAnchor.y = this.y + (125 * this.midAnchorYOffset * this.midAnchorYMult);
+	this.midAnchor.y = this.y + (125 * this.midAnchorYOffset * this.midAnchorYMult * this.midAnchorYScalar);
 }
