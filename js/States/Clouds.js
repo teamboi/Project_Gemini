@@ -72,11 +72,11 @@ Clouds.prototype = {
         if(this.complete == true) {
             game.time.events.add(2000, this.preFade, this);
         }
-        if(this.cloud1.isMoving == 'locked'){
+        if(this.cloud1.cloud.isMoving == 'locked'){
             this.oneCanWin = true;
             game.add.tween(this.room2).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
         }
-        if(this.cloud2.isMoving == 'locked'){
+        if(this.cloud2.cloud.isMoving == 'locked'){
            this.twoCanWin = true;
         }
 

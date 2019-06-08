@@ -41,6 +41,6 @@ Ending.prototype = {
 
     },
     resetFade: function() {
-        game.state.start('GameOver', true, false, this.ost);
+        game.state.start('Credits1', true, false, this.ost);
     }
 }

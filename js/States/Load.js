@@ -28,16 +28,16 @@ Load.prototype = {
 		game.load.audio('twoIntro', 'audio/sfx/sfx_level_two_intro.mp3');
 		game.load.audio('twoOutro', 'audio/sfx/sfx_level_two_outro.mp3');
 		
-		
-		
-		game.load.image('title', 'img/cats/title.png');
+		game.load.image('title', 'img/menu/titleScreen.png');
+		game.load.image('playButton', 'img/menu/playButton.png');
 		game.load.image('theme', 'img/cats/theme.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
 		game.load.image('togetherTitle', 'img/cats/togetherTitle.png');
 		game.load.image('housesTitle', 'img/cats/housesTitle.png');
 		game.load.image('tetherTitle', 'img/cats/tetherTitle.png');
 		game.load.image('endTitle', 'img/cats/endTitle.png');
-
+		game.load.image('credits1', 'img/menu/credits1.png');
+		game.load.image('credits2', 'img/menu/credits2.png');
 
 		game.load.image('redBall', 'img/cats/redYarn.png');
 		game.load.image('blueBall', 'img/cats/blueYarn.png');
@@ -106,6 +106,7 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		game.state.start('Clouds'); // Theme
+		this.ost = game.add.audio('Cradle');
+		game.state.start('Theme', true, false, this.ost); // Theme
 	}
 };

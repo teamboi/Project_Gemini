@@ -44,7 +44,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
 	this.bezierGraphics.z = layerYarn;
-	this.neutralColor = 0x9D00FF;
+	this.neutralColor = 0x8D58DD;
 
 	this.gameplay.group.add(this.bezierGraphics);
 

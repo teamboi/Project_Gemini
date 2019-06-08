@@ -55,7 +55,7 @@ Cradle.prototype = {
 
         
         //Add the surrogate player so our string plays nicely
-        this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
+        this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox',3);
 
  
         // Add in the yarn
