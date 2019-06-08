@@ -29,13 +29,14 @@ MainMenu.prototype = {
 		this.space.onDown.add(this.fade, this);
 	},
 	startOST: function() {
-		this.ost.fadeIn(500, true);
+		this.ost.fadeTo(500, 0.5);
+		this.ost.loop = true;
 		//this.ost.play('', 0, 1, true);	
 		//this.ost.volume = 0.5;
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(2000);
+    	this.ost.fadeOut(2500);
     	game.camera.fade(0xffffff, 2000);
 
 	},

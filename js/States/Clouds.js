@@ -59,9 +59,9 @@ Clouds.prototype = {
 
         this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
+        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
 
-        this.cloud2 = new MovePlatform(game, this, 450, 99, 'purpCloud', 99, 350, 'up');
+        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud', 99, 350, 'up');
 
         this.glow();
 
@@ -113,7 +113,7 @@ Clouds.prototype = {
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2000);
+        this.ost.fadeOut(2500);
     },
     resetFade: function() {
         game.state.start('Ending', true, false, this.ost);

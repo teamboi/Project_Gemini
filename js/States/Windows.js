@@ -54,6 +54,7 @@ Windows.prototype = {
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
 
+
         this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
 
         this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
@@ -97,7 +98,7 @@ Windows.prototype = {
     fade: function() {
         //Fade camera and level theme
         game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2000);
+        this.ost.fadeOut(2500);
     },
     resetFade: function() {
         game.state.start('Tether', true, false, this.ost);

@@ -52,7 +52,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
 		this.yarnColor = 0xE4784E;
 		this.meow1 = game.add.audio('short_meow1');
-		this.meow2 = game.add.audio('long_meow1');
+		//this.meow2 = game.add.audio('long_meow1');
 
 		this.body.setCollisionGroup(playerCG);
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
@@ -64,7 +64,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		this.jumpDirection = 'down';
 		this.yarnColor = 0x799FCE;
 		this.meow1 = game.add.audio('short_meow2');
-		this.meow2 = game.add.audio('long_meow2');
+		//this.meow2 = game.add.audio('long_meow2');
 
 		this.body.setCollisionGroup(playerCG);
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
@@ -229,12 +229,13 @@ Player.prototype.update = function(){
 	    // Check for jumping
 	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump() ){
 	    	if(this.whichPlayer == 1 || this.whichPlayer == 2) {
-	    		if(Phaser.Math.random(0,1) > 0.4) {
+	    		if(this.meow1 !== 'undefined') {
 	    			this.meow1.play('', 0, 1, false);
 	    		}
+	    		/*}
 	    		else {
 	    			this.meow2.play('', 0, 1, false);
-	    		}
+	    		}*/
 	    	}
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);

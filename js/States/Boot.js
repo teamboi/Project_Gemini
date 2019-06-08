@@ -11,6 +11,8 @@ Boot.prototype = {
 		game.load.image('loading', 'assets/img/objects/loading.png');
 	},
 	create: function() {
+		//HACK TO PRELOAD A CUSTOM FONT
+		this.game.add.text(0, 0, "hack", {font:"1px Comfortaa", fill:"##212121"});
 		game.state.start('Load');
 	}
 };

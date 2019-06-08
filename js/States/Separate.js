@@ -13,7 +13,7 @@ Separate.prototype = {
 	create: function(){
 		// Fade out the level one theme
 		if(this.theme.isPlaying == true) {
-			this.theme.fadeOut(1000);
+			this.theme.fadeOut(2000);
 		}
 		game.camera.flash(0xffffff, 2000);
 
@@ -24,6 +24,7 @@ Separate.prototype = {
 
 		this.ost = game.add.audio('Separate');
 		this.ost.onDecoded.add(this.startOST, this);
+		//this.theme.onFadeComplete(this.stopTheme, this);
 
         this.narrate = game.add.audio('narrate');
         //this.narrate.onDecoded.add(this.startNar, this);
@@ -37,7 +38,14 @@ Separate.prototype = {
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.fadeIn(1000, true);
+		this.ost.play('', 0, 0, true);
+        this.ost.fadeTo(3000, 0.5);
+        //this.ost.loop = true;
+		//this.ost.volume = 0.5;	
+	},
+	stopTheme: function() {
+		// Stop playaing prev theme
+		this.theme.stop();
 		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {

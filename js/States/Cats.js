@@ -13,8 +13,8 @@ Cats.prototype = {
         this.outroPlaying = false;
         this.showExit = false;
         this.complete = false;
-        this.oneVertOffset = 0;
-        this.twoVertOffset = 0;
+        this.oneVertOffset = 5;
+        this.twoVertOffset = 5;
 	},
 	create: function(){
 
@@ -96,7 +96,7 @@ Cats.prototype = {
         this.p2Controls.x = this.player2.x;
         this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        if(game.math.difference(this.player1.body.x, game.width) < 400) {
+        if(game.math.difference(this.player1.body.x, game.width/2) < 10) {
             this.p1Controls.setText("W", true);
             this.oneVertOffset = 40;
             if(!this.outroPlaying) {
@@ -106,13 +106,13 @@ Cats.prototype = {
                 //this.narrate.volume = 1;
             }
         }
-        if(game.math.difference(this.player2.body.x, 0) < 400) {
+        if(game.math.difference(this.player2.body.x, game.width/2) < 10) {
             this.p2Controls.setText("🡫", true);
             this.twoVertOffset = 40;
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
-            game.time.events.add(2000, this.preFade, this);
+            game.time.events.add(1500, this.preFade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
@@ -178,12 +178,12 @@ Cats.prototype = {
         console.log(this.testLevel.objects[0]);
     },
     tutorialText: function() {
-        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y, 'A          D', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
+        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.oneVertOffset, 'A        D', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
         this.p1Controls.anchor.set(0.5);
         this.p1Controls.inputEnabled = true;
         this.p1ControlsPosition = this.p1Controls.worldPosition;
         
-        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y, '🡨          🡪', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
+        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y + this.oneVertOffset, '🡨        🡪', {font: 'Comfortaa', fontSize: '40px', fill: '#707DE0'});
         this.p2Controls.anchor.set(0.5);
         this.p2Controls.inputEnabled = true;
         this.p2ControlsPosition = this.p2Controls.worldPosition;

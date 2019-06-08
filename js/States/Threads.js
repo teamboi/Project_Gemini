@@ -41,8 +41,9 @@ Threads.prototype = {
         this.dialog.TypeOutro(3);
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 450, 400, "cat1", 'cat1Hitbox', 1);
-        this.player2 = new Player(game, this, 460, 320, "cat2", 'cat1Hitbox', 2);
+        this.player1 = new Player(game, this, 801, 469, "cat1", 'cat1Hitbox', 1);
+        this.player2 = new Player(game, this, 67, 255, "cat2", 'cat1Hitbox', 2);
+        
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
 
@@ -187,10 +188,9 @@ Threads.prototype = {
         }
     },
     fade: function() {
-
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2000);
+        this.ost.fadeOut(2500);
     },
     resetFade: function() {
         game.state.start('Separate', true, false, this.ost);
