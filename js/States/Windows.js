@@ -57,10 +57,10 @@ Windows.prototype = {
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
 
-        this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
+        this.window1 = new WindowMask(game, this, 737, 610, 'blueWindow', 'blueLatch', 610, 481, 'down');
         game.add.existing(this.window1);
 
-        this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
+        this.window2 = new WindowMask(game, this, 656, 100, 'redWindow', 'redLatch', 100, 250, 'up');
 
         game.add.existing(this.window2);
     },

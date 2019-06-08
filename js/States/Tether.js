@@ -12,9 +12,9 @@ Tether.prototype = {
     },
 	create: function(){
 		// Fade out the title theme
-		/*if(this.theme.isPlaying == true) {
-			this.theme.fadeOut(1000);
-		}*/
+		if(this.theme.isPlaying == true) {
+			this.theme.fadeOut(2000);
+		}
 		// Add in the title card
 		this.title = game.add.sprite(0,0,'tetherTitle');
 		//this.title.anchor.setTo(0.5,0.5);
@@ -23,7 +23,7 @@ Tether.prototype = {
 
 		this.ost = game.add.audio('Tether');
 		this.ost.onDecoded.add(this.startOST, this);
-		this.theme.onFadeComplete(this.stopTheme, this);
+		//this.theme.onFadeComplete(this.stopTheme, this);
 
 		// Begin to play the level one narration
         this.narrate = game.add.audio('oneIntro');
@@ -35,7 +35,9 @@ Tether.prototype = {
 	},
 	startOST: function() {
 		// Begin playing the level theme
-		this.ost.fadeIn(3000, true);
+		this.ost.play('', 0, 0, true);
+        this.ost.fadeTo(3000, 0.5);
+        //this.ost.loop = true;
 		//this.ost.volume = 0.5;	
 	},
 	stopTheme: function() {

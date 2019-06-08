@@ -24,7 +24,9 @@ Theme.prototype = {
 		game.time.events.add(3000, this.fade, this);
 	},
 	startOST: function() {
-		this.ost.fadeIn(500, true);
+		this.ost.play('', 0, 0, true);
+        this.ost.fadeTo(3000, 0.5);
+        //this.ost.loop = true;
 		//this.ost.play('', 0, 1, true);	
 		//this.ost.volume = 0.5;
 	},

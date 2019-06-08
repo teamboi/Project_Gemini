@@ -29,7 +29,8 @@ MainMenu.prototype = {
 		this.space.onDown.add(this.fade, this);
 	},
 	startOST: function() {
-		this.ost.fadeIn(500, true);
+		this.ost.fadeTo(500, 0.5);
+		this.ost.loop = true;
 		//this.ost.play('', 0, 1, true);	
 		//this.ost.volume = 0.5;
 	},
@@ -41,6 +42,6 @@ MainMenu.prototype = {
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Clouds', true, false, this.ost);
+		game.state.start('Together', true, false, this.ost);
 	}
 };

@@ -22,10 +22,7 @@ Cradle.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        // Check for spacebar input
-        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        // Fade into the scene
+         // Fade into the scene
         game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
@@ -92,7 +89,7 @@ Cradle.prototype = {
         if(this.complete == true) {
             game.time.events.add(3000, this.preFade, this);
         }
-        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90){
             this.complete = true;
             game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = (this.player1.x + this.player2.x)/2;

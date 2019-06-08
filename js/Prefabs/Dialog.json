@@ -52,28 +52,28 @@
 			"x" : 305,
 			"y" : 285,
 			"width" : 550,
-			"text" : "Adopted into separate homes, the cats still drew close between themselves...",
+			"text" : "Adopted into separate homes, with the string still between themselves...",
 			"audio" : "narrate"
 		},
 		{
 			"x" : 540,
 			"y" : 500,
 			"width" : 250,
-			"text" : "...even the physical barrier of distance couldn't prevent swinging onto higher shelves.",
+			"text" : "...the physical barrier of distance couldn't prevent swinging onto higher shelves.",
 			"audio" : "sfx_test_narration.mp3"
 		}
 	],
 	[
 		{
-			"x" : 352,
-			"y" : 50,
+			"x" : 302,
+			"y" : 315,
 			"width" : 250,
-			"text" : "The two cats realized they could not reach each other with shelves alone,...",
+			"text" : "The two cats realized they could not reach each other with shelves alone...",
 			"audio" : "narrate"
 		},
 		{
-			"x" : 352,
-			"y" : 650,
+			"x" : 302,
+			"y" : 550,
 			"width" : 250,
 			"text" : "...sometimes you gotta open a window to get a better view of home.",
 			"audio" : "sfx_test_narration.mp3"
