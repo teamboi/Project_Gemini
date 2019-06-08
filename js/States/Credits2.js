@@ -4,15 +4,15 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 //Initialize the Main Menu state
-var MainMenu = function(game){};
-MainMenu.prototype = {
+var Credits2 = function(game){};
+Credits2.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
     },
 	create: function(){
 		// Add in the title card
-		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
+		this.menu = game.add.sprite(game.width/2,game.height/2,'credits2');
 		this.menu.anchor.setTo(0.5,0.5);
 
 		game.camera.flash(0xffffff, 2000);
@@ -30,7 +30,7 @@ MainMenu.prototype = {
 		game.camera.onFadeComplete.add(this.resetFade, this);
 		//this.space.onDown.add(this.fade, this);
 
-		this.playButton = new PlayButton(game, this, game.world.centerX, game.world.centerY+75, 1, 1, 'playButton');
+		this.playButton = new PlayButton(game, this, 200, 590,.65,.65, 'playButton');
 	},
 	startOST: function() {
 		this.ost.fadeTo(500, 0.5);
@@ -46,6 +46,6 @@ MainMenu.prototype = {
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Together', true, false, this.ost);
+		game.state.start('Theme', true, false, this.ost);
 	}
 };
