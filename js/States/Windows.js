@@ -40,6 +40,15 @@ Windows.prototype = {
         this.tutorialText();
 
         this.glow();
+        
+        // Create the world barriers
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+
+
+        this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 600, 481, 'down');
+
+        this.window2 = new WindowMask(game, this, 666, 99, 'redWindow', 'redLatch', 106, 250, 'up');
 
         // Add in the players
         this.player1 = new Player(game, this, 273, 682, "cat1", 'cat1Hitbox', 1);
@@ -49,15 +58,6 @@ Windows.prototype = {
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        
-        // Create the world barriers
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
-
-
-
-        this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
-
-        this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
     
         this.group.sort();
     },
