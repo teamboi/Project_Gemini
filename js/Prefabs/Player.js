@@ -229,7 +229,7 @@ Player.prototype.update = function(){
 	    // Check for jumping
 	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump() ){
 	    	if(this.whichPlayer == 1 || this.whichPlayer == 2) {
-	    		if(this.meow1 !== 'undefined') {
+	    		if(typeof this.meow1 !== 'undefined') {
 	    			this.meow1.play('', 0, 1, false);
 	    		}
 	    		/*}
