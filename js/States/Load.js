@@ -65,7 +65,7 @@ Load.prototype = {
         game.load.image('Threads', 'img/bg/new_Threads.png');
 		game.load.image('Houses', 'img/bg/new_Houses.png');
 		game.load.image('Windows', 'img/bg/new_Windows.png');
-		game.load.image('Fences', 'img/bg/new_Fences.png');
+		game.load.image('Fences', 'img/bg/newer_Fences.png');
 		game.load.image('Clouds1', 'img/bg/newer_cloud_puzzle2.png');
 		game.load.image('Clouds2', 'img/bg/newer_cloud_puzzle3.png');
 		game.load.image('Clouds3', 'img/bg/newer_cloud_puzzle4.png');
@@ -106,7 +106,7 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		//this.ost = game.add.audio('Cradle');
+		this.ost = game.add.audio('Cradle');
 		game.state.start('Theme', true, false, this.ost); // Theme
 	}
 };
