@@ -10,22 +10,22 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this);
 	this.z = layerPlayer;
-	this.scale.setTo(0.11, 0.11); // Scales the sprite
+	//this.scale.setTo(0.13, 0.13); // Scales the sprite
 	this.anchor.setTo(0.45,0.6);
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	this.player = player;
 	this.gameplay.group.add(this);
 
-	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
-	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);
-	this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,1,'',2),30, true);
+	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,9,'',2),30, true);
+	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,19,'',2),30, true);
+	this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,9,'',2),30, true);
 	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
 	//var jumpToFallArr = Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2);
-	this.jumpToFallEnd = 12; //jumpToFallArr[jumpToFallArr.length-1];
+	this.jumpToFallEnd = 46; //jumpToFallArr[jumpToFallArr.length-1];
 	this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
 	//var landArr = Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2);
-	this.landEnd = 17; //landArr[landArr.length-1];
+	this.landEnd = 51; //landArr[landArr.length-1];
 	this.animations.add('walk', Phaser.Animation.generateFrameNames('PG Cat 5-Walk-',0,19,'',2),30, true);
 
 	this.fsm = new StateMachine(this, {debug: true});
