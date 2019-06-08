@@ -106,6 +106,6 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		game.state.start('Cats'); // Theme
+		game.state.start('Cradle'); // Theme
 	}
 };
