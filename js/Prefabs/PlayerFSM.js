@@ -96,12 +96,20 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 		return ( self.animations.frame === self.jumpToFallEnd );
 	});
 
+	this.fsm.transition('jumpToFall_to_land', 'jumpToFall', 'land', function(){
+		return ( self.player.checkIfCanJump() );
+	});
+
 	this.fsm.transition('fall_to_land', 'fall', 'land', function(){
 		return ( self.player.checkIfCanJump() ); //self.checkIfCanJump()
 	});
 
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
-		return ( self.animations.frame === self.landEnd ); //self.animations.loopCount > 0
+		return ( self.animations.frame === self.landEnd && self.player.fsmIsMoving === false ); //self.animations.loopCount > 0
+	});
+
+	this.fsm.transition('land_to_walk', 'land', 'walk', function(){
+		return ( self.animations.frame === self.landEnd && self.player.fsmIsMoving === true ); //self.animations.loopCount > 0
 	});
 
 	this.animations.play(self.fsm.initialState);
