@@ -40,36 +40,32 @@ Clouds.prototype = {
         this.room3 = game.add.sprite(0,0,'Clouds3');
         this.room3.alpha = 0;
 
+        this.group = game.add.group();
         
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(7);
         this.dialog.TypeOutro(7);
         
 
         // Add in the players
         this.player1 = new Player(game, this, 85, 500, "cat1",'cat1Hitbox', 1);
-        game.add.existing(this.player1);
 
         this.player2 = new Player(game, this, 32, 200, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
-        game.add.existing(this.surrogate);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
 
         this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
-        this.cloud1 = new MovePlatform(game, this, 450, 607, 'purpCloud', 607, 350, 'down', 'window');
-        game.add.existing(this.cloud1);
+        this.cloud1 = new MovePlatform(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
 
-        this.cloud2 = new MovePlatform(game, this, 450, 99, 'purpCloud2', 99, 350, 'up', 'window');
-        game.add.existing(this.cloud2);
+        this.cloud2 = new MovePlatform(game, this, 450, 99, 'purpCloud', 99, 350, 'up');
 
         this.glow();
+
+        this.group.sort();
     },
     update: function(){
         //Check for player one's win state
@@ -129,6 +125,7 @@ Clouds.prototype = {
     //Helper function to create platforms the old fashion way
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
+        this.group.add(platform);
         //platform.scale.setTo(0.08,0.08);
         platform.anchor.setTo(0.5,0.5);
         game.physics.p2.enable(platform);

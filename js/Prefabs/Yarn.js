@@ -8,8 +8,11 @@
 // Constructor for Yarn
 function Yarn(game, gameplay, key, player1, player2, surrogate){
 	Phaser.Sprite.call(this, game, 0, 0, key);
+	game.add.existing(this);
 
 	this.gameplay = gameplay; // Obtains the reference to the gameplay state
+	this.z = layerYarn;
+	this.gameplay.group.add(this);
 
 	this.alpha = 0; // Makes this invisible
 
@@ -40,7 +43,10 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.player1BAnchor.alpha = 0;
 	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
+	this.bezierGraphics.z = layerYarn;
 	this.neutralColor = 0x9D00FF;
+
+	this.gameplay.group.add(this.bezierGraphics);
 
 	this.midPoint = new YarnMidPoint(game, gameplay, key, player1, player2);
 

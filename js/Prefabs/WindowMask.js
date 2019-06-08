@@ -15,10 +15,12 @@
 // platformType = window or cloud
 function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, windowKey);
+	game.add.existing(this);
+	this.z = layerWindow;
 	this.gameplay = gameplay;
+	this.gameplay.group.add(this);
 
 	this.latch = new MovePlatform(game, gameplay, x, y, latchKey, firstY, secondY, gravityDir);
-	game.add.existing(this.latch);
 
 	this.rectMask = game.add.graphics(0, 0);
 	game.add.existing(this.rectMask);

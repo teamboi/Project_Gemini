@@ -8,6 +8,7 @@
 // Constructor for Player
 function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, hitboxKey);
+	game.add.existing(this);
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	//this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.alpha = 0;
@@ -15,7 +16,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	 // Adds in meow sfx
 
 	if(whichPlayer === 1 || whichPlayer === 2){
-		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key, whichPlayer);
+		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key);
 	}
 	else{
 		this.catSprite = game.add.sprite(x,y,hitboxKey);
@@ -24,9 +25,6 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 
 	// Enable physics
 	game.physics.p2.enable(this);
-	//this.body.clearShapes();
-	//this.body.addRectangle(44, 40, -3, 5, 0);
-	//this.body.loadPolygon('cat1Hitbox','cat1');
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;

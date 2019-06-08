@@ -34,10 +34,10 @@ Cats.prototype = {
         // Call the background image
         this.room = game.add.sprite(0,0,'Cats');
 
+        this.group = game.add.group();
 
         //convertCollisionObjects(map, layer, addToWorld) 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(1);
         this.dialog.TypeOutro(1);
         
@@ -46,13 +46,13 @@ Cats.prototype = {
         // Add in the players with the Player prefab constructor
 
         this.player1 = new Player(game, this, 68, 516, "cat1", 'cat1Hitbox', 1);
-        game.add.existing(this.player1);
 
         this.player2 = new Player(game, this, 818, 199, "cat2", 'cat1Hitbox', 2);
 
-        game.add.existing(this.player2);
         this.tutorialText();
         this.glow();
+
+        this.group.sort();
 
         //Create the tutorial text
         //this.tutorialText();

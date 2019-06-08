@@ -31,8 +31,9 @@ Windows.prototype = {
 
         this.room = game.add.sprite(0,0,'Windows');
 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.group = game.add.group();
+
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(5);
         this.dialog.TypeOutro(5);
        
@@ -42,27 +43,23 @@ Windows.prototype = {
 
         // Add in the players
         this.player1 = new Player(game, this, 273, 682, "cat1", 'cat1Hitbox', 1);
-        game.add.existing(this.player1);
         this.player2 = new Player(game, this, 170, 164, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
-        game.add.existing(this.surrogate);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
         
         // Create the world barriers
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
 
-        this.window1 = new WindowMask(game, this, 737, 610, 'blueWindow', 'blueLatch', 610, 481, 'down');
-        game.add.existing(this.window1);
 
-        this.window2 = new WindowMask(game, this, 656, 100, 'redWindow', 'redLatch', 100, 250, 'up');
+        this.window1 = new WindowMask(game, this, 727, 550, 'blueWindow', 'blueLatch', 600, 481, 'down');
 
-        game.add.existing(this.window2);
+        this.window2 = new WindowMask(game, this, 656, 150, 'redWindow', 'redLatch', 106, 250, 'up');
+    
+        this.group.sort();
     },
     update: function(){
         //Check for player one's win state
@@ -72,11 +69,9 @@ Windows.prototype = {
         }
        if(this.window1.latch.isMoving == 'locked'){
             this.oneCanWin = true;
-            console.log("here");
         }
         if(this.window2.latch.isMoving == 'locked'){
            this.twoCanWin = true;
-           console.log("here");
         }
         if(Phaser.Math.difference(this.window1.x, this.player1.x) < 300 && this.oneCanWin == true) {
             this.oneWin = true;
@@ -122,6 +117,7 @@ Windows.prototype = {
     //Helper function to create platforms the old fashion way
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
+        this.group.add(platform);
         platform.anchor.setTo(0.5,0.5);
         game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);

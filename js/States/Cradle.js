@@ -33,9 +33,9 @@ Cradle.prototype = {
         // Call the background image
         this.room = game.add.sprite(0,0,'Cradle');
 
+        this.group = game.add.group();
 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(2);
         this.dialog.TypeOutro(2);
 
@@ -45,27 +45,21 @@ Cradle.prototype = {
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 707, 416, "cat1", 'cat1Hitbox', 1);
-        //game.add.existing(this.player1);
 
         this.player2 = new Player(game, this, 175, 350, "cat2", 'cat1Hitbox', 2);
-        //game.add.existing(this.player2);
 
         //Create the tutorial text
         this.tutorialText();
-        game.add.existing(this.player1);
-        game.add.existing(this.player2);
 
         this.glow();
 
         
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 3);
-        game.add.existing(this.surrogate);
 
  
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
 
         // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
        /* this.createPlatform(380,530,120,10);
@@ -83,6 +77,7 @@ Cradle.prototype = {
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
 */
+        this.group.sort();
 	},
 	update: function(){
 

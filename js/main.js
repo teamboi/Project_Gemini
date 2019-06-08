@@ -23,6 +23,15 @@
 var game;
 var constraint;
 
+var layerText = 1;
+var layerWindow = 10;
+var layerMovePlatform = 11;
+var layerDrapes = 12;
+var layerBarrier = 25;
+var layerYarnBall = 50;
+var layerYarn = 90;
+var layerPlayer = 100;
+
 // when window loads, create the game
 window.onload = function(){
 	game = new Phaser.Game(896,704, Phaser.AUTO, 'myGame');

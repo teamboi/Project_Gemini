@@ -39,36 +39,33 @@ Fences.prototype = {
 
         this.room = game.add.sprite(0,0,'Fences');
 
+        this.group = game.add.group();
 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(6);
         this.dialog.TypeOutro(6);
 
         
         // Add in the players
         this.player1 = new Player(game, this, 853, 596, "cat1", 'cat1Hitbox', 1);
-        game.add.existing(this.player1);
 
         this.player2 = new Player(game, this, 808, 257, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
-        game.add.existing(this.surrogate);
 
         this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
 
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
         /*this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
-        game.add.existing(this.cloud1);
 
         this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud6', 114, 300, 'up', 'window');
-        game.add.existing(this.cloud2);*/
+        */
+
+        this.group.sort();
 
     },
     update: function(){
@@ -120,6 +117,7 @@ Fences.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         //platform.scale.setTo(0.08,0.08);
+        this.group.add(platform);
         game.physics.p2.enable(platform);
         platform.anchor.setTo(0.5,0.5);
         platform.body.setRectangle(width,height, 0, 0, 0);
