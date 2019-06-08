@@ -15,10 +15,10 @@ Windows.prototype = {
         this.oneCanWin = false;
         this.twoCanWin = false;
         this.complete = false;
+        this.fadeComplete = false;
             
     },
     create: function(){
-        
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
@@ -101,7 +101,10 @@ Windows.prototype = {
         this.ost.fadeOut(2500);
     },
     resetFade: function() {
-        game.state.start('Tether', true, false, this.ost);
+        if(this.fadeComplete == false) {
+            game.state.start('Tether', true, false, this.ost);
+            this.fadeComplete = true;
+        }
     },
     glow: function() {
         this.redGlow = game.add.sprite(834, 428, 'heart');

@@ -9,6 +9,7 @@ Credits2.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
+        this.fadeComplete = false;
     },
 	create: function(){
 		// Add in the title card
@@ -46,6 +47,9 @@ Credits2.prototype = {
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
-		game.state.start('Theme', true, false, this.ost);
+		if(this.fadeComplete == false) {
+            game.state.start('Theme', true, false, this.ost);
+            this.fadeComplete = true;
+        }
 	}
 };

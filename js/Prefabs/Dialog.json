@@ -91,16 +91,16 @@
 	],
 	[
 		{
-			"x" : 186,
-			"y" : 100,
+			"x" : 500,
+			"y" : 139,
 			"width" : 350,
 			"text" : "Out of windows and onto rooftops, the cats looked towards the sky...",
 			"size" : 22,
 			"audio" : "narrate"
 		},
 		{
-			"x" : 186,
-			"y" : 600,
+			"x" : 560,
+			"y" : 560,
 			"width" : 350,
 			"text" : "...pulling each other towards the clouds meant they would never have to say goodbye.",
 			"size" : 22,

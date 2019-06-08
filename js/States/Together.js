@@ -11,6 +11,7 @@ Together.prototype = {
         this.theme = ost;
     },
 	create: function(){
+		this.complete = false;
 		// Fade out the title theme
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
@@ -56,7 +57,10 @@ Together.prototype = {
 	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
+		if(this.complete == false) {
 		// Once the fade is complete, begin Chapter 1
-		game.state.start('Cats', true, false, this.ost);
+			game.state.start('Cats', true, false, this.ost);
+			this.complete = true;
+		}
 	}
 };

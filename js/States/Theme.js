@@ -7,6 +7,7 @@
 var Theme = function(game){};
 Theme.prototype = {
 	create: function(){
+		this.complete = false;
 		// Add in the title card
 		this.menu = game.add.sprite(0,0,'theme');
 		//this.menu.anchor.setTo(0.5,0.5);
@@ -37,8 +38,12 @@ Theme.prototype = {
 
 	},
 	resetFade: function() {
-		 // Load in the next level once the fade is complete
-		 console.log("resetFade");
-		game.state.start('MainMenu', true, false, this.ost);
+		if(this.complete == false) {
+			 // Load in the next level once the fade is complete
+			
+			console.log("resetFade");
+			game.state.start('MainMenu', true, false, this.ost);
+			this.complete = true;
+		}
 	}
 };

@@ -18,6 +18,7 @@ Clouds.prototype = {
         this.twoWin = false;
         this.complete = false;
         this.barrierDestroyed = false;
+        this.fadeComplete = false;
             
     },
    create: function(){
@@ -116,7 +117,10 @@ Clouds.prototype = {
         this.ost.fadeOut(2500);
     },
     resetFade: function() {
-        game.state.start('Ending', true, false, this.ost);
+        if(this.fadeComplete == false) {
+            game.state.start('Ending', true, false, this.ost);
+            this.fadeComplete = true;
+        }
     },
     destoyBarrier: function() {
         this.barrier.destroy();

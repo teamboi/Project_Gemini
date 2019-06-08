@@ -11,6 +11,7 @@ MainMenu.prototype = {
         this.ost = ost;
     },
 	create: function(){
+		this.complete = false;
 		// Add in the title card
 		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
 		this.menu.anchor.setTo(0.5,0.5);
@@ -45,7 +46,10 @@ MainMenu.prototype = {
 
 	},
 	resetFade: function() {
+		if(this.complete == false) {
 		 // Load in the next level once the fade is complete
-		game.state.start('Together', true, false, this.ost);
+			game.state.start('Together', true, false, this.ost);
+			this.complete = true;
+		}
 	}
 };

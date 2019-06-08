@@ -9,6 +9,7 @@ Tether.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.theme = ost;
+        this.fadeComplete = false;
     },
 	create: function(){
 		// Fade out the title theme
@@ -55,6 +56,9 @@ Tether.prototype = {
 	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
-		game.state.start('Fences', true, false, this.ost);
+		if(this.fadeComplete == false) {
+            game.state.start('Fences', true, false, this.ost);
+            this.fadeComplete = true;
+        }
 	}
 };

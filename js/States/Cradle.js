@@ -14,6 +14,8 @@ Cradle.prototype = {
         this.showExit = false;
         this.complete = false;
         this.textVertOffset = 40;
+
+        this.fadeComplete = false;
 	},
 	create: function(){
 
@@ -150,7 +152,10 @@ Cradle.prototype = {
         game.camera.fade(0xffffff, 2000);
     },
     resetFade: function() {
-        game.state.start('Threads', true, false, this.ost);
+        if(this.fadeComplete == false) {
+            game.state.start('Threads', true, false, this.ost);
+            this.fadeComplete = true;
+        }
         //game.camera.resetFX();
     },
 	//Function to manually create the platforms

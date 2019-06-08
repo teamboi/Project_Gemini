@@ -11,6 +11,7 @@ Separate.prototype = {
         this.theme = ost;
     },
 	create: function(){
+		this.fadeComplete = false;
 		// Fade out the level one theme
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
@@ -58,7 +59,9 @@ Separate.prototype = {
 	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
-		// ONce fade is complete, begin Chapter 2
-		game.state.start('Houses', true, false, this.ost);
+		if(this.fadeComplete == false) {
+            game.state.start('Houses', true, false, this.ost);
+            this.fadeComplete = true;
+        }
 	}
 };

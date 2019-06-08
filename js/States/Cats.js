@@ -15,6 +15,7 @@ Cats.prototype = {
         this.complete = false;
         this.oneVertOffset = 5;
         this.twoVertOffset = 5;
+        this.fadeComplete = false;
 	},
 	create: function(){
 
@@ -142,7 +143,10 @@ Cats.prototype = {
         game.camera.fade(0xffffff, 2000);
     },
     resetFade: function() {
-        game.state.start('Cradle', true, false, this.ost);
+        if(this.fadeComplete == false) {
+            game.state.start('Cradle', true, false, this.ost);
+            this.fadeComplete = true;
+        }
         //game.camera.resetFX();
     },
 	//Function to manually create the platforms

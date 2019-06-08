@@ -12,9 +12,11 @@ Houses.prototype = {
         this.ost = ost;
         this.oneWin = false;
         this.twoWin = false;
-        this.complete = false;         
+        this.complete = false;   
+        this.fadeComplete = false;      
     },
     create: function(){
+        
         
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
@@ -103,7 +105,10 @@ Houses.prototype = {
         game.camera.fade(0xffffff, 1000);
     },
     resetFade: function() {
-        game.state.start('Windows', true, false, this.ost);
+       if(this.fadeComplete == false) {
+            game.state.start('Windows', true, false, this.ost);
+            this.fadeComplete = true;
+        }
     },
 
     //Helper function to create platforms the old fashion way

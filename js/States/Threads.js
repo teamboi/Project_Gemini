@@ -14,7 +14,7 @@ Threads.prototype = {
         this.complete = false;
         this.outroPlaying = false;
         this.textVertOffset = 40;
-          
+        this.fadeComplete = false;  
 	},
 	create: function(){
 
@@ -193,7 +193,10 @@ Threads.prototype = {
         this.ost.fadeOut(2500);
     },
     resetFade: function() {
-        game.state.start('Separate', true, false, this.ost);
+        if(this.fadeComplete == false) {
+            game.state.start('Separate', true, false, this.ost);
+            this.fadeComplete = true;
+        }
     },
 
 	//Function to manually create the platforms
