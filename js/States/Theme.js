@@ -38,6 +38,7 @@ Theme.prototype = {
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
+		 console.log("resetFade");
 		game.state.start('MainMenu', true, false, this.ost);
 	}
 };

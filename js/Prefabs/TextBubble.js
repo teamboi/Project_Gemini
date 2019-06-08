@@ -18,7 +18,7 @@ function TextBubble(game, key, x, y, width, text){
 	this.alpha = 0;
 	this.text.alpha = 0;
 
-	game.add.tween(this).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
+	//game.add.tween(this).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
 	game.add.tween(this.text).to( { alpha: 1 }, 1500, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 	this.fadeOut = function(){

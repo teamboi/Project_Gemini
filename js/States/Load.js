@@ -106,7 +106,8 @@ Load.prototype = {
 	},
 	create: function() {
 		// go to Title state
-		this.ost = game.add.audio('Cradle');
-		game.state.start('Theme', true, false, this.ost); // Theme
+		//this.ost = game.add.audio('Cradle');
+		game.state.start('Theme', true, false); // Theme
+		//game.state.start('Credits2', true, false, this.ost); // Theme
 	}
 };
