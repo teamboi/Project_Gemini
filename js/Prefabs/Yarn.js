@@ -213,8 +213,15 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 				this.midPoint.tweenMidPoint();
 			}
-			this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
-	    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x, this.midPoint.midAnchor.y);
+			var player1XDist = this.midPoint.midAnchor.x - this.player1.x;
+			var player1YDist = this.midPoint.midAnchor.y - this.player1.y;
+			var player2XDist = this.midPoint.midAnchor.x - this.player2.x;
+			var player2YDist = this.midPoint.midAnchor.y - this.player2.y;
+
+			var margin = .2;
+
+			this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x - player1XDist*margin, this.midPoint.midAnchor.y - player1YDist*margin);
+	    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x - player2XDist*margin, this.midPoint.midAnchor.y - player2YDist*margin);
 
 			this.bezierGraphics.clear();
 	    	this.bezierGraphics.lineStyle(width, color, 1);
