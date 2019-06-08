@@ -10,7 +10,7 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this);
 	this.z = layerPlayer;
-	//this.scale.setTo(0.13, 0.13); // Scales the sprite
+	this.scale.setTo(0.14, 0.14); // Scales the sprite
 	this.anchor.setTo(0.45,0.6);
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
@@ -77,7 +77,7 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 	});
 
 	this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -5); //!self.checkIfCanJump()
+		return ( !self.player.checkIfCanJump()); //!self.checkIfCanJump()
 	});
 
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
@@ -97,7 +97,7 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 	});
 
 	this.fsm.transition('fall_to_land', 'fall', 'land', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale > -1 ); //self.checkIfCanJump()
+		return ( self.player.checkIfCanJump() ); //self.checkIfCanJump()
 	});
 
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
