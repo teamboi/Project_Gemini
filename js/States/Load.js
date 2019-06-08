@@ -19,8 +19,8 @@ Load.prototype = {
 		game.load.audio('Separate', 'audio/ost2/Separate3.mp3');
 		game.load.audio('Tether', 'audio/ost2/Tether3.mp3');
 		
-		game.load.audio('short_meow1', 'audio/sfx/Cat_1_Short.mp3');
-		game.load.audio('short_meow2', 'audio/sfx/Cat_2_Short.mp3');
+		game.load.audio('short_meow1', 'audio/sfx/Cat_1_Short.wav');
+		game.load.audio('short_meow2', 'audio/sfx/Cat_2_Short.wav');
 		game.load.audio('long_meow1', 'audio/sfx/Cat_1_Long.mp3');
 		game.load.audio('long_meow2', 'audio/sfx/Cat_2_Long.mp3');
 		game.load.audio('oneIntro', 'audio/sfx/sfx_level_one_intro.mp3');
