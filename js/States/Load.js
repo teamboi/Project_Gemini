@@ -30,7 +30,8 @@ Load.prototype = {
 		
 		
 		
-		game.load.image('title', 'img/cats/title.png');
+		game.load.image('title', 'img/menu/titleScreen.png');
+		game.load.image('playButton', 'img/menu/playButton.png');
 		game.load.image('theme', 'img/cats/theme.png');
 		game.load.image('gameOver', 'img/cats/gameOver.png');
 		game.load.image('togetherTitle', 'img/cats/togetherTitle.png');

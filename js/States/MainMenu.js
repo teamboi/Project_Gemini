@@ -15,6 +15,8 @@ MainMenu.prototype = {
 		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
 		this.menu.anchor.setTo(0.5,0.5);
 
+		game.camera.flash(0xffffff, 2000);
+
 		// Play the Main Theme
 		//this.ost = game.add.audio('Cradle');
 		//this.ost.onDecoded.add(this.startOST, this);
@@ -22,11 +24,13 @@ MainMenu.prototype = {
 		//this.ost.play('', 0, 1, true);
 		
 		// Check for the spacebar to start the game
-		this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		this.space.onDown.add(this.fade, this);
+		//this.space.onDown.add(this.fade, this);
+
+		this.playButton = new PlayButton(game, this, game.width.half, game.height.half, 'playButton');
 	},
 	startOST: function() {
 		this.ost.fadeTo(500, 0.5);
