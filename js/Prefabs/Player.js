@@ -24,7 +24,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	}
 
 	// Enable physics
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, true);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true;
@@ -50,7 +50,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		//this.body.data.gravityScale = 0;
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
-		this.yarnColor = 0xFF0400;
+		this.yarnColor = 0xE4784E;
 		this.meow1 = game.add.audio('short_meow1');
 		this.meow2 = game.add.audio('long_meow1');
 
@@ -62,7 +62,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		this.catSprite.scale.y = -1*this.catSprite.scale.y;
 		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down';
-		this.yarnColor = 0x0008FF;
+		this.yarnColor = 0x799FCE;
 		this.meow1 = game.add.audio('short_meow2');
 		this.meow2 = game.add.audio('long_meow2');
 
