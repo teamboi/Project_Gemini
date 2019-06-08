@@ -27,7 +27,7 @@
 			"x" : 437,
 			"y" : 622,
 			"width" : 550,
-			"text" : "..when one of the cats leapt and held on tight, and the other could hang and swing.",
+			"text" : "..when both cats jumped, and one held on tight, and the other could hang and swing.",
 			"audio" : "sfx_test_narration.mp3"
 		}
 	],
@@ -65,16 +65,16 @@
 	],
 	[
 		{
-			"x" : 302,
-			"y" : 315,
-			"width" : 250,
+			"x" : 243,
+			"y" : 290,
+			"width" : 350,
 			"text" : "The two cats realized they could not reach each other with shelves alone...",
 			"audio" : "narrate"
 		},
 		{
-			"x" : 302,
-			"y" : 550,
-			"width" : 250,
+			"x" : 545,
+			"y" : 590,
+			"width" : 159,
 			"text" : "...sometimes you gotta open a window to get a better view of home.",
 			"audio" : "sfx_test_narration.mp3"
 		}

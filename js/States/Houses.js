@@ -29,8 +29,8 @@ Houses.prototype = {
         this.createPlatforms();
 
         // Add the level objectives
-        this.fishBowl = game.add.sprite(834, 428, 'fishbowl'); 
-        this.flower = game.add.sprite(839, 299, 'flower');
+        this.fishBowl = game.add.sprite(830, 428, 'fishbowl'); 
+        this.flower = game.add.sprite(830, 299, 'flower');
 
         // Call the background sprite
         this.room = game.add.sprite(0,0,'Houses');
