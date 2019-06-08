@@ -82,7 +82,7 @@ Cradle.prototype = {
 	update: function(){
 
         if(this.complete == true) {
-            game.time.events.add(3000, this.preFade, this);
+            game.time.events.add(1500, this.preFade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90){
             this.complete = true;

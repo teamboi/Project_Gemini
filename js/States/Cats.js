@@ -112,7 +112,7 @@ Cats.prototype = {
             this.showExit = true;
         }
         if(this.complete == true && this.outroPlaying == true) {
-            game.time.events.add(2000, this.preFade, this);
+            game.time.events.add(1500, this.preFade, this);
         }
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
