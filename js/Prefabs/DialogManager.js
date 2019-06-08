@@ -2,8 +2,11 @@
 "use strict";
 
 // Constructor for LevelManager
-function DialogManager(game, key){
+function DialogManager(game, gameplay, key){
 	Phaser.Sprite.call(this, game, 0, 0, key);
+	game.add.existing(this);
+	this.gameplay = gameplay;
+	
 	this.alpha = 0;
 
 	this.dialog = JSON.parse(this.game.cache.getText('dialog')); // This produces the meta array of all levels
@@ -34,6 +37,8 @@ function DialogManager(game, key){
 		}
 
 		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"]);
+		this.gameplay.group.add(currentText);
+		this.gameplay.group.add(currentText.text)
 
 		return currentText;
 	}

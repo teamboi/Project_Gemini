@@ -35,8 +35,9 @@ Houses.prototype = {
         // Call the background sprite
         this.room = game.add.sprite(0,0,'Houses');
 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.group = game.add.group();
+
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(4);
         this.dialog.TypeOutro(4);
 
@@ -45,19 +46,17 @@ Houses.prototype = {
       
         // Add in the players
         this.player1 = new Player(game, this, 170, 682, "cat1", 'cat1Hitbox', 1);
-        game.add.existing(this.player1);
         this.player2 = new Player(game, this, 170, 40, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
-        game.add.existing(this.surrogate);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
    
         // Add the barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+        this.group.sort();
 
     },
     update: function(){
@@ -145,6 +144,7 @@ Houses.prototype = {
     },
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
+        this.group.add(platform);
         //platform.scale.setTo(0.08,0.08);
         platform.anchor.setTo(0.5,0.5);
         game.physics.p2.enable(platform);

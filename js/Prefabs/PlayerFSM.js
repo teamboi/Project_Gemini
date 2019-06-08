@@ -9,11 +9,13 @@
 function PlayerFSM(game, gameplay, player, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this);
+	this.z = layerPlayer;
 	this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.anchor.setTo(0.45,0.6);
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	this.player = player;
+	this.gameplay.group.add(this);
 
 	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,1,'',2),30, true);
 	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,1,'',2),30, true);

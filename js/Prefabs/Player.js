@@ -8,6 +8,7 @@
 // Constructor for Player
 function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, hitboxKey);
+	game.add.existing(this);
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	//this.scale.setTo(0.11, 0.11); // Scales the sprite
 	this.alpha = 0;

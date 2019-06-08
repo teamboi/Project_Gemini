@@ -34,26 +34,25 @@ Threads.prototype = {
         this.createPlatforms();
         this.room = game.add.sprite(0,0,'Threads');
 
-        this.dialog = new DialogManager(game, "ball");
-        game.add.existing(this.dialog);
+        this.group = game.add.group();
+
+        this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(3);
         this.dialog.TypeOutro(3);
 
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 450, 400, "cat1", 'cat1Hitbox', 1);
-        game.add.existing(this.player1);
         this.player2 = new Player(game, this, 460, 320, "cat2", 'cat1Hitbox', 2);
-        game.add.existing(this.player2);
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
-        game.add.existing(this.surrogate);
 
         //this.tutorialText();
 
         this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-        game.add.existing(this.yarn);
+
+        this.group.sort();
 
         //Add the yarnballs for a little fun
         /*this.yarnBall = game.add.sprite(452,260,'purpBall');

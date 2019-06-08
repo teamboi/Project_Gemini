@@ -15,12 +15,16 @@
 // platformType = window or cloud
 function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, key);
+	game.add.existing(this);
+	this.z = layerMovePlatform;
 
 	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 
 	this.isMoving = false;
 
 	this.gameplay = gameplay;
+
+	this.gameplay.group.add(this);
 
 	// Enable physics
 	game.physics.p2.enable(this);
@@ -50,16 +54,12 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 
 	var minHeight = y + (this.gravDirMultiplier*this.height);
 	this.min = new MovePlatformLimiter(game, x, minHeight, key);
-	game.add.existing(this.min);
 
 	this.max = new MovePlatformLimiter(game, x, maxY, key);
-	game.add.existing(this.max);
 
 	this.leftLimit = new MovePlatformLimiter(game, x-this.width, y, key);
-	game.add.existing(this.leftLimit);
 
 	this.rightLimit = new MovePlatformLimiter(game, x+this.width, y, key);
-	game.add.existing(this.rightLimit);
 
 	var cloudCG = this.gameplay.cloudCollisionGroup;
 	var limiterCG = this.gameplay.limiterCollisionGroup;

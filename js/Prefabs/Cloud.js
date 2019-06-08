@@ -15,12 +15,12 @@
 // platformType = window or cloud
 function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, key);
+	game.add.existing(this);
 	this.alpha = 0;
 
 	this.gameplay = gameplay;
 
 	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir);
-	game.add.existing(this.cloud);
 
 	this.cloud.alpha = 0.95;
 
