@@ -25,7 +25,7 @@ Cats.prototype = {
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
         // Fade into the scene
-        game.camera.flash(0xffffff, 2000);
+        //game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
 
@@ -88,6 +88,7 @@ Cats.prototype = {
         this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
 
 */
+    game.camera.flash(0xffffff, 2000);
 	},
 	update: function(){
         
