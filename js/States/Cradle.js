@@ -15,6 +15,9 @@ Cradle.prototype = {
         this.complete = false;
         this.textVertOffset = 40;
         this.oneAnchoredLast = true;
+        this.oneHasAnchored = false;
+        this.twoHasAnchored = false;
+        this.progress = false;
         this.fadeComplete = false;
 	},
 	create: function(){
@@ -99,55 +102,94 @@ Cradle.prototype = {
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
 
-       
+        if(this.oneHasAnchored && this.twoHasAnchored) {
+            game.time.events.add(10000, this.progressTutorial, this);
+        }
 
-        if(this.oneAnchoredLast == false) {
-            if(this.player1.checkIfCanJump()) {
+       
+        //if(this.progress == false) {
+            if(this.oneAnchoredLast == false) {
+                if(this.player1.checkIfCanJump()) {
+                    this.p1Controls.setText("W", true);
+                    this.p1Controls.x = this.player1.x;
+                    this.p1Controls.y = this.player1.y - this.textVertOffset;
+                }
+                else if(this.player2.anchorState != "beingAnchored") {
+                    this.p1Controls.setText('Hold S', true);
+                    this.p1Controls.x = this.player1.x;
+                    this.p1Controls.y = this.player1.y + this.textVertOffset;
+                }
+                this.p2Controls.setText('', true);
+            }
+            else {
+                if(this.player2.checkIfCanJump()) {
+                    this.p2Controls.setText("🡫", true);
+                    this.p2Controls.x = this.player2.x;
+                    this.p2Controls.y = this.player2.y + this.textVertOffset;
+                }
+                else if(this.player1.anchorState != "beingAnchored") {
+                    this.p2Controls.setText('Hold 🡩', true);
+                    this.p2Controls.x = this.player2.x;
+                    this.p2Controls.y = this.player2.y - this.textVertOffset;
+                }
+                this.p1Controls.setText('', true);
+            }
+            if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
                 this.p1Controls.setText("W", true);
                 this.p1Controls.x = this.player1.x;
                 this.p1Controls.y = this.player1.y - this.textVertOffset;
-            }
-            /*else if(this.player2.anchorState == "isAnchor") {
-                this.p1Controls.setText('A          D', true);
-                this.p1Controls.x = this.player1.x;
-                this.p1Controls.y = this.player1.y;
-            }*/
-            else if(this.player2.anchorState != "beingAnchored") {
-                this.p1Controls.setText('Hold S', true);
-                this.p1Controls.x = this.player1.x;
-                this.p1Controls.y = this.player1.y + this.textVertOffset;
-            }
-            this.p2Controls.setText('', true);
-        }
-        else {
-            if(this.player2.checkIfCanJump()) {
+                
                 this.p2Controls.setText("🡫", true);
                 this.p2Controls.x = this.player2.x;
                 this.p2Controls.y = this.player2.y + this.textVertOffset;
             }
-            /*else if(this.player1.anchorState == "isAnchor") {
-                this.p2Controls.setText('🡨          🡪 ', true);
-                this.p2Controls.x = this.player2.x;
-                this.p2Controls.y = this.player2.y;
-            }*/
-            else if(this.player1.anchorState != "beingAnchored") {
-                this.p2Controls.setText('Hold 🡩', true);
-                this.p2Controls.x = this.player2.x;
-                this.p2Controls.y = this.player2.y - this.textVertOffset;
+       // }
+       /* else {
+            if(this.player1.checkIfCanJump()) {
+                    this.p1Controls.setText("W", true);
+                    this.p1Controls.x = this.player1.x;
+                    this.p1Controls.y = this.player1.y - this.textVertOffset;
             }
-            this.p1Controls.setText('', true);
-        }
-         if(this.player2.anchorState == "isAnchor") {
+            if(this.player2.checkIfCanJump()) {
+                    this.p2Controls.setText("🡫", true);
+                    this.p2Controls.x = this.player2.x;
+                    this.p2Controls.y = this.player2.y + this.textVertOffset;
+            }
+           if(this.oneAnchoredLast == false) {
+                
+                if(this.player2.anchorState != "beingAnchored") {
+                    this.p1Controls.setText('Hold S', true);
+                    this.p1Controls.x = this.player1.x;
+                    this.p1Controls.y = this.player1.y + this.textVertOffset;
+                }
+                this.p2Controls.setText('', true);
+            }
+            else {
+                
+                if(this.player1.anchorState != "beingAnchored") {
+                    this.p2Controls.setText('Hold 🡩', true);
+                    this.p2Controls.x = this.player2.x;
+                    this.p2Controls.y = this.player2.y - this.textVertOffset;
+                }
+                this.p1Controls.setText('', true);
+            }
+            
+        }*/
+        
+        // If either player is being held up, show them the swinging controls
+        if(this.player2.anchorState == "isAnchor") {
             this.p1Controls.setText('A          D', true);
             this.p1Controls.x = this.player1.x;
             this.p1Controls.y = this.player1.y;
             this.oneAnchoredLast = false;
+            this.twoHasAnchored = true;
         }
         if(this.player1.anchorState == "isAnchor") {
             this.p2Controls.setText('🡨          🡪 ', true);
             this.p2Controls.x = this.player2.x;
             this.p2Controls.y = this.player2.y;
             this.oneAnchoredLast = true;
+            this.oneHasAnchored = true;
         }
 
 	},
@@ -172,6 +214,9 @@ Cradle.prototype = {
             this.fadeComplete = true;
         }
         //game.camera.resetFX();
+    },
+    progressTutorial: function() {
+        this.progress = true;
     },
 	//Function to manually create the platforms
     createPlatforms: function(){
