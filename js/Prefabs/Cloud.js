@@ -12,23 +12,22 @@
 // key = sprite
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
-// platformType = window or cloud
 function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, key);
-	game.add.existing(this);
-	this.alpha = 0;
+	game.add.existing(this); // Add to display list
+	this.alpha = 0; // Make current sprite invisible
 
-	this.gameplay = gameplay;
+	this.gameplay = gameplay; // Obtain reference to gameplay state
 
-	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir);
+	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir); // Creates the actual cloud that will be pushed
 
-	this.cloud.alpha = 0.80;
+	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 
 	if(gravityDir == "down"){
 
 	}
 	else if(gravityDir == "up"){
-		this.cloud.scale.y *= -1;
+
 	}
 	else{
 		console.log(gravityDir + " is not a valid direction. 'up' or 'down'");
