@@ -13,7 +13,7 @@
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
 // platformType = window or cloud
-function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
+function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, sound){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this);
 	this.z = layerMovePlatform;
@@ -23,6 +23,7 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	this.isMoving = false;
 
 	this.gameplay = gameplay;
+	this.lockNoise = game.add.audio(sound);
 
 	this.gameplay.group.add(this);
 
@@ -111,6 +112,10 @@ MovePlatform.prototype.update = function(){
 			this.min.updateYPosition(this.body.y + (this.gravDirMultiplier*this.height));
 			this.isMoving = "locked";
 			this.static = true;
+
+			if(typeof this.lockNoise !== 'undefined') {
+    			this.lockNoise.play('', 0, 1, false);
+    		}
 		}
 	}
 }
