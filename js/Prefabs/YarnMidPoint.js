@@ -9,6 +9,7 @@
 // For nice curves in the yarn
 function YarnMidPoint(game, gameplay, key, player1, player2){
 	Phaser.Sprite.call(this, game, 0, 0, key);
+	game.add.existing(this); //Adds to display list
 
 	this.alpha = 0; // Sets invisible
 
@@ -18,7 +19,7 @@ function YarnMidPoint(game, gameplay, key, player1, player2){
 	// When first created, drop the anchor
 	this.dropTween = game.add.tween(this).to( { midAnchorYOffset: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
 
-	// Formula used to calculate midpoint between players
+	// Formula used to move this to the midpoint of the players
 	this.calcMidPoint = function(){
 		var xAverage = (this.player1.body.x + this.player2.body.x) / 2;
 		var yAverage = (this.player1.body.y + this.player2.body.y) / 2;
@@ -70,7 +71,6 @@ YarnMidPoint.prototype.constructor = YarnMidPoint;
 YarnMidPoint.prototype.update = function(){
 	// Calculates midpoint so other variables are correct
 	this.calcMidPoint();
-
 	// Determines by how much to scale the anchor drop height
 	this.midAnchorYScalar = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y)/400;
 
