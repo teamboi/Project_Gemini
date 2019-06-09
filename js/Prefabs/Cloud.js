@@ -23,14 +23,14 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 
-	if(gravityDir == "down"){
+	if(gravityDir == "down"){ // Empty ifs just in case we want something
 
 	}
 	else if(gravityDir == "up"){
 
 	}
 	else{
-		console.log(gravityDir + " is not a valid direction. 'up' or 'down'");
+		console.log(gravityDir + " is not a valid direction. 'up' or 'down'"); // In case we make a typo
 	}
 }
 
