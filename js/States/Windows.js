@@ -48,7 +48,7 @@ Windows.prototype = {
 
         this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 600, 481, 'down');
 
-        this.window2 = new WindowMask(game, this, 666, 99, 'redWindow', 'redLatch', 106, 250, 'up');
+        this.window2 = new WindowMask(game, this, 661, 99, 'redWindow', 'redLatch', 106, 250, 'up');
 
         // Add in the players
         this.player1 = new Player(game, this, 273, 682, "cat1", 'cat1Hitbox', 1);
