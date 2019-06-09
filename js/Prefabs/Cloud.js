@@ -28,7 +28,7 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 
 	}
 	else if(gravityDir == "up"){
-		this.scale.y *= -1;
+		this.cloud.scale.y *= -1;
 	}
 	else{
 		console.log(gravityDir + " is not a valid direction. 'up' or 'down'");
