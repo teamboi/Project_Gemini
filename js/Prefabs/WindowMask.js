@@ -1,7 +1,6 @@
 // WE ARE TEAM BOY (also known as group 14)
 // Herman Wu, Erica Li, and Georgio Klironomos
 
-// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
@@ -12,39 +11,40 @@
 // key = sprite
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
-// platformType = window or cloud
 function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, gravityDir){
-	Phaser.Sprite.call(this, game, x, y, windowKey);
-	game.add.existing(this);
-	this.z = layerWindow;
-	this.gameplay = gameplay;
-	this.gameplay.group.add(this);
+	Phaser.Sprite.call(this, game, x, y, windowKey); // This sprite will be the graphical windowpane
+	game.add.existing(this); // Adds to display list
+	this.z = layerWindow; // Sets z order for layer sorting
+	this.gameplay = gameplay; // Obtains reference to gameplay state
+	this.gameplay.group.add(this); // Adds self to gameplay's group for layer sorting
 
-	this.latch = new MovePlatform(game, gameplay, x, y, latchKey, firstY, secondY, gravityDir, 'windowClick');
+	this.latch = new MovePlatform(game, gameplay, x, y, latchKey, firstY, secondY, gravityDir, 'windowClick'); // Creates the platform that will be moved
 
-	this.rectMask = game.add.graphics(0, 0);
-	game.add.existing(this.rectMask);
-	this.rectMask.beginFill(0xFFFFFF,1);
+	this.rectMask = game.add.graphics(0, 0); // Adds in mask
+	game.add.existing(this.rectMask); // Adds mask to display list
+	this.rectMask.beginFill(0xFFFFFF,1); // Fills mask with white so it can be seen
 
+	// If the window will be pulled up
 	if(gravityDir == "down"){
-		this.anchor.setTo(0.5,1);
-		this.rectMask.drawRect(x - (this.width/2), y-this.height, this.width, this.height);
+		this.anchor.setTo(0.5,1); // Sets anchor to the bottom of the window
+		this.rectMask.drawRect(x - (this.width/2), y-this.height, this.width, this.height); // Draws the appropriate rectangle
 	}
+	// If the window will be pulled down
 	else if(gravityDir == "up"){
-		this.anchor.setTo(0.5,0);
-		this.rectMask.drawRect(x - (this.width/2), y, this.width, this.height);
+		this.anchor.setTo(0.5,0); // Sets anchor to the top of the window
+		this.rectMask.drawRect(x - (this.width/2), y, this.width, this.height); // Draws the appropriate rectangle
 	}
 	else{
-		console.log(gravityDir + " is not a valid direction. 'up' or 'down'");
+		console.log(gravityDir + " is not a valid direction. 'up' or 'down'"); // In case I make a typo
 	}
 
-	this.mask = this.rectMask;
+	this.mask = this.rectMask; // sets the mask of the windowpane to the rectangle we made
 }
 
-// inherit prototype from Phaser.Sprite and set constructor to MovePlatform
+// inherit prototype from Phaser.Sprite and set constructor to WindowMask
 WindowMask.prototype = Object.create(Phaser.Sprite.prototype);
-WindowMask.prototype.constructor = Window;
+WindowMask.prototype.constructor = WindowMask;
 
 WindowMask.prototype.update = function(){
-	this.y = this.latch.body.y;
+	this.y = this.latch.body.y; //Sets the graphical windowpane height to the collidable platform's height
 }

@@ -1,7 +1,6 @@
 // WE ARE TEAM BOY (also known as group 14)
 // Herman Wu, Erica Li, and Georgio Klironomos
 
-// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
@@ -23,6 +22,8 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 
+	this.hasBeganTween = false; // Boolean for if tween has begun, so it only fires once
+
 	if(gravityDir == "down"){ // Empty ifs just in case we want something
 
 	}
@@ -34,12 +35,13 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	}
 }
 
-// inherit prototype from Phaser.Sprite and set constructor to MovePlatform
+// inherit prototype from Phaser.Sprite and set constructor to Cloud
 Cloud.prototype = Object.create(Phaser.Sprite.prototype);
 Cloud.prototype.constructor = Cloud;
 
 Cloud.prototype.update = function(){
-	if(this.cloud.isMoving === "locked"){
-		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Linear.InOut, true, 0, 0, false);
+	if(this.cloud.isMoving === "locked" && this.hasBeganTween === false){ // checks if the cloud is locked and hasn't begun the tween
+		this.hasBeganTween === true; // Makes tween only happen once
+		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Linear.InOut, true, 0, 0, false); // The actual tween
 	}
 }

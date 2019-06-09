@@ -5,54 +5,52 @@
 function DialogManager(game, gameplay, key){
 	Phaser.Sprite.call(this, game, 0, 0, key);
 	game.add.existing(this);
-	this.gameplay = gameplay;
+	this.gameplay = gameplay; // Obtains reference to gameplay state
 	
-	this.alpha = 0;
+	this.alpha = 0; // Makes the ugly green box invisible
 
 	this.dialog = JSON.parse(this.game.cache.getText('dialog')); // This produces the meta array of all levels
 	//this.level = this.dialog[this.levelNum]; // This produces the array of text for a single level
 	//this.textBubble = this.level[this.textBubbleNum]; // This produces a single text bubble in the level
 
-	this.dialogTyping = false;
+	this.dialogTyping = false; // Boolean for if the dialog is typing
 
+	// Function to type the intro dialog; 1 indexed
 	this.TypeIntro = function(levelNum){
 		this.intro = this.TypeText(levelNum-1,0);
 	}
 
+	// Function to type the outro dialog; 1 indexed
 	this.TypeOutro = function(levelNum){
 		this.outro = this.TypeText(levelNum-1,1);
 	}
 
+	// Types the text in the array in the json
 	this.TypeText = function(levelNum, textBubbleNum){
 		//this.dialogTyping = true;
 
+		// Obtains reference to the correct text to print
 		var textBubble = this.dialog[levelNum][textBubbleNum];
 
+		// Plays the audio associated with the text
 		this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
         this.narrate.volume = 0.35;
 
+        // If specified, make the previous text fade out
 		if(textBubble["destroyIntro"]){
 			this.intro.fadeOut();
 		}
 
+		// Create the actual text
 		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"], textBubble["size"]);
-		this.gameplay.group.add(currentText);
+		this.gameplay.group.add(currentText); // Add the current text to be sorted
 		this.gameplay.group.add(currentText.text)
 
-		return currentText;
+		return currentText; // Returns reference to object
 	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to DialogManager
 DialogManager.prototype = Object.create(Phaser.Sprite.prototype);
 DialogManager.prototype.constructor = DialogManager;
-
-DialogManager.prototype.update = function(){
-	if(game.input.keyboard.justPressed(Phaser.KeyCode.L)){
-		this.TypeIntro(1);
-	}
-	if(game.input.keyboard.justPressed(Phaser.KeyCode.K)){
-		this.TypeOutro(1);
-	}
-}

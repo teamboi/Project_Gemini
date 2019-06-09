@@ -1,31 +1,24 @@
 // WE ARE TEAM BOY (also known as group 14)
 // Herman Wu, Erica Li, and Georgio Klironomos
 
-// https://www.codeandweb.com/physicseditor/tutorials/phaser-p2-physics-example-tutorial
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
-// Constructor for movePlatform
-// game = reference to game
-// gameplay = reference to gameplay state
-// x, y = starting coordinates
-// key = sprite
-// firstY, secondY = range in which the moving platform can move
-// gravityDir = direction of gravity imposed on platform
-// platformType = window or cloud
+// Constructor for PlayButton
 function PlayButton(game, gameplay, x, y, xscale, yscale,key){
 	Phaser.Sprite.call(this, game, x, y, key);
-	this.alpha = 0;
+	this.alpha = 0; // Sets current sprite to invisible
 
-	this.gameplay = gameplay;
+	this.gameplay = gameplay; // Obtains reference to gameplay state
 
-	this.button = game.add.button(x, y, key, actionOnClick, this, 2,1,0);
-	this.button.anchor.setTo(0.5, 0.5);
-	this.button.scale.setTo(xscale,yscale);
+	this.button = game.add.button(x, y, key, actionOnClick, this, 2,1,0); // Creates clickable button
+	this.button.anchor.setTo(0.5, 0.5); // Sets anchor to the center
+	this.button.scale.setTo(xscale,yscale); // Scales button to specified scale
 
 	//this.onInputOver.add(over, this);
 }
 
+// If clicked, will call the gameplay's fade function to move onto next state
 function actionOnClick(){
 	this.gameplay.fade();
 }
