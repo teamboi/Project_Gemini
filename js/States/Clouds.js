@@ -49,16 +49,16 @@ Clouds.prototype = {
         
 
         // Add in the players
-        this.player1 = new Player(game, this, 85, 500, "cat1",'cat1Hitbox', 1);
+        this.player1 = new Player(game, this, 85, 600, "cat1",'cat1Hitbox', 1);
 
-        this.player2 = new Player(game, this, 32, 200, "cat2", 'cat1Hitbox', 2);
+        this.player2 = new Player(game, this, 32, 100, "cat2", 'cat1Hitbox', 2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
 
-        this.barrier = this.createBarrier(game.width/2, game.height/2, game.width, 1);
+        this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
 
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
 
@@ -131,7 +131,7 @@ Clouds.prototype = {
         var platform = game.add.sprite(x,y, 'line');
         this.group.add(platform);
         //platform.scale.setTo(0.08,0.08);
-        platform.anchor.setTo(0.5,0.5);
+        platform.anchor.setTo(0.5,1);
         game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

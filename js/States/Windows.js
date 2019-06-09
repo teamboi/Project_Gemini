@@ -40,11 +40,6 @@ Windows.prototype = {
         this.tutorialText();
 
         this.glow();
-        
-        // Create the world barriers
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
-
-
 
         this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 600, 481, 'down');
 
@@ -59,6 +54,9 @@ Windows.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
     
+        // Create the world barriers
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
         this.group.sort();
     },
     update: function(){
@@ -121,7 +119,7 @@ Windows.prototype = {
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         this.group.add(platform);
-        platform.anchor.setTo(0.5,0.5);
+        platform.anchor.setTo(0.5,1);
         game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;

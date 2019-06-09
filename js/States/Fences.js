@@ -123,7 +123,7 @@ Fences.prototype = {
         //platform.scale.setTo(0.08,0.08);
         this.group.add(platform);
         game.physics.p2.enable(platform);
-        platform.anchor.setTo(0.5,0.5);
+        platform.anchor.setTo(0.5,1);
         platform.body.setRectangle(width,height, 0, 0, 0);
         platform.body.static = true;
         platform.body.setCollisionGroup(this.platformCollisionGroup);

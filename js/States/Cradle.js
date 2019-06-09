@@ -14,7 +14,7 @@ Cradle.prototype = {
         this.showExit = false;
         this.complete = false;
         this.textVertOffset = 40;
-
+        this.oneAnchoredLast = true;
         this.fadeComplete = false;
 	},
 	create: function(){
@@ -46,9 +46,9 @@ Cradle.prototype = {
 
 
         // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 707, 416, "cat1", 'cat1Hitbox', 1);
+        this.player1 = new Player(game, this, game.width/2, 416, "cat1", 'cat1Hitbox', 1);
 
-        this.player2 = new Player(game, this, 175, 350, "cat2", 'cat1Hitbox', 2);
+        this.player2 = new Player(game, this, game.width/2, 350, "cat2", 'cat1Hitbox', 2);
 
         //Create the tutorial text
         this.tutorialText();
@@ -84,10 +84,12 @@ Cradle.prototype = {
 	update: function(){
 
         if(this.complete == true) {
-            game.time.events.add(1500, this.preFade, this);
+            game.time.events.add(2500, this.preFade, this);
         }
-        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90){
-            this.complete = true;
+        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 ){
+            if(this.player2.anchorState == "isAnchor" || this.player1.anchorState == "isAnchor") {
+                this.complete = true;
+            }
             game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = (this.player1.x + this.player2.x)/2;
             this.redGlow.y = (this.player1.y + this.player2.y)/2;
@@ -97,42 +99,55 @@ Cradle.prototype = {
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
 
-        if(this.player1.checkIfCanJump()) {
-            this.p1Controls.setText("W", true);
-            this.p1Controls.x = this.player1.x;
-            this.p1Controls.y = this.player1.y - this.textVertOffset;
+       
+
+        if(this.oneAnchoredLast == false) {
+            if(this.player1.checkIfCanJump()) {
+                this.p1Controls.setText("W", true);
+                this.p1Controls.x = this.player1.x;
+                this.p1Controls.y = this.player1.y - this.textVertOffset;
+            }
+            /*else if(this.player2.anchorState == "isAnchor") {
+                this.p1Controls.setText('A          D', true);
+                this.p1Controls.x = this.player1.x;
+                this.p1Controls.y = this.player1.y;
+            }*/
+            else if(this.player2.anchorState != "beingAnchored") {
+                this.p1Controls.setText('Hold S', true);
+                this.p1Controls.x = this.player1.x;
+                this.p1Controls.y = this.player1.y + this.textVertOffset;
+            }
+            this.p2Controls.setText('', true);
         }
-        else if(this.player2.anchorState == "isAnchor") {
+        else {
+            if(this.player2.checkIfCanJump()) {
+                this.p2Controls.setText("🡫", true);
+                this.p2Controls.x = this.player2.x;
+                this.p2Controls.y = this.player2.y + this.textVertOffset;
+            }
+            /*else if(this.player1.anchorState == "isAnchor") {
+                this.p2Controls.setText('🡨          🡪 ', true);
+                this.p2Controls.x = this.player2.x;
+                this.p2Controls.y = this.player2.y;
+            }*/
+            else if(this.player1.anchorState != "beingAnchored") {
+                this.p2Controls.setText('Hold 🡩', true);
+                this.p2Controls.x = this.player2.x;
+                this.p2Controls.y = this.player2.y - this.textVertOffset;
+            }
+            this.p1Controls.setText('', true);
+        }
+         if(this.player2.anchorState == "isAnchor") {
             this.p1Controls.setText('A          D', true);
             this.p1Controls.x = this.player1.x;
             this.p1Controls.y = this.player1.y;
+            this.oneAnchoredLast = false;
         }
-        else if(this.player2.anchorState != "beingAnchored") {
-            this.p1Controls.setText('S', true);
-            this.p1Controls.x = this.player1.x;
-            this.p1Controls.y = this.player1.y + this.textVertOffset;
-        }
-        else {
-            this.p1Controls.setText('', true);
-        }
-
-        if(this.player2.checkIfCanJump()) {
-            this.p2Controls.setText("🡫", true);
-            this.p2Controls.x = this.player2.x;
-            this.p2Controls.y = this.player2.y + this.textVertOffset;
-        }
-        else if(this.player1.anchorState == "isAnchor") {
+        if(this.player1.anchorState == "isAnchor") {
             this.p2Controls.setText('🡨          🡪 ', true);
             this.p2Controls.x = this.player2.x;
             this.p2Controls.y = this.player2.y;
-        }
-        else if(this.player1.anchorState != "beingAnchored") {
-            this.p2Controls.setText('🡩', true);
-            this.p2Controls.x = this.player2.x;
-            this.p2Controls.y = this.player2.y - this.textVertOffset;
-        }
-        else {
-            this.p2Controls.setText('', true);
+            this.oneAnchoredLast = true;
         }
 
 	},

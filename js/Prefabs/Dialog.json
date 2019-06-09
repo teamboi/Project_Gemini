@@ -30,7 +30,7 @@
 			"x" : 437,
 			"y" : 622,
 			"width" : 550,
-			"text" : "..when both cats jumped, and one held on tight, and the other could hang and swing.",
+			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
 			"size" : 22,
 			"audio" : "sfx_test_narration.mp3"
 		}
@@ -55,7 +55,7 @@
 	],
 	[
 		{
-			"x" : 305,
+			"x" : 310,
 			"y" : 285,
 			"width" : 550,
 			"text" : "Adopted into separate homes, with the string still between themselves...",
@@ -63,9 +63,9 @@
 			"audio" : "narrate"
 		},
 		{
-			"x" : 540,
+			"x" : 520,
 			"y" : 500,
-			"width" : 250,
+			"width" : 430,
 			"text" : "...the physical barrier of distance couldn't prevent swinging onto higher shelves.",
 			"size" : 22,
 			"audio" : "sfx_test_narration.mp3"
@@ -100,7 +100,7 @@
 		},
 		{
 			"x" : 560,
-			"y" : 560,
+			"y" : 600,
 			"width" : 350,
 			"text" : "...pulling each other towards the clouds meant they would never have to say goodbye.",
 			"size" : 22,
