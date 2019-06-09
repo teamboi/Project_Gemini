@@ -62,7 +62,7 @@ Clouds.prototype = {
 
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
 
-        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud', 99, 350, 'up');
+        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
 
         this.glow();
 
