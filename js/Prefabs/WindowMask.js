@@ -20,7 +20,7 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 	this.gameplay = gameplay;
 	this.gameplay.group.add(this);
 
-	this.latch = new MovePlatform(game, gameplay, x, y, latchKey, firstY, secondY, gravityDir);
+	this.latch = new MovePlatform(game, gameplay, x, y, latchKey, firstY, secondY, gravityDir, 'windowClick');
 
 	this.rectMask = game.add.graphics(0, 0);
 	game.add.existing(this.rectMask);

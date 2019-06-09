@@ -27,6 +27,9 @@ Load.prototype = {
 		game.load.audio('oneOutro', 'audio/sfx/sfx_level_one_outro.mp3');
 		game.load.audio('twoIntro', 'audio/sfx/sfx_level_two_intro.mp3');
 		game.load.audio('twoOutro', 'audio/sfx/sfx_level_two_outro.mp3');
+
+		//https://freesound.org/people/mhtaylor67/sounds/126041/
+		game.load.audio('windowClick', 'audio/sfx/126041__mhtaylor67__gate-latch.wav');
 		
 		game.load.image('title', 'img/menu/titleScreen.png');
 		game.load.image('playButton', 'img/menu/playButton.png');
