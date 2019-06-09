@@ -30,6 +30,8 @@ Load.prototype = {
 
 		//https://freesound.org/people/mhtaylor67/sounds/126041/
 		game.load.audio('windowClick', 'audio/sfx/126041__mhtaylor67__gate-latch.wav');
+
+		game.load.audio('poof', 'audio/sfx/poof.wav');
 		
 		game.load.image('title', 'img/menu/titleScreen.png');
 		game.load.image('playButton', 'img/menu/playButton.png');

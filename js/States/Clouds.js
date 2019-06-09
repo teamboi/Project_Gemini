@@ -60,6 +60,8 @@ Clouds.prototype = {
 
         this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
 
+        this.poof = game.add.audio('poof');
+
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
 
         this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
@@ -67,6 +69,8 @@ Clouds.prototype = {
         this.glow();
 
         this.group.sort();
+
+       // this.poof = game.add.audio('poof');
     },
     update: function(){
         //Check for player one's win state
@@ -76,9 +80,11 @@ Clouds.prototype = {
         if(this.cloud1.cloud.isMoving == 'locked'){
             this.oneCanWin = true;
             game.add.tween(this.room2).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
+           // this.poof.play();
         }
         if(this.cloud2.cloud.isMoving == 'locked'){
            this.twoCanWin = true;
+           //this.poof.play();
         }
 
         if(this.oneCanWin == true && this.twoCanWin == true) {

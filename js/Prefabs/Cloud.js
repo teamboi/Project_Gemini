@@ -19,7 +19,7 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 
-	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir); // Creates the actual cloud that will be pushed
+	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, 'poof'); // Creates the actual cloud that will be pushed
 
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 
