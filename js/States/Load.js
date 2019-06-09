@@ -7,8 +7,8 @@ var Load = function(game) {};
 Load.prototype = {
 	preload: function() {
 		// setup loading bar
-		var loadingBar = this.add.sprite(game.width/2, game.height/2, 'loading');
-		loadingBar.anchor.set(0.5);
+		var loadingBar = this.add.sprite(game.width/2, game.height/2, 'line');
+		loadingBar.anchor.setTo(0.5,1);
 		game.load.setPreloadSprite(loadingBar);
 
 		// For now, this merely loads in the music and the title image, but it'll be expanded later
@@ -83,7 +83,7 @@ Load.prototype = {
 		game.load.image('purpCloud', 'img/objects/purpCloud.png');
 		game.load.image('purpCloud2', 'img/objects/purpCloud2.png');
 		
-		game.load.image('line', 'img/bg/line.png');
+		//game.load.image('line', 'img/bg/line.png');
 		game.load.image('bubble', 'img/bg/bubble.png');
 
 
