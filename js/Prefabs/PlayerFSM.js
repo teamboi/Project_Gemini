@@ -104,6 +104,10 @@ function PlayerFSM(game, gameplay, player, x, y, key){
 		return ( self.player.checkIfCanJump() ); //self.checkIfCanJump()
 	});
 
+	this.fsm.transition('land_to_jump', 'land', 'jump', function(){
+		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.player.controls[2]]) && self.player.checkIfCanJump() ); //self.animations.loopCount > 0
+	});
+
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
 		return ( self.animations.frame === self.landEnd && self.player.fsmIsMoving === false ); //self.animations.loopCount > 0
 	});
