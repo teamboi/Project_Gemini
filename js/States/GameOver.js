@@ -26,8 +26,5 @@ GameOver.prototype = {
     },
     resetFade: function() {
         game.state.start('MainMenu', true, false);
-        //game.camera.resetFX();
-        
-
     }
 }

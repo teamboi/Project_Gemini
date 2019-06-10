@@ -4,7 +4,7 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
-//INstantiate the level 2 state
+//Instantiate the level 2 state
 var Clouds = function(game){};
 Clouds.prototype = {
     init: function(ost){
@@ -35,14 +35,17 @@ Clouds.prototype = {
         //For when we create a tileset
         this.createPlatforms();
 
+        // Add the ransitionary backgrounds
         this.room = game.add.sprite(0,0,'Clouds1');
         this.room2 = game.add.sprite(0,0,'Clouds2');
         this.room2.alpha = 0;
         this.room3 = game.add.sprite(0,0,'Clouds3');
         this.room3.alpha = 0;
 
+        // create the z-order groups
         this.group = game.add.group();
         
+        // Create the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(7);
         this.dialog.TypeOutro(7);
@@ -50,7 +53,6 @@ Clouds.prototype = {
 
         // Add in the players
         this.player1 = new Player(game, this, 85, 600, "cat1",'cat1Hitbox', 1);
-
         this.player2 = new Player(game, this, 32, 100, "cat2", 'cat1Hitbox', 2);
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
@@ -58,19 +60,18 @@ Clouds.prototype = {
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
 
+        //Add the world divider
         this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
 
-        this.poof = game.add.audio('poof');
-
+        // Add the moveable clouds
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
-
         this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
 
+        // Add the objective glow
         this.glow();
 
+        // Create the z-order groups
         this.group.sort();
-
-       // this.poof = game.add.audio('poof');
     },
     update: function(){
         //Check for player one's win state
@@ -80,13 +81,12 @@ Clouds.prototype = {
         if(this.cloud1.cloud.isMoving == 'locked'){
             this.oneCanWin = true;
             game.add.tween(this.room2).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0);
-           // this.poof.play();
         }
         if(this.cloud2.cloud.isMoving == 'locked'){
            this.twoCanWin = true;
-           //this.poof.play();
         }
 
+        // Porgress the the level's second stage
         if(this.oneCanWin == true && this.twoCanWin == true) {
             if(this.barrierDestroyed == false) {
                 this.barrierDestroyed = true;
@@ -106,37 +106,40 @@ Clouds.prototype = {
             }
         }
     },
+    // Create the invisible objective glow
     glow: function() {
         this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
     },
+    // Check for the win condition
     preFade: function() {
         if(this.complete == true) {
             game.time.events.add(1000, this.fade, this);
         }
     },
+    // Fade out the scene and music
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
         this.ost.fadeOut(2500);
     },
+    // Call the dning state
     resetFade: function() {
         if(this.fadeComplete == false) {
             game.state.start('Ending', true, false, this.ost);
             this.fadeComplete = true;
         }
     },
+    // Destroy the world barrier
     destoyBarrier: function() {
         this.barrier.destroy();
     },
-
-    //Helper function to create platforms the old fashion way
+    //create the world barrier
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');
         this.group.add(platform);
-        //platform.scale.setTo(0.08,0.08);
         platform.anchor.setTo(0.5,1);
         game.physics.p2.enable(platform);
         platform.body.setRectangle(width,height, 0, 0, 0);
@@ -145,6 +148,7 @@ Clouds.prototype = {
         platform.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup]);
         return platform;
     },
+    // Load in the tilemap's platforms
     createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelSix');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
@@ -173,6 +177,5 @@ Clouds.prototype = {
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
             this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
         }
-        console.log(this.testLevel.objects[0]);
     }
 }

@@ -37,55 +37,33 @@ Cradle.prototype = {
 
         // Call the background image
         this.room = game.add.sprite(0,0,'Cradle');
-
         this.group = game.add.group();
 
+        // Add the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(2);
         this.dialog.TypeOutro(2);
 
-        //Create the tutorial text
-        //this.tutorialText();
-
-
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, game.width/2, 416, "cat1", 'cat1Hitbox', 1);
-
         this.player2 = new Player(game, this, game.width/2, 350, "cat2", 'cat1Hitbox', 2);
 
-        //Create the tutorial text
-        this.tutorialText();
-
-        this.glow();
-
-        
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox',3);
 
- 
+        //Create the tutorial text
+        this.tutorialText();
+        this.glow();
+
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
 
-        // Add platforms to both sides (they're hardcoded for now, hopefully Tiled later)
-       /* this.createPlatform(380,530,120,10);
-        this.createPlatform(290,405,80,10);
-        this.createPlatform(90,155,130,10);
-        this.createPlatform(410,250,300,10);*/
-        //this.createPlatform(game.width/2, game.height/2, game.width, 1);//dividing line
-
-        //Add the yarnballs for a little fun
-        /*this.yarnBall = game.add.sprite(600,70,'redball');
-       	this.yarnBall.scale.setTo(0.08,0.08);
-        game.add.existing(this.yarnBall);
-        game.physics.p2.enable(this.yarnBall, true);
-        this.yarnBall.body.setCollisionGroup(this.objectCollisionGroup);
-        this.yarnBall.body.collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.platformCollisionGroup]);
-
-*/
+        // Sort the z-order group
         this.group.sort();
 	},
 	update: function(){
 
+        // Check for the win condition
         if(this.complete == true) {
             game.time.events.add(2500, this.preFade, this);
         }
@@ -107,7 +85,7 @@ Cradle.prototype = {
         }
 
        
-        //if(this.progress == false) {
+        // Bonkers dynamic tutorial!
             if(this.oneAnchoredLast == false) {
                 if(this.player1.checkIfCanJump()) {
                     this.p1Controls.setText("W", true);
@@ -143,39 +121,7 @@ Cradle.prototype = {
                 this.p2Controls.x = this.player2.x;
                 this.p2Controls.y = this.player2.y + this.textVertOffset;
             }
-       // }
-       /* else {
-            if(this.player1.checkIfCanJump()) {
-                    this.p1Controls.setText("W", true);
-                    this.p1Controls.x = this.player1.x;
-                    this.p1Controls.y = this.player1.y - this.textVertOffset;
-            }
-            if(this.player2.checkIfCanJump()) {
-                    this.p2Controls.setText("🡫", true);
-                    this.p2Controls.x = this.player2.x;
-                    this.p2Controls.y = this.player2.y + this.textVertOffset;
-            }
-           if(this.oneAnchoredLast == false) {
-                
-                if(this.player2.anchorState != "beingAnchored") {
-                    this.p1Controls.setText('Hold S', true);
-                    this.p1Controls.x = this.player1.x;
-                    this.p1Controls.y = this.player1.y + this.textVertOffset;
-                }
-                this.p2Controls.setText('', true);
-            }
-            else {
-                
-                if(this.player1.anchorState != "beingAnchored") {
-                    this.p2Controls.setText('Hold 🡩', true);
-                    this.p2Controls.x = this.player2.x;
-                    this.p2Controls.y = this.player2.y - this.textVertOffset;
-                }
-                this.p1Controls.setText('', true);
-            }
-            
-        }*/
-        
+      
         // If either player is being held up, show them the swinging controls
         if(this.player2.anchorState == "isAnchor") {
             this.p1Controls.setText('A          D', true);
@@ -193,28 +139,32 @@ Cradle.prototype = {
         }
 
 	},
+    // Add in the objective glow
     glow: function() {
         this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
     },
+    // Check for the win condition
     preFade: function() {
         if(this.complete == true) {
             game.time.events.add(1000, this.fade, this);
         }
     },
+    // Fade out this scene
     fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 2000);
     },
+    // Begin the next scene
     resetFade: function() {
         if(this.fadeComplete == false) {
             game.state.start('Threads', true, false, this.ost);
             this.fadeComplete = true;
         }
-        //game.camera.resetFX();
     },
+    // Progress the tutorial
     progressTutorial: function() {
         this.progress = true;
     },
@@ -248,8 +198,8 @@ Cradle.prototype = {
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
             this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
         }
-        console.log(this.testLevel.objects[0]);
     },
+    // Create the tutorial text
     tutorialText: function() {
       this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.textVertOffset, 'W', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
         this.p1Controls.anchor.set(0.5);
@@ -265,9 +215,4 @@ Cradle.prototype = {
         this.exit.anchor.set(0.5);
         this.exit.inputEnabled = true;
     },
-    exitText: function() {
-        this.exit.setText("Press SPACE for more.", true);
-        this.exit.alpha = 0;
-        game.add.tween(this.exit).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
-    }
 }

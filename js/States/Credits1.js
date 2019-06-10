@@ -16,29 +16,20 @@ Credits1.prototype = {
 		this.menu = game.add.sprite(game.width/2,game.height/2,'credits1');
 		this.menu.anchor.setTo(0.5,0.5);
 
+		//Add the white fade
 		game.camera.flash(0xffffff, 2000);
-
-		// Play the Main Theme
-		//this.ost = game.add.audio('Cradle');
-		//this.ost.onDecoded.add(this.startOST, this);
-		//this.ost.fadeIn(500, true);
-		//this.ost.play('', 0, 1, true);
-		
-		// Check for the spacebar to start the game
-		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		//this.space.onDown.add(this.fade, this);
 
 		this.playButton = new PlayButton(game, this, 200, 590,.65,.65, 'playButton');
 	},
+	// Start the soundtrack
 	startOST: function() {
 		this.ost.fadeTo(500, 0.5);
 		this.ost.loop = true;
-		//this.ost.play('', 0, 1, true);	
-		//this.ost.volume = 0.5;
 	},
+	// Fade out this scene
 	fade: function() {
 		// Fade out the music and the camera
     	this.ost.fadeOut(2500);

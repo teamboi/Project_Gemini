@@ -28,9 +28,6 @@ Fences.prototype = {
         game.camera.flash(0xffffff, 2000);
 
 
-        //this.room = game.add.sprite(0,0,'Fences');
-
-
         // Call the loaded in tilemap assets
         this.createPlatforms();
 
@@ -60,11 +57,6 @@ Fences.prototype = {
 
         // Create barrier between worlds
         this.createBarrier(game.width/2, game.height/2, game.width, 1);
-
-        /*this.cloud1 = new MovePlatform(game, this, 780, 475, 'cloud2', 475, 310, 'down', 'window');
-
-        this.cloud2 = new MovePlatform(game, this, 234, 150, 'cloud6', 114, 300, 'up', 'window');
-        */
 
         this.group.sort();
 

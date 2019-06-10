@@ -18,33 +18,26 @@ Tether.prototype = {
 		}
 		// Add in the title card
 		this.title = game.add.sprite(0,0,'tetherTitle');
-		//this.title.anchor.setTo(0.5,0.5);
-		//this.title.alpha= 0;
+
+		// White fade
 		game.camera.flash(0xffffff, 2000);
 
+		// Initialize level theme
 		this.ost = game.add.audio('Tether');
 		this.ost.onDecoded.add(this.startOST, this);
-		//this.theme.onFadeComplete(this.stopTheme, this);
 
-		// Begin to play the level one narration
-        this.narrate = game.add.audio('oneIntro');
-        //this.narrate.onDecoded.add(this.startNar, this);
-
+		// Fade out of the scene
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		//this.space.onDown.add(this.fade, this);
 		game.time.events.add(5000, this.fade, this);
 	},
 	startOST: function() {
 		// Begin playing the level theme
 		this.ost.play('', 0, 0, true);
         this.ost.fadeTo(3000, 0.5);
-        //this.ost.loop = true;
-		//this.ost.volume = 0.5;	
 	},
 	stopTheme: function() {
 		// Stop playaing prev theme
 		this.theme.stop();
-		//this.ost.volume = 0.5;	
 	},
 	startNar: function() {
 		// Begin playing the intro narration
@@ -56,6 +49,7 @@ Tether.prototype = {
 	    game.camera.fade(0xffffff, 2000);
 	},
 	resetFade: function() {
+		// Begin the next chapter
 		if(this.fadeComplete == false) {
             game.state.start('Fences', true, false, this.ost);
             this.fadeComplete = true;

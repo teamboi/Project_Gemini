@@ -9,6 +9,7 @@ Boot.prototype = {
 	preload: function() {
 		// Load in the loading bar
 		game.load.image('line', 'assets/img/line.png');
+		game.load.text('dialog', 'assets/Dialog.txt');
 	},
 	create: function() {
 		//HACK TO PRELOAD A CUSTOM FONT

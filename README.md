@@ -1,5 +1,6 @@
-# Project_Gemini
-Untitled cats &amp; string game
+# Project_Gemini, 120 Final Project
+AKA Cat's Cradle, A 2 player game of string, created by TEAM BOY
+TEAM BOY is Erica Li, Herman Wu, and Georgio Klironomos
 
 # prefixes:
 # spr_sprite
