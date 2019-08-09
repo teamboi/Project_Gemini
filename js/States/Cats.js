@@ -17,16 +17,15 @@ Cats.prototype = {
         this.fadeComplete = false;
 	},
 	create: function(){
-
         //  Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-        // Fade into the scene
-        game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
+        // Fade into the scene
+        game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
@@ -42,11 +41,8 @@ Cats.prototype = {
         this.dialog.TypeIntro(1);
         this.dialog.TypeOutro(1);
         
-        
-
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 68, 516, "cat1", 'cat1Hitbox', 1);
-
         this.player2 = new Player(game, this, 818, 199, "cat2", 'cat1Hitbox', 2);
 
         // Show the character controls

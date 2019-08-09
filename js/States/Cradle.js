@@ -21,22 +21,23 @@ Cradle.prototype = {
         this.fadeComplete = false;
 	},
 	create: function(){
-
-        //  Enable p2 physics
+        // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
-         // Fade into the scene
-        game.camera.flash(0xffffff, 2000);
         // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
+        // Fade into the scene
+        game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
         this.createPlatforms();
 
         // Call the background image
         this.room = game.add.sprite(0,0,'Cradle');
+
+        // Initialise z-masking groups
         this.group = game.add.group();
 
         // Add the story text
@@ -47,16 +48,17 @@ Cradle.prototype = {
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, game.width/2, 416, "cat1", 'cat1Hitbox', 1);
         this.player2 = new Player(game, this, game.width/2, 350, "cat2", 'cat1Hitbox', 2);
-
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox',3);
 
-        //Create the tutorial text
-        this.tutorialText();
-        this.glow();
-
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
+
+        //Create the tutorial text
+        this.tutorialText();
+
+        // Create the objective glow
+        this.glow();
 
         // Sort the z-order group
         this.group.sort();

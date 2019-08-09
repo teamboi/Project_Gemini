@@ -17,7 +17,6 @@ Fences.prototype = {
             
     },
     create: function(){
-        
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
@@ -39,10 +38,12 @@ Fences.prototype = {
 
         this.group = game.add.group();
 
+        // Create barrier between worlds
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(6);
         this.dialog.TypeOutro(6);
-
         
         // Add in the players
         this.player1 = new Player(game, this, 771, 501, "cat1", 'cat1Hitbox', 1);
@@ -51,12 +52,10 @@ Fences.prototype = {
         //Create the surrogate player for the yarn
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
 
-        this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
 
-        // Create barrier between worlds
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+        this.glow();
 
         this.group.sort();
 

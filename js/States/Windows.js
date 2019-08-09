@@ -24,22 +24,27 @@ Windows.prototype = {
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
+        // Fade into the scene
         game.camera.flash(0xffffff, 2000);
 
+        // Call the loaded in tilemap assets
         this.createPlatforms();
 
+        // Call the background sprite
         this.room = game.add.sprite(0,0,'Windows');
 
+        // Create the world barriers
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+        // Initialise z-masking groups
         this.group = game.add.group();
 
+        // Add the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(5);
         this.dialog.TypeOutro(5);
-       
-        this.tutorialText();
-
-        this.glow();
 
         this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 600, 481, 'down');
 
@@ -53,9 +58,10 @@ Windows.prototype = {
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-    
-        // Create the world barriers
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+        this.tutorialText();
+
+        this.glow();
 
         this.group.sort();
     },

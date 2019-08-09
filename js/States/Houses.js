@@ -16,8 +16,6 @@ Houses.prototype = {
         this.fadeComplete = false;      
     },
     create: function(){
-        
-        
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
@@ -25,6 +23,7 @@ Houses.prototype = {
 
         // Fade in scene
         game.camera.onFadeComplete.add(this.resetFade, this);
+        // Fade into the scene
         game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
@@ -37,14 +36,16 @@ Houses.prototype = {
         // Call the background sprite
         this.room = game.add.sprite(0,0,'Houses');
 
+        // Initialise z-masking groups
         this.group = game.add.group();
 
+        // Add the barrier between worlds
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+        // Add the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(4);
         this.dialog.TypeOutro(4);
-
-        // Add in objective glow
-        this.glow();
       
         // Add in the players
         this.player1 = new Player(game, this, 640, 665, "cat1", 'cat1Hitbox', 1);
@@ -54,9 +55,9 @@ Houses.prototype = {
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-   
-        // Add the barrier between worlds
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+        // Add in objective glow
+        this.glow();
 
         this.group.sort();
 

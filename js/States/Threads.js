@@ -17,13 +17,14 @@ Threads.prototype = {
         this.fadeComplete = false;  
 	},
 	create: function(){
-
-        //  Enable p2 physics
+        // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
+        // Instantiate the fade events
         game.camera.onFadeComplete.add(this.resetFade, this);
+        // Fade into the scene
         game.camera.flash(0xffffff, 2000);
 
         this.narrate = game.add.audio('twoIntro');
@@ -32,10 +33,14 @@ Threads.prototype = {
 
         //For when we create a tileset
         this.createPlatforms();
+
+        // Call the background image
         this.room = game.add.sprite(0,0,'Threads');
 
+        // Initialise z-masking groups
         this.group = game.add.group();
 
+        // Add the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(3);
         this.dialog.TypeOutro(3);
@@ -43,16 +48,18 @@ Threads.prototype = {
         // Add in the players with the Player prefab constructor
         this.player1 = new Player(game, this, 801, 469, "cat1", 'cat1Hitbox', 1);
         this.player2 = new Player(game, this, 67, 255, "cat2", 'cat1Hitbox', 2);
-        
         //Add the surrogate player so our string plays nicely
         this.surrogate = new Player(game, this, 300, 100, "cat1", 'cat1Hitbox', 3);
 
-        //this.tutorialText();
-
-        this.glow();
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
 
+        //this.tutorialText();
+
+        // Create the objective glow
+        this.glow();
+
+        // Sort the z-order group
         this.group.sort();
 
         //Add the yarnballs for a little fun

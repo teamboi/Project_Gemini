@@ -22,7 +22,6 @@ Clouds.prototype = {
             
     },
    create: function(){
-        
         // Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
@@ -35,7 +34,7 @@ Clouds.prototype = {
         //For when we create a tileset
         this.createPlatforms();
 
-        // Add the ransitionary backgrounds
+        // Add the transitionary backgrounds
         this.room = game.add.sprite(0,0,'Clouds1');
         this.room2 = game.add.sprite(0,0,'Clouds2');
         this.room2.alpha = 0;
@@ -50,6 +49,12 @@ Clouds.prototype = {
         this.dialog.TypeIntro(7);
         this.dialog.TypeOutro(7);
         
+        //Add the world divider
+        this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
+
+        // Add the moveable clouds
+        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
+        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
 
         // Add in the players
         this.player1 = new Player(game, this, 85, 600, "cat1",'cat1Hitbox', 1);
@@ -59,13 +64,6 @@ Clouds.prototype = {
 
         // Add in the yarn
         this.yarn = new Yarn(game, this, 'ball', this.player1, this.player2, this.surrogate);
-
-        //Add the world divider
-        this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
-
-        // Add the moveable clouds
-        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
-        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
 
         // Add the objective glow
         this.glow();
