@@ -18,6 +18,8 @@ var layerYarnBall = 50;
 var layerYarn = 90;
 var layerPlayer = 100;
 
+var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
+
 // when window loads, create the game
 window.onload = function(){
 	game = new Phaser.Game(896,704, Phaser.AUTO, 'myGame');
