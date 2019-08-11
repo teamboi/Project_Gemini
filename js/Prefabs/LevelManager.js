@@ -30,6 +30,7 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
 	gp.complete = false;
+	gp.barrier;
 
     // Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
@@ -41,6 +42,7 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
     // Instantiate the fade events
     game.camera.onFadeComplete.add(this.resetFade, this);
 
+    // Loads in the tilemap and static platforms
     this.createPlatforms();
 
     // Call the background image
@@ -81,9 +83,11 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
 LevelManager.prototype = Object.create(Phaser.Sprite.prototype);
 LevelManager.prototype.constructor = LevelManager;
 
+// Adds the barrier between the two halves of the screen
 LevelManager.prototype.createBarrier = function(x, y, width, height){
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
+	// Only add it if we specify it
 	if(this.enableBarrier === true){
 		var platform = game.add.sprite(x,y, "line");
         gp.group.add(platform);
@@ -95,24 +99,29 @@ LevelManager.prototype.createBarrier = function(x, y, width, height){
         platform.body.setCollisionGroup(gp.platformCollisionGroup);
         platform.body.collides([gp.playerCollisionGroup, gp.surrogateCollisionGroup]);
 
-        gp.barrier = platform;
+        gp.barrier = platform; // Make the gameplay state have a reference to the barrier
     }
+    // Just in case of typos
     else if(this.enableBarrier != false){
     	console.log(this.enableBarrier + " is not a valid state for enableBarrier. Please use true or false");
     }
 }
 
+// Adds in the level-specific obstacles
+// Only runs if the gameplay state has a function "createLevelObstacles()"
 LevelManager.prototype.createLevelObstacles = function(){
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
 	if(typeof gp.createLevelObstacles === "function"){
 		gp.createLevelObstacles();
 	}
 }
 
+// Loads in the tilemap and static platforms
 LevelManager.prototype.createPlatforms = function(){
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
+	// Load in tilemap
 	gp.testLevel = this.game.add.tilemap(this.tilemap);
     gp.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
@@ -122,7 +131,7 @@ LevelManager.prototype.createPlatforms = function(){
     // Just for safety
     gp.bgLayer.resizeWorld();
    
-    //Instantiate the collision groups for the objects can interact
+    // Instantiate the collision groups for the objects can interact
     gp.playerCollisionGroup = game.physics.p2.createCollisionGroup();
     gp.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
     gp.platformCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -131,9 +140,9 @@ LevelManager.prototype.createPlatforms = function(){
     gp.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
     game.physics.p2.updateBoundsCollisionGroup();
     
-    //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
-    //  This call returns an array of body objects which you can perform addition actions on if
-    //  required. There is also a parameter to control optimising the map build.
+    // Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
+    // This call returns an array of body objects which you can perform addition actions on if
+    // required. There is also a parameter to control optimising the map build.
     gp.testLevel.setCollisionByExclusion([]);
     gp.platforms = game.physics.p2.convertTilemap(gp.testLevel, gp.bgLayer, true);
     for(var i = 0; i < gp.platforms.length; i++){
@@ -142,47 +151,58 @@ LevelManager.prototype.createPlatforms = function(){
     }
 }
 
+// Adds in the yarn manager and the surrogate if specified
 LevelManager.prototype.createYarn = function(){
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
+	// Only add them if we want to
 	if(this.enableYarn === true){
-    	//Add the surrogate player so our string plays nicely
+    	// Add the surrogate player so our string plays nicely
     	gp.surrogate = new Player(game, gp, 300, 100, "cat1", "cat1Hitbox",3);
     	// Add in the yarn
     	gp.yarn = new Yarn(game, gp, 'ball', gp.player1, gp.player2, gp.surrogate);
     }
+    // Just in case of typos
     else if(this.enableYarn != false){
     	console.log(this.enableYarn + " is not a valid state for enableYarn. Please use true or false");
     }
 }
 
+// Adds in the objective glows for the level
 LevelManager.prototype.glow = function() {
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
+	// Add in the first glow
     gp.redGlow = game.add.sprite(this.redGlowX, this.redGlowY, this.heartSprite); //gp.player1.x, gp.player2.y
     gp.redGlow.anchor.setTo(0.5,0.5);
     gp.redGlow.scale.setTo(this.heartScale, this.heartScale);
     gp.redGlow.alpha = 0;
 
+    // Add in the second glow if we need player-specific objectives
     if(this.howManyGlows === 2){
     	gp.blueGlow = game.add.sprite(this.blueGlowX, this.blueGlowY, this.heartSprite);
         gp.blueGlow.anchor.setTo(0.5,0.5);
         gp.blueGlow.scale.setTo(this.heartScale, -this.heartScale);
         gp.blueGlow.alpha = 0;
     }
+    // Just in case of typos
     else if(this.howManyGlows != 1){
     	console.log("Cannot have " + this.howManyGlows + " glows. Please enter 1 or 2");
     }
 }
 
+// Adds in any tutorial text
+// Only runs if the gameplay state has a function "tutorialText()"
 LevelManager.prototype.tutorialText = function(){
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
 	if(typeof gp.tutorialText === "function"){
 		gp.tutorialText();
 	}
 }
 
+// Win state function
+// Call this function inside the gameplay state to trigger the end of the level
 LevelManager.prototype.win = function(){
 	game.time.events.add(this.winTimerDelay, this.preFade, this);
 }
@@ -190,7 +210,7 @@ LevelManager.prototype.win = function(){
 // Fade functions
 // End the level if the cats are still close
 LevelManager.prototype.preFade = function() {
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
     if(gp.complete == true) {
         game.time.events.add(this.preFadeConst, this.fade, this);
@@ -198,12 +218,11 @@ LevelManager.prototype.preFade = function() {
 }
 // Fade out the level
 LevelManager.prototype.fade = function() {
-    //  You can set your own fade color and duration
     game.camera.fade(this.flashColor, this.fadeDuration);
 }
 // Call the next level
 LevelManager.prototype.resetFade = function() {
-	var gp = this.gameplay;
+	var gp = this.gameplay; // renaming it to be shorter
 
     if(this.fadeComplete == false) {
         game.state.start(this.nextLevel, true, false, gp.ost);
