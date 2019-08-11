@@ -92,6 +92,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 		this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 		this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
+		// Now we handle if the non-anchored (otherCat) cat is on a roof, thus becoming the anchor
 		// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 		if(this.isOnRoof == false && otherCat.checkIfOnRoof() && !anchorCat.checkIfCanJump()){
 			this.modifyAnchor(otherCat,anchorCat);
