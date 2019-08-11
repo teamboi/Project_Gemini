@@ -18,7 +18,7 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
-	var gp = this.gameplay;
+	var gp = this.gameplay; // Shortens the reference
 
 	// Save init arguments
 	this.nextLevel = nextLevel;
@@ -66,7 +66,7 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     gp.group = game.add.group();
 
     // Create the world barriers
-    this.createBarrier(enableBarrier, game.width/2, game.height/2, game.width, 1);
+    this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
     // Create level specific platforms/interactables
     this.createLevelObstacles();
