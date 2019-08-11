@@ -9,6 +9,7 @@
 var game;
 var constraint;
 
+var layerBG = 0;
 var layerText = 1;
 var layerWindow = 10;
 var layerMovePlatform = 11;
