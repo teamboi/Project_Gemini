@@ -2,8 +2,8 @@
 "use strict";
 
 // Constructor for LevelManager
-function LevelManager(game, gameplay, tilemap, backgroundImage, dialogNum, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
-	Phaser.Sprite.call(this, game, 0, 0, 'ball');
+function LevelManager(game, gameplay, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
+	Phaser.Sprite.call(this, game, 0, 0, null);
 	game.add.existing(this);
 	var gp = gameplay; // Obtains reference to gameplay state
 	
@@ -71,10 +71,20 @@ function LevelManager(game, gameplay, tilemap, backgroundImage, dialogNum, playe
 	}
 
     this.glow = function() {
-        gp.redGlow = game.add.sprite(gp.player1.x, gp.player2.y, 'heart');
+        gp.redGlow = game.add.sprite(redGlowX, redGlowY, 'heart'); //gp.player1.x, gp.player2.y
         gp.redGlow.anchor.setTo(0.5,0.5);
         gp.redGlow.scale.setTo(1.7,1.7);
         gp.redGlow.alpha = 0;
+
+        if(howManyGlows === 2){
+        	gp.blueGlow = game.add.sprite(blueGlowX, blueGlowY, 'heart');
+	        gp.blueGlow.anchor.setTo(0.5,0.5);
+	        gp.blueGlow.scale.setTo(1.3, -1.3);
+	        gp.blueGlow.alpha = 0;
+        }
+        else if(howManyGlows > 2){
+        	console.log("Cannot have " + howManyGlows + " glows. Please enter 1 or 2");
+        }
     }
 
     // Enable p2 physics

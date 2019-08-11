@@ -20,13 +20,14 @@ Cats.prototype = {
 		var tilemap = 'levelOne';
 		var backgroundImage = 'Cats';
 		var dialogNum = 1;
-		var player1X = 68;
-		var player1Y = 516;
-		var player2X = 818;
-		var player2Y = 199;
+		var howManyGlows = 1;
+		var redGlowCoords = [0,0];
+		var blueGlowCoords = [0,0];
+		var player1Coords = [68, 516];
+		var player2Coords = [818, 199];
 		var enableYarn = false;
 		var enableBarrier = false;
-		this.levelManager = new LevelManager(game, this, tilemap, backgroundImage, dialogNum, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier);
+		this.levelManager = new LevelManager(game, this, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
 	},
 	update: function(){
         
