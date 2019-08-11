@@ -17,44 +17,16 @@ Cats.prototype = {
         this.fadeComplete = false;
 	},
 	create: function(){
-		this.levelManager = new LevelManager(game, this, 'levelOne', 'Cats', 68, 516, 818, 199, false, false);
-        //  Enable p2 physics
-        /*game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
-        game.physics.p2.gravity.y = 800; // Add vertical gravity
-        game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
-
-        // Instantiate the fade events
-        game.camera.onFadeComplete.add(this.resetFade, this);
-        // Fade into the scene
-        game.camera.flash(0xffffff, 2000);
-
-        // Call the loaded in tilemap assets
-        this.createPlatforms();
-
-        // Call the background image
-        this.room = game.add.sprite(0,0,'Cats');
-
-        // Initialise z-masking groups
-        this.group = game.add.group();
-
-        // Create story text 
-        this.dialog = new DialogManager(game, this, "ball");
-        this.dialog.TypeIntro(1);
-        this.dialog.TypeOutro(1);
-        
-        // Add in the players with the Player prefab constructor
-        this.player1 = new Player(game, this, 68, 516, "cat1", 'cat1Hitbox', 1);
-        this.player2 = new Player(game, this, 818, 199, "cat2", 'cat1Hitbox', 2);
-
-        // Show the character controls
-        this.tutorialText();
-
-        // Create the objective glow
-        this.glow();*/
-
-        // Sort the z-masking groups
-        this.group.sort();
-
+		var tilemap = 'levelOne';
+		var backgroundImage = 'Cats';
+		var dialogNum = 1;
+		var player1X = 68;
+		var player1Y = 516;
+		var player2X = 818;
+		var player2Y = 199;
+		var enableYarn = false;
+		var enableBarrier = false;
+		this.levelManager = new LevelManager(game, this, tilemap, backgroundImage, dialogNum, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier);
 	},
 	update: function(){
         
@@ -93,13 +65,6 @@ Cats.prototype = {
         }
 
 	},
-    // Create the objective glow
-    /*glow: function() {
-        this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
-        this.redGlow.anchor.setTo(0.5,0.5);
-        this.redGlow.scale.setTo(1.7,1.7);
-        this.redGlow.alpha = 0;
-    },*/
     // End the level if the cats are still close
     preFade: function() {
         if(this.complete == true) {
@@ -119,37 +84,6 @@ Cats.prototype = {
         }
     },
 
-	//Function to manually create the platforms
-    /*createPlatforms: function(){
-        this.testLevel = this.game.add.tilemap('levelOne');
-        this.testLevel.addTilesetImage('pixel3', 'mapTiles');
-
-        // Load in the platforms layer
-        this.bgLayer = this.testLevel.createLayer('Platforms');
-        
-        // Just for safety
-        this.bgLayer.resizeWorld();
-       
-        //Instantiate the collision groups for the objects can interact
-        this.playerCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.surrogateCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.platformCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.objectCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.cloudCollisionGroup = game.physics.p2.createCollisionGroup();
-        this.limiterCollisionGroup = game.physics.p2.createCollisionGroup();
-        game.physics.p2.updateBoundsCollisionGroup();
-
-        
-        //  Convert the tilemap layer into bodies. Only tiles that collide (see above) are created.
-        //  This call returns an array of body objects which you can perform addition actions on if
-        //  required. There is also a parameter to control optimising the map build.
-        this.testLevel.setCollisionByExclusion([]);
-        this.platforms = game.physics.p2.convertTilemap(this.testLevel, this.bgLayer, true);
-        for(var i = 0; i < this.platforms.length; i++){
-            this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
-            this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
-        }
-    },*/
     // Show the movement controls dynamically
     tutorialText: function() {
         this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.oneVertOffset, 'A        D', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
