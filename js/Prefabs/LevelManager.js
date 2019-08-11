@@ -2,7 +2,7 @@
 "use strict";
 
 // Constructor for LevelManager
-function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
+function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
@@ -10,6 +10,7 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
 
 	// Save init arguments
 	this.nextLevel = nextLevel;
+	this.ostFadeOut = ostFadeOut;
 	this.tilemap = tilemap;
 	this.howManyGlows = howManyGlows;
 	this.redGlowX = redGlowX;
@@ -26,6 +27,7 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
 	this.winTimerDelay = 1500;
 	this.preFadeConst = 1000;
 	this.fadeDuration = 2000;
+	this.ostFadeOutDuration = 2500;
 
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
@@ -218,7 +220,15 @@ LevelManager.prototype.preFade = function() {
 }
 // Fade out the level
 LevelManager.prototype.fade = function() {
+	var gp = this.gameplay; // renaming it to be shorter
+
     game.camera.fade(this.flashColor, this.fadeDuration);
+    if(this.ostFadeOut === true){
+    	gp.ost.fadeOut(this.ostFadeOutDuration);
+    }
+    else if(this.ostFadeOut != false){
+    	console.log(this.ostFadeOut + " is not a valid state for ostFadeOut. Please use true or false");
+    }
 }
 // Call the next level
 LevelManager.prototype.resetFade = function() {

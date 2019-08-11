@@ -14,6 +14,7 @@ Cats.prototype = {
 	},
 	create: function(){
 		var nextLevel = "Cradle";
+		var ostFadeOut = false;
 		var tilemap = "levelOne";
 		var backgroundImage = "Cats";
 		var dialogNum = 1;
@@ -25,7 +26,7 @@ Cats.prototype = {
 		var enableYarn = false;
 		var enableBarrier = false;
 
-		this.levelManager = new LevelManager(game, this, nextLevel, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+		this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
 	},
 	update: function(){
         
