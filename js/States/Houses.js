@@ -16,7 +16,21 @@ Houses.prototype = {
         this.fadeComplete = false;      
     },
     create: function(){
-        // Enable p2 physics
+        var nextLevel = "Windows";
+        var ostFadeOut = false;
+        var tilemap = "levelThree";
+        var backgroundImage = "Houses";
+        var dialogNum = 4;
+        var howManyGlows = 2;
+        var redGlowCoords = [834, 428];
+        var blueGlowCoords = [839, 299];
+        var player1Coords = [640, 665];
+        var player2Coords = [640, 40];
+        var enableYarn = true;
+        var enableBarrier = true;
+
+        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        /*// Enable p2 physics
         game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
@@ -27,13 +41,13 @@ Houses.prototype = {
         game.camera.flash(0xffffff, 2000);
 
         // Call the loaded in tilemap assets
-        this.createPlatforms();
+        this.createPlatforms();*/
 
         // Add the level objectives
-        this.fishBowl = game.add.sprite(830, 428, 'fishbowl'); 
-        this.flower = game.add.sprite(810, 299, 'flower');
+        //this.fishBowl = game.add.sprite(830, 428, 'fishbowl'); 
+        //this.flower = game.add.sprite(810, 299, 'flower');
 
-        // Call the background sprite
+        /*// Call the background sprite
         this.room = game.add.sprite(0,0,'Houses');
 
         // Initialise z-masking groups
@@ -59,14 +73,15 @@ Houses.prototype = {
         // Add in objective glow
         this.glow();
 
-        this.group.sort();
+        this.group.sort();*/
 
     },
     update: function(){
         //Check for player one's win state
         if(this.oneWin == true && this.twoWin == true && this.complete == false) {
             this.complete = true;
-            game.time.events.add(1000, this.fade, this);
+            this.levelManager.win();
+            //game.time.events.add(1000, this.fade, this);
         }
         if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70) {
             this.oneWin = true;
@@ -89,8 +104,14 @@ Houses.prototype = {
             game.add.tween(this.blueGlow).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0);
         }
     },
+    /*createLevelObstacles: function(){
+        this.fishBowl = game.add.sprite(830, 428, 'fishbowl');
+        game.add.existing(this.fishbowl);
+        this.flower = game.add.sprite(810, 299, 'flower');
+        game.add.existing(this.flower);
+    }*/
 
-    glow: function() {
+    /*glow: function() {
         this.redGlow = game.add.sprite(834, 428, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
         this.redGlow.scale.setTo(1.3,1.3);
@@ -99,9 +120,9 @@ Houses.prototype = {
         this.blueGlow.anchor.setTo(0.5,0.5);
         this.blueGlow.scale.setTo(1.3, -1.3);
         this.blueGlow.alpha = 0;
-    },
+    },*/
 
-    fade: function() {
+    /*fade: function() {
         //  You can set your own fade color and duration
         game.camera.fade(0xffffff, 1000);
     },
@@ -110,9 +131,9 @@ Houses.prototype = {
             game.state.start('Windows', true, false, this.ost);
             this.fadeComplete = true;
         }
-    },
+    },*/
 
-    //Helper function to create platforms the old fashion way
+    /*//Helper function to create platforms the old fashion way
     createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelThree');
         //this.visuals = this.game.add.tilemap('levelThreeVis');
@@ -166,5 +187,5 @@ Houses.prototype = {
         this.twoWinText = game.add.text(game.width/2 + 4.5, game.height/2 - 30, '', {font: 'Impact', fontSize: '32px', fill: '#9C6EB2'});
         this.twoWinText.anchor.set(0.5);
         this.twoWinText.inputEnabled = true;
-    }
+    }*/
 }
