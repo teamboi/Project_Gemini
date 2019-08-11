@@ -2,6 +2,17 @@
 "use strict";
 
 // Constructor for LevelManager
+// game and gameplay are references to their respective things
+// ostFadeout; true or false; does the music fade at the end of the level
+// backgroundImage; string; the background image
+// dialogNum; int; index of the text to display in Dialog.json; 1-indexed
+// howManyGlows; 1 or 2; how many objective glows will there be in the level
+// redGlowCoords; [int,int]; coordinates of the objective glows; can be left as [0,0] if not used or will follow player
+// blueGlowCoords same as above
+// player1Coords; [int,int]; coordinates to spawn player 1
+// player2Coords; [int,int]; coordinates to spawn player 2
+// enableYarn; true or false; will there be yarn in this level
+// enableBarrier; true or false; will there be a barrier in this level
 function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
@@ -21,13 +32,13 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
 	this.enableBarrier = enableBarrier;
 
 	// Create level manager specific variables
-	this.heartSprite = "heart";
-	this.heartScale = 1.7; //blue was set to 1.3?
-	this.flashColor = 0xffffff;
-	this.winTimerDelay = 1500;
-	this.preFadeConst = 1000;
-	this.fadeDuration = 2000;
-	this.ostFadeOutDuration = 2500;
+	this.heartSprite = "heart"; // Sprite of the objective glows
+	this.heartScale = 1.7; // Scale of heartSprite //blue was set to 1.3?
+	this.flashColor = 0xffffff; // Color of the camera fades
+	this.winTimerDelay = 1500; // Delay from win condition to preFade
+	this.preFadeConst = 1000; // Delay from preFade to fade
+	this.fadeDuration = 2000; // How long the fade lasts
+	this.ostFadeOutDuration = 2500; // How long does the music fade out
 
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
