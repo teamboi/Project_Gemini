@@ -6,7 +6,7 @@
 
 // Constructor for Player
 function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
-	Phaser.Sprite.call(this, game, x, y, hitboxKey);
+	Phaser.Sprite.call(this, game, x, y, 'cat1Hitbox');
 	game.add.existing(this); // Adds to the Display List
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	//this.scale.setTo(0.11, 0.11); // Scales the sprite
@@ -18,7 +18,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key);
 	}
 	else{ // Else, create a dummy variable so nothing breaks
-		this.catSprite = game.add.sprite(x,y,hitboxKey);
+		this.catSprite = game.add.sprite(x,y,'cat1Hitbox');
 		this.catSprite.alpha = 0;
 	}
 
