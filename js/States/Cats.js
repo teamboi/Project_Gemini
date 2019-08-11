@@ -17,8 +17,9 @@ Cats.prototype = {
         this.fadeComplete = false;
 	},
 	create: function(){
+		this.levelManager = new LevelManager(game, this, 'levelOne', 'Cats', 68, 516, 818, 199, false, false);
         //  Enable p2 physics
-        game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
+        /*game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
         game.physics.p2.gravity.y = 800; // Add vertical gravity
         game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
@@ -49,7 +50,7 @@ Cats.prototype = {
         this.tutorialText();
 
         // Create the objective glow
-        this.glow();
+        this.glow();*/
 
         // Sort the z-masking groups
         this.group.sort();
@@ -93,12 +94,12 @@ Cats.prototype = {
 
 	},
     // Create the objective glow
-    glow: function() {
+    /*glow: function() {
         this.redGlow = game.add.sprite(this.player1.x, this.player2.y, 'heart');
         this.redGlow.anchor.setTo(0.5,0.5);
         this.redGlow.scale.setTo(1.7,1.7);
         this.redGlow.alpha = 0;
-    },
+    },*/
     // End the level if the cats are still close
     preFade: function() {
         if(this.complete == true) {
@@ -119,7 +120,7 @@ Cats.prototype = {
     },
 
 	//Function to manually create the platforms
-    createPlatforms: function(){
+    /*createPlatforms: function(){
         this.testLevel = this.game.add.tilemap('levelOne');
         this.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
@@ -148,7 +149,7 @@ Cats.prototype = {
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
             this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
         }
-    },
+    },*/
     // Show the movement controls dynamically
     tutorialText: function() {
         this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.oneVertOffset, 'A        D', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
