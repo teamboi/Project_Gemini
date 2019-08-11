@@ -3,6 +3,7 @@
 
 // Constructor for LevelManager
 // game and gameplay are references to their respective things
+// nextLevel; string; name of the next level
 // ostFadeout; true or false; does the music fade at the end of the level
 // backgroundImage; string; the background image
 // dialogNum; int; index of the text to display in Dialog.json; 1-indexed
