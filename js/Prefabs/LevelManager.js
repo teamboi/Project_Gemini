@@ -3,15 +3,31 @@
 
 // Constructor for LevelManager
 function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
-	Phaser.Sprite.call(this, game, 0, 0, null);
+	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 	var gp = this.gameplay;
 
+	// Save init arguments
 	this.nextLevel = nextLevel;
-	
-	this.alpha = 0; // Makes the ugly green box invisible
+	this.tilemap = tilemap;
+	this.howManyGlows = howManyGlows;
+	this.redGlowX = redGlowX;
+	this.redGlowY = redGlowY;
+	this.blueGlowX = blueGlowX;
+	this.blueGlowY = blueGlowY;
+	this.enableYarn = enableYarn;
+	this.enableBarrier = enableBarrier;
 
+	// Create level manager specific variables
+	this.heartSprite = "heart";
+	this.heartScale = 1.7; //blue was set to 1.3?
+	this.flashColor = 0xffffff;
+	this.winTimerDelay = 1500;
+	this.preFadeConst = 1000;
+	this.fadeDuration = 2000;
+
+	// Create gameplay state specific variables
 	this.fadeComplete = false;
 	gp.complete = false;
 
@@ -21,11 +37,11 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
     game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
     // Fade into the scene
-    game.camera.flash(0xffffff, 2000);
+    game.camera.flash(this.flashColor, 2000);
     // Instantiate the fade events
     game.camera.onFadeComplete.add(this.resetFade, this);
 
-    this.createPlatforms(tilemap);
+    this.createPlatforms();
 
     // Call the background image
     gp.room = game.add.sprite(0,0,backgroundImage);
@@ -65,10 +81,10 @@ function LevelManager(game, gameplay, nextLevel, tilemap, backgroundImage, dialo
 LevelManager.prototype = Object.create(Phaser.Sprite.prototype);
 LevelManager.prototype.constructor = LevelManager;
 
-LevelManager.prototype.createBarrier = function(enableBarrier, x, y, width, height){
+LevelManager.prototype.createBarrier = function(x, y, width, height){
 	var gp = this.gameplay;
 
-	if(enableBarrier === true){
+	if(this.enableBarrier === true){
 		var platform = game.add.sprite(x,y, "line");
         gp.group.add(platform);
         //platform.scale.setTo(0.08,0.08);
@@ -81,8 +97,8 @@ LevelManager.prototype.createBarrier = function(enableBarrier, x, y, width, heig
 
         gp.barrier = platform;
     }
-    else if(enableBarrier != false){
-    	console.log(enableBarrier + " is not a valid state for enableBarrier. Please use true or false");
+    else if(this.enableBarrier != false){
+    	console.log(this.enableBarrier + " is not a valid state for enableBarrier. Please use true or false");
     }
 }
 
@@ -94,10 +110,10 @@ LevelManager.prototype.createLevelObstacles = function(){
 	}
 }
 
-LevelManager.prototype.createPlatforms = function(tilemap){
+LevelManager.prototype.createPlatforms = function(){
 	var gp = this.gameplay;
 
-	gp.testLevel = this.game.add.tilemap(tilemap);
+	gp.testLevel = this.game.add.tilemap(this.tilemap);
     gp.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
     // Load in the platforms layer
@@ -126,36 +142,36 @@ LevelManager.prototype.createPlatforms = function(tilemap){
     }
 }
 
-LevelManager.prototype.createYarn = function(enableYarn){
+LevelManager.prototype.createYarn = function(){
 	var gp = this.gameplay;
 
-	if(enableYarn === true){
+	if(this.enableYarn === true){
     	//Add the surrogate player so our string plays nicely
     	gp.surrogate = new Player(game, gp, 300, 100, "cat1", "cat1Hitbox",3);
     	// Add in the yarn
     	gp.yarn = new Yarn(game, gp, 'ball', gp.player1, gp.player2, gp.surrogate);
     }
-    else if(enableYarn != false){
-    	console.log(enableYarn + " is not a valid state for enableYarn. Please use true or false");
+    else if(this.enableYarn != false){
+    	console.log(this.enableYarn + " is not a valid state for enableYarn. Please use true or false");
     }
 }
 
-LevelManager.prototype.glow = function(howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY) {
+LevelManager.prototype.glow = function() {
 	var gp = this.gameplay;
 
-    gp.redGlow = game.add.sprite(redGlowX, redGlowY, "heart"); //gp.player1.x, gp.player2.y
+    gp.redGlow = game.add.sprite(this.redGlowX, this.redGlowY, this.heartSprite); //gp.player1.x, gp.player2.y
     gp.redGlow.anchor.setTo(0.5,0.5);
-    gp.redGlow.scale.setTo(1.7,1.7);
+    gp.redGlow.scale.setTo(this.heartScale, this.heartScale);
     gp.redGlow.alpha = 0;
 
-    if(howManyGlows === 2){
-    	gp.blueGlow = game.add.sprite(blueGlowX, blueGlowY, "heart");
+    if(this.howManyGlows === 2){
+    	gp.blueGlow = game.add.sprite(this.blueGlowX, this.blueGlowY, this.heartSprite);
         gp.blueGlow.anchor.setTo(0.5,0.5);
-        gp.blueGlow.scale.setTo(1.3, -1.3);
+        gp.blueGlow.scale.setTo(this.heartScale, -this.heartScale);
         gp.blueGlow.alpha = 0;
     }
-    else if(howManyGlows != 1){
-    	console.log("Cannot have " + howManyGlows + " glows. Please enter 1 or 2");
+    else if(this.howManyGlows != 1){
+    	console.log("Cannot have " + this.howManyGlows + " glows. Please enter 1 or 2");
     }
 }
 
@@ -168,7 +184,7 @@ LevelManager.prototype.tutorialText = function(){
 }
 
 LevelManager.prototype.win = function(){
-	game.time.events.add(1500, this.preFade, this);
+	game.time.events.add(this.winTimerDelay, this.preFade, this);
 }
 
 // Fade functions
@@ -177,13 +193,13 @@ LevelManager.prototype.preFade = function() {
 	var gp = this.gameplay;
 
     if(gp.complete == true) {
-        game.time.events.add(1000, this.fade, this);
+        game.time.events.add(this.preFadeConst, this.fade, this);
     }
 }
 // Fade out the level
 LevelManager.prototype.fade = function() {
     //  You can set your own fade color and duration
-    game.camera.fade(0xffffff, 2000);
+    game.camera.fade(this.flashColor, this.fadeDuration);
 }
 // Call the next level
 LevelManager.prototype.resetFade = function() {
