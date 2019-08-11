@@ -16,12 +16,13 @@ Separate.prototype = {
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
 		}
-		game.camera.flash(0xffffff, 2000);
 
 		// Add in the title card
 		this.title = game.add.sprite(0,0,'housesTitle');
 		//this.title.anchor.setTo(0.5,0.5);
 		//this.title.alpha= 0;
+
+		game.camera.flash(0xffffff, 2000);
 
 		this.ost = game.add.audio('Separate');
 		this.ost.onDecoded.add(this.startOST, this);
@@ -45,7 +46,7 @@ Separate.prototype = {
 		//this.ost.volume = 0.5;	
 	},
 	stopTheme: function() {
-		// Stop playaing prev theme
+		// Stop playing prev theme
 		this.theme.stop();
 		//this.ost.volume = 0.5;	
 	},

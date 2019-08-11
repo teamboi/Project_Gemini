@@ -88,41 +88,41 @@ Cradle.prototype = {
 
        
         // Bonkers dynamic tutorial!
-            if(this.oneAnchoredLast == false) {
-                if(this.player1.checkIfCanJump()) {
-                    this.p1Controls.setText("W", true);
-                    this.p1Controls.x = this.player1.x;
-                    this.p1Controls.y = this.player1.y - this.textVertOffset;
-                }
-                else if(this.player2.anchorState != "beingAnchored") {
-                    this.p1Controls.setText('Hold S', true);
-                    this.p1Controls.x = this.player1.x;
-                    this.p1Controls.y = this.player1.y + this.textVertOffset;
-                }
-                this.p2Controls.setText('', true);
-            }
-            else {
-                if(this.player2.checkIfCanJump()) {
-                    this.p2Controls.setText("🡫", true);
-                    this.p2Controls.x = this.player2.x;
-                    this.p2Controls.y = this.player2.y + this.textVertOffset;
-                }
-                else if(this.player1.anchorState != "beingAnchored") {
-                    this.p2Controls.setText('Hold 🡩', true);
-                    this.p2Controls.x = this.player2.x;
-                    this.p2Controls.y = this.player2.y - this.textVertOffset;
-                }
-                this.p1Controls.setText('', true);
-            }
-            if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
+        if(this.oneAnchoredLast == false) {
+            if(this.player1.checkIfCanJump()) {
                 this.p1Controls.setText("W", true);
                 this.p1Controls.x = this.player1.x;
                 this.p1Controls.y = this.player1.y - this.textVertOffset;
-                
+            }
+            else if(this.player2.anchorState != "beingAnchored") {
+                this.p1Controls.setText('Hold S', true);
+                this.p1Controls.x = this.player1.x;
+                this.p1Controls.y = this.player1.y + this.textVertOffset;
+            }
+            this.p2Controls.setText('', true);
+        }
+        else {
+            if(this.player2.checkIfCanJump()) {
                 this.p2Controls.setText("🡫", true);
                 this.p2Controls.x = this.player2.x;
                 this.p2Controls.y = this.player2.y + this.textVertOffset;
             }
+            else if(this.player1.anchorState != "beingAnchored") {
+                this.p2Controls.setText('Hold 🡩', true);
+                this.p2Controls.x = this.player2.x;
+                this.p2Controls.y = this.player2.y - this.textVertOffset;
+            }
+            this.p1Controls.setText('', true);
+        }
+        if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
+            this.p1Controls.setText("W", true);
+            this.p1Controls.x = this.player1.x;
+            this.p1Controls.y = this.player1.y - this.textVertOffset;
+            
+            this.p2Controls.setText("🡫", true);
+            this.p2Controls.x = this.player2.x;
+            this.p2Controls.y = this.player2.y + this.textVertOffset;
+        }
       
         // If either player is being held up, show them the swinging controls
         if(this.player2.anchorState == "isAnchor") {

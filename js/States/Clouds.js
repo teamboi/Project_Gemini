@@ -43,14 +43,14 @@ Clouds.prototype = {
 
         // create the z-order groups
         this.group = game.add.group();
+
+        //Add the world divider
+        this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
         
         // Create the story text
         this.dialog = new DialogManager(game, this, "ball");
         this.dialog.TypeIntro(7);
         this.dialog.TypeOutro(7);
-        
-        //Add the world divider
-        this.barrier = this.createBarrier(game.width/2, (game.height/2) - 1, game.width, 1);
 
         // Add the moveable clouds
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');

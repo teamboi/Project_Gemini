@@ -146,7 +146,6 @@ Houses.prototype = {
             this.platforms[i].setCollisionGroup(this.platformCollisionGroup);
             this.platforms[i].collides([this.playerCollisionGroup, this.surrogateCollisionGroup, this.objectCollisionGroup]);
         }
-        console.log(this.testLevel.objects[0]);
     },
     createBarrier: function(x,y,width,height){
         var platform = game.add.sprite(x,y, 'line');

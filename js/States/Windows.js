@@ -35,11 +35,11 @@ Windows.prototype = {
         // Call the background sprite
         this.room = game.add.sprite(0,0,'Windows');
 
-        // Create the world barriers
-        this.createBarrier(game.width/2, game.height/2, game.width, 1);
-
         // Initialise z-masking groups
         this.group = game.add.group();
+
+        // Create the world barriers
+        this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
         // Add the story text
         this.dialog = new DialogManager(game, this, "ball");

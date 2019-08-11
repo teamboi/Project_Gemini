@@ -40,8 +40,6 @@ Theme.prototype = {
 	resetFade: function() {
 		if(this.complete == false) {
 			 // Load in the next level once the fade is complete
-			
-			console.log("resetFade");
 			game.state.start('MainMenu', true, false, this.ost);
 			this.complete = true;
 		}
