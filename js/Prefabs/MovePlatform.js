@@ -27,7 +27,7 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 	this.gameplay.group.add(this); // Adds into group for layer sorting
 
 	// Enable physics
-	game.physics.p2.enable(this); //  Enables physics
+	game.physics.p2.enable(this, debugCollisionsObjects); //  Enables physics
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true; // Makes it dynamic so can be collided with player

@@ -89,12 +89,8 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     //Add the objective glow
     this.glow(howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY);
 
-    console.log(gp.group);
-
     // Sort the z-masking groups
     gp.group.sort('zOrder', Phaser.Group.SORT_ASCENDING);
-
-    console.log(gp.group);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to DialogManager

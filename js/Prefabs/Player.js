@@ -23,7 +23,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 	}
 
 	// Enable physics
-	game.physics.p2.enable(this);
+	game.physics.p2.enable(this, debugCollisionsObjects);
 	this.body.fixedRotation = true; // Player cannot rotate
 	this.body.damping = 0.5;
 	this.body.dynamic = true; // Player has collisions with other objects

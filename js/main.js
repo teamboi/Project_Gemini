@@ -9,6 +9,7 @@
 var game;
 var constraint;
 
+// constants for layer sorting
 var layerRedPlatforms = 0;
 var layerBG = 1;
 var layerText = 2;
@@ -19,6 +20,11 @@ var layerBarrier = 25;
 var layerYarnBall = 50;
 var layerYarn = 90;
 var layerPlayer = 100;
+
+// variables for debugging
+var debugLevel = null; // replace with the name of the level to switch to
+var debugCollisionsObjects = true; // true or false; enable collisions with objects
+var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
 
 //var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
 
