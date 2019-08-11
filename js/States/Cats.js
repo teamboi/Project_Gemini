@@ -9,16 +9,13 @@ Cats.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
-        this.introPlaying = false;
-        this.outroPlaying = false;
-        this.complete = false;
         this.oneVertOffset = 5;
         this.twoVertOffset = 5;
-        this.fadeComplete = false;
 	},
 	create: function(){
-		var tilemap = 'levelOne';
-		var backgroundImage = 'Cats';
+		var nextLevel = "Cradle";
+		var tilemap = "levelOne";
+		var backgroundImage = "Cats";
 		var dialogNum = 1;
 		var howManyGlows = 1;
 		var redGlowCoords = [0,0];
@@ -27,7 +24,8 @@ Cats.prototype = {
 		var player2Coords = [818, 199];
 		var enableYarn = false;
 		var enableBarrier = false;
-		this.levelManager = new LevelManager(game, this, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+
+		this.levelManager = new LevelManager(game, this, nextLevel, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
 	},
 	update: function(){
         
@@ -50,7 +48,7 @@ Cats.prototype = {
         
         // Begin the level end
         if(this.complete == true) {
-            game.time.events.add(1500, this.preFade, this);
+            this.levelManager.win();
         }
 
         // Check for players to be close to each other
@@ -66,24 +64,6 @@ Cats.prototype = {
         }
 
 	},
-    // End the level if the cats are still close
-    preFade: function() {
-        if(this.complete == true) {
-            game.time.events.add(1000, this.fade, this);
-        }
-    },
-    // Fade out the level
-    fade: function() {
-        //  You can set your own fade color and duration
-        game.camera.fade(0xffffff, 2000);
-    },
-    // Call the next level
-    resetFade: function() {
-        if(this.fadeComplete == false) {
-            game.state.start('Cradle', true, false, this.ost);
-            this.fadeComplete = true;
-        }
-    },
 
     // Show the movement controls dynamically
     tutorialText: function() {
