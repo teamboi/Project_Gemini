@@ -14,7 +14,7 @@
 function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, gravityDir){
 	Phaser.Sprite.call(this, game, x, y, windowKey); // This sprite will be the graphical windowpane
 	game.add.existing(this); // Adds to display list
-	this.z = layerWindow; // Sets z order for layer sorting
+	this.zOrder = layerWindow; // Sets z order for layer sorting
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 	this.gameplay.group.add(this); // Adds self to gameplay's group for layer sorting
 

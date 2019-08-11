@@ -2,16 +2,18 @@
 "use strict";
 
 // Constructor for TextBubble
-function TextBubble(game, key, x, y, width, text, size){
+function TextBubble(game, gameplay, key, x, y, width, text, size){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
 	this.anchor.setTo(0.5, 0.5); // Sets anchor to the center
-	this.z = layerText; // Sets the bubble's z order for layer sorting
+	this.zOrder = layerText; // Sets the bubble's z order for layer sorting
+	gameplay.group.add(this);
+	gameplay.group.sort();
 
 	//var sizeString = toString(size);
 	var style = {font: "Comfortaa", fontSize: '22px', fill: '#212121', align: "center", wordWrap: true, wordWrapWidth: width}; // Sets style of text
 	this.text = game.add.text(x, y, text, style); // Creates specified text
-	this.text.z = layerText; // Sets text's z order for layer sorting
+	this.text.zOrder = layerText; // Sets text's z order for layer sorting
 	this.text.anchor.setTo(0.5, 0.5); // Sets the anchor to the center of the text
 	this.alpha = 0; // Initial state for both bubble and text is transparent
 	this.text.alpha = 0;

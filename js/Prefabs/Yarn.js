@@ -11,7 +11,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	game.add.existing(this); // Adds to display list
 
 	this.gameplay = gameplay; // Obtains the reference to the gameplay state
-	this.z = layerYarn; // Sets z order for layer sorting
+	this.zOrder = layerYarn; // Sets z order for layer sorting
 	this.gameplay.group.add(this); // Adds self to the gameplay's group for layer sorting
 
 	this.alpha = 0; // Makes this invisible

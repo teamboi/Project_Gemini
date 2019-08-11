@@ -8,7 +8,7 @@
 function PlayerFSM(game, gameplay, player, x, y, key){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
-	this.z = layerPlayer; // sets z order for layer sorting
+	this.zOrder = layerPlayer; // sets z order for layer sorting
 	this.scale.setTo(0.14, 0.14); // Scales the sprite
 	this.anchor.setTo(0.45,0.6); // Sets the anchor so the FSM isn't offset on the player
 

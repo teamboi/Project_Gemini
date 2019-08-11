@@ -73,5 +73,5 @@ Houses.prototype = {
             game.state.start('Windows', true, false, this.ost);
             this.fadeComplete = true;
         }
-    },
+    }*/
 }

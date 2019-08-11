@@ -6,6 +6,9 @@ function DialogManager(game, gameplay, key){
 	Phaser.Sprite.call(this, game, 0, 0, key);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
+
+	this.zOrder = layerText; // Sets the sprite's z layer for sorting
+	this.gameplay.group.add(this);
 	
 	this.alpha = 0; // Makes the ugly green box invisible
 
@@ -43,7 +46,7 @@ function DialogManager(game, gameplay, key){
 		}
 
 		// Create the actual text
-		var currentText = new TextBubble(game, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"], textBubble["size"]);
+		var currentText = new TextBubble(game, this.gameplay, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"], textBubble["size"]);
 		this.gameplay.group.add(currentText); // Add the current text to be sorted
 		this.gameplay.group.add(currentText.text)
 

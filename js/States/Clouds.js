@@ -73,12 +73,12 @@ Clouds.prototype = {
         //Add transitionary backgrounds
         this.room2 = game.add.sprite(0,0,'Clouds2');
         this.group.add(this.room2);
-        this.room2.z = layerBG;
+        this.room2.zOrder = layerBG;
         this.room2.alpha = 0;
 
         this.room3 = game.add.sprite(0,0,'Clouds3');
         this.group.add(this.room3);
-        this.room3.z = layerBG;
+        this.room3.zOrder = layerBG;
         this.room3.alpha = 0;
         // Add the moveable clouds
         this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');

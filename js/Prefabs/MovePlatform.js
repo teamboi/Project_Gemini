@@ -15,7 +15,7 @@
 function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, sound){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
-	this.z = layerMovePlatform; // Sets z layer for depth sorting
+	this.zOrder = layerMovePlatform; // Sets z layer for depth sorting
 
 	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 

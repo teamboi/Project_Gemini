@@ -65,6 +65,11 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     // Initialise z-masking groups
     gp.group = game.add.group();
 
+    // Add the story text
+    gp.dialog = new DialogManager(game, gp, "ball");
+    gp.dialog.TypeIntro(dialogNum);
+    gp.dialog.TypeOutro(dialogNum);
+
     // Create the world barriers
     this.createBarrier(game.width/2, game.height/2, game.width, 1);
 
@@ -78,19 +83,18 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     // Create the yarn if specified
     this.createYarn(enableYarn);
 
-    // Add the story text
-    gp.dialog = new DialogManager(game, gp, "ball");
-    gp.dialog.TypeIntro(dialogNum);
-    gp.dialog.TypeOutro(dialogNum);
-
     //Create the tutorial text
     this.tutorialText();
 
     //Add the objective glow
     this.glow(howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY);
 
+    console.log(gp.group);
+
     // Sort the z-masking groups
-    gp.group.sort();
+    gp.group.sort('zOrder', Phaser.Group.SORT_ASCENDING);
+
+    console.log(gp.group);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to DialogManager
@@ -112,6 +116,9 @@ LevelManager.prototype.createBarrier = function(x, y, width, height){
         platform.body.static = true;
         platform.body.setCollisionGroup(gp.platformCollisionGroup);
         platform.body.collides([gp.playerCollisionGroup, gp.surrogateCollisionGroup]);
+
+        platform.zOrder = layerBarrier;
+        gp.group.add(platform);
 
         gp.barrier = platform; // Make the gameplay state have a reference to the barrier
     }

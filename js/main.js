@@ -9,8 +9,9 @@
 var game;
 var constraint;
 
-var layerBG = 0;
-var layerText = 1;
+var layerRedPlatforms = 0;
+var layerBG = 1;
+var layerText = 2;
 var layerWindow = 10;
 var layerMovePlatform = 11;
 var layerDrapes = 12;
@@ -19,7 +20,7 @@ var layerYarnBall = 50;
 var layerYarn = 90;
 var layerPlayer = 100;
 
-var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
+//var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
 
 // when window loads, create the game
 window.onload = function(){
