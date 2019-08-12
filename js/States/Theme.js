@@ -39,8 +39,13 @@ Theme.prototype = {
 	},
 	resetFade: function() {
 		if(this.complete == false) {
-			 // Load in the next level once the fade is complete
-			game.state.start('MainMenu', true, false, this.ost);
+			// Load in the next level once the fade is complete
+			if(debugLevel === null){
+				game.state.start('MainMenu', true, false, this.ost);
+			}
+			else{
+				game.state.start(debugLevel, true, false, this.ost);
+			}
 			this.complete = true;
 		}
 	}
