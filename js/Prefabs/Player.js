@@ -5,7 +5,7 @@
 "use strict";
 
 // Constructor for Player
-function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
+function Player(game, gameplay, x, y, whichPlayer){
 	Phaser.Sprite.call(this, game, x, y, 'cat1Hitbox');
 	game.add.existing(this); // Adds to the Display List
 	this.gameplay = gameplay; // Obtain reference to gameplay state
@@ -15,7 +15,7 @@ function Player(game, gameplay, x, y, key, hitboxKey, whichPlayer){
 
 	// If the player isn't the surrogate, then create an animation state machine
 	if(whichPlayer === 1 || whichPlayer === 2){
-		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, key);
+		this.catSprite = new PlayerFSM(game, gameplay, this, x, y, whichPlayer);
 	}
 	else{ // Else, create a dummy variable so nothing breaks
 		this.catSprite = game.add.sprite(x,y,'cat1Hitbox');

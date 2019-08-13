@@ -66,7 +66,7 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     gp.group = game.add.group();
 
     // Add the story text
-    gp.dialog = new DialogManager(game, gp, "ball");
+    gp.dialog = new DialogManager(game, gp);
     gp.dialog.TypeIntro(dialogNum);
     gp.dialog.TypeOutro(dialogNum);
 
@@ -77,8 +77,8 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     this.createLevelObstacles();
 
     // Add in the players with the Player prefab constructor
-    gp.player1 = new Player(game, gp, player1X, player1Y, "cat1", 'cat1Hitbox', 1);
-    gp.player2 = new Player(game, gp, player2X, player2Y, "cat2", 'cat1Hitbox', 2);
+    gp.player1 = new Player(game, gp, player1X, player1Y, 1);
+    gp.player2 = new Player(game, gp, player2X, player2Y, 2);
 
     // Create the yarn if specified
     this.createYarn(enableYarn);
@@ -175,9 +175,9 @@ LevelManager.prototype.createYarn = function(){
 	// Only add them if we want to
 	if(this.enableYarn === true){
     	// Add the surrogate player so our string plays nicely
-    	gp.surrogate = new Player(game, gp, 300, 100, "cat1", "cat1Hitbox",3);
+    	gp.surrogate = new Player(game, gp, 300, 100, 3);
     	// Add in the yarn
-    	gp.yarn = new Yarn(game, gp, 'ball', gp.player1, gp.player2, gp.surrogate);
+    	gp.yarn = new Yarn(game, gp, gp.player1, gp.player2, gp.surrogate);
     }
     // Just in case of typos
     else if(this.enableYarn != false){

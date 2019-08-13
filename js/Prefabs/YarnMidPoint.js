@@ -7,8 +7,8 @@
 
 // Constructor for YarnMidPoint
 // For nice curves in the yarn
-function YarnMidPoint(game, gameplay, key, player1, player2){
-	Phaser.Sprite.call(this, game, 0, 0, key);
+function YarnMidPoint(game, gameplay, player1, player2){
+	Phaser.Sprite.call(this, game, 0, 0, null);
 	game.add.existing(this); //Adds to display list
 
 	this.alpha = 0; // Sets invisible

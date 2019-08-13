@@ -5,7 +5,14 @@
 "use strict";
 
 // Constructor for PlayerFSM
-function PlayerFSM(game, gameplay, player, x, y, key){
+function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
+	if(whichPlayer === 1){
+		var key = "cat1";
+	}
+	else{
+		var key = "cat2";
+	}
+
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
 	this.zOrder = layerPlayer; // sets z order for layer sorting

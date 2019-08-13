@@ -2,8 +2,8 @@
 "use strict";
 
 // Constructor for LevelManager
-function DialogManager(game, gameplay, key){
-	Phaser.Sprite.call(this, game, 0, 0, key);
+function DialogManager(game, gameplay){
+	Phaser.Sprite.call(this, game, 0, 0);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 
@@ -36,9 +36,9 @@ function DialogManager(game, gameplay, key){
 		var textBubble = this.dialog[levelNum][textBubbleNum];
 
 		// Plays the audio associated with the text
-		this.narrate = game.add.audio('narrate');
+		/*this.narrate = game.add.audio('narrate');
         this.narrate.play('', 0, 1, false);
-        this.narrate.volume = 0.35;
+        this.narrate.volume = 0.35;*/
 
         // If specified, make the previous text fade out
 		if(textBubble["destroyIntro"]){

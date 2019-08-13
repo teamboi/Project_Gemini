@@ -6,8 +6,8 @@
 "use strict";
 
 // Constructor for Yarn
-function Yarn(game, gameplay, key, player1, player2, surrogate){
-	Phaser.Sprite.call(this, game, 0, 0, key);
+function Yarn(game, gameplay, player1, player2, surrogate){
+	Phaser.Sprite.call(this, game, 0, 0, null);
 	game.add.existing(this); // Adds to display list
 
 	this.gameplay = gameplay; // Obtains the reference to the gameplay state
@@ -37,8 +37,8 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 
 	// Adds in the bezier graphics for the yarn
 	// Adds in the bezier handles, respecive of the players
-	this.player1BAnchor = game.add.sprite(0, 100, "point");
-	this.player2BAnchor = game.add.sprite(100, 0, "point");
+	this.player1BAnchor = game.add.sprite(0, 100, null);
+	this.player2BAnchor = game.add.sprite(100, 0, null);
 	this.player1BAnchor.alpha = 0;
 	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
@@ -48,7 +48,7 @@ function Yarn(game, gameplay, key, player1, player2, surrogate){
 	this.gameplay.group.add(this.bezierGraphics); // Adds in the yarn for layer sorting
 
 	// Creates a midpoint to the yarn so we can have nice curves
-	this.midPoint = new YarnMidPoint(game, gameplay, key, player1, player2);
+	this.midPoint = new YarnMidPoint(game, gameplay, player1, player2);
 
 	// Modify the anchorState of each cat appropriately
     this.modifyAnchor = function(anchorCat,otherCat){
