@@ -50,16 +50,8 @@ YarnMidPoint.prototype.calcMidPoint = function(){
 }
 
 // Change whether the anchor should drop upwards or downwards
-YarnMidPoint.prototype.changeplayerGravDir = function(lastAnchored){
-	if(lastAnchored === this.player1){ // Drop down
-		this.playerGravDir = 1;
-	}
-	else if(lastAnchored === this.player2){ //Drop up
-		this.playerGravDir = -1;
-	}
-	else{
-		console.log(lastAnchored + " is not a valid player"); // In case of typos
-	}
+YarnMidPoint.prototype.changePlayerGravDir = function(lastAnchored){
+	this.playerGravDir = lastAnchored.body.data.gravityScale;
 }
 
 // Resets the anchor to the midPoint of the players
