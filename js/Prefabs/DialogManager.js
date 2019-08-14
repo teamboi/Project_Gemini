@@ -3,14 +3,12 @@
 
 // Constructor for LevelManager
 function DialogManager(game, gameplay){
-	Phaser.Sprite.call(this, game, 0, 0);
+	Phaser.Sprite.call(this, game, 0, 0, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 
 	this.zOrder = layerText; // Sets the sprite's z layer for sorting
 	this.gameplay.group.add(this);
-	
-	this.alpha = 0; // Makes the ugly green box invisible
 
 	this.dialog = JSON.parse(this.game.cache.getText('dialog')); // This produces the meta array of all levels
 	//this.level = this.dialog[this.levelNum]; // This produces the array of text for a single level

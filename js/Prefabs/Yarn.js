@@ -14,8 +14,6 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 	this.zOrder = layerYarn; // Sets z order for layer sorting
 	this.gameplay.group.add(this); // Adds self to the gameplay's group for layer sorting
 
-	this.alpha = 0; // Makes this invisible
-
 	// Get references to the player objects
 	this.player1 = player1;
 	this.player2 = player2;
@@ -39,8 +37,6 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 	// Adds in the bezier handles, respecive of the players
 	this.player1BAnchor = game.add.sprite(0, 100, null);
 	this.player2BAnchor = game.add.sprite(100, 0, null);
-	this.player1BAnchor.alpha = 0;
-	this.player2BAnchor.alpha = 0;
 	this.bezierGraphics = game.add.graphics(0, 0);
 	this.bezierGraphics.z = layerYarn;
 	this.neutralColor = 0x8D58DD; // neutral color of the yarn is purple

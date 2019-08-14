@@ -10,7 +10,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 	game.add.existing(this); // Adds to the Display List
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	//this.scale.setTo(0.11, 0.11); // Scales the sprite
-	this.alpha = 0;
+	this.alpha = 0; // Hides the hitbox
 	this.whichPlayer = whichPlayer // Obtains whether this is player1, player2, or the surrogate, which affects controls and gravity
 
 	// If the player isn't the surrogate, then create an animation state machine
