@@ -21,14 +21,14 @@ function TextBubble(game, gameplay, key, x, y, width, text, size){
 	// Begins to fade in the text
 	//game.add.tween(this).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
 	game.add.tween(this.text).to( { alpha: 1 }, 1500, Phaser.Easing.Linear.None, true, 0, 0, false);
-
-	// Function for fading the text out
-	this.fadeOut = function(){
-		game.add.tween(this).to( { alpha: 0 }, 1500, Phaser.Easing.Linear.None, true, 0, 0, false);
-		game.add.tween(this.text).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to TextBubble
 TextBubble.prototype = Object.create(Phaser.Sprite.prototype);
 TextBubble.prototype.constructor = TextBubble;
+
+// Function for fading the text out
+TextBubble.prototype.fadeOut = function(){
+	game.add.tween(this).to( { alpha: 0 }, 1500, Phaser.Easing.Linear.None, true, 0, 0, false);
+	game.add.tween(this.text).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
+}

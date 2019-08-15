@@ -17,18 +17,18 @@ function MovePlatformLimiter(game, x, y, key){
 	this.body.fixedRotation = true; // Cloud cannot rotate
 	this.body.damping = 0.5;
 	this.body.kinematic = true; // Cannot be moved
-
-	// Updates the y position to the specified position
-	this.updateYPosition = function(newPosition){
-		this.body.y = newPosition;
-	}
-
-	// Updates the x position to the specified position
-	this.updateXPosition = function(newPosition){
-		this.body.x = newPosition;
-	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to MovePlatformLimiter
 MovePlatformLimiter.prototype = Object.create(Phaser.Sprite.prototype);
 MovePlatformLimiter.prototype.constructor = MovePlatformLimiter;
+
+// Updates the y position to the specified position
+MovePlatformLimiter.prototype.updateYPosition = function(newPosition){
+	this.body.y = newPosition;
+}
+
+// Updates the x position to the specified position
+MovePlatformLimiter.prototype.updateXPosition = function(newPosition){
+	this.body.x = newPosition;
+}

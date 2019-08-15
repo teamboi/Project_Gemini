@@ -81,122 +81,6 @@ function Player(game, gameplay, x, y, whichPlayer){
 		this.body.setCollisionGroup(surrogateCG);
         this.body.collides([platformCG, objectCG, cloudCG]);
 	}
-
-	// Moves the player left or right
-	this.move = function(direction, velocity){
-		var moveDist = velocity;
-		if(direction == "left"){ // Modifies the distance moved appropriately based on direction
-			moveDist *= -1;
-		}
-		if(this.anchorState == "beingAnchored"){ // If the player is being anchored
-			if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
-				moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); // Scales how much the player can move based on the angle of the yarn
-			}
-			this.body.moveRight(moveDist); // Moves the player
-		}
-		else{ // else just move the player normally
-			this.body.moveRight(moveDist);
-		}
-	}
-
-	// Checks if the ground is under the player
-	// Can be reversed if checking for roof
-	// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
-	this.checkVertCollision = function(){
-		var yAxis = p2.vec2.fromValues(0, 1);
-		
-	    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
-	        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
-
-	        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
-	            var d = p2.vec2.dot(cE.normalA, yAxis);
-
-	            if (cE.bodyA === this.body.data){
-	                d *= -1;
-	            }
-
-	            if(this.jumpDirection == 'down'){ // If player2, then reverse the vector
-	            	d *= -1;
-	            }
-
-	            this.vertCollision = d;
-	            return;
-	        }
-	    }
-	    this.vertCollision = 0;
-	}
-
-	// Checks if the ground is under the player
-	// Returns true if the player is on the ground
-	this.checkIfCanJump = function() {
-		if (this.vertCollision > 0.5){
-            return true;
-        }
-        return false;
-	}
-
-	// Checks if a platform is above the player
-	// returns true if the player is on the roof
-	this.checkIfOnRoof = function() {
-		var vert = -1*this.vertCollision;
-		if (vert > 0.5){
-            return true;
-        }
-        return false;
-	}
-
-	// surrogate player begins to copy the movement of a player
-	this.activateSurrogate = function(anchor){
-		// Obtains which cat to copy as the anchor cat
-		var cat;
-		if(anchor == 1){
-			cat = this.gameplay.player1;
-		}
-		else{
-			cat = this.gameplay.player2;
-		}
-
-		this.key = cat.key; // Changes hitbox to match the cat
-
-		// Copies the x, y, velocity, and gravity variables
-		this.body.x = cat.body.x;
-		this.body.y = cat.body.y;
-		this.body.velocity.x = cat.body.velocity.x;
-		this.body.velocity.y = cat.body.velocity.y;
-		this.body.data.gravityScale = cat.body.data.gravityScale;
-		
-		// Copies additional physics forces
-		this.body.angularForce = cat.body.angularForce;
-		this.body.angularVelocity = cat.body.angularVelocity;
-		this.body.damping = cat.body.damping;
-		this.body.force = cat.body.force;
-		this.body.inertia = cat.body.inertia;
-
-		// Copies controls, jumpDirection, and whichPlayer correctly
-		this.controls = cat.controls;
-		this.jumpDirection = cat.jumpDirection;
-		this.whichPlayer = cat.whichPlayer;
-		this.body.data.shapes[0].sensor = false;
-	}
-
-	// surrogate player will stop doing collisions
-	this.deactivateSurrogate = function(){
-		//this.body.x = 2000;
-		//this.body.y = 2000;
-		this.body.velocity.x = 0;
-		this.body.velocity.y = 0;
-		this.body.data.gravityScale = 0;
-		this.body.data.shapes[0].sensor = true;
-	}
-
-	// Called every frame when the yarn is active for the player to copy the surrogate's variables
-	this.puppetSurrogate = function(){
-		var surrogate = this.gameplay.surrogate; // Obtains reference to the surrogate
-		this.body.x = surrogate.body.x;
-		this.body.y = surrogate.body.y;
-		this.body.velocity.x = surrogate.body.velocity.x;
-		this.body.velocity.y = surrogate.body.velocity.y;
-	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Player
@@ -270,4 +154,120 @@ Player.prototype.update = function(){
 	    	this.fsmIsMoving = false;
 	    }
 	}
+}
+
+// Moves the player left or right
+Player.prototype.move = function(direction, velocity){
+	var moveDist = velocity;
+	if(direction == "left"){ // Modifies the distance moved appropriately based on direction
+		moveDist *= -1;
+	}
+	if(this.anchorState == "beingAnchored"){ // If the player is being anchored
+		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
+			moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); // Scales how much the player can move based on the angle of the yarn
+		}
+		this.body.moveRight(moveDist); // Moves the player
+	}
+	else{ // else just move the player normally
+		this.body.moveRight(moveDist);
+	}
+}
+
+// Checks if the ground is under the player
+// Can be reversed if checking for roof
+// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
+Player.prototype.checkVertCollision = function(){
+	var yAxis = p2.vec2.fromValues(0, 1);
+	
+    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
+        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
+            var d = p2.vec2.dot(cE.normalA, yAxis);
+
+            if (cE.bodyA === this.body.data){
+                d *= -1;
+            }
+
+            if(this.jumpDirection == 'down'){ // If player2, then reverse the vector
+            	d *= -1;
+            }
+
+            this.vertCollision = d;
+            return;
+        }
+    }
+    this.vertCollision = 0;
+}
+
+// Checks if the ground is under the player
+// Returns true if the player is on the ground
+Player.prototype.checkIfCanJump = function() {
+	if (this.vertCollision > 0.5){
+        return true;
+    }
+    return false;
+}
+
+// Checks if a platform is above the player
+// returns true if the player is on the roof
+Player.prototype.checkIfOnRoof = function() {
+	var vert = -1*this.vertCollision;
+	if (vert > 0.5){
+        return true;
+    }
+    return false;
+}
+
+// surrogate player begins to copy the movement of a player
+Player.prototype.activateSurrogate = function(anchor){
+	// Obtains which cat to copy as the anchor cat
+	var cat;
+	if(anchor == 1){
+		cat = this.gameplay.player1;
+	}
+	else{
+		cat = this.gameplay.player2;
+	}
+
+	this.key = cat.key; // Changes hitbox to match the cat
+
+	// Copies the x, y, velocity, and gravity variables
+	this.body.x = cat.body.x;
+	this.body.y = cat.body.y;
+	this.body.velocity.x = cat.body.velocity.x;
+	this.body.velocity.y = cat.body.velocity.y;
+	this.body.data.gravityScale = cat.body.data.gravityScale;
+	
+	// Copies additional physics forces
+	this.body.angularForce = cat.body.angularForce;
+	this.body.angularVelocity = cat.body.angularVelocity;
+	this.body.damping = cat.body.damping;
+	this.body.force = cat.body.force;
+	this.body.inertia = cat.body.inertia;
+
+	// Copies controls, jumpDirection, and whichPlayer correctly
+	this.controls = cat.controls;
+	this.jumpDirection = cat.jumpDirection;
+	this.whichPlayer = cat.whichPlayer;
+	this.body.data.shapes[0].sensor = false;
+}
+
+// surrogate player will stop doing collisions
+Player.prototype.deactivateSurrogate = function(){
+	//this.body.x = 2000;
+	//this.body.y = 2000;
+	this.body.velocity.x = 0;
+	this.body.velocity.y = 0;
+	this.body.data.gravityScale = 0;
+	this.body.data.shapes[0].sensor = true;
+}
+
+// Called every frame when the yarn is active for the player to copy the surrogate's variables
+Player.prototype.puppetSurrogate = function(){
+	var surrogate = this.gameplay.surrogate; // Obtains reference to the surrogate
+	this.body.x = surrogate.body.x;
+	this.body.y = surrogate.body.y;
+	this.body.velocity.x = surrogate.body.velocity.x;
+	this.body.velocity.y = surrogate.body.velocity.y;
 }

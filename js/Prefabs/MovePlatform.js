@@ -85,15 +85,6 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 
     this.rightLimit.body.setCollisionGroup(limiterCG);
     this.rightLimit.body.collides([cloudCG]);
-
-    // Function for deleting all platforms correctly
-    this.deletePlatform = function(){
-    	this.min.destroy();
-    	this.max.destroy();
-    	this.leftLimit.destroy();
-    	this.rightLimit.destroy();
-    	this.destroy();
-    }
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to MovePlatform
@@ -122,4 +113,13 @@ MovePlatform.prototype.update = function(){
     		}
 		}
 	}
+}
+
+// Function for deleting all platforms correctly
+MovePlatform.prototype.deletePlatform = function(){
+	this.min.destroy();
+	this.max.destroy();
+	this.leftLimit.destroy();
+	this.rightLimit.destroy();
+	this.destroy();
 }
