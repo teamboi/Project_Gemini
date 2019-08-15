@@ -22,7 +22,7 @@ var layerYarn = 90;
 var layerPlayer = 100;
 
 // variables for debugging
-var debugLevel = 'Threads'; // replace with the name of the level to switch to
+var debugLevel = null; // replace with the name of the level to switch to; default to null
 var debugCollisionsObjects = false; // true or false; enable collisions with objects
 var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
 
