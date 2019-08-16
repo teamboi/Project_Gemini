@@ -25,7 +25,7 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
-	this.wasYarnJustReleased = false;
+	this.wasYarnJustReleased = false; // boolean to detect if yarn was just released
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	this.playerDist = 0; // The distance of the players
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
@@ -55,21 +55,25 @@ Yarn.prototype.update = function(){
 	// Update the yarn every frame
 	this.updateYarn();
 
+	// Detect whether to create or destroy the yarn
 	if(this.anchored == 0){ // If no one is anchoring
 		// Check if player1 is anchoring
 		if( game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
+			// Then create the yarn and mark who is anchoring
 			this.createYarn(this.player1, this.player2);
 			this.anchored = 1;
 		}
 		// Check if player2 is anchoring
 		else if( game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
+			// Then create the yarn and mark who is anchoring
 			this.createYarn(this.player2, this.player1);
 			this.anchored = 2;
 		}
 	}
-	else if(this.anchored == 1){ // If player1 is anchoring
+	else if(this.anchored == 1){ // If player1 is currently anchoring
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
+			// Then destroy the yarn
 			this.wasYarnJustReleased = true;
 			this.midPoint.changePlayerGravDir(this.player1);
 			this.removeYarn();
@@ -77,9 +81,10 @@ Yarn.prototype.update = function(){
 			this.anchored = 0;
 		}
 	}
-	else if(this.anchored == 2){ // If player2 is anchoring
+	else if(this.anchored == 2){ // If player2 is currently anchoring
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
+			// Then destroy the yarn
 			this.wasYarnJustReleased = true;
 			this.midPoint.changePlayerGravDir(this.player2);
 			this.removeYarn();
@@ -91,6 +96,9 @@ Yarn.prototype.update = function(){
 
 // Updates the yarn if it is active
 Yarn.prototype.updateYarn = function(){
+	var tautDeadband = 1; // the margin of error to check beyond the taut length
+	var velDeadband = 10; // the margin of error to check for the velocity differences
+
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
 		this.drawYarn("2", this.neutralColor, 'slack'); // Draw it as the inactive state
@@ -109,14 +117,13 @@ Yarn.prototype.updateYarn = function(){
 
 	this.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
 
-	var tautDeadband = 1; // the margin of error to check beyond the taut length
-	var velDeadband = 10; // the margin of error to check for the velocity differences
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 	// Now we handle if the non-anchored (otherCat) cat is on a roof, thus becoming the anchor
 	// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 	if(this.isOnRoof == false && otherCat.checkIfOnRoof() && !anchorCat.checkIfCanJump()){
+		// Change otherCat to be anchoring upside down
 		this.modifyAnchor(otherCat,anchorCat);
 		otherCat.body.data.gravityScale *= -1;
 
@@ -124,8 +131,9 @@ Yarn.prototype.updateYarn = function(){
 
 		this.isOnRoof = true;
 	}
-	// else if the otherCat was previously on the roof and if the otherCat is no longer on the roof or if the anchorCat is on the ground
+	// else if the otherCat was previously marked as on the roof and if the otherCat is no longer on the roof or if the anchorCat is on the ground
 	else if( this.isOnRoof == true && ( !otherCat.checkIfOnRoof() || anchorCat.checkIfCanJump() ) ){
+		// Change it so anchorCat is anchoring back, reversing the previous conditions
 		this.modifyAnchor(anchorCat,otherCat);
 		otherCat.body.data.gravityScale *= -1;
 
@@ -146,6 +154,7 @@ Yarn.prototype.updateYarn = function(){
 		}
 	}
 
+	// Handle the yarn mechanic
 	if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 		this.isTaut = true;
 		if(constraint == null){ // if the constraint doesn't exist already, create a constraint
@@ -156,6 +165,7 @@ Yarn.prototype.updateYarn = function(){
 	else{ // If the player distance is less than or equal to the taut length
 		var anchorVel = Phaser.Math.distanceSq(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
 		var otherVel = Phaser.Math.distanceSq(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
+		// Conditions for destroying the constraint
 		// If the non anchored cat can jump
 		// If the non anchored cat is falling upwards
 		// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
@@ -171,7 +181,7 @@ Yarn.prototype.updateYarn = function(){
 }
 
 // Creates the constraint between the players
-Yarn.prototype.createYarn = function(anchorCat,otherCat){ // First cat will be the anchor
+Yarn.prototype.createYarn = function(anchorCat,otherCat){ // anchorCat will be the anchor
 	this.isYarn = true; // yarn is active
 
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
@@ -200,6 +210,7 @@ Yarn.prototype.drawYarn = function(width, color, anchored){
     	var slackLength = this.tautLength - this.playerDist;
 
     	// Creates a linear function to determine how much to offset the bezier handles
+    	// Variables for this linear function
     	var tautThreshold = 5;
     	var slackThreshold = .45*this.tautLength;
     	var slackMaxValue = 75;
@@ -228,6 +239,7 @@ Yarn.prototype.drawYarn = function(width, color, anchored){
 	}
 	else if(anchored === 'slack'){ // If the yarn is in the inactive state
 		if(this.wasYarnJustReleased === true){ // If the yarn was just released
+			// Then have the yarn drop
 			this.wasYarnJustReleased = false;
 
 			this.midPoint.midAnchor.x = this.midPoint.x; // Tells the anchor to go back to the midPoint
@@ -267,9 +279,9 @@ Yarn.prototype.removeYarn = function(){
 	this.isYarn = false; // yarn is inactive
 	this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
-	this.tautLength = 0; // Resets the visual for the yarn
+	this.tautLength = 0; // Resets the taut length for the yarn
 
-	//If constraint does exist, remove it
+	// If constraint does exist, remove it
 	if(constraint != null){
 		game.physics.p2.removeConstraint(constraint);
 		//game.physics.p2.removeSpring(constraint);
