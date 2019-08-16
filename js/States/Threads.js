@@ -146,20 +146,5 @@ Threads.prototype = {
         	this.p2Controls.setText('', true);
         }*/
 
-	},
-    tutorialText: function() {
-        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.textVertOffset, 'W', {font: 'Impact', fontSize: '40px', fill: '#FF7373'});
-        this.p1Controls.anchor.set(0.5);
-        this.p1Controls.inputEnabled = true;
-        this.p1ControlsPosition = this.p1Controls.worldPosition;
-        
-        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y + this.textVertOffset, '🡫', {font: 'Impact', fontSize: '40px', fill: '#9C6EB2'});
-        this.p2Controls.anchor.set(0.5);
-        this.p2Controls.inputEnabled = true;
-        this.p2ControlsPosition = this.p2Controls.worldPosition;
-
-        this.exit = game.add.text(game.width/2, 100, '', {font: 'Impact', fontSize: '32px', fill: '#D85BFF'});
-        this.exit.anchor.set(0.5);
-        this.exit.inputEnabled = true;
-    }
+	}
 }
