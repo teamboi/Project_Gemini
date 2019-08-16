@@ -17,20 +17,24 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
 
     // Create level manager specific variables
     this.flashColor = 0xffffff; // Color of the camera fades
-    this.ostFadeOutDuration = 2500; // How long does the music fade out
+    this.flashDuration = 2000; // Duration of the camera flash
+    this.flashDelay = 5000; // Delay until the transition fades out
+    this.fadeDuration = 2000; // Duration of the transition fading out
+    this.themeFadeOutDuration = 2000; // How long does the music fade out
+    this.ostFadeInDuration = 3000; // How long does the OST fade in
 
     // Create gameplay state specific variables
     this.complete = false;
 
     // Fade out the title theme
     if(gp.theme.isPlaying == true) {
-        gp.theme.fadeOut(2000);
+        gp.theme.fadeOut(this.themeFadeOutDuration);
     }
 
     // Add in the title card, initally invisible
     this.title = game.add.sprite(0, 0, this.titleCard);
 
-    game.camera.flash(this.flashColor, 2000);
+    game.camera.flash(this.flashColor, this.flashDuration);
 
     // Begin to play the chapter one theme
     this.ost = game.add.audio(this.ostInput);
@@ -43,7 +47,7 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
     
     // Instantiate the fade events
     game.camera.onFadeComplete.add(this.resetFade, this);
-    game.time.events.add(5000, this.fade, this);
+    game.time.events.add(this.flashDelay, this.fade, this);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to DialogManager
@@ -53,7 +57,7 @@ TransitionManager.prototype.constructor = TransitionManager;
 TransitionManager.prototype.startOST = function() {
     // Begin playing the level theme
     this.ost.play('', 0, 0, true);
-    this.ost.fadeTo(3000, 0.5);
+    this.ost.fadeTo(this.ostFadeInDuration, 0.5);
     //this.ost.loop = true;
     //this.ost.volume = 0.5;    
 }
@@ -69,7 +73,7 @@ TransitionManager.prototype.startNar = function() {
 }
 TransitionManager.prototype.fade = function() {
     // You can set your own fade color and duration
-    game.camera.fade(this.flashColor, 2000);
+    game.camera.fade(this.flashColor, this.fadeDuration);
 }
 TransitionManager.prototype.resetFade = function() {
     if(this.complete == false) {
