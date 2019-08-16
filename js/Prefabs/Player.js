@@ -142,14 +142,17 @@ Player.prototype.update = function(){
 	else{
 		this.puppetSurrogate();
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
+		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.fsmIsMoving = true;
 			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
 	    }
+	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
 	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
 	    }
+	    // If the player isn't moving
 	    else{
 	    	this.fsmIsMoving = false;
 	    }
@@ -175,7 +178,7 @@ Player.prototype.move = function(direction, velocity){
 
 // Checks if the ground is under the player
 // Can be reversed if checking for roof
-// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
+// Modified from https://phaser.io/examples/v2/p2-physics/platformer-material
 Player.prototype.checkVertCollision = function(){
 	var yAxis = p2.vec2.fromValues(0, 1);
 	
