@@ -12,23 +12,28 @@ Ending.prototype = {
         this.fadeComplete = false;
     },
 	create: function(){
-        if(this.theme.isPlaying == true) {
+        var nextLevel = "Credits1";
+        var titleCard = "endTitle";
+        var ost = "Cradle";
+        var narration = "narrate";
+        this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+        /*if(this.theme.isPlaying == true) {
             this.theme.fadeOut(2000);
-        }
+        }*/
         //Add in the game over picture
-        this.menu = game.add.sprite(0,0,'endTitle');
-        game.camera.flash(0xffffff, 2000);
+        //this.menu = game.add.sprite(0,0,'endTitle');
+        //game.camera.flash(0xffffff, 2000);
 
-        this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        //this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        this.ost = game.add.audio('Cradle');
-        this.ost.onDecoded.add(this.startOST, this);
+        //this.ost = game.add.audio('Cradle');
+        //this.ost.onDecoded.add(this.startOST, this);
 
         // Instantiate the fade events
-        game.camera.onFadeComplete.add(this.resetFade, this);
-        game.time.events.add(7000, this.fade, this);
-    },
-    startOST: function() {
+        //game.camera.onFadeComplete.add(this.resetFade, this);
+        //game.time.events.add(7000, this.fade, this);
+    }
+/*    startOST: function() {
         this.ost.play('', 0, 0, true);
         this.ost.fadeTo(3000, 0.5);
         //this.ost.loop = true;
@@ -46,5 +51,5 @@ Ending.prototype = {
             game.state.start('Credits1', true, false, this.ost);
             this.fadeComplete = true;
         }
-    }
+    }*/
 }

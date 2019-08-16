@@ -11,7 +11,12 @@ Separate.prototype = {
         this.theme = ost;
     },
 	create: function(){
-		this.fadeComplete = false;
+		var nextLevel = "Houses";
+		var titleCard = "housesTitle";
+		var ost = "Separate";
+		var narration = "narrate";
+		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		/*this.fadeComplete = false;
 		// Fade out the level one theme
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
@@ -36,9 +41,9 @@ Separate.prototype = {
 		//this.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(6000, this.fade, this);
+		game.time.events.add(6000, this.fade, this);*/
 	},
-	startOST: function() {
+	/*startOST: function() {
 		// Begin playing the level theme
 		this.ost.play('', 0, 0, true);
         this.ost.fadeTo(3000, 0.5);
@@ -64,5 +69,5 @@ Separate.prototype = {
             game.state.start('Houses', true, false, this.ost);
             this.fadeComplete = true;
         }
-	}
+	}*/
 };

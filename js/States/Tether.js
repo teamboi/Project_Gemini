@@ -9,10 +9,15 @@ Tether.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.theme = ost;
-        this.fadeComplete = false;
+        //this.fadeComplete = false;
     },
 	create: function(){
-		// Fade out the title theme
+		var nextLevel = "Fences";
+		var titleCard = "tetherTitle";
+		var ost = "Tether";
+		var narration = "narrate";
+		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		/*// Fade out the title theme
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
 		}
@@ -28,9 +33,9 @@ Tether.prototype = {
 
 		// Fade out of the scene
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(5000, this.fade, this);
+		game.time.events.add(5000, this.fade, this);*/
 	},
-	startOST: function() {
+	/*startOST: function() {
 		// Begin playing the level theme
 		this.ost.play('', 0, 0, true);
         this.ost.fadeTo(3000, 0.5);
@@ -54,5 +59,5 @@ Tether.prototype = {
             game.state.start('Fences', true, false, this.ost);
             this.fadeComplete = true;
         }
-	}
+	}*/
 };

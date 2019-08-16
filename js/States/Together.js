@@ -11,7 +11,12 @@ Together.prototype = {
         this.theme = ost;
     },
 	create: function(){
-		this.complete = false;
+		var nextLevel = "Cats";
+		var titleCard = "togetherTitle";
+		var ost = "Together";
+		var narration = "oneIntro";
+		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		/*this.complete = false;
 		// Fade out the title theme
 		if(this.theme.isPlaying == true) {
 			this.theme.fadeOut(2000);
@@ -33,9 +38,9 @@ Together.prototype = {
         
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(5000, this.fade, this);
+		game.time.events.add(5000, this.fade, this);*/
 	},
-	startOST: function() {
+	/*startOST: function() {
 		// Begin playing the level theme
 		this.ost.play('', 0, 0, true);
         this.ost.fadeTo(3000, 0.5);
@@ -62,5 +67,5 @@ Together.prototype = {
 			game.state.start('Cats', true, false, this.ost);
 			this.complete = true;
 		}
-	}
+	}*/
 };
