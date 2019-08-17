@@ -112,15 +112,13 @@ Player.prototype.update = function(){
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.move("left", this.xVelocity);
 			this.fsmIsMoving = true;
-			this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
-			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
+			this.faceLeft();
 			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.move("right", this.xVelocity);
 	    	this.fsmIsMoving = true;
-	    	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
-	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
+	    	this.faceRight();
 	    	//this.body.moveRight(this.xVelocity);
 	    }
 	    else{
@@ -156,14 +154,12 @@ Player.prototype.update = function(){
 		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.fsmIsMoving = true;
-			this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
-			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
+			this.faceLeft();
 	    }
 	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
-	    	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
-	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
+	    	this.faceRight();
 	    }
 	    // If the player isn't moving
 	    else{
@@ -187,6 +183,18 @@ Player.prototype.move = function(direction, velocity){
 	else{ // else just move the player normally
 		this.body.moveRight(moveDist);
 	}
+}
+
+// Makes the player face left
+Player.prototype.faceLeft = function(){
+	this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
+	this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
+}
+
+// Makes the player face right
+Player.prototype.faceRight = function(){
+	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
+	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
 }
 
 // Checks if the ground is under the player
