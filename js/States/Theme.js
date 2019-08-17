@@ -8,44 +8,46 @@ var Theme = function(game){};
 Theme.prototype = {
 	create: function(){
 		this.complete = false;
+		if(debugLevel === null){
+			this.nextLevel = 'MainMenu';
+			this.flashDuration = 2000;
+			this.fadeDuration = 2000;
+			this.ostFadeDuration = 3000;
+			this.fadeDelay = 3000;
+		}
+		else{
+			this.nextLevel = debugLevel;
+			this.flashDuration = 1;
+			this.fadeDuration = 1;
+			this.ostFadeDuration = 1;
+			this.fadeDelay = 1;
+		}
 		// Add in the title card
 		this.menu = game.add.sprite(0,0,'theme');
-		//this.menu.anchor.setTo(0.5,0.5);
-		game.camera.flash(0xffffff, 2000);
+		game.camera.flash(0xffffff, this.flashDuration);
 		// Play the Main Theme
 		this.ost = game.add.audio('Cradle');
 		this.ost.onDecoded.add(this.startOST, this);
-		//this.ost.fadeIn(500, true);
-		//this.ost.play('', 0, 1, true);
 		
 		// Check for the spacebar to start the game
 
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
-		game.time.events.add(3000, this.fade, this);
+		game.time.events.add(this.fadeDelay, this.fade, this);
 	},
 	startOST: function() {
 		this.ost.play('', 0, 0, true);
-        this.ost.fadeTo(3000, 0.5);
-        //this.ost.loop = true;
-		//this.ost.play('', 0, 1, true);	
-		//this.ost.volume = 0.5;
+        this.ost.fadeTo(this.ostFadeDuration, 0.5);
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	//this.ost.fadeOut(2000);
-    	game.camera.fade(0xffffff, 2000);
+    	game.camera.fade(0xffffff, this.fadeDuration);
 
 	},
 	resetFade: function() {
 		if(this.complete == false) {
 			// Load in the next level once the fade is complete
-			if(debugLevel === null){
-				game.state.start('MainMenu', true, false, this.ost);
-			}
-			else{
-				game.state.start(debugLevel, true, false, this.ost);
-			}
+			game.state.start(this.nextLevel, true, false, this.ost);
 			this.complete = true;
 		}
 	}
