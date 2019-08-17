@@ -49,7 +49,7 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 	this.gameplay.group.add(this.bezierGraphics); // Adds in the yarn for layer sorting
 
 	// Creates a midpoint to the yarn so we can have nice curves
-	this.midPoint = new YarnMidPoint(game, gameplay, player1, player2);
+	this.yarnVisual = new YarnVisual(game, gameplay, player1, player2);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
@@ -80,7 +80,7 @@ Yarn.prototype.update = function(){
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
 			// Then destroy the yarn
 			this.wasYarnJustReleased = true;
-			this.midPoint.changePlayerGravDir(this.player1);
+			this.yarnVisual.changePlayerGravDir(this.player1);
 			this.removeYarn();
 			//this.player1.body.data.gravityScale = 1;
 			this.anchored = 0;
@@ -91,7 +91,7 @@ Yarn.prototype.update = function(){
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
 			// Then destroy the yarn
 			this.wasYarnJustReleased = true;
-			this.midPoint.changePlayerGravDir(this.player2);
+			this.yarnVisual.changePlayerGravDir(this.player2);
 			this.removeYarn();
 			//this.player2.body.data.gravityScale = -1;
 			this.anchored = 0;
@@ -254,23 +254,23 @@ Yarn.prototype.drawYarn = function(width, color, anchored){
 			// Then have the yarn drop
 			this.wasYarnJustReleased = false;
 
-			this.midPoint.midAnchor.x = this.midPoint.x; // Tells the anchor to go back to the midPoint
-			this.midPoint.midAnchor.y = this.midPoint.y;
+			this.yarnVisual.midAnchor.x = this.yarnVisual.x; // Tells the anchor to go back to the midPoint
+			this.yarnVisual.midAnchor.y = this.yarnVisual.y;
 
-			this.midPoint.tweenMidPoint(); // Tells the anchor to drop
+			this.yarnVisual.tweenMidPoint(); // Tells the anchor to drop
 		}
 		// Obtains the distance of each player to the midpoint's anchor
-		var player1XDist = this.midPoint.midAnchor.x - p1X;
-		var player1YDist = this.midPoint.midAnchor.y - p1Y;
-		var player2XDist = this.midPoint.midAnchor.x - p2X;
-		var player2YDist = this.midPoint.midAnchor.y - p2Y;
+		var player1XDist = this.yarnVisual.midAnchor.x - p1X;
+		var player1YDist = this.yarnVisual.midAnchor.y - p1Y;
+		var player2XDist = this.yarnVisual.midAnchor.x - p2X;
+		var player2YDist = this.yarnVisual.midAnchor.y - p2Y;
 
 		// By how far back to scale the bezier handles
 		var margin = .2;
 
 		// Sets the bezier handles to the correct positions
-		this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x - player1XDist*margin, this.midPoint.midAnchor.y - player1YDist*margin);
-    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x - player2XDist*margin, this.midPoint.midAnchor.y - player2YDist*margin);
+		this.player1BAnchor.position.setTo(this.yarnVisual.midAnchor.x - player1XDist*margin, this.yarnVisual.midAnchor.y - player1YDist*margin);
+    	this.player2BAnchor.position.setTo(this.yarnVisual.midAnchor.x - player2XDist*margin, this.yarnVisual.midAnchor.y - player2YDist*margin);
 
     	// Draws the yarn
 		this.drawBezierYarn(width, color, p1X, p1Y, p2X, p2Y);

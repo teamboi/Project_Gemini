@@ -5,9 +5,9 @@
 // let's keep our code tidy with strict mode 👊
 "use strict";
 
-// Constructor for YarnMidPoint
+// Constructor for YarnVisual
 // For nice curves in the yarn when not anchoring
-function YarnMidPoint(game, gameplay, player1, player2){
+function YarnVisual(game, gameplay, player1, player2){
 	Phaser.Sprite.call(this, game, 0, 0, null);
 	game.add.existing(this); //Adds to display list
 
@@ -26,11 +26,11 @@ function YarnMidPoint(game, gameplay, player1, player2){
 	this.playerGravDir = 1;
 }
 
-// inherit prototype from Phaser.Sprite and set constructor to YarnMidPoint
-YarnMidPoint.prototype = Object.create(Phaser.Sprite.prototype);
-YarnMidPoint.prototype.constructor = YarnMidPoint;
+// inherit prototype from Phaser.Sprite and set constructor to YarnVisual
+YarnVisual.prototype = Object.create(Phaser.Sprite.prototype);
+YarnVisual.prototype.constructor = YarnVisual;
 
-YarnMidPoint.prototype.update = function(){
+YarnVisual.prototype.update = function(){
 	// Calculates midpoint so other variables are correct
 	this.calcMidPoint();
 	// Determines by how much to scale the anchor drop height based on player distance
@@ -41,7 +41,7 @@ YarnMidPoint.prototype.update = function(){
 }
 
 // Formula used to move this to the midpoint of the players
-YarnMidPoint.prototype.calcMidPoint = function(){
+YarnVisual.prototype.calcMidPoint = function(){
 	var xAverage = (this.player1.body.x + this.player2.body.x) / 2;
 	var yAverage = (this.player1.body.y + this.player2.body.y) / 2;
 
@@ -50,18 +50,18 @@ YarnMidPoint.prototype.calcMidPoint = function(){
 }
 
 // Change whether the anchor should drop upwards or downwards
-YarnMidPoint.prototype.changePlayerGravDir = function(lastAnchored){
+YarnVisual.prototype.changePlayerGravDir = function(lastAnchored){
 	this.playerGravDir = lastAnchored.body.data.gravityScale;
 }
 
 // Resets the anchor to the midPoint of the players
-YarnMidPoint.prototype.resetMidPoint = function(){
+YarnVisual.prototype.resetMidPoint = function(){
 	this.midAnchorYDrop = 0;
 	this.midAnchor.y = this.y;
 }
 
 // Causes the anchor to drop
-YarnMidPoint.prototype.tweenMidPoint = function(){
+YarnVisual.prototype.tweenMidPoint = function(){
 	this.resetMidPoint();
 	this.dropTween.stop();
 	this.dropTween = game.add.tween(this).to( { midAnchorYDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
