@@ -32,6 +32,10 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
+	this.yarnAnchorScaleX = .15; // Constants for where the yarn anchor point should be held
+	this.yarnAnchorScaleY = .43;
+	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width;
+	this.yarnAnchorOffsetY = this.yarnAnchorScaleY*this.height;
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
@@ -49,7 +53,9 @@ function Player(game, gameplay, x, y, whichPlayer){
 	if(whichPlayer == 1){
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
+
 		this.yarnColor = 0xE4784E; // Sets yarn color to an orange
+
 		this.meow1 = game.add.audio('short_meow1'); // Adds in meow sfx
 		//this.meow2 = game.add.audio('long_meow1');
 
@@ -59,10 +65,13 @@ function Player(game, gameplay, x, y, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
-		this.catSprite.scale.y = -1*this.catSprite.scale.y; // Flips the FSM upside down
+		this.catSprite.scale.y *= -1 // Flips the FSM upside down
+
 		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down'; // Direction that jump will push the player towards
+
 		this.yarnColor = 0x799FCE; // Sets yarn color to a blue
+
 		this.meow1 = game.add.audio('short_meow2'); // Adds in meow sfx
 		//this.meow2 = game.add.audio('long_meow2');
 
@@ -103,12 +112,14 @@ Player.prototype.update = function(){
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.move("left", this.xVelocity);
 			this.fsmIsMoving = true;
+			this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
 			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
 			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.move("right", this.xVelocity);
 	    	this.fsmIsMoving = true;
+	    	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
 	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
 	    	//this.body.moveRight(this.xVelocity);
 	    }

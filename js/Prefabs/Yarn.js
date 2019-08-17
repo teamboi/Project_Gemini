@@ -158,7 +158,7 @@ Yarn.prototype.updateYarn = function(){
 	if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 		this.isTaut = true;
 		if(constraint == null){ // if the constraint doesn't exist already, create a constraint
-			constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
+			constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [this.player1.yarnAnchorScaleX,this.player1.yarnAnchorScaleY], [this.player2.yarnAnchorScaleX,this.player2.yarnAnchorScaleY]);
 			//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
 		}
 	}
@@ -195,8 +195,15 @@ Yarn.prototype.createYarn = function(anchorCat,otherCat){ // anchorCat will be t
 Yarn.prototype.drawBezierYarn = function(width, color){
 	this.bezierGraphics.clear(); // Clears graphics so we don't see the previous versions of the yarn
 	this.bezierGraphics.lineStyle(width, color, 1); // Sets the style of the line
-	this.bezierGraphics.moveTo(this.player1.x,this.player1.y); // Sets initial position to player1
-	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y); // Draws the bezier curve to the other player
+
+	// Set the coordinates to draw the strings
+	var p1X = this.player1.x + this.player1.yarnAnchorOffsetX;
+	var p1Y = this.player1.y - this.player1.yarnAnchorOffsetY;
+	var p2X = this.player2.x + this.player2.yarnAnchorOffsetX;
+	var p2Y = this.player2.y + this.player2.yarnAnchorOffsetY;
+
+	this.bezierGraphics.moveTo(p1X,p1Y); // Sets initial position to player1
+	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, p2X, p2Y); // Draws the bezier curve to the other player
 }
 
 // Draws the yarn as a bezier curve
