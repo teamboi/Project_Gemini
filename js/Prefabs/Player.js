@@ -32,10 +32,14 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
+
+	this.facing = "left"; // where the cat is facing
+
 	this.yarnAnchorScaleX = .14; // Constants for where the yarn anchor point should be held
 	this.yarnAnchorScaleY = .41;
-	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width;
+	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width; // Calculate how many pixels to offset
 	this.yarnAnchorOffsetY = this.yarnAnchorScaleY*this.height;
+	this.yarnAnchorOffsetXInit = this.yarnAnchorOffsetX; // Storing initial value for tweening use
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
@@ -110,15 +114,15 @@ Player.prototype.update = function(){
 	if(this.anchorState != "isAnchor"){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.move("left", this.xVelocity);
-			this.fsmIsMoving = true;
 			this.faceLeft();
+			this.move(this.facing, this.xVelocity);
+			this.fsmIsMoving = true;
 			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.move("right", this.xVelocity);
-	    	this.fsmIsMoving = true;
 	    	this.faceRight();
+	    	this.move(this.facing, this.xVelocity);
+	    	this.fsmIsMoving = true;
 	    	//this.body.moveRight(this.xVelocity);
 	    }
 	    else{
@@ -187,14 +191,31 @@ Player.prototype.move = function(direction, velocity){
 
 // Makes the player face left
 Player.prototype.faceLeft = function(){
-	this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
-	this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
+	if(this.facing === "right"){
+		this.facing = "left";
+		//this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
+		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+		if(this.yarnAnchorTween != null){
+			this.yarnAnchorTween.stop();
+		}
+		this.yarnAnchorOffsetX = -1*this.yarnAnchorOffsetXInit;
+		this.yarnAnchorTween = game.add.tween(this).to( { yarnAnchorOffsetX: -1*this.yarnAnchorOffsetX }, 150, Phaser.Easing.Linear.In, true, 0, 0, false);
+	}
 }
 
 // Makes the player face right
 Player.prototype.faceRight = function(){
-	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
-	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
+	if(this.facing === "left"){
+		this.facing = "right";
+		//this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
+		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+
+		if(this.yarnAnchorTween != null){
+			this.yarnAnchorTween.stop();
+		}
+		this.yarnAnchorOffsetX = this.yarnAnchorOffsetXInit;
+		this.yarnAnchorTween = game.add.tween(this).to( { yarnAnchorOffsetX: -1*this.yarnAnchorOffsetX }, 150, Phaser.Easing.Linear.In, true, 0, 0, false);
+	}
 }
 
 // Checks if the ground is under the player
