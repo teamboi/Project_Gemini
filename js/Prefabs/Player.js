@@ -32,8 +32,8 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.xVelocity = 200; // Velocity for left and right movement
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
-	this.yarnAnchorScaleX = .15; // Constants for where the yarn anchor point should be held
-	this.yarnAnchorScaleY = .43;
+	this.yarnAnchorScaleX = .14; // Constants for where the yarn anchor point should be held
+	this.yarnAnchorScaleY = .41;
 	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width;
 	this.yarnAnchorOffsetY = this.yarnAnchorScaleY*this.height;
 
@@ -156,11 +156,13 @@ Player.prototype.update = function(){
 		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.fsmIsMoving = true;
+			this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
 			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
 	    }
 	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
+	    	this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
 	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
 	    }
 	    // If the player isn't moving
