@@ -63,7 +63,6 @@ Yarn.prototype.update = function(){
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
 			// Then destroy the yarn
-			this.yarnVisual.wasYarnJustReleased = true;
 			this.yarnVisual.changePlayerGravDir(this.player1);
 			this.removeYarn();
 			//this.player1.body.data.gravityScale = 1;
@@ -74,7 +73,6 @@ Yarn.prototype.update = function(){
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
 			// Then destroy the yarn
-			this.yarnVisual.wasYarnJustReleased = true;
 			this.yarnVisual.changePlayerGravDir(this.player2);
 			this.removeYarn();
 			//this.player2.body.data.gravityScale = -1;
@@ -90,7 +88,6 @@ Yarn.prototype.updateYarn = function(){
 
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
-		//this.yarnVisual.drawYarn("2", this.yarnVisual.neutralColor, 'slack'); // Draw it as the inactive state
 		return;
 	}
 
@@ -103,8 +100,6 @@ Yarn.prototype.updateYarn = function(){
 		var anchorCat = this.player2;
 		var otherCat = this.player1;
 	}
-
-	//this.yarnVisual.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
 
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn

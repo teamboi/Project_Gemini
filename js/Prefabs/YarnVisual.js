@@ -16,8 +16,6 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.player1 = player1; // Obtain references to both players
 	this.player2 = player2;
 
-	this.wasYarnJustReleased = false; // boolean to detect if yarn was just released
-
 	// Creates the anchor that drops when slack with appropriate variables
 	this.midAnchor = game.add.sprite(this.x, this.y, null);
 	this.midAnchorYDrop = 0;
@@ -55,8 +53,11 @@ YarnVisual.prototype.constructor = YarnVisual;
 YarnVisual.prototype.update = function(){
 	// Calculates midpoint so other variables are correct
 	this.calcMidPoint();
+	// Set the coordinates to draw the strings
+	this.calcPlayerCoords();
+
 	// Determines by how much to scale the anchor drop height based on player distance
-	this.playerDistYMult = Phaser.Math.distance(this.player1.x, this.player1.y, this.player2.x, this.player2.y)/400;
+	this.playerDistYMult = Phaser.Math.distance(this.p1X, this.p1Y, this.p2X, this.p2Y) / 400;
 
 	this.midAnchor.x = this.x; // anchor matches the midpoint's x
 	this.midAnchor.y = this.y + (125 * this.midAnchorYDrop * this.playerGravDir * this.playerDistYMult); // acnhor will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped
@@ -77,9 +78,6 @@ YarnVisual.prototype.drawBezierYarn = function(){
 YarnVisual.prototype.drawYarn = function(){
 	var yp = this.yarnParent;
 
-	// Set the coordinates to draw the strings
-	this.calcPlayerCoords();
-
 	if(this.state === 'taut'){ // If the yarn is in its active state
 		// Obtains the differences between players and sets them to 35% of the way
 		var playerXDiff = (this.p2X - this.p1X) * .35;
@@ -99,7 +97,7 @@ YarnVisual.prototype.drawYarn = function(){
     		var handleOffsetMult = 0
     	}
     	else if(slackLength < slackThreshold){
-    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
+    		var handleOffsetMult = 0 + ( ( slackMaxValue / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
     	}
     	else{
     		var handleOffsetMult = slackMaxValue;
@@ -117,10 +115,6 @@ YarnVisual.prototype.drawYarn = function(){
     	this.drawBezierYarn();
 	}
 	else if(this.state === 'slack'){ // If the yarn is in the inactive state
-		if(this.wasYarnJustReleased === true){ // If the yarn was just released
-			// Then have the yarn drop
-			this.wasYarnJustReleased = false;
-		}
 		// Obtains the distance of each player to the midpoint's anchor
 		var player1XDist = this.midAnchor.x - this.p1X;
 		var player1YDist = this.midAnchor.y - this.p1Y;
