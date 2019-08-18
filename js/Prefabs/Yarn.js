@@ -90,7 +90,7 @@ Yarn.prototype.updateYarn = function(){
 
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
-		this.yarnVisual.drawYarn("2", this.yarnVisual.neutralColor, 'slack'); // Draw it as the inactive state
+		//this.yarnVisual.drawYarn("2", this.yarnVisual.neutralColor, 'slack'); // Draw it as the inactive state
 		return;
 	}
 
@@ -104,7 +104,7 @@ Yarn.prototype.updateYarn = function(){
 		var otherCat = this.player1;
 	}
 
-	this.yarnVisual.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
+	//this.yarnVisual.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
 
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
@@ -178,6 +178,8 @@ Yarn.prototype.createYarn = function(anchorCat,otherCat){ // anchorCat will be t
 
 	this.modifyAnchor(anchorCat,otherCat); // Tells cats which one is anchoring
 	this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
+
+	this.yarnVisual.setYarnState("taut", anchorCat.yarnColor);
 }
 
 // Modify the anchorState of each cat appropriately
@@ -210,4 +212,6 @@ Yarn.prototype.removeYarn = function(){
 
 	// Tells the surrogate to stop
 	this.surrogate.deactivateSurrogate();
+
+	this.yarnVisual.setYarnState("slack");
 }
