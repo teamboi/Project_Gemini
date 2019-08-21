@@ -176,7 +176,7 @@ YarnVisual.prototype.setYarnState = function(state, color){
 		this.state = "slack";
 
 		this.resetMidPoint();
-		this.tweenMidPoint();
+		this.dropMidPoint();
 	}
 	else{
 		console.log(state + " is not a valid state. taut or slack"); // In case I make a typo
@@ -184,7 +184,7 @@ YarnVisual.prototype.setYarnState = function(state, color){
 }
 
 // Causes the anchor to drop
-YarnVisual.prototype.tweenMidPoint = function(){
+YarnVisual.prototype.dropMidPoint = function(){
 	if(this.dropTween != null){
 		this.dropTween.stop();
 	}
