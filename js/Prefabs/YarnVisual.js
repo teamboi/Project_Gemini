@@ -166,13 +166,6 @@ YarnVisual.prototype.dropMPModifier = function(){
 	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
 }
 
-// Resets the mpModifier to the mpModifier of the players
-YarnVisual.prototype.resetMPModifier = function(){
-	this.mpModifierYDrop = 0;
-	this.mpModifier.x = this.x;
-	this.mpModifier.y = this.y;
-}
-
 YarnVisual.prototype.setYarnState = function(state, color){
 	if(state === "taut"){
 		this.yarnWidth = "4";
@@ -186,7 +179,6 @@ YarnVisual.prototype.setYarnState = function(state, color){
 		this.yarnColor = this.neutralColor;
 		this.state = "slack";
 
-		//this.resetMPModifier();
 		this.dropMPModifier();
 	}
 	else{
