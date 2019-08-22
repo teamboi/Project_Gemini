@@ -16,14 +16,23 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.player1 = player1; // Obtain references to both players
 	this.player2 = player2;
 
+	game.tweens.easeMap['Custom.elasticOut'] = function (k) {
+        var s,
+        a = 1,
+        p = 0.1;
+        if (k === 0) { return 0; }
+        if (k === 1) { return 1; }
+        s = p / 4;
+        return (a * Math.pow(2, - 10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
+    };
+
 	// For debugging, allows to see the bezier handles
 	var key = null;
-	if(debugCollisionsObjects === true){
-		key = "__missing";
-	}
+	if(debugCollisionsObjects === true){ key = "__missing"; }
 
 	// Creates the point that the bezier handles point to (midPointModifier)
 	this.mpModifier = game.add.sprite(this.x, this.y, key);
+	this.mpModifierAngle = 0;
 	this.mpModifierYDrop = 0;
 	this.playerGravDir = 1;
 
@@ -39,8 +48,8 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.gameplay.group.add(this.bezierGraphics); // Adds in the yarn for layer sorting
 
 	// Calculates midpoint so other variables are correct
-	this.calcMidPoint();
 	this.calcPlayerCoords();
+	this.calcMidPoint();
 	this.setYarnState("slack");
 }
 
@@ -49,16 +58,19 @@ YarnVisual.prototype = Object.create(Phaser.Sprite.prototype);
 YarnVisual.prototype.constructor = YarnVisual;
 
 YarnVisual.prototype.update = function(){
-	// Calculates midpoint so other variables are correct
-	this.calcMidPoint();
+	var yp = this.yarnParent;
 	// Set the coordinates to draw the strings
 	this.calcPlayerCoords();
+	// Calculates midpoint so other variables are correct
+	this.calcMidPoint();
 
 	// Determines by how much to scale the mpModifier drop height based on player distance
 	this.playerDistYMult = Phaser.Math.distance(this.p1X, this.p1Y, this.p2X, this.p2Y) / 400;
 
-	this.mpModifier.x = this.x; // mpModifier matches the midpoint's x
-	this.mpModifier.y = this.y + (125 * this.mpModifierYDrop * this.playerGravDir * this.playerDistYMult); // mpModifier will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped
+	this.mpModifierAngle = 
+
+	this.mpModifier.x = this.x + (125 * Math.sin(this.mpModifierAngle)); // mpModifier matches the midpoint's x with an additional rotation parameter
+	this.mpModifier.y = this.y + (125 * this.mpModifierYDrop * this.playerGravDir * this.playerDistYMult * Math.cos(this.mpModifierAngle)); // mpModifier will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped and how much the mpModifierAngle has rotated
 
 	this.drawYarn();
 }
@@ -77,7 +89,7 @@ YarnVisual.prototype.drawYarn = function(){
 	var yp = this.yarnParent;
 
 	// By how far back to scale the bezier handles
-	var margin = .2;
+	var margin = .35;
 
 	// Obtains the distance of each player to the mpModifier
 	var player1XDiff = (this.mpModifier.x - this.p1X) * margin;
@@ -86,10 +98,6 @@ YarnVisual.prototype.drawYarn = function(){
 	var player2YDiff = (this.mpModifier.y - this.p2Y) * margin;
 
 	if(this.state === 'taut'){ // If the yarn is in its active state
-		// Obtains the differences between players and sets them to 35% of the way
-		//var playerXDiff = (this.p2X - this.p1X) * .35;
-    	//var playerYDiff = (this.p2Y - this.p1Y) * .35;
-
     	// Finds the difference between the current length and the length that the yarn was created at
     	var slackLength = yp.tautLength - yp.playerDist;
 
@@ -123,7 +131,6 @@ YarnVisual.prototype.drawYarn = function(){
     	this.drawBezierYarn();
 	}
 	else if(this.state === 'slack'){ // If the yarn is in the inactive state
-
 		// Sets the bezier handles to the correct positions
 		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff, this.mpModifier.y - player1YDiff);
     	this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff, this.mpModifier.y - player2YDiff);
@@ -138,8 +145,8 @@ YarnVisual.prototype.drawYarn = function(){
 
 // Formula used to move this to the midpoint of the players
 YarnVisual.prototype.calcMidPoint = function(){
-	var xAverage = (this.player1.body.x + this.player2.body.x) / 2;
-	var yAverage = (this.player1.body.y + this.player2.body.y) / 2;
+	var xAverage = (this.p1X + this.p2X) / 2;
+	var yAverage = (this.p1Y + this.p2Y) / 2;
 
 	this.x = xAverage;
 	this.y = yAverage;
@@ -166,19 +173,24 @@ YarnVisual.prototype.dropMPModifier = function(){
 	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
 }
 
+// Sets appropriate variables for the state of the yarn
 YarnVisual.prototype.setYarnState = function(state, color){
+	// If the yarn is taut, display it as such
 	if(state === "taut"){
 		this.yarnWidth = "4";
 		this.yarnColor = color;
 		this.state = "taut";
 
+		// Then begin the tighten animation
 		this.tightenMPModifier();
 	}
+	// If the yarn is slack, display it as such
 	else if(state === "slack"){
 		this.yarnWidth = "2";
 		this.yarnColor = this.neutralColor;
 		this.state = "slack";
 
+		// Then begin the drop animation
 		this.dropMPModifier();
 	}
 	else{
@@ -191,5 +203,5 @@ YarnVisual.prototype.tightenMPModifier = function(){
 	if(this.mpModifierTween != null){
 		this.mpModifierTween.stop();
 	}
-	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 0 }, 500, Phaser.Easing.Elastic.Out, true, 0, 0, false);
+	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 0 }, 500, "Custom.elasticOut", true, 0, 0, false);
 }
