@@ -80,8 +80,10 @@ YarnVisual.prototype.drawYarn = function(){
 	var margin = .2;
 
 	// Obtains the distance of each player to the mpModifier
-	var playerXDiff = (this.mpModifier.x - this.p1X) * margin;
-	var playerYDiff = (this.mpModifier.y - this.p1Y) * margin;
+	var player1XDiff = (this.mpModifier.x - this.p1X) * margin;
+	var player1YDiff = (this.mpModifier.y - this.p1Y) * margin;
+	var player2XDiff = (this.mpModifier.x - this.p2X) * margin;
+	var player2YDiff = (this.mpModifier.y - this.p2Y) * margin;
 
 	if(this.state === 'taut'){ // If the yarn is in its active state
 		// Obtains the differences between players and sets them to 35% of the way
@@ -114,8 +116,8 @@ YarnVisual.prototype.drawYarn = function(){
     	var handleYRotation = Math.cos(yp.yarnAngle) * handleOffsetMult;
 
     	// Sets the bezier handles to the modifiers of everything
-    	this.player1BAnchor.position.setTo(this.p1X + playerXDiff + handleXRotation, this.p1Y + playerYDiff + handleYRotation);
-    	this.player2BAnchor.position.setTo(this.p2X - playerXDiff - handleXRotation, this.p2Y - playerYDiff - handleYRotation);
+    	this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff + handleXRotation, this.mpModifier.y - player1YDiff + handleYRotation);
+    	this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff - handleXRotation, this.mpModifier.y - player2YDiff - handleYRotation);
 
     	// Draws the yarn
     	this.drawBezierYarn();
@@ -123,8 +125,8 @@ YarnVisual.prototype.drawYarn = function(){
 	else if(this.state === 'slack'){ // If the yarn is in the inactive state
 
 		// Sets the bezier handles to the correct positions
-		this.player1BAnchor.position.setTo(this.mpModifier.x - playerXDiff, this.mpModifier.y - playerYDiff);
-    	this.player2BAnchor.position.setTo(this.mpModifier.x + playerXDiff, this.mpModifier.y + playerYDiff);
+		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff, this.mpModifier.y - player1YDiff);
+    	this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff, this.mpModifier.y - player2YDiff);
 
     	// Draws the yarn
 		this.drawBezierYarn();
@@ -184,7 +186,7 @@ YarnVisual.prototype.setYarnState = function(state, color){
 		this.yarnColor = this.neutralColor;
 		this.state = "slack";
 
-		this.resetMPModifier();
+		//this.resetMPModifier();
 		this.dropMPModifier();
 	}
 	else{
@@ -197,5 +199,5 @@ YarnVisual.prototype.tightenMPModifier = function(){
 	if(this.mpModifierTween != null){
 		this.mpModifierTween.stop();
 	}
-	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 0 }, 1500, Phaser.Easing.Elastic.Out, true, 0, 0, false);
+	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 0 }, 500, Phaser.Easing.Elastic.Out, true, 0, 0, false);
 }
