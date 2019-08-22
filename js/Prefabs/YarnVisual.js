@@ -16,21 +16,22 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.player1 = player1; // Obtain references to both players
 	this.player2 = player2;
 
+	// For debugging, allows to see the bezier handles
+	var key = null;
+	if(debugCollisionsObjects === true){
+		key = "__missing";
+	}
+
 	// Creates the point that the bezier handles point to (midPointModifier)
-	this.mpModifier = game.add.sprite(this.x, this.y, null);
+	this.mpModifier = game.add.sprite(this.x, this.y, key);
 	this.mpModifierYDrop = 0;
 	this.playerGravDir = 1;
 
 	// Adds in the bezier graphics for the yarn
 	// Adds in the bezier handles, respective of the players
-	this.player1BAnchor = game.add.sprite(0, 100, null);
-	this.player2BAnchor = game.add.sprite(100, 0, null);
-	// For debugging, allows to see the bezier handles
-	if(debugCollisionsObjects === true){
-		this.mpModifier.sprite = "debugNullSprite";
-		this.player1BAnchor.sprite = "debugNullSprite";
-		this.player2BAnchor.sprite = "debugNullSprite";
-	}
+	this.player1BAnchor = game.add.sprite(0, 100, key);
+	this.player2BAnchor = game.add.sprite(100, 0, key);
+
 	this.bezierGraphics = game.add.graphics(0, 0);
 	this.bezierGraphics.zOrder = layerYarn;
 	this.neutralColor = 0x8D58DD; // neutral color of the yarn is purple
@@ -84,8 +85,8 @@ YarnVisual.prototype.drawYarn = function(){
 
 	if(this.state === 'taut'){ // If the yarn is in its active state
 		// Obtains the differences between players and sets them to 35% of the way
-		var playerXDiff = (this.p2X - this.p1X) * .35;
-    	var playerYDiff = (this.p2Y - this.p1Y) * .35;
+		//var playerXDiff = (this.p2X - this.p1X) * .35;
+    	//var playerYDiff = (this.p2Y - this.p1Y) * .35;
 
     	// Finds the difference between the current length and the length that the yarn was created at
     	var slackLength = yp.tautLength - yp.playerDist;
