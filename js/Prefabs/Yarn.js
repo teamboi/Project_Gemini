@@ -25,7 +25,6 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active
-	this.wasYarnJustReleased = false;
 	this.tautLength = 0; // the max length players can be if the yarn is active
 	this.playerDist = 0; // The distance of the players
 	this.anchored = 0; // Create a variable that tracks the status of who is anchored; 0 = null, 1 = player1, 2 = player2
@@ -33,18 +32,8 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 	this.isTaut = false; // boolean for if the yarn is at its taut length // Currently unused
 	this.yarnAngle = 0; // Angle of the yarn relative to the anchorCat
 
-	// Adds in the bezier graphics for the yarn
-	// Adds in the bezier handles, respecive of the players
-	this.player1BAnchor = game.add.sprite(0, 100, null);
-	this.player2BAnchor = game.add.sprite(100, 0, null);
-	this.bezierGraphics = game.add.graphics(0, 0);
-	this.bezierGraphics.z = layerYarn;
-	this.neutralColor = 0x8D58DD; // neutral color of the yarn is purple
-
-	this.gameplay.group.add(this.bezierGraphics); // Adds in the yarn for layer sorting
-
 	// Creates a midpoint to the yarn so we can have nice curves
-	this.midPoint = new YarnMidPoint(game, gameplay, player1, player2);
+	this.yarnVisual = new YarnVisual(game, gameplay, this, player1, player2);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Yarn
@@ -55,33 +44,36 @@ Yarn.prototype.update = function(){
 	// Update the yarn every frame
 	this.updateYarn();
 
+	// Detect whether to create or destroy the yarn
 	if(this.anchored == 0){ // If no one is anchoring
 		// Check if player1 is anchoring
 		if( game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
+			// Then create the yarn and mark who is anchoring
 			this.createYarn(this.player1, this.player2);
 			this.anchored = 1;
 		}
 		// Check if player2 is anchoring
 		else if( game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
+			// Then create the yarn and mark who is anchoring
 			this.createYarn(this.player2, this.player1);
 			this.anchored = 2;
 		}
 	}
-	else if(this.anchored == 1){ // If player1 is anchoring
+	else if(this.anchored == 1){ // If player1 is currently anchoring
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
-			this.wasYarnJustReleased = true;
-			this.midPoint.changePlayerGravDir(this.player1);
+			// Then destroy the yarn
+			this.yarnVisual.changePlayerGravDir(this.player1);
 			this.removeYarn();
 			//this.player1.body.data.gravityScale = 1;
 			this.anchored = 0;
 		}
 	}
-	else if(this.anchored == 2){ // If player2 is anchoring
+	else if(this.anchored == 2){ // If player2 is currently anchoring
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
-			this.wasYarnJustReleased = true;
-			this.midPoint.changePlayerGravDir(this.player2);
+			// Then destroy the yarn
+			this.yarnVisual.changePlayerGravDir(this.player2);
 			this.removeYarn();
 			//this.player2.body.data.gravityScale = -1;
 			this.anchored = 0;
@@ -91,9 +83,11 @@ Yarn.prototype.update = function(){
 
 // Updates the yarn if it is active
 Yarn.prototype.updateYarn = function(){
+	var tautDeadband = 1; // the margin of error to check beyond the taut length
+	var velDeadband = 10; // the margin of error to check for the velocity differences
+
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
-		this.drawYarn("2", this.neutralColor, 'slack'); // Draw it as the inactive state
 		return;
 	}
 
@@ -107,16 +101,13 @@ Yarn.prototype.updateYarn = function(){
 		var otherCat = this.player1;
 	}
 
-	this.drawYarn("4", anchorCat.yarnColor, 'taut'); // Draw it in the active state
-
-	var tautDeadband = 1; // the margin of error to check beyond the taut length
-	var velDeadband = 10; // the margin of error to check for the velocity differences
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
 	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 	// Now we handle if the non-anchored (otherCat) cat is on a roof, thus becoming the anchor
 	// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 	if(this.isOnRoof == false && otherCat.checkIfOnRoof() && !anchorCat.checkIfCanJump()){
+		// Change otherCat to be anchoring upside down
 		this.modifyAnchor(otherCat,anchorCat);
 		otherCat.body.data.gravityScale *= -1;
 
@@ -124,8 +115,9 @@ Yarn.prototype.updateYarn = function(){
 
 		this.isOnRoof = true;
 	}
-	// else if the otherCat was previously on the roof and if the otherCat is no longer on the roof or if the anchorCat is on the ground
+	// else if the otherCat was previously marked as on the roof and if the otherCat is no longer on the roof or if the anchorCat is on the ground
 	else if( this.isOnRoof == true && ( !otherCat.checkIfOnRoof() || anchorCat.checkIfCanJump() ) ){
+		// Change it so anchorCat is anchoring back, reversing the previous conditions
 		this.modifyAnchor(anchorCat,otherCat);
 		otherCat.body.data.gravityScale *= -1;
 
@@ -146,16 +138,18 @@ Yarn.prototype.updateYarn = function(){
 		}
 	}
 
+	// Handle the yarn mechanic
 	if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 		this.isTaut = true;
 		if(constraint == null){ // if the constraint doesn't exist already, create a constraint
-			constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [0.5,0.5], [0.5,0.5]);
+			constraint = game.physics.p2.createDistanceConstraint(this.player1.body, this.player2.body, this.tautLength, [this.player1.yarnAnchorScaleX,this.player1.yarnAnchorScaleY], [this.player2.yarnAnchorScaleX,this.player2.yarnAnchorScaleY]);
 			//constraint = game.physics.p2.createSpring(this.player1.body, this.player2.body, this.tautLength, 100, 0);
 		}
 	}
 	else{ // If the player distance is less than or equal to the taut length
 		var anchorVel = Phaser.Math.distanceSq(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
 		var otherVel = Phaser.Math.distanceSq(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
+		// Conditions for destroying the constraint
 		// If the non anchored cat can jump
 		// If the non anchored cat is falling upwards
 		// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
@@ -171,7 +165,7 @@ Yarn.prototype.updateYarn = function(){
 }
 
 // Creates the constraint between the players
-Yarn.prototype.createYarn = function(anchorCat,otherCat){ // First cat will be the anchor
+Yarn.prototype.createYarn = function(anchorCat,otherCat){ // anchorCat will be the anchor
 	this.isYarn = true; // yarn is active
 
 	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains distance between players
@@ -179,81 +173,8 @@ Yarn.prototype.createYarn = function(anchorCat,otherCat){ // First cat will be t
 
 	this.modifyAnchor(anchorCat,otherCat); // Tells cats which one is anchoring
 	this.surrogate.activateSurrogate(anchorCat.whichPlayer); // activates the surrogate with reference to which cat is anchorCat
-}
 
-// Draws the yarn
-Yarn.prototype.drawBezierYarn = function(width, color){
-	this.bezierGraphics.clear(); // Clears graphics so we don't see the previous versions of the yarn
-	this.bezierGraphics.lineStyle(width, color, 1); // Sets the style of the line
-	this.bezierGraphics.moveTo(this.player1.x,this.player1.y); // Sets initial position to player1
-	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.player2.x, this.player2.y); // Draws the bezier curve to the other player
-}
-
-// Draws the yarn as a bezier curve
-Yarn.prototype.drawYarn = function(width, color, anchored){
-	if(anchored === 'taut'){ // If the yarn is in its active state
-		// Obtains the differences between players and sets them to 35% of the way
-		var playerXDiff = (this.player2.body.x - this.player1.body.x)*.35;
-    	var playerYDiff = (this.player2.body.y - this.player1.body.y)*.35;
-
-    	// Finds the difference between the current length and the length that the yarn was created at
-    	var slackLength = this.tautLength - this.playerDist;
-
-    	// Creates a linear function to determine how much to offset the bezier handles
-    	var tautThreshold = 5;
-    	var slackThreshold = .45*this.tautLength;
-    	var slackMaxValue = 75;
-
-    	// As the slackLength increases, the bezier Handles start moving more to the side
-    	if(slackLength < tautThreshold){
-    		var handleOffsetMult = 0
-    	}
-    	else if(slackLength < slackThreshold){
-    		var handleOffsetMult = 0 + ( ( (slackMaxValue) / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
-    	}
-    	else{
-    		var handleOffsetMult = slackMaxValue;
-    	}
-
-    	// Rotates the bezier handle offsets relative to the string
-    	var handleXOffset = Math.sin(this.yarnAngle)*handleOffsetMult;
-    	var handleYOffset = Math.cos(this.yarnAngle)*handleOffsetMult;
-
-    	// Sets the bezier handles to the modifiers of everything
-    	this.player1BAnchor.position.setTo(this.player1.x+playerXDiff+handleXOffset, this.player1.y+playerYDiff+handleYOffset);
-    	this.player2BAnchor.position.setTo(this.player2.x-playerXDiff-handleXOffset, this.player2.y-playerYDiff-handleYOffset);
-
-    	// Draws the yarn
-    	this.drawBezierYarn(width, color);
-	}
-	else if(anchored === 'slack'){ // If the yarn is in the inactive state
-		if(this.wasYarnJustReleased === true){ // If the yarn was just released
-			this.wasYarnJustReleased = false;
-
-			this.midPoint.midAnchor.x = this.midPoint.x; // Tells the anchor to go back to the midPoint
-			this.midPoint.midAnchor.y = this.midPoint.y;
-
-			this.midPoint.tweenMidPoint(); // Tells the anchor to drop
-		}
-		// Obtains the distance of each player to the midpoint's anchor
-		var player1XDist = this.midPoint.midAnchor.x - this.player1.x;
-		var player1YDist = this.midPoint.midAnchor.y - this.player1.y;
-		var player2XDist = this.midPoint.midAnchor.x - this.player2.x;
-		var player2YDist = this.midPoint.midAnchor.y - this.player2.y;
-
-		// By how far back to scale the bezier handles
-		var margin = .2;
-
-		// Sets the bezier handles to the correct positions
-		this.player1BAnchor.position.setTo(this.midPoint.midAnchor.x - player1XDist*margin, this.midPoint.midAnchor.y - player1YDist*margin);
-    	this.player2BAnchor.position.setTo(this.midPoint.midAnchor.x - player2XDist*margin, this.midPoint.midAnchor.y - player2YDist*margin);
-
-    	// Draws the yarn
-		this.drawBezierYarn(width, color);
-	}
-	else{
-		console.log(anchored + " is not a valid state. taut or slack"); // In case I make a typo
-	}
+	this.yarnVisual.setYarnState("taut", anchorCat.yarnColor);
 }
 
 // Modify the anchorState of each cat appropriately
@@ -267,9 +188,9 @@ Yarn.prototype.removeYarn = function(){
 	this.isYarn = false; // yarn is inactive
 	this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
-	this.tautLength = 0; // Resets the visual for the yarn
+	this.tautLength = 0; // Resets the taut length for the yarn
 
-	//If constraint does exist, remove it
+	// If constraint does exist, remove it
 	if(constraint != null){
 		game.physics.p2.removeConstraint(constraint);
 		//game.physics.p2.removeSpring(constraint);
@@ -286,4 +207,6 @@ Yarn.prototype.removeYarn = function(){
 
 	// Tells the surrogate to stop
 	this.surrogate.deactivateSurrogate();
+
+	this.yarnVisual.setYarnState("slack");
 }
