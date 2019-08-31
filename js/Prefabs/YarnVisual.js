@@ -16,6 +16,7 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.player1 = player1; // Obtain references to both players
 	this.player2 = player2;
 
+	// https://samme.github.io/phaser-examples-mirror/tweens/custom%20ease.html
 	game.tweens.easeMap['Custom.elasticOut'] = function (k) {
         var s,
         a = 1,
@@ -33,7 +34,10 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	// Creates the point that the bezier handles point to (midPointModifier)
 	this.mpModifier = game.add.sprite(this.x, this.y, key);
 	this.mpModifierAngle = 0;
-	this.mpModifierYDrop = 0;
+	this.justTightened = false; // Variable used to store if the yarn was just tightened; used in mpModifierAngle
+	this.mpModifierAngleDir = 0; // Variable used to track where mpModifierAngle should point
+	this.mpModifierAngleScalar = 0; // Variable used to control the influence of mpModifierAngle
+	this.mpModifierDrop = 0;
 	this.playerGravDir = 1;
 
 	// Adds in the bezier graphics for the yarn
@@ -67,10 +71,22 @@ YarnVisual.prototype.update = function(){
 	// Determines by how much to scale the mpModifier drop height based on player distance
 	this.playerDistYMult = Phaser.Math.distance(this.p1X, this.p1Y, this.p2X, this.p2Y) / 400;
 
-	this.mpModifierAngle = 
+	// How much to offset the mpModifier;
+	// mpModifier will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped
+	var mpModifierDistVar = 125 * this.playerDistYMult * this.playerGravDir * this.mpModifierDrop;
 
-	this.mpModifier.x = this.x + (125 * Math.sin(this.mpModifierAngle)); // mpModifier matches the midpoint's x with an additional rotation parameter
-	this.mpModifier.y = this.y + (125 * this.mpModifierYDrop * this.playerGravDir * this.playerDistYMult * Math.cos(this.mpModifierAngle)); // mpModifier will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped and how much the mpModifierAngle has rotated
+	if(this.justTightened === true){
+		this.mpModifierAngle = yp.yarnAngle + (Math.PI / 2 * this.mpModifierAngleDir);
+
+		var outputtedAngle = (this.mpModifierAngle - (1.5 * Math.PI * this.playerGravDir)) * this.mpModifierAngleScalar + (1.5 * Math.PI);
+
+		this.mpModifier.x = this.x + Math.cos(outputtedAngle) * mpModifierDistVar;
+		this.mpModifier.y = this.y + Math.sin(outputtedAngle) * mpModifierDistVar;
+	}
+	else{
+		this.mpModifier.x = this.x; // mpModifier matches the midpoint's x
+		this.mpModifier.y = this.y + mpModifierDistVar;
+	}
 
 	this.drawYarn();
 }
@@ -165,12 +181,21 @@ YarnVisual.prototype.changePlayerGravDir = function(lastAnchored){
 	this.playerGravDir = lastAnchored.body.data.gravityScale;
 }
 
+YarnVisual.prototype.disableMPModifierAngle = function(){
+	this.justTightened = false;
+}
+
 // Causes the mpModifier to drop
 YarnVisual.prototype.dropMPModifier = function(){
+	if(this.mpModifierAngleTween != null){
+		this.mpModifierAngleTween.stop();
+	}
+	this.disableMPModifierAngle();
+
 	if(this.mpModifierTween != null){
 		this.mpModifierTween.stop();
 	}
-	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+	this.mpModifierTween = game.add.tween(this).to( { mpModifierDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
 }
 
 // Sets appropriate variables for the state of the yarn
@@ -200,8 +225,30 @@ YarnVisual.prototype.setYarnState = function(state, color){
 
 // Causes the mpModifier to tighten back to the midPoint
 YarnVisual.prototype.tightenMPModifier = function(){
+	var yp = this.yarnParent;
+
 	if(this.mpModifierTween != null){
 		this.mpModifierTween.stop();
 	}
-	this.mpModifierTween = game.add.tween(this).to( { mpModifierYDrop: 0 }, 500, "Custom.elasticOut", true, 0, 0, false);
+	this.mpModifierTween = game.add.tween(this).to( { mpModifierDrop: 0 }, 500, "Custom.elasticOut", true, 0, 0, false);
+
+	// Introduces an X component to the tween so it can be seen when the yarn is vertical
+	this.justTightened = true;
+
+	if(yp.player1.x < yp.player2.x){
+		this.mpModifierAngleDir = 1;
+	}
+	else{
+		this.mpModifierAngleDir = -1;
+	}
+	this.mpModifierAngleDir = this.mpModifierAngleDir * this.playerGravDir;
+
+	if(this.mpModifierAngleTween != null){
+		this.mpModifierAngleTween.stop();
+	}
+
+	this.mpModifierAngleScalar = 0;
+	this.mpModifierAngleTween = game.add.tween(this).to( { mpModifierAngleScalar: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
+
+	this.mpModifierTween.onComplete.add(this.disableMPModifierAngle, this);
 }
