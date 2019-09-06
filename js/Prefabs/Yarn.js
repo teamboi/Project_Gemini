@@ -90,7 +90,6 @@ Yarn.prototype.updateYarn = function(){
 	if(this.isYarn != true){
 		return;
 	}
-
 	// Obtains correct references to both cats
 	if(this.anchored == 1){
 		var anchorCat = this.player1;

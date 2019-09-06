@@ -71,7 +71,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.catSprite.scale.y *= -1 // Flips the FSM upside down
 
-		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
+		this.controls = ['LEFT','RIGHT','DOWN','UP'];
 		this.jumpDirection = 'down'; // Direction that jump will push the player towards
 
 		this.yarnColor = 0x799FCE; // Sets yarn color to a blue
@@ -115,15 +115,13 @@ Player.prototype.update = function(){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.faceLeft();
-			this.move(this.facing, this.xVelocity);
+			this.move(this.facing);
 			this.fsmIsMoving = true;
-			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.faceRight();
-	    	this.move(this.facing, this.xVelocity);
+	    	this.move(this.facing);
 	    	this.fsmIsMoving = true;
-	    	//this.body.moveRight(this.xVelocity);
 	    }
 	    else{
 	    	this.fsmIsMoving = false;
@@ -173,20 +171,55 @@ Player.prototype.update = function(){
 }
 
 // Moves the player left or right
-Player.prototype.move = function(direction, velocity){
-	var moveDist = velocity;
-	if(direction == "left"){ // Modifies the distance moved appropriately based on direction
+Player.prototype.move = function(direction){
+	var moveDist = this.xVelocity;
+	var yarn = this.gameplay.yarn;
+
+	if(direction === "left"){ // Modifies the distance moved appropriately based on direction
 		moveDist *= -1;
 	}
-	if(this.anchorState == "beingAnchored"){ // If the player is being anchored
+	if(this.anchorState === "beingAnchored"){ // If the player is being anchored
+		var applyForce = true;
+
 		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
-			moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); // Scales how much the player can move based on the angle of the yarn
+			var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
+			var force = 1;
+
+			// If the player is moving in the same direction as the desired direction
+			// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
+			// If the yarn is taut
+			var velocityTF = false;
+			var verticalAngleTF = false;
+			var tautTF = false;
+			if(Math.sign(moveDist) === Math.sign(relativeVel)){
+				velocityTF = true;
+			}
+			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09){
+				verticalAngleTF = true;
+			}
+			if(yarn.isTaut === true){
+				tautTF = true;
+			}
+			//console.log(velocityTF + " " + verticalAngleTF + " " + tautTF);
+			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
+				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 ); // Math.abs(Math.sin(yarn.yarnAngle)) // ( -1 / ( Math.abs(Math.cos(yarn.yarnAngle * this.body.data.gravityScale)) - 1 ) )
+				console.log("force " + force);
+				console.log("yarnAngle " + this.gameplay.yarn.yarnAngle);
+				moveDist *= force; // Scales how much the player can move based on the angle of the yarn
+				if(force < .5){
+					applyForce = false;
+				}
+			}
 		}
-		this.body.moveRight(moveDist); // Moves the player
+		// If we want to apply the force, move it
+		if(applyForce === true){
+			this.body.moveRight(moveDist); // Moves the player
+		}	
 	}
 	else{ // else just move the player normally
 		this.body.moveRight(moveDist);
 	}
+	//console.log(moveDist);
 }
 
 // Makes the player face left
@@ -195,6 +228,7 @@ Player.prototype.faceLeft = function(){
 		this.facing = "left";
 		//this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
 		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+		
 		if(this.yarnAnchorTween != null){
 			this.yarnAnchorTween.stop();
 		}
