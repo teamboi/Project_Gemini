@@ -33,6 +33,14 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
+	this.facing = "left"; // where the cat is facing
+
+	this.yarnAnchorScaleX = .14; // Constants for where the yarn anchor point should be held
+	this.yarnAnchorScaleY = .41;
+	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width; // Calculate how many pixels to offset
+	this.yarnAnchorOffsetY = this.yarnAnchorScaleY*this.height;
+	this.yarnAnchorOffsetXInit = this.yarnAnchorOffsetX; // Storing initial value for tweening use
+
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
 	this.fsmIsMoving = false; // variable for FSM to check if it is moving
@@ -49,7 +57,9 @@ function Player(game, gameplay, x, y, whichPlayer){
 	if(whichPlayer == 1){
 		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
+
 		this.yarnColor = 0xE4784E; // Sets yarn color to an orange
+
 		this.meow1 = game.add.audio('short_meow1'); // Adds in meow sfx
 		//this.meow2 = game.add.audio('long_meow1');
 
@@ -59,10 +69,13 @@ function Player(game, gameplay, x, y, whichPlayer){
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
-		this.catSprite.scale.y = -1*this.catSprite.scale.y; // Flips the FSM upside down
+		this.catSprite.scale.y *= -1 // Flips the FSM upside down
+
 		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
 		this.jumpDirection = 'down'; // Direction that jump will push the player towards
+
 		this.yarnColor = 0x799FCE; // Sets yarn color to a blue
+
 		this.meow1 = game.add.audio('short_meow2'); // Adds in meow sfx
 		//this.meow2 = game.add.audio('long_meow2');
 
@@ -101,15 +114,15 @@ Player.prototype.update = function(){
 	if(this.anchorState != "isAnchor"){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.move("left", this.xVelocity);
+			this.faceLeft();
+			this.move(this.facing, this.xVelocity);
 			this.fsmIsMoving = true;
-			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
 			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.move("right", this.xVelocity);
+	    	this.faceRight();
+	    	this.move(this.facing, this.xVelocity);
 	    	this.fsmIsMoving = true;
-	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
 	    	//this.body.moveRight(this.xVelocity);
 	    }
 	    else{
@@ -142,14 +155,17 @@ Player.prototype.update = function(){
 	else{
 		this.puppetSurrogate();
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
+		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.fsmIsMoving = true;
-			this.catSprite.scale.x = Math.abs(this.catSprite.scale.x);
+			this.faceLeft();
 	    }
+	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
-	    	this.catSprite.scale.x = -1*Math.abs(this.catSprite.scale.x);
+	    	this.faceRight();
 	    }
+	    // If the player isn't moving
 	    else{
 	    	this.fsmIsMoving = false;
 	    }
@@ -173,9 +189,38 @@ Player.prototype.move = function(direction, velocity){
 	}
 }
 
+// Makes the player face left
+Player.prototype.faceLeft = function(){
+	if(this.facing === "right"){
+		this.facing = "left";
+		//this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
+		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+		if(this.yarnAnchorTween != null){
+			this.yarnAnchorTween.stop();
+		}
+		this.yarnAnchorOffsetX = -1*this.yarnAnchorOffsetXInit;
+		this.yarnAnchorTween = game.add.tween(this).to( { yarnAnchorOffsetX: -1*this.yarnAnchorOffsetX }, 150, Phaser.Easing.Linear.In, true, 0, 0, false);
+	}
+}
+
+// Makes the player face right
+Player.prototype.faceRight = function(){
+	if(this.facing === "left"){
+		this.facing = "right";
+		//this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
+		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+
+		if(this.yarnAnchorTween != null){
+			this.yarnAnchorTween.stop();
+		}
+		this.yarnAnchorOffsetX = this.yarnAnchorOffsetXInit;
+		this.yarnAnchorTween = game.add.tween(this).to( { yarnAnchorOffsetX: -1*this.yarnAnchorOffsetX }, 150, Phaser.Easing.Linear.In, true, 0, 0, false);
+	}
+}
+
 // Checks if the ground is under the player
 // Can be reversed if checking for roof
-// Taken from https://phaser.io/examples/v2/p2-physics/platformer-material
+// Modified from https://phaser.io/examples/v2/p2-physics/platformer-material
 Player.prototype.checkVertCollision = function(){
 	var yAxis = p2.vec2.fromValues(0, 1);
 	

@@ -18,11 +18,11 @@ var layerMovePlatform = 11;
 var layerDrapes = 12;
 var layerBarrier = 25;
 var layerYarnBall = 50;
-var layerYarn = 90;
-var layerPlayer = 100;
+var layerYarn = 100;
+var layerPlayer = 90;
 
 // variables for debugging
-var debugLevel = null; // replace with the name of the level to switch to; default to null
+var debugLevel = "Threads"; // replace with the name of the level to switch to; default to null
 var debugCollisionsObjects = false; // true or false; enable collisions with objects
 var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
 
