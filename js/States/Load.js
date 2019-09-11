@@ -66,9 +66,9 @@ Load.prototype = {
         game.load.image('bluePlat', 'img/objects/120 blue ledge 1.png');
         game.load.image('backgroundInside', 'img/bg/background.png');
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
-        game.load.image('Cats', 'img/bg/new_Cats.png');
-        game.load.image('Cradle', 'img/bg/new_Cradle.png');
-        game.load.image('Threads', 'img/bg/new_Threads.png');
+        game.load.image('Cats', 'img/bg/newer_Cats.png');
+        game.load.image('Cradle', 'img/bg/newer_Cradle.png');
+        game.load.image('Threads', 'img/bg/newThreads.png');
 		game.load.image('Houses', 'img/bg/new_Houses.png');
 		game.load.image('Windows', 'img/bg/new_Windows.png');
 		game.load.image('Fences', 'img/bg/newest_Fences.png');
@@ -91,7 +91,8 @@ Load.prototype = {
 
 		// load in tilemaps
         game.load.tilemap('levelOne','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelTwo','tilemaps/Cradle.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelTwo','tilemaps/Cradle2.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelTwoPointFive','tilemaps/String.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelThree','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelFour','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tilemap('levelFive','tilemaps/Fences.json', null, Phaser.Tilemap.TILED_JSON);

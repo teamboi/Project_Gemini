@@ -17,7 +17,7 @@ Threads.prototype = {
 	create: function(){
         var nextLevel = "Separate";
         var ostFadeOut = true;
-        var tilemap = "levelOne";
+        var tilemap = "levelTwoPointFive";
         var backgroundImage = "Threads";
         var dialogNum = 3;
         var howManyGlows = 1;
