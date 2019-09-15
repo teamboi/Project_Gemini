@@ -30,6 +30,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	// Define player constants
 	this.xVelocity = 200; // Velocity for left and right movement
+	this.swingVelocity = 400;
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
@@ -182,6 +183,7 @@ Player.prototype.move = function(direction){
 		var applyForce = true;
 
 		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
+			moveDist = Math.sign(moveDist)*this.swingVelocity;
 			var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
 			var force = 1;
 
@@ -203,8 +205,8 @@ Player.prototype.move = function(direction){
 			//console.log(velocityTF + " " + verticalAngleTF + " " + tautTF);
 			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
 				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 ); // Math.abs(Math.sin(yarn.yarnAngle)) // ( -1 / ( Math.abs(Math.cos(yarn.yarnAngle * this.body.data.gravityScale)) - 1 ) )
-				console.log("force " + force);
-				console.log("yarnAngle " + this.gameplay.yarn.yarnAngle);
+				//console.log("force " + force);
+				//console.log("yarnAngle " + this.gameplay.yarn.yarnAngle);
 				moveDist *= force; // Scales how much the player can move based on the angle of the yarn
 				if(force < .5){
 					applyForce = false;
@@ -213,7 +215,8 @@ Player.prototype.move = function(direction){
 		}
 		// If we want to apply the force, move it
 		if(applyForce === true){
-			this.body.moveRight(moveDist); // Moves the player
+			//this.body.moveRight(moveDist); // Moves the player
+			this.body.force.x += moveDist;
 		}	
 	}
 	else{ // else just move the player normally
