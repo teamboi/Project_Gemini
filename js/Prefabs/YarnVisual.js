@@ -18,14 +18,14 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 
 	// https://samme.github.io/phaser-examples-mirror/tweens/custom%20ease.html
 	game.tweens.easeMap['Custom.elasticOut'] = function (k) {
-        var s,
-        a = 1,
-        p = 0.1;
-        if (k === 0) { return 0; }
-        if (k === 1) { return 1; }
-        s = p / 4;
-        return (a * Math.pow(2, - 10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
-    };
+		var s,
+		a = 1,
+		p = 0.1;
+		if (k === 0) { return 0; }
+		if (k === 1) { return 1; }
+		s = p / 4;
+		return (a * Math.pow(2, - 10 * k) * Math.sin((k - s) * (2 * Math.PI) / p) + 1);
+	};
 
 	// For debugging, allows to see the bezier handles
 	var key = null;
@@ -114,44 +114,44 @@ YarnVisual.prototype.drawYarn = function(){
 	var player2YDiff = (this.mpModifier.y - this.p2Y) * margin;
 
 	if(this.state === 'taut'){ // If the yarn is in its active state
-    	// Finds the difference between the current length and the length that the yarn was created at
-    	var slackLength = yp.tautLength - yp.playerDist;
+		// Finds the difference between the current length and the length that the yarn was created at
+		var slackLength = yp.tautLength - yp.playerDist;
 
-    	// Creates a linear function to determine how much to offset the bezier handles
-    	// Variables for this linear function
-    	var tautThreshold = 5;
-    	var slackThreshold = .45 * yp.tautLength;
-    	var slackMaxValue = 75;
+		// Creates a linear function to determine how much to offset the bezier handles
+		// Variables for this linear function
+		var tautThreshold = 5;
+		var slackThreshold = .45 * yp.tautLength;
+		var slackMaxValue = 75;
 
-    	// As the slackLength increases, the bezier Handles start moving more to the side
-    	// Constructs a linear function slackLength as input and handleOffsetMult as output
-    	if(slackLength < tautThreshold){
-    		var handleOffsetMult = 0
-    	}
-    	else if(slackLength < slackThreshold){
-    		var handleOffsetMult = 0 + ( ( slackMaxValue / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
-    	}
-    	else{
-    		var handleOffsetMult = slackMaxValue;
-    	}
+		// As the slackLength increases, the bezier Handles start moving more to the side
+		// Constructs a linear function slackLength as input and handleOffsetMult as output
+		if(slackLength < tautThreshold){
+			var handleOffsetMult = 0
+		}
+		else if(slackLength < slackThreshold){
+			var handleOffsetMult = 0 + ( ( slackMaxValue / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
+		}
+		else{
+			var handleOffsetMult = slackMaxValue;
+		}
 
-    	// Rotates the bezier handle offsets relative to the string
-    	var handleXRotation = Math.sin(yp.yarnAngle) * handleOffsetMult;
-    	var handleYRotation = Math.cos(yp.yarnAngle) * handleOffsetMult;
+		// Rotates the bezier handle offsets relative to the string
+		var handleXRotation = Math.sin(yp.yarnAngle) * handleOffsetMult;
+		var handleYRotation = Math.cos(yp.yarnAngle) * handleOffsetMult;
 
-    	// Sets the bezier handles to the modifiers of everything
-    	this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff + handleXRotation, this.mpModifier.y - player1YDiff + handleYRotation);
-    	this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff - handleXRotation, this.mpModifier.y - player2YDiff - handleYRotation);
+		// Sets the bezier handles to the modifiers of everything
+		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff + handleXRotation, this.mpModifier.y - player1YDiff + handleYRotation);
+		this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff - handleXRotation, this.mpModifier.y - player2YDiff - handleYRotation);
 
-    	// Draws the yarn
-    	this.drawBezierYarn();
+		// Draws the yarn
+		this.drawBezierYarn();
 	}
 	else if(this.state === 'slack'){ // If the yarn is in the inactive state
 		// Sets the bezier handles to the correct positions
 		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff, this.mpModifier.y - player1YDiff);
-    	this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff, this.mpModifier.y - player2YDiff);
+		this.player2BAnchor.position.setTo(this.mpModifier.x - player2XDiff, this.mpModifier.y - player2YDiff);
 
-    	// Draws the yarn
+		// Draws the yarn
 		this.drawBezierYarn();
 	}
 	else{
