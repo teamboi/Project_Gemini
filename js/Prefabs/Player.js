@@ -101,6 +101,9 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
+	// Reset FSM variables to be updated for the new frame
+	this.resetFsmVars();
+
 	// Moves the FSM to the same position as the player
 	if(this.catSprite){
 		this.catSprite.x = this.body.x;
@@ -125,9 +128,6 @@ Player.prototype.update = function(){
 	    	this.fsmIsMoving = true;
 	    	//this.body.moveRight(this.xVelocity);
 	    }
-	    else{
-	    	this.fsmIsMoving = false;
-	    }
 
 	    // Check for jumping
 	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump() ){
@@ -144,11 +144,14 @@ Player.prototype.update = function(){
 	    	// Makes the player jump in the appropriate direction
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
-
 			}
 			else{
 				this.body.moveDown(this.jumpVelocity);
 			}
+
+			// Tells the FSM that the player is jumping
+			// Reset in this.resetFsmVars(), so it acts as an "impulse"
+			this.fsmIsJump = true;
 	    }
 	}
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
@@ -164,10 +167,6 @@ Player.prototype.update = function(){
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
 	    	this.faceRight();
-	    }
-	    // If the player isn't moving
-	    else{
-	    	this.fsmIsMoving = false;
 	    }
 	}
 }
@@ -315,4 +314,10 @@ Player.prototype.puppetSurrogate = function(){
 	this.body.y = surrogate.body.y;
 	this.body.velocity.x = surrogate.body.velocity.x;
 	this.body.velocity.y = surrogate.body.velocity.y;
+}
+
+// Resets associated variables used to control the finite state machine
+Player.prototype.resetFsmVars = function(){
+	this.fsmIsJump = false;
+	this.fsmIsMoving = false;
 }
