@@ -91,15 +91,19 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player begins to fall when walking
 	this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -15);
+		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.player.fsmIsJump === false); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -15
+	});
+	// If the player is pulled up by the anchorCat when idling
+	this.fsm.transition('idle_to_fall', 'idle', 'fall', function(){
+		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.player.fsmIsJump === false);
 	});
 	// If the player jumps when idle
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
-		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.player.controls[2]]) && self.player.checkIfCanJump() );
+		return ( self.player.fsmIsJump === true );
 	});
 	// If the player jumps when walking
 	this.fsm.transition('walk_to_jump', 'walk', 'jump', function(){
-		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.player.controls[2]]) && self.player.checkIfCanJump() );
+		return ( self.player.fsmIsJump === true );
 	});
 	// If the player reaches the peak of their jump when jumping
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
@@ -119,7 +123,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player jumps before the end of the land animation
 	this.fsm.transition('land_to_jump', 'land', 'jump', function(){
-		return ( game.input.keyboard.justPressed(Phaser.KeyCode[self.player.controls[2]]) && self.player.checkIfCanJump() ); //self.animations.loopCount > 0
+		return ( self.player.fsmIsJump === true ); //self.animations.loopCount > 0
 	});
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
