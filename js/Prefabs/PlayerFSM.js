@@ -27,6 +27,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.isJumping = false; // var for if the player just jumped
 
 	// Add in the animations
+	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,9,'',2),30, true);
 	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,19,'',2),30, true);
 	this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,9,'',2),30, true);
