@@ -8,15 +8,18 @@
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	if(whichPlayer === 1){
 		var key = "cat1";
+		var scale = 1;
 	}
 	else{
 		var key = "cat2";
+		var scale = 0.14;
+		// temporary fix until more animations are added
 	}
 
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
 	this.zOrder = layerPlayer; // sets z order for layer sorting
-	this.scale.setTo(0.14, 0.14); // Scales the sprite
+	this.scale.setTo(scale, scale); // Scales the sprite
 	this.anchor.setTo(0.45,0.6); // Sets the anchor so the FSM isn't offset on the player
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
