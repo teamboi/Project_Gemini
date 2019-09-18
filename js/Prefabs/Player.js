@@ -101,9 +101,6 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.update = function(){
-	// Reset FSM variables to be updated for the new frame
-	this.resetFsmVars();
-
 	// Moves the FSM to the same position as the player
 	if(this.catSprite){
 		this.catSprite.x = this.body.x;
@@ -120,13 +117,14 @@ Player.prototype.update = function(){
 			this.faceLeft();
 			this.move(this.facing, this.xVelocity);
 			this.fsmIsMoving = true;
-			//this.body.moveLeft(this.xVelocity);
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.faceRight();
 	    	this.move(this.facing, this.xVelocity);
 	    	this.fsmIsMoving = true;
-	    	//this.body.moveRight(this.xVelocity);
+	    }
+	    else{
+	    	this.fsmIsMoving = false;
 	    }
 
 	    // Check for jumping
@@ -136,10 +134,6 @@ Player.prototype.update = function(){
 	    		if(typeof this.meow1 !== 'undefined') {
 	    			this.meow1.play('', 0, 1, false);
 	    		}
-	    		/*}
-	    		else {
-	    			this.meow2.play('', 0, 1, false);
-	    		}*/
 	    	}
 	    	// Makes the player jump in the appropriate direction
 	    	if(this.whichPlayer == 1){
@@ -148,7 +142,6 @@ Player.prototype.update = function(){
 			else{
 				this.body.moveDown(this.jumpVelocity);
 			}
-
 			// Tells the FSM that the player is jumping
 			// Reset in this.resetFsmVars(), so it acts as an "impulse"
 			this.fsmIsJump = true;
@@ -167,6 +160,9 @@ Player.prototype.update = function(){
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.fsmIsMoving = true;
 	    	this.faceRight();
+	    }
+	    else{
+	    	this.fsmIsMoving = false;
 	    }
 	}
 }
@@ -314,10 +310,4 @@ Player.prototype.puppetSurrogate = function(){
 	this.body.y = surrogate.body.y;
 	this.body.velocity.x = surrogate.body.velocity.x;
 	this.body.velocity.y = surrogate.body.velocity.y;
-}
-
-// Resets associated variables used to control the finite state machine
-Player.prototype.resetFsmVars = function(){
-	this.fsmIsJump = false;
-	this.fsmIsMoving = false;
 }

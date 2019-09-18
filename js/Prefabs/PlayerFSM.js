@@ -20,22 +20,20 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.anchor.setTo(0.45,0.6); // Sets the anchor so the FSM isn't offset on the player
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
-	this.player = player; // Obtain reference to gameplay state
+	this.player = player; // Obtain reference to player object
 	this.gameplay.group.add(this); // Adds self to the gameplay group for layer sorting
 
 	// Add in the animations
 	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,9,'',2),30, true);
 	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,19,'',2),30, true);
 	this.animations.add('jump', Phaser.Animation.generateFrameNames('PG Cat 5-Jump-',0,9,'',2),30, true);
-	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
-	//var jumpToFallArr = Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2);
-	// Index of the end of the jumpToFall animation
-	this.jumpToFallEnd = 46; //jumpToFallArr[jumpToFallArr.length-1];
-	this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
-	//var landArr = Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2);
-	// Index of the end of the land animation
-	this.landEnd = 51; //landArr[landArr.length-1];
 	this.animations.add('walk', Phaser.Animation.generateFrameNames('PG Cat 5-Walk-',0,19,'',2),30, true);
+
+	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
+	this.jumpToFallEnd = 46; // Index of the end of the jumpToFall animation
+	
+	this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
+	this.landEnd = 51; // Index of the end of the land animation
 
 	// Creates a new FSM
 	this.fsm = new StateMachine(this, {debug: true});
@@ -99,11 +97,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player jumps when idle
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
-		return ( self.player.fsmIsJump === true );
+		return ( self.checkIfJumping() );
 	});
 	// If the player jumps when walking
 	this.fsm.transition('walk_to_jump', 'walk', 'jump', function(){
-		return ( self.player.fsmIsJump === true );
+		return ( self.checkIfJumping() );
 	});
 	// If the player reaches the peak of their jump when jumping
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
@@ -123,7 +121,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player jumps before the end of the land animation
 	this.fsm.transition('land_to_jump', 'land', 'jump', function(){
-		return ( self.player.fsmIsJump === true ); //self.animations.loopCount > 0
+		return ( self.checkIfJumping() ); //self.animations.loopCount > 0
 	});
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
@@ -144,4 +142,12 @@ PlayerFSM.prototype.constructor = PlayerFSM;
 // Updates the FSM
 PlayerFSM.prototype.update = function(){
 	this.fsm.update();
+}
+
+PlayerFSM.prototype.checkIfJumping = function(){
+	if(this.player.fsmIsJump === true){
+		this.player.fsmIsJump = false;
+		return true;
+	}
+	return false;
 }
