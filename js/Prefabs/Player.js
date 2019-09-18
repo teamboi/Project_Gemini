@@ -43,9 +43,6 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
-	this.fsmIsMoving = false; // variable for FSM to check if it is moving
-	this.fsmIsJump = false; // variable for FSM to check if it is jumping
-
 	// Create references to the gameplay's collision groups
 	var playerCG = this.gameplay.playerCollisionGroup;
 	var platformCG = this.gameplay.platformCollisionGroup;
@@ -116,15 +113,15 @@ Player.prototype.update = function(){
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.faceLeft();
 			this.move(this.facing, this.xVelocity);
-			this.fsmIsMoving = true;
+			this.catSprite.isMoving = true;
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.faceRight();
 	    	this.move(this.facing, this.xVelocity);
-	    	this.fsmIsMoving = true;
+	    	this.catSprite.isMoving = true;
 	    }
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 
 	    // Check for jumping
@@ -144,7 +141,7 @@ Player.prototype.update = function(){
 			}
 			// Tells the FSM that the player is jumping
 			// Reset in this.resetFsmVars(), so it acts as an "impulse"
-			this.fsmIsJump = true;
+			this.catSprite.isJumping = true;
 	    }
 	}
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
@@ -153,16 +150,16 @@ Player.prototype.update = function(){
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
 		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.fsmIsMoving = true;
+			this.catSprite.isMoving = true;
 			this.faceLeft();
 	    }
 	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.fsmIsMoving = true;
+	    	this.catSprite.isMoving = true;
 	    	this.faceRight();
 	    }
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 	}
 }

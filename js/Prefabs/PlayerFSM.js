@@ -23,6 +23,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.player = player; // Obtain reference to player object
 	this.gameplay.group.add(this); // Adds self to the gameplay group for layer sorting
 
+	this.isMoving = false; // var for if the player is moving left/right
+	this.isJumping = false; // var for if the player just jumped
+
 	// Add in the animations
 	this.animations.add('fall', Phaser.Animation.generateFrameNames('PG Cat 5-Fall-',0,9,'',2),30, true);
 	this.animations.add('idle', Phaser.Animation.generateFrameNames('PG Cat 5-Idle-',0,19,'',2),30, true);
@@ -31,7 +34,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames('PG Cat 5-JumpToFall-',0,6,'',2),30, true);
 	this.jumpToFallEnd = 46; // Index of the end of the jumpToFall animation
-	
+
 	this.animations.add('land', Phaser.Animation.generateFrameNames('PG Cat 5-Land-',0,4,'',2),30, true);
 	this.landEnd = 51; // Index of the end of the land animation
 
@@ -81,19 +84,19 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Create transitions
 	// If the player is moving when idle
 	this.fsm.transition('idle_to_walk', 'idle', 'walk', function(){
-		return ( self.player.fsmIsMoving === true );
+		return ( self.isMoving === true );
 	});
 	// If the player stops moving when walking
 	this.fsm.transition('walk_to_idle', 'walk', 'idle', function(){
-		return ( self.player.fsmIsMoving === false );
+		return ( self.isMoving === false );
 	});
-	// If the player begins to fall when walking
+	// If the player begins to fall when walking or pulled up by the anchorCat
 	this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
-		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.player.fsmIsJump === false); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -15
+		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.isJumping === false); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale < -15
 	});
 	// If the player is pulled up by the anchorCat when idling
 	this.fsm.transition('idle_to_fall', 'idle', 'fall', function(){
-		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.player.fsmIsJump === false);
+		return ( Math.abs( self.player.body.velocity.y ) > 15 && self.isJumping === false);
 	});
 	// If the player jumps when idle
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
@@ -125,11 +128,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_idle', 'land', 'idle', function(){
-		return ( self.animations.frame === self.landEnd && self.player.fsmIsMoving === false ); //self.animations.loopCount > 0
+		return ( self.animations.frame === self.landEnd && self.isMoving === false ); //self.animations.loopCount > 0
 	});
 	// If the player reaches the end of the land animation and does provide keyboard input
 	this.fsm.transition('land_to_walk', 'land', 'walk', function(){
-		return ( self.animations.frame === self.landEnd && self.player.fsmIsMoving === true ); //self.animations.loopCount > 0
+		return ( self.animations.frame === self.landEnd && self.isMoving === true ); //self.animations.loopCount > 0
 	});
 	// Plays the initial state
 	this.animations.play(self.fsm.initialState);
@@ -145,8 +148,8 @@ PlayerFSM.prototype.update = function(){
 }
 
 PlayerFSM.prototype.checkIfJumping = function(){
-	if(this.player.fsmIsJump === true){
-		this.player.fsmIsJump = false;
+	if(this.isJumping === true){
+		this.isJumping = false;
 		return true;
 	}
 	return false;
