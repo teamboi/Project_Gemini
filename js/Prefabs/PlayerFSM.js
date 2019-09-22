@@ -29,6 +29,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	this.isMoving = false; // var for if the player is moving left/right
 	this.isJumping = false; // var for if the player just jumped
+	this.idleTimer = 0; // var for the timer for being idle to trigger fidget animations
 
 	// Add in the animations
 	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
@@ -158,7 +159,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Create transitions
 	// If the player is moving when idle
 	this.fsm.transition('idle_to_idleToWalk', 'idle', 'idleToWalk', function(){
-		return ( self.isMoving === true );
+		return ( self.checkIfMoving() );
 	});
 	// If the player is pulled up by the anchorCat when idling
 	this.fsm.transition('idle_to_fall', 'idle', 'fall', function(){
@@ -181,7 +182,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// If the player stops moving when walking
 	this.fsm.transition('walk_to_walkToIdle', 'walk', 'walkToIdle', function(){
-		return ( self.isMoving === false );
+		return ( self.checkIfStopMoving() );
 	});
 	// If the player begins to fall when walking or pulled up by the anchorCat
 	this.fsm.transition('walk_to_fall', 'walk', 'fall', function(){
@@ -237,11 +238,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_landToIdle', 'land', 'landToIdle', function(){
-		return ( self.animations.frame === self.landEnd && self.isMoving === false );
+		return ( self.animations.frame === self.landEnd && self.checkIfStopMoving() );
 	});
 	// If the player reaches the end of the land animation and does provide keyboard input
 	this.fsm.transition('land_to_landToWalk', 'land', 'landToWalk', function(){
-		return ( self.animations.frame === self.landEnd && self.isMoving === true );
+		return ( self.animations.frame === self.landEnd && self.checkIfMoving() );
 	});
 
 	this.fsm.transition('landToIdle_to_idle', 'landToIdle', 'idle', function(){
@@ -275,10 +276,15 @@ PlayerFSM.prototype.constructor = PlayerFSM;
 // Updates the FSM
 PlayerFSM.prototype.update = function(){
 	this.fsm.update();
+
+	
+
+	this.idleTimer++;
 }
 
 PlayerFSM.prototype.checkIfFalling = function(){
 	if(Math.abs( this.player.body.velocity.y ) > 15 && this.isJumping === false){
+		this.resetIdleTimer();
 		return true;
 	}
 	return false;
@@ -287,6 +293,7 @@ PlayerFSM.prototype.checkIfFalling = function(){
 PlayerFSM.prototype.checkIfJumping = function(){
 	if(this.isJumping === true){
 		this.isJumping = false;
+		this.resetIdleTimer();
 		return true;
 	}
 	return false;
@@ -294,7 +301,28 @@ PlayerFSM.prototype.checkIfJumping = function(){
 
 PlayerFSM.prototype.checkIfLanded = function(){
 	if( this.player.checkIfCanJump() ){
+		this.resetIdleTimer();
 		return true;
 	}
 	return false;
+}
+
+PlayerFSM.prototype.checkIfMoving = function(){
+	if( self.isMoving === true ){
+		this.resetIdleTimer();
+		return true;
+	}
+	return false;
+}
+
+PlayerFSM.prototype.checkIfStopMoving = function(){
+	if( self.isMoving === false ){
+		this.resetIdleTimer();
+		return true;
+	}
+	return false;
+}
+
+PlayerFSM.prototype.resetIdleTimer = function(){
+	this.idleTimer = 0;
 }
