@@ -6,21 +6,26 @@
 
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
+	var key, debugBool;
 	if(whichPlayer === 1){
-		var key = "cat1";
-		var scale = 1;
+		key = "cat1";
+		if(debugAnimation === true){
+			debugBool = true;
+			this.debugPrintAnimationIndices();
+		}
+		else{
+			debugBool = false;
+		}
 	}
 	else{
-		var key = "cat2";
-		var scale = 0.14;
-		scale = 1;
-		// temporary fix until more animations are added
+		key = "cat2";
+		debugBool = false;
 	}
 
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
 	this.zOrder = layerPlayer; // sets z order for layer sorting
-	this.scale.setTo(scale, scale); // Scales the sprite
+	//this.scale.setTo(0.14, 0.14); // Scales the sprite
 	this.anchor.setTo(0.45,0.6); // Sets the anchor so the FSM isn't offset on the player
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
@@ -67,12 +72,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.fidgetYawnEnd = 109; // Index of the end of the land animation
 
 	// Creates a new FSM
-	if(whichPlayer === 1){
-		this.fsm = new StateMachine(this, {debug: true});
-	}
-	else{
-		this.fsm = new StateMachine(this, {debug: false});
-	}	
+	this.fsm = new StateMachine(this, {debug: debugBool});
 
 	// Reference to self that can be referenced in FSM
 	var self = this;
@@ -277,7 +277,7 @@ PlayerFSM.prototype.constructor = PlayerFSM;
 PlayerFSM.prototype.update = function(){
 	this.fsm.update();
 
-	
+
 
 	this.idleTimer++;
 }
@@ -321,6 +321,42 @@ PlayerFSM.prototype.checkIfStopMoving = function(){
 		return true;
 	}
 	return false;
+}
+
+PlayerFSM.prototype.debugPrintAnimationIndices = function(){
+    var atlas = game.cache.getJSON('playerAnimations');
+
+	var frames = atlas.frames;
+	var file = "PG Cat 6";
+	for(let i = 0; i < frames.length; i++){
+		if(frames[i].filename === file + "-JumpToFall-19"){
+			console.log("JumpToFall = " + i);
+		}
+		else if(frames[i].filename === file + "-Land-04"){
+			console.log("Land = " + i);
+		}
+		else if(frames[i].filename === file + "-LandToIdle-11"){
+			console.log("LandToIdle = " + i);
+		}
+		else if(frames[i].filename === file + "-LandToWalk-14"){
+			console.log("LandToWalk = " + i);
+		}
+		else if(frames[i].filename === file + "-IdleToWalk-03"){
+			console.log("IdleToWalk = " + i);
+		}
+		else if(frames[i].filename === file + "-WalkToIdle-03"){
+			console.log("WalkToIdle = " + i);
+		}
+		else if(frames[i].filename === file + "-CeilingCollide-14"){
+			console.log("CeilingCollide = " + i);
+		}
+		else if(frames[i].filename === file + "-FidgetStretch-44"){
+			console.log("FidgetStretch = " + i);
+		}
+		else if(frames[i].filename === file + "-FidgetYawn-39"){
+			console.log("FidgetYawn = " + i);
+		}
+	}
 }
 
 PlayerFSM.prototype.resetIdleTimer = function(){

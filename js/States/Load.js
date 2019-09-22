@@ -19,7 +19,7 @@ Load.prototype = {
         game.load.text('dialog', 'assets/Dialog.txt');
 
         // Used in printing out the animation indices
-        if(debugAnimationIndices === true){
+        if(debugAnimation === true){
         	game.load.json('playerAnimations', 'assets/img/cats/blueCat.json');
         }
 
@@ -113,44 +113,6 @@ Load.prototype = {
 		game.scale.refresh();
 	},
 	create: function() {
-		// Used in printing out the animation indices
-        if(debugAnimationIndices === true){
-        	var atlas = this.game.cache.getJSON('playerAnimations');
-        	console.log(atlas);
-
-        	var frames = atlas.frames;
-        	var file = "PG Cat 6";
-        	for(let i = 0; i < frames.length; i++){
-        		if(frames[i].filename === file + "-JumpToFall-19"){
-        			console.log("JumpToFall = " + i);
-        		}
-        		else if(frames[i].filename === file + "-Land-04"){
-					console.log("Land = " + i);
-        		}
-        		else if(frames[i].filename === file + "-LandToIdle-11"){
-					console.log("LandToIdle = " + i);
-        		}
-        		else if(frames[i].filename === file + "-LandToWalk-14"){
-					console.log("LandToWalk = " + i);
-        		}
-        		else if(frames[i].filename === file + "-IdleToWalk-03"){
-					console.log("IdleToWalk = " + i);
-        		}
-        		else if(frames[i].filename === file + "-WalkToIdle-03"){
-					console.log("WalkToIdle = " + i);
-        		}
-        		else if(frames[i].filename === file + "-CeilingCollide-14"){
-					console.log("CeilingCollide = " + i);
-        		}
-        		else if(frames[i].filename === file + "-FidgetStretch-44"){
-					console.log("FidgetStretch = " + i);
-        		}
-        		else if(frames[i].filename === file + "-FidgetYawn-39"){
-					console.log("FidgetYawn = " + i);
-        		}
-        	}
-        }
-
 		game.state.start('Theme', true, false); // Theme
 	}
 };
