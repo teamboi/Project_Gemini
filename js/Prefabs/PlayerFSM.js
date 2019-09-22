@@ -308,7 +308,7 @@ PlayerFSM.prototype.checkIfLanded = function(){
 }
 
 PlayerFSM.prototype.checkIfMoving = function(){
-	if( self.isMoving === true ){
+	if( this.isMoving === true ){
 		this.resetIdleTimer();
 		return true;
 	}
@@ -316,7 +316,7 @@ PlayerFSM.prototype.checkIfMoving = function(){
 }
 
 PlayerFSM.prototype.checkIfStopMoving = function(){
-	if( self.isMoving === false ){
+	if( this.isMoving === false ){
 		this.resetIdleTimer();
 		return true;
 	}
