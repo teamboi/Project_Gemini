@@ -59,7 +59,10 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.animations.add('idleToWalk', Phaser.Animation.generateFrameNames(file + '-IdleToWalk-',0,3,'',2),30, true);
 	this.idleToWalkEnd = 132; // Index of the end of the land animation
 
-	this.animations.add('walkToIdle', Phaser.Animation.generateFrameNames(file + '-WalkToIdle-',0,3,'',2),30, true);
+	this.animations.add('idleToFall', Phaser.Animation.generateFrameNames(file + '-IdleToFall-',0,3,'',2),30, true);
+	this.idleToFallEnd = 132; // Index of the end of the land animation
+
+	this.animations.add('walkToIdle', Phaser.Animation.generateFrameNames(file + '-WalkToIdle1-',0,3,'',2),30, true);
 	this.walkToIdleEnd = 224; // Index of the end of the land animation
 
 	this.animations.add('ceilingCollide', Phaser.Animation.generateFrameNames(file + '-CeilingCollide-',0,14,'',2),30, true);
@@ -132,6 +135,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		exit: function(){ }
 	});
 
+	this.fsm.state('idleToFall', {
+		enter: function(){ },
+		update: function(){ },
+		exit: function(){ }
+	});
+
 	this.fsm.state('walkToIdle', {
 		enter: function(){ },
 		update: function(){ },
@@ -162,12 +171,16 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		return ( self.checkIfMoving() );
 	});
 	// If the player is pulled up by the anchorCat when idling
-	this.fsm.transition('idle_to_fall', 'idle', 'fall', function(){
+	this.fsm.transition('idle_to_idleToFall', 'idle', 'idleToFall', function(){
 		return ( self.checkIfFalling() );
 	});
 	// If the player jumps when idle
 	this.fsm.transition('idle_to_jump', 'idle', 'jump', function(){
 		return ( self.checkIfJumping() );
+	});
+
+	this.fsm.transition('idleToFall_to_fall', 'idleToFall', 'fall', function(){
+		return ( self.animations.frame === self.idleToFallEnd );
 	});
 
 	this.fsm.transition('idleToWalk_to_walk', 'idleToWalk', 'walk', function(){
@@ -205,7 +218,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// If the player reaches the peak of their jump when jumping
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 25 && self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
+		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 40 && self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
 		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5 );
@@ -247,6 +260,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	this.fsm.transition('landToIdle_to_idle', 'landToIdle', 'idle', function(){
 		return ( self.animations.frame === self.landToIdleEnd );
+	});
+	this.fsm.transition('landToIdle_to_idleToWalk', 'landToIdle', 'idleToWalk', function(){
+		return ( self.checkIfMoving() );
 	});
 	this.fsm.transition('landToIdle_to_jump', 'landToIdle', 'jump', function(){
 		return ( self.checkIfJumping() );
@@ -326,37 +342,53 @@ PlayerFSM.prototype.checkIfStopMoving = function(){
 PlayerFSM.prototype.debugPrintAnimationIndices = function(){
     var atlas = game.cache.getJSON('playerAnimations');
 
+    var jumpToFallIndex, landIndex, landToWalkIndex, landToIdleIndex, idleToWalkIndex, idleToFallIndex, walkToIdle1Index, ceilingCollideIndex, fidgetStretchIndex, fidgetYawnIndex;
+
 	var frames = atlas.frames;
 	var file = "PG Cat 6";
 	for(let i = 0; i < frames.length; i++){
 		if(frames[i].filename === file + "-JumpToFall-19"){
-			console.log("JumpToFall = " + i);
+			jumpToFallIndex = i;
 		}
-		else if(frames[i].filename === file + "-Land-04"){
-			console.log("Land = " + i);
-		}
-		else if(frames[i].filename === file + "-LandToIdle-11"){
-			console.log("LandToIdle = " + i);
+		else if(frames[i].filename === file + "-Land-03"){
+			landIndex = i;
 		}
 		else if(frames[i].filename === file + "-LandToWalk-14"){
-			console.log("LandToWalk = " + i);
+			landToWalkIndex = i;
+		}
+		else if(frames[i].filename === file + "-LandToIdle-11"){
+			landToIdleIndex = i;
 		}
 		else if(frames[i].filename === file + "-IdleToWalk-03"){
-			console.log("IdleToWalk = " + i);
+			idleToWalkIndex = i;
 		}
-		else if(frames[i].filename === file + "-WalkToIdle-03"){
-			console.log("WalkToIdle = " + i);
+		else if(frames[i].filename === file + "-IdleToFall-03"){
+			idleToFallIndex = i;
 		}
-		else if(frames[i].filename === file + "-CeilingCollide-14"){
-			console.log("CeilingCollide = " + i);
+		else if(frames[i].filename === file + "-WalkToIdle1-09"){
+			walkToIdle1Index = i;
+		}
+		else if(frames[i].filename === file + "-CeilingCollide-09"){
+			ceilingCollideIndex = i;
 		}
 		else if(frames[i].filename === file + "-FidgetStretch-44"){
-			console.log("FidgetStretch = " + i);
+			fidgetStretchIndex = i;
 		}
 		else if(frames[i].filename === file + "-FidgetYawn-39"){
-			console.log("FidgetYawn = " + i);
+			fidgetYawnIndex = i;
 		}
 	}
+
+	console.log("jumpToFall = " + jumpToFallIndex);
+	console.log("land = " + landIndex);
+	console.log("landToWalk = " + landToWalkIndex);
+	console.log("landToIdle = " + landToIdleIndex);
+	console.log("idleToWalk = " + idleToWalkIndex);
+	console.log("idleToFall = " + idleToFallIndex);
+	console.log("walkToIdle1 = " + walkToIdle1Index);
+	console.log("ceilingCollide = " + ceilingCollideIndex);
+	console.log("fidgetStretch = " + fidgetStretchIndex);
+	console.log("fidgetYawn = " + fidgetYawnIndex);
 }
 
 PlayerFSM.prototype.resetIdleTimer = function(){
