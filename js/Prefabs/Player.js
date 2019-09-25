@@ -30,7 +30,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	// Define player constants
 	this.xVelocity = 200; // Velocity for left and right movement
-	this.swingVelocity = 400;
+	this.swingVelocity = 600;
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
