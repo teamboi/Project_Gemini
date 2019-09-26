@@ -73,56 +73,56 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 	var file = "PG Cat 6";
 	this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationEndFrames.walk,'',2),50, true);
-	this.walk1End = 211;
-	this.walk2End = 216;
-	this.walk3End = 221;
-	this.walk4End = 226;
+	this.walk1End = 183;
+	this.walk2End = 188;
+	this.walk3End = 193;
+	this.walk4End = 198;
 
 	this.animations.add('jump', Phaser.Animation.generateFrameNames(file + '-Jump-',0,this.animationEndFrames.jump,'',2),30, true);
 
 	this.animations.add('idle', Phaser.Animation.generateFrameNames(file + '-Idle-',0,this.animationEndFrames.idle,'',2),30, true);
-	this.idleEnd = 150;
+	this.idleEnd = 122;
 
 	this.animations.add('fall', Phaser.Animation.generateFrameNames(file + '-Fall-',0,this.animationEndFrames.fall,'',2),30, true);
 	
 	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames(file + '-JumpToFall-',0,this.animationEndFrames.jumpToFall,'',2),30, true);
-	this.jumpToFallEnd = 188; // Index of the end of the jumpToFall animation
+	this.jumpToFallEnd = 160; // Index of the end of the jumpToFall animation
 
 	this.animations.add('land', Phaser.Animation.generateFrameNames(file + '-Land-',0,this.animationEndFrames.land,'',2),30, true);
-	this.landEnd = 192; // Index of the end of the land animation
+	this.landEnd = 164; // Index of the end of the land animation
 
 	this.animations.add('landToWalk', Phaser.Animation.generateFrameNames(file + '-LandToWalk-',0,this.animationEndFrames.landToWalk,'',2),30, true);
-	this.landToWalkEnd = 210; // Index of the end of the landToWalk animation
+	this.landToWalkEnd = 182; // Index of the end of the landToWalk animation
 
 	this.animations.add('landToIdle', Phaser.Animation.generateFrameNames(file + '-LandToIdle-',0,this.animationEndFrames.landToIdle,'',2),30, true);
-	this.landToIdleEnd = 204; // Index of the end of the landToIdle animation
+	this.landToIdleEnd = 176; // Index of the end of the landToIdle animation
 
 	this.animations.add('idleToWalk', Phaser.Animation.generateFrameNames(file + '-IdleToWalk-',0,this.animationEndFrames.idleToWalk,'',2),30, true);
-	this.idleToWalkEnd = 158; // Index of the end of the idleToWalk animation
+	this.idleToWalkEnd = 130; // Index of the end of the idleToWalk animation
 
 	this.animations.add('idleToFall', Phaser.Animation.generateFrameNames(file + '-IdleToFall-',0,this.animationEndFrames.idleToFall,'',2),30, true);
-	this.idleToFallEnd = 154; // Index of the end of the idleToFall animation
+	this.idleToFallEnd = 126; // Index of the end of the idleToFall animation
 
 	this.animations.add('walkToIdle1', Phaser.Animation.generateFrameNames(file + '-WalkToIdle1-',0,this.animationEndFrames.walkToIdle1,'',2),30, true);
-	this.walkToIdle1End = 256; // Index of the end of the walkToIdle1 animation
+	this.walkToIdle1End = 228; // Index of the end of the walkToIdle1 animation
 
 	this.animations.add('walkToIdle2', Phaser.Animation.generateFrameNames(file + '-WalkToIdle2-',0,this.animationEndFrames.walkToIdle1,'',2),30, true);
-	this.walkToIdle2End = 282; // Index of the end of the walkToIdle2 animation
+	this.walkToIdle2End = 254; // Index of the end of the walkToIdle2 animation
 
 	this.animations.add('walkToIdle3', Phaser.Animation.generateFrameNames(file + '-WalkToIdle3-',0,this.animationEndFrames.walkToIdle1,'',2),30, true);
-	this.walkToIdle3End = 1; // Index of the end of the walkToIdle3 animation
+	this.walkToIdle3End = 280; // Index of the end of the walkToIdle3 animation
 
 	this.animations.add('walkToIdle4', Phaser.Animation.generateFrameNames(file + '-WalkToIdle4-',0,this.animationEndFrames.walkToIdle1,'',2),30, true);
-	this.walkToIdle4End = 27; // Index of the end of the walkToIdle4 animation
+	this.walkToIdle4End = 306; // Index of the end of the walkToIdle4 animation
 
 	this.animations.add('ceilingCollide', Phaser.Animation.generateFrameNames(file + '-CeilingCollide-',0,this.animationEndFrames.ceilingCollide,'',2),30, true);
-	this.ceilingCollideEnd = 35; // Index of the end of the ceilingCollide animation
+	this.ceilingCollideEnd = 7; // Index of the end of the ceilingCollide animation
 
 	this.animations.add('fidgetStretch', Phaser.Animation.generateFrameNames(file + '-FidgetStretch-',0,this.animationEndFrames.fidgetStretch,'',2),30, true);
-	this.fidgetStretchEnd = 90; // Index of the end of the fidgetStretch animation
+	this.fidgetStretchEnd = 62; // Index of the end of the fidgetStretch animation
 
 	this.animations.add('fidgetYawn', Phaser.Animation.generateFrameNames(file + '-FidgetYawn-',0,this.animationEndFrames.fidgetYawn,'',2),30, true);
-	this.fidgetYawnEnd = 130; // Index of the end of the fidgetYawn animation
+	this.fidgetYawnEnd = 102; // Index of the end of the fidgetYawn animation
 
 	// Creates a new FSM
 	this.fsm = new StateMachine(this, {debug: debugBool});
