@@ -206,7 +206,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 
 	self.createJumpAnimTransition("ceilingCollide");
-	self.createFallAnimTransition("ceilingCollide");
+	self.createNextAnimTransition("ceilingCollide", "fall");
 	self.createLandAnimTransition("ceilingCollide");
 
 	// If the player reaches the end of the jumpToFall animation
