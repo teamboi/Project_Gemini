@@ -44,9 +44,6 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
 
-	this.fsmIsMoving = false; // variable for FSM to check if it is moving
-	this.fsmIsJump = false; // variable for FSM to check if it is jumping
-
 	// Create references to the gameplay's collision groups
 	var playerCG = this.gameplay.playerCollisionGroup;
 	var platformCG = this.gameplay.platformCollisionGroup;
@@ -125,7 +122,7 @@ Player.prototype.update = function(){
 	    	this.fsmIsMoving = true;
 	    }
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 
 	    // Check for jumping
@@ -135,19 +132,17 @@ Player.prototype.update = function(){
 	    		if(typeof this.meow1 !== 'undefined') {
 	    			this.meow1.play('', 0, 1, false);
 	    		}
-	    		/*}
-	    		else {
-	    			this.meow2.play('', 0, 1, false);
-	    		}*/
 	    	}
 	    	// Makes the player jump in the appropriate direction
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
-
 			}
 			else{
 				this.body.moveDown(this.jumpVelocity);
 			}
+			// Tells the FSM that the player is jumping
+			// Reset in this.resetFsmVars(), so it acts as an "impulse"
+			this.catSprite.isJumping = true;
 	    }
 	}
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
@@ -156,17 +151,16 @@ Player.prototype.update = function(){
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
 		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.fsmIsMoving = true;
+			this.catSprite.isMoving = true;
 			this.faceLeft();
 	    }
 	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.fsmIsMoving = true;
+	    	this.catSprite.isMoving = true;
 	    	this.faceRight();
 	    }
-	    // If the player isn't moving
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 	}
 }

@@ -18,6 +18,10 @@ Load.prototype = {
 		// Load in text
         game.load.text('dialog', 'assets/Dialog.txt');
 
+        // Used in printing out the animation indices
+        if(debugAnimation === true){
+        	game.load.json('playerAnimations', 'assets/img/cats/blueCat.json');
+        }
 
         game.load.path = 'assets/';
 		// Load in the soundtrack
