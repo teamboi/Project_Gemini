@@ -205,7 +205,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5 );
 	});
 
-	self.createJumpAnimTransition('ceilingCollide', 'fall');
+	self.createJumpAnimTransition("ceilingCollide");
+	self.createFallAnimTransition("ceilingCollide");
 	self.createLandAnimTransition("ceilingCollide");
 
 	// If the player reaches the end of the jumpToFall animation
@@ -339,19 +340,19 @@ PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID, ani
 	});
 }
 
-PlayerFSM.prototype.createJumpAnimTransition = function(animName){
-	var self = this;
-
-	this.fsm.transition(animName + '_to_jump', animName, 'jump', function(){
-		return ( self.checkIfJumping() );
-	});
-}
-
 PlayerFSM.prototype.createFallAnimTransition = function(animName){
 	var self = this;
 
 	this.fsm.transition(animName + '_to_fall', animName, 'fall', function(){
 		return ( self.checkIfFalling() );
+	});
+}
+
+PlayerFSM.prototype.createJumpAnimTransition = function(animName){
+	var self = this;
+
+	this.fsm.transition(animName + '_to_jump', animName, 'jump', function(){
+		return ( self.checkIfJumping() );
 	});
 }
 
