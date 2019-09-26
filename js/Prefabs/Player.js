@@ -113,13 +113,13 @@ Player.prototype.update = function(){
 		// Check for left and right movements
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.faceLeft();
-			this.move(this.facing);
-			this.fsmIsMoving = true;
+			this.move(this.facing, this.xVelocity);
+			this.catSprite.isMoving = true;
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.faceRight();
-	    	this.move(this.facing);
-	    	this.fsmIsMoving = true;
+	    	this.move(this.facing, this.xVelocity);
+	    	this.catSprite.isMoving = true;
 	    }
 	    else{
 	    	this.catSprite.isMoving = false;
