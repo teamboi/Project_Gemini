@@ -380,7 +380,7 @@ PlayerFSM.prototype.createLandAnimTransition = function(animName){
 PlayerFSM.prototype.createMoveAnimTransition = function(animName){
 	var self = this;
 
-	this.fsm.transition(firstAnimName + '_to_idleToWalk', animName, 'idleToWalk', function(){
+	this.fsm.transition(animName + '_to_idleToWalk', animName, 'idleToWalk', function(){
 		return ( self.checkIfMoving() );
 	});
 }
