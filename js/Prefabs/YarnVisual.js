@@ -75,6 +75,7 @@ YarnVisual.prototype.update = function(){
 	// mpModifier will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped
 	var mpModifierDistVar = 125 * this.playerDistYMult * this.playerGravDir * this.mpModifierDrop;
 
+	// If the yarn is just tightened, update the tighten animation
 	if(this.justTightened === true){
 		this.mpModifierAngle = yp.yarnAngle + (Math.PI / 2 * this.mpModifierAngleDir);
 
@@ -97,7 +98,8 @@ YarnVisual.prototype.drawBezierYarn = function(){
 	this.bezierGraphics.lineStyle(this.yarnWidth, this.yarnColor, 1); // Sets the style of the line
 
 	this.bezierGraphics.moveTo(this.p1X, this.p1Y); // Sets initial position to player1
-	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.p2X, this.p2Y); // Draws the bezier curve to the other player
+	// Draws the bezier curve to the other player
+	this.bezierGraphics.bezierCurveTo(this.player1BAnchor.x, this.player1BAnchor.y, this.player2BAnchor.x, this.player2BAnchor.y, this.p2X, this.p2Y);
 }
 
 // Draws the yarn as a bezier curve
@@ -181,6 +183,7 @@ YarnVisual.prototype.changePlayerGravDir = function(lastAnchored){
 	this.playerGravDir = lastAnchored.body.data.gravityScale;
 }
 
+// Prevents the tighten animation from updating
 YarnVisual.prototype.disableMPModifierAngle = function(){
 	this.justTightened = false;
 }
@@ -224,6 +227,7 @@ YarnVisual.prototype.setYarnState = function(state, color){
 }
 
 // Causes the mpModifier to tighten back to the midPoint
+// mpModifierAngle is an angle that is perpendicular to the yarnAngle and changes the midPoint to follow this line
 YarnVisual.prototype.tightenMPModifier = function(){
 	var yp = this.yarnParent;
 
@@ -243,10 +247,12 @@ YarnVisual.prototype.tightenMPModifier = function(){
 	}
 	this.mpModifierAngleDir = this.mpModifierAngleDir * this.playerGravDir;
 
+	// Tweens the angle of the mpModifier
 	if(this.mpModifierAngleTween != null){
 		this.mpModifierAngleTween.stop();
 	}
 
+	// Tweens the magnitude of the mpModifier
 	this.mpModifierAngleScalar = 0;
 	this.mpModifierAngleTween = game.add.tween(this).to( { mpModifierAngleScalar: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
 

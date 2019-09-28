@@ -181,26 +181,10 @@ Player.prototype.move = function(direction){
 			var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
 			var force = 1;
 
-			// If the player is moving in the same direction as the desired direction
 			// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
 			// If the yarn is taut
-			var velocityTF = false;
-			var verticalAngleTF = false;
-			var tautTF = false;
-			if(Math.sign(moveDist) === Math.sign(relativeVel)){
-				velocityTF = true;
-			}
-			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09){
-				verticalAngleTF = true;
-			}
-			if(yarn.isTaut === true){
-				tautTF = true;
-			}
-			//console.log(velocityTF + " " + verticalAngleTF + " " + tautTF);
 			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
-				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 ); // Math.abs(Math.sin(yarn.yarnAngle)) // ( -1 / ( Math.abs(Math.cos(yarn.yarnAngle * this.body.data.gravityScale)) - 1 ) )
-				//console.log("force " + force);
-				//console.log("yarnAngle " + this.gameplay.yarn.yarnAngle);
+				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
 				moveDist *= force; // Scales how much the player can move based on the angle of the yarn
 				if(force < .5){
 					applyForce = false;
