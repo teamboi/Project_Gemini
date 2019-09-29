@@ -42,6 +42,6 @@ Cloud.prototype.constructor = Cloud;
 Cloud.prototype.update = function(){
 	if(this.cloud.isMoving === "locked" && this.hasBeganTween === false){ // checks if the cloud is locked and hasn't begun the tween
 		this.hasBeganTween === true; // Makes tween only happen once
-		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Linear.InOut, true, 0, 0, false); // The actual tween
+		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // The actual tween
 	}
 }
