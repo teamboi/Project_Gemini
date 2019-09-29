@@ -7,6 +7,11 @@
 var Theme = function(game){};
 Theme.prototype = {
 	create: function(){
+	    // Prevent the keys from scrolling the page
+	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
+	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
+	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+		
 		this.complete = false;
 		if(debugLevel === null){
 			this.nextLevel = 'MainMenu';
@@ -17,6 +22,12 @@ Theme.prototype = {
 		}
 		else{
 			this.nextLevel = debugLevel;
+			this.flashDuration = 1;
+			this.fadeDuration = 1;
+			this.ostFadeDuration = 1;
+			this.fadeDelay = 1;
+		}
+		if(debugTransitions === true){
 			this.flashDuration = 1;
 			this.fadeDuration = 1;
 			this.ostFadeDuration = 1;

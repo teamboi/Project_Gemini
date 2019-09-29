@@ -30,6 +30,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	// Define player constants
 	this.xVelocity = 200; // Velocity for left and right movement
+	this.swingVelocity = 600;
 	this.jumpVelocity = 500; // Velocity for jumping
 	this.vertCollision = 0 // Constant for what direction the collision is vertically
 
@@ -42,9 +43,6 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.yarnAnchorOffsetXInit = this.yarnAnchorOffsetX; // Storing initial value for tweening use
 
 	this.anchorState = "none"; // What state the anchor is; Possible states: none, isAnchor, beingAnchored
-
-	this.fsmIsMoving = false; // variable for FSM to check if it is moving
-	this.fsmIsJump = false; // variable for FSM to check if it is jumping
 
 	// Create references to the gameplay's collision groups
 	var playerCG = this.gameplay.playerCollisionGroup;
@@ -71,7 +69,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.catSprite.scale.y *= -1 // Flips the FSM upside down
 
-		this.controls = ['LEFT','RIGHT','DOWN','UP'];//,'COLON'];
+		this.controls = ['LEFT','RIGHT','DOWN','UP'];
 		this.jumpDirection = 'down'; // Direction that jump will push the player towards
 
 		this.yarnColor = 0x799FCE; // Sets yarn color to a blue
@@ -116,17 +114,15 @@ Player.prototype.update = function(){
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
 			this.faceLeft();
 			this.move(this.facing, this.xVelocity);
-			this.fsmIsMoving = true;
-			//this.body.moveLeft(this.xVelocity);
+			this.catSprite.isMoving = true;
 	    }
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
 	    	this.faceRight();
 	    	this.move(this.facing, this.xVelocity);
-	    	this.fsmIsMoving = true;
-	    	//this.body.moveRight(this.xVelocity);
+	    	this.catSprite.isMoving = true;
 	    }
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 
 	    // Check for jumping
@@ -136,19 +132,17 @@ Player.prototype.update = function(){
 	    		if(typeof this.meow1 !== 'undefined') {
 	    			this.meow1.play('', 0, 1, false);
 	    		}
-	    		/*}
-	    		else {
-	    			this.meow2.play('', 0, 1, false);
-	    		}*/
 	    	}
 	    	// Makes the player jump in the appropriate direction
 	    	if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
-
 			}
 			else{
 				this.body.moveDown(this.jumpVelocity);
 			}
+			// Tells the FSM that the player is jumping
+			// Reset in this.resetFsmVars(), so it acts as an "impulse"
+			this.catSprite.isJumping = true;
 	    }
 	}
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
@@ -157,36 +151,56 @@ Player.prototype.update = function(){
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
 		// If the player is moving to the left
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
-			this.fsmIsMoving = true;
+			this.catSprite.isMoving = true;
 			this.faceLeft();
 	    }
 	    // If the player is moving to the right
 	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
-	    	this.fsmIsMoving = true;
+	    	this.catSprite.isMoving = true;
 	    	this.faceRight();
 	    }
-	    // If the player isn't moving
 	    else{
-	    	this.fsmIsMoving = false;
+	    	this.catSprite.isMoving = false;
 	    }
 	}
 }
 
 // Moves the player left or right
-Player.prototype.move = function(direction, velocity){
-	var moveDist = velocity;
-	if(direction == "left"){ // Modifies the distance moved appropriately based on direction
+Player.prototype.move = function(direction){
+	var moveDist = this.xVelocity;
+	var yarn = this.gameplay.yarn;
+
+	if(direction === "left"){ // Modifies the distance moved appropriately based on direction
 		moveDist *= -1;
 	}
-	if(this.anchorState == "beingAnchored"){ // If the player is being anchored
+	if(this.anchorState === "beingAnchored"){ // If the player is being anchored
+		var applyForce = true;
+
 		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
-			moveDist *= Math.abs(Math.sin(this.gameplay.yarn.yarnAngle)); // Scales how much the player can move based on the angle of the yarn
+			moveDist = Math.sign(moveDist)*this.swingVelocity;
+			var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
+			var force = 1;
+
+			// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
+			// If the yarn is taut
+			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
+				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
+				moveDist *= force; // Scales how much the player can move based on the angle of the yarn
+				if(force < .5){
+					applyForce = false;
+				}
+			}
 		}
-		this.body.moveRight(moveDist); // Moves the player
+		// If we want to apply the force, move it
+		if(applyForce === true){
+			//this.body.moveRight(moveDist); // Moves the player
+			this.body.force.x += moveDist;
+		}	
 	}
 	else{ // else just move the player normally
 		this.body.moveRight(moveDist);
 	}
+	//console.log(moveDist);
 }
 
 // Makes the player face left
@@ -195,6 +209,7 @@ Player.prototype.faceLeft = function(){
 		this.facing = "left";
 		//this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
 		this.catSprite.scale.x = -1*this.catSprite.scale.x;
+		
 		if(this.yarnAnchorTween != null){
 			this.yarnAnchorTween.stop();
 		}
