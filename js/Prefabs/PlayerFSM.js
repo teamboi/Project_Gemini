@@ -153,7 +153,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// If the player is moving when idle
 	self.createMoveAnimTransition('idle');
 	self.createJumpAnimTransition("idle");
-	self.createFallAnimTransition("idle");
+	this.fsm.transition('idle_to_idleToFall', 'idle', 'idleToFall', function(){
+		return ( self.checkIfFalling() );
+	});
 
 	self.createNextAnimTransition('idleToFall', 'fall');
 
