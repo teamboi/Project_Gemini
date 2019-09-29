@@ -3,6 +3,10 @@
 
 // Constructor for TransitionManager
 // game and gameplay are references to their respective things
+// nextLevel; string; name of the next level
+// titleCard; string; name of the image to display
+// ost; string; music to play
+// narration; string; narration to play
 function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
