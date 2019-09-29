@@ -84,7 +84,7 @@ Yarn.prototype.update = function(){
 // Updates the yarn if it is active
 Yarn.prototype.updateYarn = function(){
 	var tautDeadband = 1; // the margin of error to check beyond the taut length
-	var velDeadband = 10; // the margin of error to check for the velocity differences
+	var velDeadband = 100; // the margin of error to check for the velocity differences
 
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
@@ -152,7 +152,12 @@ Yarn.prototype.updateYarn = function(){
 		// If the non anchored cat can jump
 		// If the non anchored cat is falling upwards
 		// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
-		if(otherCat.checkIfCanJump() || otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 || (anchorVel > velDeadband && otherVel > velDeadband && Math.abs(anchorVel - otherVel) < Math.pow(velDeadband, 2) ) ){ // If the player can jump OR is being pulled up
+		//console.log("anchorVel = " + anchorVel);
+		//console.log("otherVel = " + otherVel);
+		//console.log(Math.abs(anchorVel - otherVel));
+		if(otherCat.checkIfCanJump() ||
+		otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 ||
+		(anchorVel > velDeadband && otherVel > velDeadband && otherVel > anchorVel ) ){
 			this.isTaut = false;
 			if(constraint != null){ // If the constraint does exist, remove the constraint
 				game.physics.p2.removeConstraint(constraint);
