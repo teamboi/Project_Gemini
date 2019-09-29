@@ -56,11 +56,18 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     // Instantiate the fade events
     game.camera.onFadeComplete.add(this.resetFade, this);
 
-    // Loads in the tilemap and static platforms
-    this.createPlatforms();
-
-    // Call the background image
-    gp.room = game.add.sprite(0,0,backgroundImage);
+    if(debugCollisionsLevel === false){
+        // Loads in the tilemap and static platforms
+        this.createPlatforms();
+        // Call the background image
+        gp.room = game.add.sprite(0,0,backgroundImage);
+    }
+    else{
+        // Call the background image
+        gp.room = game.add.sprite(0,0,backgroundImage);
+        // Loads in the tilemap and static platforms
+        this.createPlatforms();
+    }
 
     // Initialise z-masking groups
     gp.group = game.add.group();
