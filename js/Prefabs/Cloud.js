@@ -12,9 +12,8 @@
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
 function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
-	Phaser.Sprite.call(this, game, x, y, key);
+	Phaser.Sprite.call(this, game, x, y, null);
 	game.add.existing(this); // Add to display list
-	this.alpha = 0; // Make current sprite invisible
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 
