@@ -41,6 +41,13 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
 	this.fadeDuration = 2000; // How long the fade lasts
 	this.ostFadeOutDuration = 2500; // How long does the music fade out
 
+    if(debugTransitions === true){
+        this.winTimerDelay = 1;
+        this.preFadeConst = 1;
+        this.fadeDuration = 1;
+        this.ostFadeOutDuration = 1;
+    }
+
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
 	gp.complete = false;
