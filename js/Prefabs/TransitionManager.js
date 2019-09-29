@@ -3,6 +3,10 @@
 
 // Constructor for TransitionManager
 // game and gameplay are references to their respective things
+// nextLevel; string; name of the next level
+// titleCard; string; name of the image to display
+// ost; string; music to play
+// narration; string; narration to play
 function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
@@ -22,6 +26,14 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
     this.fadeDuration = 2000; // Duration of the transition fading out
     this.themeFadeOutDuration = 2000; // How long does the music fade out
     this.ostFadeInDuration = 3000; // How long does the OST fade in
+
+    if(debugTransitions === true){
+        this.flashDuration = 1;
+        this.flashDelay = 1;
+        this.fadeDuration = 1;
+        this.themeFadeOutDuration = 1;
+        this.ostFadeInDuration = 1;
+    }
 
     // Create gameplay state specific variables
     this.complete = false;

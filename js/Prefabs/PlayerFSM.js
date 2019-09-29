@@ -7,6 +7,8 @@
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
+	// The length of each animation
+	// Used to determine the endpoints of each animation
 	this.animationEndFrames = {
 		// looping animations
 		walk: 19,
@@ -51,8 +53,6 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		key = "cat2";
 		debugBool = false;
 	}
-
-	this.whichPlayer = whichPlayer;
 
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
@@ -151,7 +151,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// Create transitions
 	// If the player is moving when idle
-	self.createMoveAnimTransition('idle', 'idleToWalk');
+	self.createMoveAnimTransition('idle');
 	self.createJumpAnimTransition("idle");
 	self.createFallAnimTransition("idle");
 
@@ -178,22 +178,22 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createFallAnimTransition("walk");
 
 	self.createNextAnimTransition('walkToIdle1', 'idle');
-	self.createMoveAnimTransition('walkToIdle1', 'idleToWalk');
+	self.createMoveAnimTransition('walkToIdle1');
 	self.createJumpAnimTransition("walkToIdle1");
 	self.createFallAnimTransition("walkToIdle1");
 
 	self.createNextAnimTransition('walkToIdle2', 'idle');
-	self.createMoveAnimTransition('walkToIdle2', 'idleToWalk');
+	self.createMoveAnimTransition('walkToIdle2');
 	self.createJumpAnimTransition("walkToIdle2");
 	self.createFallAnimTransition("walkToIdle2");
 
 	self.createNextAnimTransition('walkToIdle3', 'idle');
-	self.createMoveAnimTransition('walkToIdle3', 'idleToWalk');
+	self.createMoveAnimTransition('walkToIdle3');
 	self.createJumpAnimTransition("walkToIdle3");
 	self.createFallAnimTransition("walkToIdle3");
 
 	self.createNextAnimTransition('walkToIdle4', 'idle');
-	self.createMoveAnimTransition('walkToIdle4', 'idleToWalk');
+	self.createMoveAnimTransition('walkToIdle4');
 	self.createJumpAnimTransition("walkToIdle4");
 	self.createFallAnimTransition("walkToIdle4");
 
@@ -229,7 +229,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	});
 
 	self.createNextAnimTransition('landToIdle', 'idle')
-	self.createMoveAnimTransition("landToIdle", "idleToWalk");
+	self.createMoveAnimTransition("landToIdle");
 	self.createJumpAnimTransition("landToIdle");
 	self.createFallAnimTransition("landToIdle");
 
@@ -255,6 +255,7 @@ PlayerFSM.prototype.update = function(){
 	this.updateIdleTimer();
 }
 
+// If condition for if the player is falling
 PlayerFSM.prototype.checkIfFalling = function(){
 	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){
 		this.resetIdleTimer();
@@ -263,6 +264,7 @@ PlayerFSM.prototype.checkIfFalling = function(){
 	return false;
 }
 
+// If condition for if the idle animation is done
 PlayerFSM.prototype.checkIfIdleDone = function(endFrame){
 	if( this.animations.frame === endFrame ){
 		this.resetIdleTimer();
@@ -271,6 +273,7 @@ PlayerFSM.prototype.checkIfIdleDone = function(endFrame){
 	return false;
 }
 
+// If condition for if it's a valid time to play the idle animation
 PlayerFSM.prototype.checkToPlayIdleAnim = function(animNum){
 	if(this.idleAnimPicked === animNum  && this.animations.frame === this.idleEnd){
 		this.idleAnimPicked = 0;
@@ -279,6 +282,7 @@ PlayerFSM.prototype.checkToPlayIdleAnim = function(animNum){
 	return false;
 }
 
+// If condition for if the player is jumping
 PlayerFSM.prototype.checkIfJumping = function(){
 	if(this.isJumping === true){
 		this.isJumping = false;
@@ -288,6 +292,7 @@ PlayerFSM.prototype.checkIfJumping = function(){
 	return false;
 }
 
+// If condition for if the player has landed on the ground
 PlayerFSM.prototype.checkIfLanded = function(){
 	if( this.player.checkIfCanJump() ){ //this.player.body.velocity.y*-1*this.player.body.data.gravityScale <= 5
 		this.resetIdleTimer();
@@ -296,6 +301,7 @@ PlayerFSM.prototype.checkIfLanded = function(){
 	return false;
 }
 
+// If condition for if the player is moving
 PlayerFSM.prototype.checkIfMoving = function(){
 	if( this.isMoving === true ){
 		this.resetIdleTimer();
@@ -304,6 +310,7 @@ PlayerFSM.prototype.checkIfMoving = function(){
 	return false;
 }
 
+// If condition for if the player has stopped moving
 PlayerFSM.prototype.checkIfStopMoving = function(){
 	if( this.isMoving === false ){
 		this.resetIdleTimer();
@@ -312,6 +319,7 @@ PlayerFSM.prototype.checkIfStopMoving = function(){
 	return false;
 }
 
+// Creates the animation state for the FSM
 PlayerFSM.prototype.createAnimState = function(animState){
 	this.fsm.state(animState, {
 		enter: function(){ },
@@ -320,6 +328,7 @@ PlayerFSM.prototype.createAnimState = function(animState){
 	});
 }
 
+// Creates the fidget animation transitions
 PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID, animEndFrame){
 	var self = this;
 
@@ -340,6 +349,7 @@ PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID, ani
 	});
 }
 
+// Creates the animation transition from animName to fall
 PlayerFSM.prototype.createFallAnimTransition = function(animName){
 	var self = this;
 
@@ -348,6 +358,7 @@ PlayerFSM.prototype.createFallAnimTransition = function(animName){
 	});
 }
 
+// Creates the animation transition from animName to jump
 PlayerFSM.prototype.createJumpAnimTransition = function(animName){
 	var self = this;
 
@@ -356,6 +367,7 @@ PlayerFSM.prototype.createJumpAnimTransition = function(animName){
 	});
 }
 
+// Creates the animation transition from animName to land
 PlayerFSM.prototype.createLandAnimTransition = function(animName){
 	var self = this;
 
@@ -364,14 +376,16 @@ PlayerFSM.prototype.createLandAnimTransition = function(animName){
 	});
 }
 
-PlayerFSM.prototype.createMoveAnimTransition = function(firstAnimName, nextAnimName){
+// Creates the animation transition from animName to idleToWalk
+PlayerFSM.prototype.createMoveAnimTransition = function(animName){
 	var self = this;
 
-	this.fsm.transition(firstAnimName + '_to_' + nextAnimName, firstAnimName, nextAnimName, function(){
+	this.fsm.transition(animName + '_to_idleToWalk', animName, 'idleToWalk', function(){
 		return ( self.checkIfMoving() );
 	});
 }
 
+// Creates the animation transition for single-cycle animations to progress to the next animation
 PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimName){
 	var self = this;
 
@@ -380,6 +394,7 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 	});
 }
 
+// Prints out the indices of the end of animation states
 PlayerFSM.prototype.debugPrintAnimationIndices = function(animationEndFrames){
     var atlas = game.cache.getJSON('playerAnimations');
 
@@ -462,11 +477,13 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(animationEndFrames){
 	console.log("fidgetYawn = " + fidgetYawnIndex);
 }
 
+// Resets the timer for idle animations
 PlayerFSM.prototype.resetIdleTimer = function(){
 	this.idleTimer = 0;
 	this.idleAnimPicked = 0;
 }
 
+// Updates the timer for idle animations
 PlayerFSM.prototype.updateIdleTimer = function(){
 	if(this.isMoving === true){
 		return;

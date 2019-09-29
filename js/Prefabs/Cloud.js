@@ -12,9 +12,8 @@
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
 function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
-	Phaser.Sprite.call(this, game, x, y, key);
+	Phaser.Sprite.call(this, game, x, y, null);
 	game.add.existing(this); // Add to display list
-	this.alpha = 0; // Make current sprite invisible
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 
@@ -23,16 +22,6 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir){
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 
 	this.hasBeganTween = false; // Boolean for if tween has begun, so it only fires once
-
-	if(gravityDir == "down"){ // Empty ifs just in case we want something
-
-	}
-	else if(gravityDir == "up"){
-
-	}
-	else{
-		console.log(gravityDir + " is not a valid direction. 'up' or 'down'"); // In case we make a typo
-	}
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to Cloud
@@ -42,6 +31,6 @@ Cloud.prototype.constructor = Cloud;
 Cloud.prototype.update = function(){
 	if(this.cloud.isMoving === "locked" && this.hasBeganTween === false){ // checks if the cloud is locked and hasn't begun the tween
 		this.hasBeganTween === true; // Makes tween only happen once
-		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Linear.InOut, true, 0, 0, false); // The actual tween
+		game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // The actual tween
 	}
 }

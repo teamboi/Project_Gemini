@@ -41,6 +41,13 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
 	this.fadeDuration = 2000; // How long the fade lasts
 	this.ostFadeOutDuration = 2500; // How long does the music fade out
 
+    if(debugTransitions === true){
+        this.winTimerDelay = 1;
+        this.preFadeConst = 1;
+        this.fadeDuration = 1;
+        this.ostFadeOutDuration = 1;
+    }
+
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
 	gp.complete = false;
@@ -56,11 +63,18 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     // Instantiate the fade events
     game.camera.onFadeComplete.add(this.resetFade, this);
 
-    // Loads in the tilemap and static platforms
-    this.createPlatforms();
-
-    // Call the background image
-    gp.room = game.add.sprite(0,0,backgroundImage);
+    if(debugCollisionsLevel === false){
+        // Loads in the tilemap and static platforms
+        this.createPlatforms();
+        // Call the background image
+        gp.room = game.add.sprite(0,0,backgroundImage);
+    }
+    else{
+        // Call the background image
+        gp.room = game.add.sprite(0,0,backgroundImage);
+        // Loads in the tilemap and static platforms
+        this.createPlatforms();
+    }
 
     // Initialise z-masking groups
     gp.group = game.add.group();
