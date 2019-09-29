@@ -16,8 +16,16 @@ Credits1.prototype = {
 		this.menu = game.add.sprite(game.width/2,game.height/2,'credits1');
 		this.menu.anchor.setTo(0.5,0.5);
 
+		this.cameraFlashDuration = 2000;
+		this.ostFadeDuration = 2500;
+
+		if(debugTransitions === true){
+			this.cameraFlashDuration = 1;
+			this.ostFadeDuration = 1;
+		}
+
 		//Add the white fade
-		game.camera.flash(0xffffff, 2000);
+		game.camera.flash(0xffffff, this.cameraFlashDuration);
 
 		// Instantiate the fade events
 		game.camera.onFadeComplete.add(this.resetFade, this);
@@ -32,8 +40,8 @@ Credits1.prototype = {
 	// Fade out this scene
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(2500);
-    	game.camera.fade(0xffffff, 2000);
+    	this.ost.fadeOut(this.ostFadeDuration);
+    	game.camera.fade(0xffffff, this.cameraFlashDuration);
 
 	},
 	resetFade: function() {

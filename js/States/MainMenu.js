@@ -16,7 +16,14 @@ MainMenu.prototype = {
 		this.menu = game.add.sprite(game.width/2,game.height/2,'title');
 		this.menu.anchor.setTo(0.5,0.5);
 
-		game.camera.flash(0xffffff, 2000);
+		this.cameraFlashDuration = 2000;
+		this.ostFadeDuration = 2500;
+
+		if(debugTransitions === true){
+			this.cameraFlashDuration = 1;
+			this.ostFadeDuration = 1;
+		}
+		game.camera.flash(0xffffff, this.cameraFlashDuration);
 
 		// Play the Main Theme
 		//this.ost = game.add.audio('Cradle');
@@ -41,8 +48,8 @@ MainMenu.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(2500);
-    	game.camera.fade(0xffffff, 2000);
+    	this.ost.fadeOut(this.ostFadeDuration);
+    	game.camera.fade(0xffffff, this.cameraFlashDuration);
 
 	},
 	resetFade: function() {

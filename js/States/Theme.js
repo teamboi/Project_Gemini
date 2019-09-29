@@ -27,6 +27,12 @@ Theme.prototype = {
 			this.ostFadeDuration = 1;
 			this.fadeDelay = 1;
 		}
+		if(debugTransitions === true){
+			this.flashDuration = 1;
+			this.fadeDuration = 1;
+			this.ostFadeDuration = 1;
+			this.fadeDelay = 1;
+		}
 		// Add in the title card
 		this.menu = game.add.sprite(0,0,'theme');
 		game.camera.flash(0xffffff, this.flashDuration);
