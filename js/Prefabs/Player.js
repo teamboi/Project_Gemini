@@ -173,7 +173,7 @@ Player.prototype.move = function(direction){
 	if(direction === "left"){ // Modifies the distance moved appropriately based on direction
 		moveDist *= -1;
 	}
-	if(this.anchorState === "beingAnchored"){ // If the player is being anchored
+	if(this.anchorState === "beingAnchored" && !this.checkIfCanJump()){ // If the player is being anchored
 		var applyForce = true;
 
 		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
