@@ -84,7 +84,7 @@ Yarn.prototype.update = function(){
 // Updates the yarn if it is active
 Yarn.prototype.updateYarn = function(){
 	var tautDeadband = 1; // the margin of error to check beyond the taut length
-	var velDeadband = 100; // the margin of error to check for the velocity differences
+	var velDeadband = 50; // the margin of error to check for the velocity differences
 
 	// Only checks if the yarn is active
 	if(this.isYarn != true){
@@ -137,6 +137,11 @@ Yarn.prototype.updateYarn = function(){
 		}
 	}
 
+	// If the otherCat is falling upward, change the tautDeadband so that the cat can bounce up, instead of stiff yarn
+	if(otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > velDeadband){
+		tautDeadband = 20;
+	}
+
 	// Handle the yarn mechanic
 	if(this.playerDist >= this.tautLength + tautDeadband){ // If the player distance is greater than the taut length, create a constraint
 		this.isTaut = true;
@@ -146,24 +151,14 @@ Yarn.prototype.updateYarn = function(){
 		}
 	}
 	else{ // If the player distance is less than or equal to the taut length
-		var anchorVel = Phaser.Math.distanceSq(0,0, anchorCat.body.velocity.x, anchorCat.body.velocity.y);
-		var otherVel = Phaser.Math.distanceSq(0,0, otherCat.body.velocity.x, otherCat.body.velocity.y);
-		// Conditions for destroying the constraint
-		// If the non anchored cat can jump
-		// If the non anchored cat is falling upwards
-		// If the non anchored cat's velocity matches the anchor cat's velocity so long as they are greater than 0
-		//console.log("anchorVel = " + anchorVel);
-		//console.log("otherVel = " + otherVel);
-		//console.log(Math.abs(anchorVel - otherVel));
-		if(otherCat.checkIfCanJump() ||
-		otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > 0 ||
-		(anchorVel > velDeadband && otherVel > velDeadband && otherVel > anchorVel ) ){
+		if(this.playerDist < this.tautLength){
 			this.isTaut = false;
-			if(constraint != null){ // If the constraint does exist, remove the constraint
-				game.physics.p2.removeConstraint(constraint);
-				//game.physics.p2.removeSpring(constraint);
-				constraint = null;
-			}
+		}
+
+		if(constraint != null){ // If the constraint does exist, remove the constraint
+			game.physics.p2.removeConstraint(constraint);
+			//game.physics.p2.removeSpring(constraint);
+			constraint = null;
 		}
 	}
 }
