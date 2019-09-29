@@ -10,11 +10,12 @@ Cradle.prototype = {
 		// initialize variables for gameplay
         this.ost = ost;
         this.showExit = false;
-        this.textVertOffset = 40;
+        this.textVertOffset = 60;
         this.oneAnchoredLast = true;
         this.oneHasAnchored = false;
         this.twoHasAnchored = false;
         this.progress = false;
+        this.controlsAlpha = 1;
 	},
 	create: function(){
         var nextLevel = "Threads";
@@ -45,6 +46,7 @@ Cradle.prototype = {
             game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
             this.redGlow.x = (this.player1.x + this.player2.x)/2;
             this.redGlow.y = (this.player1.y + this.player2.y)/2;
+            this.controlsAlpha -= 0.02;
         }
         else { 
             this.complete = false;
@@ -59,55 +61,85 @@ Cradle.prototype = {
         // Bonkers dynamic tutorial!
         if(this.oneAnchoredLast == false) {
             if(this.player1.checkIfCanJump()) {
-                this.p1Controls.setText("W", true);
+                this.p1Controls.destroy();
+            	this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
                 this.p1Controls.x = this.player1.x;
                 this.p1Controls.y = this.player1.y - this.textVertOffset;
+                
             }
             else if(this.player2.anchorState != "beingAnchored") {
-                this.p1Controls.setText('Hold S', true);
+                this.p1Controls.destroy();
+            	this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  + this.oneVertOffset, 'sKey');
                 this.p1Controls.x = this.player1.x;
                 this.p1Controls.y = this.player1.y + this.textVertOffset;
+                
             }
-            this.p2Controls.setText('', true);
+            //this.p2Controls.setText('', true);
         }
         else {
             if(this.player2.checkIfCanJump()) {
-                this.p2Controls.setText("🡫", true);
+                this.p2Controls.destroy();
+           		this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
                 this.p2Controls.x = this.player2.x;
                 this.p2Controls.y = this.player2.y + this.textVertOffset;
+                
             }
             else if(this.player1.anchorState != "beingAnchored") {
-                this.p2Controls.setText('Hold 🡩', true);
+                this.p2Controls.destroy();
+           		this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  - this.twoVertOffset, 'upArrow');
                 this.p2Controls.x = this.player2.x;
                 this.p2Controls.y = this.player2.y - this.textVertOffset;
+                
             }
-            this.p1Controls.setText('', true);
+            //this.p1Controls.setText('', true);
         }
         if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
-            this.p1Controls.setText("W", true);
+            this.p1Controls.destroy();
+            this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
             this.p1Controls.x = this.player1.x;
             this.p1Controls.y = this.player1.y - this.textVertOffset;
             
-            this.p2Controls.setText("🡫", true);
+            
+            this.p2Controls.destroy();
+            this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
             this.p2Controls.x = this.player2.x;
             this.p2Controls.y = this.player2.y + this.textVertOffset;
+            
         }
       
         // If either player is being held up, show them the swinging controls
         if(this.player2.anchorState == "isAnchor") {
-            this.p1Controls.setText('A          D', true);
+        	this.p1Controls.destroy();
+            this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'adKey');
             this.p1Controls.x = this.player1.x;
             this.p1Controls.y = this.player1.y;
             this.oneAnchoredLast = false;
             this.twoHasAnchored = true;
+         
+            this.p2Controls.destroy();
+            this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  - this.twoVertOffset, 'upArrow');
+            this.p2Controls.x = this.player2.x;
+            this.p2Controls.y = this.player2.y + this.textVertOffset;
         }
         if(this.player1.anchorState == "isAnchor") {
-            this.p2Controls.setText('🡨          🡪 ', true);
+        	this.p2Controls.destroy();
+            this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'rightleftKey');
             this.p2Controls.x = this.player2.x;
             this.p2Controls.y = this.player2.y;
             this.oneAnchoredLast = true;
             this.oneHasAnchored = true;
+            
+            this.p1Controls.destroy();
+            this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  + this.oneVertOffset, 'sKey');
+            this.p1Controls.x = this.player1.x;
+            this.p1Controls.y = this.player1.y - this.textVertOffset;
         }
+        this.p1Controls.scale.set(0.5);
+        this.p1Controls.anchor.set(0.5);
+        this.p1Controls.alpha = this.controlsAlpha;
+        this.p2Controls.scale.set(0.5);
+        this.p2Controls.anchor.set(0.5);
+        this.p2Controls.alpha = this.controlsAlpha;
 
 	},
     // Progress the tutorial
@@ -116,13 +148,16 @@ Cradle.prototype = {
     },
     // Create the tutorial text
     tutorialText: function() {
-      this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.textVertOffset, 'W', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
+         this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
+        this.p1Controls.x = this.player1.x;
+        this.p1Controls.y = this.player1.y - this.textVertOffset;
         this.p1Controls.anchor.set(0.5);
         this.p1Controls.inputEnabled = true;
         this.p1ControlsPosition = this.p1Controls.worldPosition;
         
-        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y + this.textVertOffset, '🡫', {font: 'Comfortaa', fontSize: '40px', fill: '#707DE0'});
-        this.p2Controls.anchor.set(0.5);
+        this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
+        this.p2Controls.x = this.player2.x;
+        this.p2Controls.y = this.player2.y + this.textVertOffset;
         this.p2Controls.inputEnabled = true;
         this.p2ControlsPosition = this.p2Controls.worldPosition;
 

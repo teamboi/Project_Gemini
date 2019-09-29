@@ -7,10 +7,11 @@ var Load = function(game) {};
 Load.prototype = {
 	preload: function() {
 		// setup loading bar
-		var loadingBar = this.add.sprite(game.width/2, game.height/2, 'line');
+
+		var loadingBar = this.add.sprite(game.width/2, game.height/2, 'linePurp');
 		loadingBar.anchor.setTo(0.5,1);
 		game.load.setPreloadSprite(loadingBar);
-
+		
 		
 
 		// For now, this merely loads in the music and the title image, but it'll be expanded later
@@ -53,6 +54,17 @@ Load.prototype = {
 		game.load.image('blueBall', 'img/cats/blueYarn.png');
 		game.load.image('purpBall', 'img/cats/purpleYarn.png');
 		game.load.image('heart', 'img/cats/heart.png');
+
+		game.load.image('leftArrow', 'img/keys/leftKey.png');
+		game.load.image('rightArrow', 'img/keys/rightKey.png');
+		game.load.image('upArrow', 'img/keys/upKey.png');
+		game.load.image('downArrow', 'img/keys/downKey.png');
+		game.load.image('wKey', 'img/keys/wKey.png');
+		game.load.image('aKey', 'img/keys/aKey.png');
+		game.load.image('sKey', 'img/keys/sKey.png');
+		game.load.image('dKey', 'img/keys/dKey.png');
+		game.load.image('adKey', 'img/keys/adKey.png');
+		game.load.image('rightleftKey', 'img/keys/rightleftKey.png');
 		
         
         //Load in the character sprites
@@ -68,7 +80,7 @@ Load.prototype = {
         game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
         game.load.image('Cats', 'img/bg/newer_Cats.png');
         game.load.image('Cradle', 'img/bg/newer_Cradle.png');
-        game.load.image('Threads', 'img/bg/newThreads.png');
+        game.load.image('Threads', 'img/bg/lvl3.png');
 		game.load.image('Houses', 'img/bg/new_Houses.png');
 		game.load.image('Windows', 'img/bg/new_Windows.png');
 		game.load.image('Fences', 'img/bg/newest_Fences.png');
@@ -110,6 +122,10 @@ Load.prototype = {
 		game.scale.refresh();
 	},
 	create: function() {
+		
+
 		game.state.start('Theme', true, false); // Theme
+
+    
 	}
 };
