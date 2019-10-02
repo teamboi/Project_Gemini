@@ -73,9 +73,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		key = "cat1";
 		if(debugAnimation === true){
 			debugBool = true;
-			console.log(this.animationEndIndices);
 			this.animationEndIndices = this.debugPrintAnimationIndices(this.animationLengths, this.animationEndIndices);
-			console.log(this.animationEndIndices);
 		}
 		else{
 			debugBool = false;
@@ -498,7 +496,7 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(animationLengths, anim
 	console.log("walk2 = " + AEI.walk2);
 	console.log("walk3 = " + AEI.walk3);
 	console.log("walk4 = " + AEI.walk4);
-	console.log("idle = " + AEI.idleIndex);
+	console.log("idle = " + AEI.idle);
 	console.log("jumpToFall = " + AEI.jumpToFall);
 	console.log("land = " + AEI.land);
 	console.log("landToWalk = " + AEI.landToWalk);
