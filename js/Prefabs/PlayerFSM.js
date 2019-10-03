@@ -88,13 +88,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 
 	// Add in the animations
-	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 	var file = "PG Cat 6";
-
-	//this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
 		var data = this.animData[anim];
+		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
 	}
 
