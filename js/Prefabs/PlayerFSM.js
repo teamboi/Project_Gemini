@@ -7,6 +7,52 @@
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
+	this.animNames = [
+	"walk",
+	"jump",
+	"idle",
+	"fall",
+	"idleToFall",
+	"jumpToFall",
+	"land",
+	"landToIdle",
+	"landToWalk",
+	"idleToWalk",
+	"walkToIdle1",
+	"walkToIdle2",
+	"walkToIdle3",
+	"walkToIdle4",
+	"ceilingCollide",
+	"fidgetStretch",
+	"fidgetYawn"
+	];
+
+	this.animData = {
+		walk:			{length: 19,	end: 0,		fps: 50},
+		jump:			{length: "09",	end: 0,		fps: 30},
+		idle:			{length: 19,	end: 122,	fps: 30},
+		fall:			{length: "09",	end: 0,		fps: 30},
+
+		walk1:			{length: "00",	end: 183,	fps: 30},
+		walk2:			{length: "05",	end: 188,	fps: 30},
+		walk3:			{length: 10,	end: 193,	fps: 30},
+		walk4:			{length: 15,	end: 198,	fps: 30},
+
+		idleToFall:		{length: "03",	end: 126,	fps: 30},
+		jumpToFall:		{length: 19,	end: 160,	fps: 30},
+		land:			{length: "03",	end: 164,	fps: 30},
+		landToIdle:		{length: 11,	end: 176,	fps: 30},
+		landToWalk:		{length: "05",	end: 182,	fps: 30},
+		idleToWalk:		{length: "03",	end: 130,	fps: 30},
+		walkToIdle1:	{length: 25,	end: 228,	fps: 30},
+		walkToIdle2:	{length: 25,	end: 254,	fps: 30},
+		walkToIdle3:	{length: 25,	end: 280,	fps: 30},
+		walkToIdle4:	{length: 25,	end: 306,	fps: 30},
+		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
+		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
+		fidgetYawn:		{length: 39,	end: 102,	fps: 30}
+	}
+
 	// The length of each animation
 	// Used to determine the endpoints of each animation
 	this.animationLengths = {
@@ -102,6 +148,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Add in the animations
 	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 	var file = "PG Cat 6";
+
+	/*this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
+	for(let i = 1; i < this.animNames.length; i++){
+		var anim = this.animNames[i];
+		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0,this.animationLengths[anim],'',2),30, true);
+	}*/
+
 	var AEI = this.animationEndIndices;
 
 	this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
@@ -163,23 +216,10 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	var self = this;
 
 	// Create states
-	self.createAnimState('idle');
-	self.createAnimState('walk');
-	self.createAnimState('jump');
-	self.createAnimState('jumpToFall');
-	self.createAnimState('fall');
-	self.createAnimState('land');
-	self.createAnimState('landToWalk');
-	self.createAnimState('landToIdle');
-	self.createAnimState('idleToWalk');
-	self.createAnimState('idleToFall');
-	self.createAnimState('walkToIdle1');
-	self.createAnimState('walkToIdle2');
-	self.createAnimState('walkToIdle3');
-	self.createAnimState('walkToIdle4');
-	self.createAnimState('ceilingCollide');
-	self.createAnimState('fidgetStretch');
-	self.createAnimState('fidgetYawn');
+	for(let i = 0; i < this.animNames.length; i++){
+		self.createAnimState(this.animNames[i]);
+		console.log(this.animationEndIndices[i]);
+	}
 
 	// Create transitions
 	// If the player is moving when idle
@@ -197,16 +237,16 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// If the player stops moving when walking
 	this.fsm.transition('walk_to_walkToIdle1', 'walk', 'walkToIdle1', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === self.walk1End );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk1 );
 	});
 	this.fsm.transition('walk_to_walkToIdle2', 'walk', 'walkToIdle2', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === self.walk2End );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk2 );
 	});
 	this.fsm.transition('walk_to_walkToIdle3', 'walk', 'walkToIdle3', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === self.walk3End );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk3 );
 	});
 	this.fsm.transition('walk_to_walkToIdle4', 'walk', 'walkToIdle4', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === self.walk4End );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk4 );
 	});
 	self.createJumpAnimTransition("walk");
 	self.createFallAnimTransition("walk");
@@ -255,11 +295,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createJumpAnimTransition("land");
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_landToIdle', 'land', 'landToIdle', function(){
-		return ( self.animations.frame === self.landEnd && self.checkIfStopMoving() );
+		return ( self.animations.frame === AEI.land && self.checkIfStopMoving() );
 	});
 	// If the player reaches the end of the land animation and does provide keyboard input
 	this.fsm.transition('land_to_landToWalk', 'land', 'landToWalk', function(){
-		return ( self.animations.frame === self.landEnd && self.checkIfMoving() );
+		return ( self.animations.frame === AEI.land && self.checkIfMoving() );
 	});
 
 	self.createNextAnimTransition('landToIdle', 'idle')
@@ -271,8 +311,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createJumpAnimTransition("landToWalk");
 	self.createFallAnimTransition("landToWalk");
 
-	self.createFidgetAnimTransitions("fidgetStretch", 1, self.fidgetStretchEnd);
-	self.createFidgetAnimTransitions("fidgetYawn", 2, self.fidgetYawnEnd);
+	self.createFidgetAnimTransitions("fidgetStretch", 1);
+	self.createFidgetAnimTransitions("fidgetYawn", 2);
 
 	// Plays the initial state
 	this.animations.play(self.fsm.initialState);
@@ -309,7 +349,7 @@ PlayerFSM.prototype.checkIfIdleDone = function(endFrame){
 
 // If condition for if it's a valid time to play the idle animation
 PlayerFSM.prototype.checkToPlayIdleAnim = function(animNum){
-	if(this.idleAnimPicked === animNum  && this.animations.frame === this.idleEnd){
+	if(this.idleAnimPicked === animNum  && this.animations.frame === this.animationEndIndices.idle){
 		this.idleAnimPicked = 0;
 		return true;
 	}
@@ -363,14 +403,14 @@ PlayerFSM.prototype.createAnimState = function(animState){
 }
 
 // Creates the fidget animation transitions
-PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID, animEndFrame){
+PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID){
 	var self = this;
 
 	this.fsm.transition('idle_to_' + animName, 'idle', animName, function(){
 		return ( self.checkToPlayIdleAnim(animID) );
 	});
 	this.fsm.transition(animName + '_to_idle', animName, 'idle', function(){
-		return ( self.checkIfIdleDone(animEndFrame) );
+		return ( self.checkIfIdleDone(self.animationEndIndices[animName]) );
 	});
 	this.fsm.transition(animName + '_to_idleToWalk', animName, 'idleToWalk', function(){
 		return ( self.checkIfMoving() );
@@ -424,7 +464,7 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 	var self = this;
 
 	this.fsm.transition(firstAnimName + '_to_' + nextAnimName, firstAnimName, nextAnimName, function(){
-		return ( self.animations.frame === self[firstAnimName + "End"] );
+		return ( self.animations.frame === self.animationEndIndices[firstAnimName] );
 	});
 }
 
