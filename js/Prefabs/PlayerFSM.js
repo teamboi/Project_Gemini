@@ -28,16 +28,19 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	];
 
 	this.animData = {
-		walk:			{length: 19,	end: 0,		fps: 50},
-		jump:			{length: "09",	end: 0,		fps: 30},
+		// looping animations
+		walk:			{length: 19,	end: 202,	fps: 50},
+		jump:			{length: "09",	end: 140,	fps: 30},
 		idle:			{length: 19,	end: 122,	fps: 30},
-		fall:			{length: "09",	end: 0,		fps: 30},
+		fall:			{length: "09",	end: 17,	fps: 30},
 
+		// walkToIdle beginning frames; these aren't actual states
 		walk1:			{length: "00",	end: 183,	fps: 30},
 		walk2:			{length: "05",	end: 188,	fps: 30},
 		walk3:			{length: 10,	end: 193,	fps: 30},
 		walk4:			{length: 15,	end: 198,	fps: 30},
 
+		// single=cycle animations
 		idleToFall:		{length: "03",	end: 126,	fps: 30},
 		jumpToFall:		{length: 19,	end: 160,	fps: 30},
 		land:			{length: "03",	end: 164,	fps: 30},
@@ -45,73 +48,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		landToWalk:		{length: "05",	end: 182,	fps: 30},
 		idleToWalk:		{length: "03",	end: 130,	fps: 30},
 		walkToIdle1:	{length: 25,	end: 228,	fps: 30},
-		walkToIdle2:	{length: 25,	end: 254,	fps: 30},
-		walkToIdle3:	{length: 25,	end: 280,	fps: 30},
-		walkToIdle4:	{length: 25,	end: 306,	fps: 30},
+		walkToIdle2:	{length: 25,	end: 249,	fps: 30},
+		walkToIdle3:	{length: 25,	end: 267,	fps: 30},
+		walkToIdle4:	{length: 25,	end: 305,	fps: 30},
 		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
 		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
 		fidgetYawn:		{length: 39,	end: 102,	fps: 30}
-	}
-
-	// The length of each animation
-	// Used to determine the endpoints of each animation
-	this.animationLengths = {
-		// looping animations
-		walk: 19,
-		jump: "09",
-		idle: 19,
-		fall: "09",
-
-		// walkToIdle beginning frames
-		walk1: "00",
-		walk2: "05",
-		walk3: 10,
-		walk4: 15,
-
-		// single-cycle animations
-		idleToFall: "03",
-		jumpToFall: 19,
-		land: "03",
-		landToIdle: 11,
-		landToWalk: "05",
-		idleToWalk: "03",
-		walkToIdle1: 25,
-		walkToIdle2: 25,
-		walkToIdle3: 25,
-		walkToIdle4: 25,
-		ceilingCollide: "07",
-		fidgetStretch: 44,
-		fidgetYawn: 39
-	}
-
-	// The indices of the end of each animation in the array
-	this.animationEndIndices = {
-		// looping animations
-		walk: 0,
-		jump: 0,
-		idle: 122,
-		fall: 0,
-
-		// walkToIdle End frames
-		walk1: 183,
-		walk2: 188,
-		walk3: 193,
-		walk4: 198,
-
-		// single-cycle animations
-		idleToFall: 126,
-		jumpToFall: 160,
-		land: 164,
-		landToIdle: 176,
-		landToWalk: 182,
-		idleToWalk: 130,
-		walkToIdle1: 228,
-		walkToIdle2: 254,
-		walkToIdle3: 280,
-		walkToIdle4: 306,
-		ceilingCollide: 7,
-		fidgetStretch: 62,
-		fidgetYawn: 102
 	}
 
 	var key, debugBool;
@@ -119,7 +61,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		key = "cat1";
 		if(debugAnimation === true){
 			debugBool = true;
-			this.animationEndIndices = this.debugPrintAnimationIndices(this.animationLengths, this.animationEndIndices);
+			this.debugPrintAnimationIndices();
 		}
 		else{
 			debugBool = false;
@@ -149,65 +91,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 	var file = "PG Cat 6";
 
-	/*this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
-	for(let i = 1; i < this.animNames.length; i++){
+	//this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
+	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
-		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0,this.animationLengths[anim],'',2),30, true);
-	}*/
-
-	var AEI = this.animationEndIndices;
-
-	this.animations.add('walk', Phaser.Animation.generateFrameNames(file + '-Walk-',0,this.animationLengths.walk,'',2),50, true);
-	this.walk1End = AEI.walk1;
-	this.walk2End = AEI.walk2;
-	this.walk3End = AEI.walk3;
-	this.walk4End = AEI.walk4;
-
-	this.animations.add('jump', Phaser.Animation.generateFrameNames(file + '-Jump-',0,this.animationLengths.jump,'',2),30, true);
-
-	this.animations.add('idle', Phaser.Animation.generateFrameNames(file + '-Idle-',0,this.animationLengths.idle,'',2),30, true);
-	this.idleEnd = AEI.idle;
-
-	this.animations.add('fall', Phaser.Animation.generateFrameNames(file + '-Fall-',0,this.animationLengths.fall,'',2),30, true);
-	
-	this.animations.add('jumpToFall', Phaser.Animation.generateFrameNames(file + '-JumpToFall-',0,this.animationLengths.jumpToFall,'',2),30, true);
-	this.jumpToFallEnd = AEI.jumpToFall; // Index of the end of the jumpToFall animation
-
-	this.animations.add('land', Phaser.Animation.generateFrameNames(file + '-Land-',0,this.animationLengths.land,'',2),30, true);
-	this.landEnd = AEI.land; // Index of the end of the land animation
-
-	this.animations.add('landToWalk', Phaser.Animation.generateFrameNames(file + '-LandToWalk-',0,this.animationLengths.landToWalk,'',2),30, true);
-	this.landToWalkEnd = AEI.landToWalk; // Index of the end of the landToWalk animation
-
-	this.animations.add('landToIdle', Phaser.Animation.generateFrameNames(file + '-LandToIdle-',0,this.animationLengths.landToIdle,'',2),30, true);
-	this.landToIdleEnd = AEI.landToIdle; // Index of the end of the landToIdle animation
-
-	this.animations.add('idleToWalk', Phaser.Animation.generateFrameNames(file + '-IdleToWalk-',0,this.animationLengths.idleToWalk,'',2),30, true);
-	this.idleToWalkEnd = AEI.idleToWalk; // Index of the end of the idleToWalk animation
-
-	this.animations.add('idleToFall', Phaser.Animation.generateFrameNames(file + '-IdleToFall-',0,this.animationLengths.idleToFall,'',2),30, true);
-	this.idleToFallEnd = AEI.idleToFall; // Index of the end of the idleToFall animation
-
-	this.animations.add('walkToIdle1', Phaser.Animation.generateFrameNames(file + '-WalkToIdle1-',0,this.animationLengths.walkToIdle1,'',2),30, true);
-	this.walkToIdle1End = AEI.walkToIdle1; // Index of the end of the walkToIdle1 animation
-
-	this.animations.add('walkToIdle2', Phaser.Animation.generateFrameNames(file + '-WalkToIdle2-',0,this.animationLengths.walkToIdle1,'',2),30, true);
-	this.walkToIdle2End = AEI.walkToIdle2; // Index of the end of the walkToIdle2 animation
-
-	this.animations.add('walkToIdle3', Phaser.Animation.generateFrameNames(file + '-WalkToIdle3-',0,this.animationLengths.walkToIdle1,'',2),30, true);
-	this.walkToIdle3End = AEI.walkToIdle3; // Index of the end of the walkToIdle3 animation
-
-	this.animations.add('walkToIdle4', Phaser.Animation.generateFrameNames(file + '-WalkToIdle4-',0,this.animationLengths.walkToIdle1,'',2),30, true);
-	this.walkToIdle4End = AEI.walkToIdle4; // Index of the end of the walkToIdle4 animation
-
-	this.animations.add('ceilingCollide', Phaser.Animation.generateFrameNames(file + '-CeilingCollide-',0,this.animationLengths.ceilingCollide,'',2),30, true);
-	this.ceilingCollideEnd = AEI.ceilingCollide; // Index of the end of the ceilingCollide animation
-
-	this.animations.add('fidgetStretch', Phaser.Animation.generateFrameNames(file + '-FidgetStretch-',0,this.animationLengths.fidgetStretch,'',2),30, true);
-	this.fidgetStretchEnd = AEI.fidgetStretch; // Index of the end of the fidgetStretch animation
-
-	this.animations.add('fidgetYawn', Phaser.Animation.generateFrameNames(file + '-FidgetYawn-',0,this.animationLengths.fidgetYawn,'',2),30, true);
-	this.fidgetYawnEnd = AEI.fidgetYawn; // Index of the end of the fidgetYawn animation
+		var data = this.animData[anim];
+		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
+	}
 
 	// Creates a new FSM
 	this.fsm = new StateMachine(this, {debug: debugBool});
@@ -218,8 +107,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Create states
 	for(let i = 0; i < this.animNames.length; i++){
 		self.createAnimState(this.animNames[i]);
-		console.log(this.animationEndIndices[i]);
 	}
+
+	var data = this.animData;
 
 	// Create transitions
 	// If the player is moving when idle
@@ -237,16 +127,16 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// If the player stops moving when walking
 	this.fsm.transition('walk_to_walkToIdle1', 'walk', 'walkToIdle1', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk1 );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk1.end );
 	});
 	this.fsm.transition('walk_to_walkToIdle2', 'walk', 'walkToIdle2', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk2 );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk2.end );
 	});
 	this.fsm.transition('walk_to_walkToIdle3', 'walk', 'walkToIdle3', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk3 );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk3.end );
 	});
 	this.fsm.transition('walk_to_walkToIdle4', 'walk', 'walkToIdle4', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === AEI.walk4 );
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk4.end );
 	});
 	self.createJumpAnimTransition("walk");
 	self.createFallAnimTransition("walk");
@@ -273,7 +163,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// If the player reaches the peak of their jump when jumping
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 40 && self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
+		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 40
+			&& self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
 		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5 );
@@ -295,11 +186,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createJumpAnimTransition("land");
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
 	this.fsm.transition('land_to_landToIdle', 'land', 'landToIdle', function(){
-		return ( self.animations.frame === AEI.land && self.checkIfStopMoving() );
+		return ( self.animations.frame === data.land.end && self.checkIfStopMoving() );
 	});
 	// If the player reaches the end of the land animation and does provide keyboard input
 	this.fsm.transition('land_to_landToWalk', 'land', 'landToWalk', function(){
-		return ( self.animations.frame === AEI.land && self.checkIfMoving() );
+		return ( self.animations.frame === data.land.end && self.checkIfMoving() );
 	});
 
 	self.createNextAnimTransition('landToIdle', 'idle')
@@ -349,7 +240,7 @@ PlayerFSM.prototype.checkIfIdleDone = function(endFrame){
 
 // If condition for if it's a valid time to play the idle animation
 PlayerFSM.prototype.checkToPlayIdleAnim = function(animNum){
-	if(this.idleAnimPicked === animNum  && this.animations.frame === this.animationEndIndices.idle){
+	if(this.idleAnimPicked === animNum  && this.animations.frame === this.animData.idle.end){
 		this.idleAnimPicked = 0;
 		return true;
 	}
@@ -410,7 +301,7 @@ PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID){
 		return ( self.checkToPlayIdleAnim(animID) );
 	});
 	this.fsm.transition(animName + '_to_idle', animName, 'idle', function(){
-		return ( self.checkIfIdleDone(self.animationEndIndices[animName]) );
+		return ( self.checkIfIdleDone(self.animData[animName].end) );
 	});
 	this.fsm.transition(animName + '_to_idleToWalk', animName, 'idleToWalk', function(){
 		return ( self.checkIfMoving() );
@@ -464,94 +355,44 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 	var self = this;
 
 	this.fsm.transition(firstAnimName + '_to_' + nextAnimName, firstAnimName, nextAnimName, function(){
-		return ( self.animations.frame === self.animationEndIndices[firstAnimName] );
+		return ( self.animations.frame === self.animData[firstAnimName].end );
 	});
 }
 
 // Prints out the indices of the end of animation states
-PlayerFSM.prototype.debugPrintAnimationIndices = function(animationLengths, animationEndIndices){
+PlayerFSM.prototype.debugPrintAnimationIndices = function(){
     var atlas = game.cache.getJSON('playerAnimations');
-
 	var frames = atlas.frames;
+
 	var file = "PG Cat 6";
-	var AEI = animationEndIndices;
+	var anyChanges = false;
 	for(let i = 0; i < frames.length; i++){
-		if(frames[i].filename === file + "-Idle-" + animationLengths.idle){
-			AEI.idle = i;
-		}
-		else if(frames[i].filename === file + "-Walk-" + animationLengths.walk1){
-			AEI.walk1 = i;
-		}
-		else if(frames[i].filename === file + "-Walk-" + animationLengths.walk2){
-			AEI.walk2 = i;
-		}
-		else if(frames[i].filename === file + "-Walk-" + animationLengths.walk3){
-			AEI.walk3 = i;
-		}
-		else if(frames[i].filename === file + "-Walk-" + animationLengths.walk4){
-			AEI.walk4 = i;
-		}
-		else if(frames[i].filename === file + "-JumpToFall-" + animationLengths.jumpToFall){
-			AEI.jumpToFall = i;
-		}
-		else if(frames[i].filename === file + "-Land-" + animationLengths.land){
-			AEI.land = i;
-		}
-		else if(frames[i].filename === file + "-LandToWalk-" + animationLengths.landToWalk){
-			AEI.landToWalk = i;
-		}
-		else if(frames[i].filename === file + "-LandToIdle-" + animationLengths.landToIdle){
-			AEI.landToIdle = i;
-		}
-		else if(frames[i].filename === file + "-IdleToWalk-" + animationLengths.idleToWalk){
-			AEI.idleToWalk = i;
-		}
-		else if(frames[i].filename === file + "-IdleToFall-" + animationLengths.idleToFall){
-			AEI.idleToFall = i;
-		}
-		else if(frames[i].filename === file + "-WalkToIdle1-" + animationLengths.walkToIdle1){
-			AEI.walkToIdle1 = i;
-		}
-		else if(frames[i].filename === file + "-WalkToIdle2-" + animationLengths.walkToIdle2){
-			AEI.walkToIdle2 = i;
-		}
-		else if(frames[i].filename === file + "-WalkToIdle3-" + animationLengths.walkToIdle3){
-			AEI.walkToIdle3 = i;
-		}
-		else if(frames[i].filename === file + "-WalkToIdle4-" + animationLengths.walkToIdle4){
-			AEI.walkToIdle4 = i;
-		}
-		else if(frames[i].filename === file + "-CeilingCollide-" + animationLengths.ceilingCollide){
-			AEI.ceilingCollide = i;
-		}
-		else if(frames[i].filename === file + "-FidgetStretch-" + animationLengths.fidgetStretch){
-			AEI.fidgetStretch = i;
-		}
-		else if(frames[i].filename === file + "-FidgetYawn-" + animationLengths.fidgetYawn){
-			AEI.fidgetYawn = i;
+		for(let j = 0; j < this.animNames.length; j++){
+			var anim = this.animNames[j];
+			var data = this.animData[anim];
+			if(frames[i].filename === file + "-" + anim + "-" + data.length){
+				var oldData = data.end;
+				data.end = i;
+
+				if(oldData != data.end){
+					console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					anyChanges = true;
+				}
+			}
 		}
 	}
 
-	console.log("walk1 = " + AEI.walk1);
-	console.log("walk2 = " + AEI.walk2);
-	console.log("walk3 = " + AEI.walk3);
-	console.log("walk4 = " + AEI.walk4);
-	console.log("idle = " + AEI.idle);
-	console.log("jumpToFall = " + AEI.jumpToFall);
-	console.log("land = " + AEI.land);
-	console.log("landToWalk = " + AEI.landToWalk);
-	console.log("landToIdle = " + AEI.landToIdle);
-	console.log("idleToWalk = " + AEI.idleToWalk);
-	console.log("idleToFall = " + AEI.idleToFall);
-	console.log("walkToIdle1 = " + AEI.walkToIdle1);
-	console.log("walkToIdle2 = " + AEI.walkToIdle2);
-	console.log("walkToIdle3 = " + AEI.walkToIdle3);
-	console.log("walkToIdle4 = " + AEI.walkToIdle4);
-	console.log("ceilingCollide = " + AEI.ceilingCollide);
-	console.log("fidgetStretch = " + AEI.fidgetStretch);
-	console.log("fidgetYawn = " + AEI.fidgetYawn);
+	if(anyChanges === false){
+		console.log("All end indices up to date");
+		return;
+	}
 
-	return AEI;
+	for(let i = 0; i < this.animNames.length; i++){
+		var anim = this.animNames[i];
+		var data = this.animData[anim];
+		
+		console.log(anim + " = " + data.end);
+	}
 }
 
 // Resets the timer for idle animations
