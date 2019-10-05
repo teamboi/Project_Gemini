@@ -27,6 +27,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"fidgetYawn"
 	];
 
+	// Object storing various data on animation states
+	// Single digit numbers for length need to be formatted in "0#"
+	// for frame name data
 	this.animData = {
 		// looping animations
 		walk:			{length: 19,	end: 202,	fps: 50},
@@ -87,7 +90,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleTimer = 0; // var for the timer for being idle to trigger fidget animations
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 
-	// Add in the animations
+	// Add in the animation frames by name
 	var file = "PG Cat 6";
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
@@ -257,7 +260,7 @@ PlayerFSM.prototype.checkIfJumping = function(){
 
 // If condition for if the player has landed on the ground
 PlayerFSM.prototype.checkIfLanded = function(){
-	if( this.player.checkIfCanJump() ){ //this.player.body.velocity.y*-1*this.player.body.data.gravityScale <= 5
+	if( this.player.checkIfCanJump() ){
 		this.resetIdleTimer();
 		return true;
 	}
@@ -292,6 +295,7 @@ PlayerFSM.prototype.createAnimState = function(animState){
 }
 
 // Creates the fidget animation transitions
+// animID is an arbitrary number for choosing random numbers
 PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID){
 	var self = this;
 
