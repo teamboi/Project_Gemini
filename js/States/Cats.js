@@ -44,10 +44,10 @@ Cats.prototype = {
         this.p2Controls.x = this.player2.x;
         this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player1.controls[2]]) && this.player1.checkIfCanJump() ) {
+        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player1.controls.jump]) && this.player1.checkIfCanJump() ) {
         	this.oneHasJumped = true;
         }
-        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player2.controls[2]]) && this.player2.checkIfCanJump()) {
+        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player2.controls.jump]) && this.player2.checkIfCanJump()) {
         	this.twoHasJumped = true;
         }
 

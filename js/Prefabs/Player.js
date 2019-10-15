@@ -150,12 +150,12 @@ Player.prototype.update = function(){
 		this.puppetSurrogate();
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
 		// If the player is moving to the left
-		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.left)) {
+		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.left])) {
 			this.catSprite.isMoving = true;
 			this.faceLeft();
 	    }
 	    // If the player is moving to the right
-	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right)) {
+	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
 	    	this.catSprite.isMoving = true;
 	    	this.faceRight();
 	    }
