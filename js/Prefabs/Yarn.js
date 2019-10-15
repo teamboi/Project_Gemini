@@ -20,8 +20,8 @@ function Yarn(game, gameplay, player1, player2, surrogate){
 	this.surrogate = surrogate;
 
 	// Obtain the players' anchor keys
-	this.p1Key = this.player1.controls[3];
-	this.p2Key = this.player2.controls[3];
+	this.p1Key = this.player1.controls.anchor;
+	this.p2Key = this.player2.controls.anchor;
 
 	// Define some variables for the constraint
 	this.isYarn = false; // boolean for if the yarn is active

@@ -53,7 +53,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 	// Sets specific variables for the players and surrogate
 	if(whichPlayer == 1){
-		this.controls = ['A','D','W','S']; // Controls for: left, right, jump, anchor
+		this.controls = {left: 'A', right: 'D', jump: 'W', anchor: 'S'}; // Controls for: left, right, jump, anchor
 		this.jumpDirection = 'up'; // Direction that jump will push the player towards
 
 		this.yarnColor = 0xE4784E; // Sets yarn color to an orange
@@ -69,7 +69,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
 		this.catSprite.scale.y *= -1 // Flips the FSM upside down
 
-		this.controls = ['LEFT','RIGHT','DOWN','UP'];
+		this.controls = {left: 'LEFT', right: 'RIGHT', jump: 'DOWN', anchor: 'UP'};
 		this.jumpDirection = 'down'; // Direction that jump will push the player towards
 
 		this.yarnColor = 0x799FCE; // Sets yarn color to a blue
@@ -82,7 +82,7 @@ function Player(game, gameplay, x, y, whichPlayer){
         this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else{
-		this.controls = ['LEFT','RIGHT','DOWN','UP']; // Populates the controls for the surrogate so it can be read
+		this.controls = {left: 'LEFT', right: 'RIGHT', jump: 'DOWN', anchor: 'UP'}; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
 		//http://www.html5gamedevs.com/topic/10454-how-to-disable-collision-for-body/
@@ -111,12 +111,12 @@ Player.prototype.update = function(){
 	// If this player isn't anchoring, move the player around
 	if(this.anchorState != "isAnchor"){
 		// Check for left and right movements
-		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
+		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.left])) {
 			this.faceLeft();
 			this.move(this.facing, this.xVelocity);
 			this.catSprite.isMoving = true;
 	    }
-	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
+	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
 	    	this.faceRight();
 	    	this.move(this.facing, this.xVelocity);
 	    	this.catSprite.isMoving = true;
@@ -126,7 +126,7 @@ Player.prototype.update = function(){
 	    }
 
 	    // Check for jumping
-	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls[2]]) && this.checkIfCanJump() ){
+	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls.jump]) && this.checkIfCanJump() ){
 	    	// Check for if the player is not the surrogate, then play a sound
 	    	if(this.whichPlayer == 1 || this.whichPlayer == 2) {
 	    		if(typeof this.meow1 !== 'undefined') {
@@ -150,12 +150,12 @@ Player.prototype.update = function(){
 		this.puppetSurrogate();
 		// Properly sets the correct animation variables and scaling based on input if the player is anchoring
 		// If the player is moving to the left
-		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[0]])) {
+		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.left)) {
 			this.catSprite.isMoving = true;
 			this.faceLeft();
 	    }
 	    // If the player is moving to the right
-	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls[1]])) {
+	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right)) {
 	    	this.catSprite.isMoving = true;
 	    	this.faceRight();
 	    }
