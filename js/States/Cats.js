@@ -9,10 +9,17 @@ Cats.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
         this.ost = ost;
-        this.oneVertOffset = 5;
-        this.twoVertOffset = 5;
+        this.oneVertOffset = 6;
+        this.twoVertOffset = 6;
+        this.oneHasJumped = false;
+		this.twoHasJumped = false;
+		this.controlsAlpha = 1;
 	},
 	create: function(){
+		this.oneHasJumped = false;
+		this.twoHasJumped = false;
+		this.controlsAlpha = 1;
+
 		var nextLevel = "Cradle";
 		var ostFadeOut = false;
 		var tilemap = "levelOne";
@@ -21,8 +28,8 @@ Cats.prototype = {
 		var howManyGlows = 1;
 		var redGlowCoords = [0,0];
 		var blueGlowCoords = [0,0];
-		var player1Coords = [68, 516];
-		var player2Coords = [818, 199];
+		var player1Coords = [100, 516];
+		var player2Coords = [800, 199];
 		var enableYarn = false;
 		var enableBarrier = false;
 
@@ -37,14 +44,31 @@ Cats.prototype = {
         this.p2Controls.x = this.player2.x;
         this.p2Controls.y = this.player2.y + this.twoVertOffset;
 
-        // Show the jump control once players are near a platform
-        if(game.math.difference(this.player1.body.x, game.width/2) < 10) {
-            this.p1Controls.setText("W", true);
-            this.oneVertOffset = 40;
+        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player1.controls[2]]) && this.player1.checkIfCanJump() ) {
+        	this.oneHasJumped = true;
         }
-        if(game.math.difference(this.player2.body.x, game.width/2) < 10) {
-            this.p2Controls.setText("🡫", true);
-            this.twoVertOffset = 40;
+        if(game.input.keyboard.justPressed(Phaser.KeyCode[this.player2.controls[2]]) && this.player2.checkIfCanJump()) {
+        	this.twoHasJumped = true;
+        }
+
+        // Show the jump control once players are near a platform
+        if(game.math.difference(this.player1.body.x, game.width/2) < 10 || this.oneHasJumped) {
+            //this.p1Controls.setText("W", true);
+            this.p1Controls.destroy();
+            this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
+            this.p1Controls.scale.set(0.5);
+       		this.p1Controls.anchor.set(0.5);
+       		this.p1Controls.alpha = this.controlsAlpha;
+            this.oneVertOffset = 60;
+        }
+        if(game.math.difference(this.player2.body.x, game.width/2) < 10 || this.twoHasJumped) {
+           //this.p1Controls.setText("W", true);
+            this.p2Controls.destroy();
+            this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
+            this.p2Controls.scale.set(0.5);
+       		this.p2Controls.anchor.set(0.5);
+       		this.p2Controls.alpha = this.controlsAlpha;
+            this.twoVertOffset = 60;
         }
         
         // Begin the level end
@@ -58,6 +82,8 @@ Cats.prototype = {
             game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
             this.redGlow.x = (this.player1.x + this.player2.x)/2;
             this.redGlow.y = (this.player1.y + this.player2.y)/2;
+            game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Linear.None, true, 0);
+            this.controlsAlpha -= 0.02;
         }
         else { 
             this.complete = false;
@@ -68,14 +94,17 @@ Cats.prototype = {
 
     // Show the movement controls dynamically
     tutorialText: function() {
-        this.p1Controls = game.add.text(this.player1.body.x, this.player1.body.y - this.oneVertOffset, 'A        D', {font: 'Comfortaa', fontSize: '40px', fill: '#E25D85'});
+        this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'adKey');
+        this.p1Controls.scale.set(0.5);
         this.p1Controls.anchor.set(0.5);
-        this.p1Controls.inputEnabled = true;
+        this.p1Controls.alpha = this.controlsAlpha;
+        //this.p1Controls.inputEnabled = true;
         this.p1ControlsPosition = this.p1Controls.worldPosition;
         
-        this.p2Controls = game.add.text(this.player2.body.x, this.player2.body.y + this.oneVertOffset, '🡨        🡪', {font: 'Comfortaa', fontSize: '40px', fill: '#707DE0'});
+        this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y + this.oneVertOffset, 'rightleftKey');
+        this.p2Controls.scale.set(0.5);
         this.p2Controls.anchor.set(0.5);
-        this.p2Controls.inputEnabled = true;
+        this.p2Controls.alpha = this.controlsAlpha;
         this.p2ControlsPosition = this.p2Controls.worldPosition;
     },
 }

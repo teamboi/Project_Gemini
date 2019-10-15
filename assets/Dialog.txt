@@ -19,15 +19,15 @@
 	],
 	[
 		{
-			"x" : 437,
-			"y" : 86,
+			"x" : 160,
+			"y" : 216,
 			"width" : 550,
 			"text": "The bond between the two became something magical, as if tied together with string...",
 			"size" : 22,
 			"audio" : "narrate"
 		},
 		{
-			"x" : 437,
+			"x" : 237,
 			"y" : 622,
 			"width" : 550,
 			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
