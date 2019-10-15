@@ -27,6 +27,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"fidgetYawn"
 	];
 
+	this.extraAnimPointNames = [
+	"walk1",
+	"walk2",
+	"walk3",
+	"walk4"
+	]
+
 	// Object storing various data on animation states
 	// Single digit numbers for length need to be formatted in "0#"
 	// for frame name data
@@ -36,12 +43,6 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		jump:			{length: "09",	end: 140,	fps: 30},
 		idle:			{length: 19,	end: 122,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
-
-		// walkToIdle beginning frames; these aren't actual states
-		walk1:			{length: "00",	end: 183,	fps: 30},
-		walk2:			{length: "05",	end: 188,	fps: 30},
-		walk3:			{length: 10,	end: 193,	fps: 30},
-		walk4:			{length: 15,	end: 198,	fps: 30},
 
 		// single=cycle animations
 		idleToFall:		{length: "03",	end: 126,	fps: 30},
@@ -56,7 +57,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		walkToIdle4:	{length: 25,	end: 305,	fps: 30},
 		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
 		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
-		fidgetYawn:		{length: 39,	end: 102,	fps: 30}
+		fidgetYawn:		{length: 39,	end: 102,	fps: 30},
+
+		// walkToIdle beginning frames; these aren't actual states
+		walk1:			{begin: "00",	end: 183, 	anim: "walk"},
+		walk2:			{begin: "05",	end: 188, 	anim: "walk"},
+		walk3:			{begin: 10,		end: 193, 	anim: "walk"},
+		walk4:			{begin: 15,		end: 198, 	anim: "walk"}
 	}
 
 	var key, debugBool;
@@ -95,6 +102,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
 		var data = this.animData[anim];
+		
 		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
 	}
@@ -380,6 +388,23 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 					console.log("changed " + anim + " from " + oldData + " to " + data.end);
 					anyChanges = true;
 				}
+
+				break;
+			}
+		}
+		for(let j = 0; j < this.extraAnimPointNames.length; j++){
+			var anim = this.extraAnimPointNames[j];
+			var data = this.animData[anim];
+			if(frames[i].filename === file + "-" + data.anim + "-" + data.begin){
+				var oldData = data.end;
+				data.end = i;
+
+				if(oldData != data.end){
+					console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					anyChanges = true;
+				}
+
+				break;
 			}
 		}
 	}
@@ -391,6 +416,13 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
+		var data = this.animData[anim];
+		
+		console.log(anim + " = " + data.end);
+	}
+
+	for(let i = 0; i < this.extraAnimPointNames.length; i++){
+		var anim = this.extraAnimPointNames[i];
 		var data = this.animData[anim];
 		
 		console.log(anim + " = " + data.end);
