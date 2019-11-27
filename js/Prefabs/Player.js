@@ -85,6 +85,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 		this.controls = {left: 'LEFT', right: 'RIGHT', jump: 'DOWN', anchor: 'UP'}; // Populates the controls for the surrogate so it can be read
 		this.jumpDirection = 'down'; // Populates the jumpDirection for the surrogate so it can be read
 		this.alpha = 0; // Makes the surrogate invisible
+
 		//http://www.html5gamedevs.com/topic/10454-how-to-disable-collision-for-body/
 		this.body.data.shapes[0].sensor = true; // Surrogate does not collide
 
@@ -210,6 +211,7 @@ Player.prototype.faceLeft = function(){
 		//this.yarnAnchorOffsetX = Math.abs(this.yarnAnchorOffsetX);
 		this.catSprite.scale.x = -1*this.catSprite.scale.x;
 		
+		// Tweens the yarn anchor point
 		if(this.yarnAnchorTween != null){
 			this.yarnAnchorTween.stop();
 		}
@@ -225,6 +227,7 @@ Player.prototype.faceRight = function(){
 		//this.yarnAnchorOffsetX = -1*Math.abs(this.yarnAnchorOffsetX);
 		this.catSprite.scale.x = -1*this.catSprite.scale.x;
 
+		// Tweens the yarn anchor point
 		if(this.yarnAnchorTween != null){
 			this.yarnAnchorTween.stop();
 		}

@@ -7,6 +7,7 @@
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
+	// Names of animation states
 	this.animNames = [
 	"walk",
 	"jump",
@@ -27,6 +28,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"fidgetYawn"
 	];
 
+	// Not actual animation states
+	// breakpoints within other animation states
 	this.extraAnimPointNames = [
 	"walk1",
 	"walk2",
@@ -66,20 +69,17 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		walk4:			{begin: 15,		end: 198, 	anim: "walk"}
 	}
 
-	var key, debugBool;
+	var key;
+	var debugBool = false;
 	if(whichPlayer === 1){
 		key = "cat1";
 		if(debugAnimation === true){
 			debugBool = true;
 			this.debugPrintAnimationIndices();
 		}
-		else{
-			debugBool = false;
-		}
 	}
 	else{
 		key = "cat2";
-		debugBool = false;
 	}
 
 	Phaser.Sprite.call(this, game, x, y, key);
@@ -118,6 +118,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		self.createAnimState(this.animNames[i]);
 	}
 
+	// create shorthand for this.animData
 	var data = this.animData;
 
 	// Create transitions

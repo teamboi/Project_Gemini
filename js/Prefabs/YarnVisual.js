@@ -35,10 +35,10 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.mpModifier = game.add.sprite(this.x, this.y, key);
 	this.mpModifierAngle = 0;
 	this.justTightened = false; // Variable used to store if the yarn was just tightened; used in mpModifierAngle
-	this.mpModifierAngleDir = 0; // Variable used to track where mpModifierAngle should point
-	this.mpModifierAngleScalar = 0; // Variable used to control the influence of mpModifierAngle
-	this.mpModifierDrop = 0;
-	this.playerGravDir = 1;
+	this.mpModifierAngleDir = 0; // Variable used to track where mpModifierAngle should point, left or right
+	this.mpModifierAngleScalar = 0; // Variable used to control the magnitude of mpModifierAngle
+	this.mpModifierDrop = 0; // Variable used to control the vertical drop of mpModifier
+	this.playerGravDir = 1; // Variable used to control which direction mpModifier drops, up or down
 
 	// Adds in the bezier graphics for the yarn
 	// Adds in the bezier handles, respective of the players
@@ -77,6 +77,7 @@ YarnVisual.prototype.update = function(){
 
 	// If the yarn is just tightened, update the tighten animation
 	if(this.justTightened === true){
+		// I should comment my math
 		this.mpModifierAngle = yp.yarnAngle + (Math.PI / 2 * this.mpModifierAngleDir);
 
 		var outputtedAngle = (this.mpModifierAngle - (1.5 * Math.PI * this.playerGravDir)) * this.mpModifierAngleScalar + (1.5 * Math.PI);
@@ -252,7 +253,7 @@ YarnVisual.prototype.tightenMPModifier = function(){
 		this.mpModifierAngleTween.stop();
 	}
 
-	// Tweens the magnitude of the mpModifier
+	// Tweens the magnitude of the mpModifier // Does it?
 	this.mpModifierAngleScalar = 0;
 	this.mpModifierAngleTween = game.add.tween(this).to( { mpModifierAngleScalar: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
 
