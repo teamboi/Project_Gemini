@@ -81,28 +81,9 @@ Clouds.prototype = {
         this.room3.zOrder = layerBG;
         this.room3.alpha = 0;
         // Add the moveable clouds
-        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down');
-        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up');
+        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down', this.player1);
+        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up', this.player2);
     },
-    // Check for the win condition
-    /*preFade: function() {
-        if(this.complete == true) {
-            game.time.events.add(1000, this.fade, this);
-        }
-    },
-    // Fade out the scene and music
-    fade: function() {
-        //  You can set your own fade color and duration
-        game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2500);
-    },
-    // Call the dning state
-    resetFade: function() {
-        if(this.fadeComplete == false) {
-            game.state.start('Ending', true, false, this.ost);
-            this.fadeComplete = true;
-        }
-    },*/
     // Destroy the world barrier
     destoyBarrier: function() {
         this.barrier.destroy();

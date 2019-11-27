@@ -84,18 +84,18 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     gp.dialog.TypeIntro(dialogNum);
     gp.dialog.TypeOutro(dialogNum);
 
-    // Create the world barriers
-    this.createBarrier(game.width/2, game.height/2, game.width, 1);
-
-    // Create level specific platforms/interactables
-    this.createLevelObstacles();
-
     // Add in the players with the Player prefab constructor
     gp.player1 = new Player(game, gp, player1X, player1Y, 1);
     gp.player2 = new Player(game, gp, player2X, player2Y, 2);
 
     // Create the yarn if specified
     this.createYarn(enableYarn);
+
+    // Create the world barriers
+    this.createBarrier(game.width/2, game.height/2, game.width, 1);
+
+    // Create level specific platforms/interactables
+    this.createLevelObstacles();
 
     //Create the tutorial text
     this.tutorialText();
