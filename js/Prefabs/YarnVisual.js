@@ -128,15 +128,8 @@ YarnVisual.prototype.drawYarn = function(){
 
 		// As the slackLength increases, the bezier Handles start moving more to the side
 		// Constructs a linear function slackLength as input and handleOffsetMult as output
-		if(slackLength < tautThreshold){
-			var handleOffsetMult = 0
-		}
-		else if(slackLength < slackThreshold){
-			var handleOffsetMult = 0 + ( ( slackMaxValue / (slackThreshold - tautThreshold) ) * ( slackLength - tautThreshold ) );
-		}
-		else{
-			var handleOffsetMult = slackMaxValue;
-		}
+		var handleOffsetMult = Phaser.Math.mapLinear(slackLength, slackThreshold, tautThreshold, slackMaxValue, 0);
+		handleOffsetMult = Phaser.Math.clamp(handleOffsetMult,0,slackMaxValue);
 
 		// Rotates the bezier handle offsets relative to the string
 		var handleXRotation = Math.sin(yp.yarnAngle) * handleOffsetMult;
