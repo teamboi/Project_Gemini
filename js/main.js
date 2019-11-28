@@ -22,8 +22,8 @@ var layerYarn = 100;
 var layerPlayer = 90;
 
 // variables for debugging
-var debugLevel = "Clouds"; // replace with the name of the level to switch to; default to null
-var debugCollisionsObjects = false; // true or false; enable collisions with objects
+var debugLevel = "Windows"; // replace with the name of the level to switch to; default to null
+var debugCollisionsObjects = true; // true or false; enable collisions with objects
 var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
 var debugAnimation = false; // true or false; prints out animation indices for the player, so I don't have to count, and it isn't calculated every time a level is loaded; Also enables debug on FSM
 var debugTransitions = true; // true or false; makes level transitions instant

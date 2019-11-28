@@ -67,9 +67,9 @@ Windows.prototype = {
     },
 
     createLevelObstacles: function(){
-        this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 600, 481, 'down');
+        this.window1 = new WindowMask(game, this, 727, 600, 'blueWindow', 'blueLatch', 623, 481, 'down');
 
-        this.window2 = new WindowMask(game, this, 661, 99, 'redWindow', 'redLatch', 106, 250, 'up');
+        this.window2 = new WindowMask(game, this, 661, 106, 'redWindow', 'redLatch', 99, 250, 'up');
     }
 
     /*fade: function() {

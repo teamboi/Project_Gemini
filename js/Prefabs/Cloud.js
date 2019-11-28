@@ -15,18 +15,23 @@
 function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Add to display list
+	this.zOrder = layerMovePlatform; // Sets z order for layer sorting
+	this.gameplay = gameplay; // Obtains reference to gameplay state
+	this.gameplay.group.add(this); // Adds self to gameplay's group for layer sorting
+	this.y = Phaser.Math.clamp(this.y,firstY,secondY); // clamps the y coord to the given range
 
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	this.player = player; // Obtain reference to the correct player
 
 	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, 'poof'); // Creates the actual cloud that will be pushed
 
-	/*if(gravityDir === "down"){ // If the gravity is down
-		this.gravDirMultiplier = 1;
+	// These are reversed from MovePlatform because coords are weird
+	let gravDirMultiplier;
+	if(gravityDir === "down"){ // If the gravity is down
+		gravDirMultiplier = -1;
 	}
 	else if(gravityDir === "up"){ // If the gravity is up
-		this.body.data.gravityScale = -1;
-		this.gravDirMultiplier = -1;
+		gravDirMultiplier = 1;
 	}
 	else{
 		console.log("Invalid gravity direction"); // In case I make a typo
@@ -34,15 +39,9 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 
 	// Detects which y coordinate in the movement range is first
 	// And sets the references accordingly
-	if(this.gravDirMultiplier*firstY < this.gravDirMultiplier*secondY){
-		var maxY = firstY;
-		var minY = secondY;
-	}
-	else{
-		var maxY = secondY;
-		var minY = firstY;
-	}*/
+	this.y = gravDirMultiplier*Phaser.Math.max(gravDirMultiplier * firstY, gravDirMultiplier * secondY) - (gravDirMultiplier*this.height);
 
+	this.anchor.setTo(0.5,0.5);
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 	this.alpha = 0; // Goal Cloud will be transparent
 

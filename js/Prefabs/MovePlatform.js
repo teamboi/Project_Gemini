@@ -16,15 +16,14 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
 	this.zOrder = layerMovePlatform; // Sets z layer for depth sorting
+	this.gameplay = gameplay; // Obtains reference to the gameplay state
+	this.gameplay.group.add(this); // Adds into group for layer sorting
 
 	//this.scale.setTo(0.22, 0.11); // Scales the sprite
 
 	this.isMoving = false; // Boolean for if the platform is moving
 
-	this.gameplay = gameplay; // Obtains reference to the gameplay state
 	this.lockNoise = game.add.audio(sound); // Adds in the sounds for when the platform is locked
-
-	this.gameplay.group.add(this); // Adds into group for layer sorting
 
 	// Enable physics
 	game.physics.p2.enable(this, debugCollisionsObjects); //  Enables physics
@@ -45,16 +44,11 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 
 	// Detects which y coordinate in the movement range is first
 	// And sets the references accordingly
-	if(this.gravDirMultiplier*firstY < this.gravDirMultiplier*secondY){
-		var maxY = firstY;
-		var minY = secondY;
-	}
-	else{
-		var maxY = secondY;
-		var minY = firstY;
-	}
+	var yMult = -this.gravDirMultiplier; //Must multiply by -1 for math to work out
+	var minY = yMult*Phaser.Math.min(yMult * firstY, yMult * secondY);
+	var maxY = yMult*Phaser.Math.max(yMult * firstY, yMult * secondY);
 
-	var minHeight = y + (this.gravDirMultiplier*this.height); // height of the min limiter platform
+	var minHeight = minY + (this.gravDirMultiplier*this.height); // height of the min limiter platform
 	this.min = new MovePlatformLimiter(game, x, minHeight, key); // Creates the limiter body that will be below the platform
 
 	this.max = new MovePlatformLimiter(game, x, maxY, key); // Creates the limiter body that will be above the platform
@@ -85,6 +79,8 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 
     this.rightLimit.body.setCollisionGroup(limiterCG);
     this.rightLimit.body.collides([cloudCG]);
+
+    //this.body.moveUp(-this.gravDirMultiplier*150);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to MovePlatform
