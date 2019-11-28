@@ -50,8 +50,6 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 	}
 
 	this.mask = this.rectMask; // sets the mask of the windowpane to the rectangle we made
-
-	this.gravityDir = gravityDir;
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to WindowMask
@@ -60,8 +58,4 @@ WindowMask.prototype.constructor = WindowMask;
 
 WindowMask.prototype.update = function(){
 	this.y = this.latch.body.y; //Sets the graphical windowpane height to the collidable platform's height
-
-	if(this.gravityDir = "down" && game.input.keyboard.justPressed(Phaser.KeyCode['G'])){
-		console.log(this.latch.body);
-	}
 }
