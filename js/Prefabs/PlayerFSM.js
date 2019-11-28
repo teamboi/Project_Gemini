@@ -96,6 +96,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.isJumping = false; // var for if the player just jumped
 	this.idleTimer = 0; // var for the timer for being idle to trigger fidget animations
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
+	this.blinkTimer = 0; // var for the timer for blinking
 
 	// Add in the animation frames by name
 	var file = "PG Cat 6";
@@ -429,13 +430,23 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 	}
 }
 
+// Resets the timer for blink animations
+PlayerFSM.prototype.resetBlinkTimer = function(){
+	this.blinkTimer = 0;
+}
+
 // Resets the timer for idle animations
 PlayerFSM.prototype.resetIdleTimer = function(){
 	this.idleTimer = 0;
 	this.idleAnimPicked = 0;
 }
 
-// Updates the timer for idle animations
+// Updates the timer for blink animations
+PlayerFSM.prototype.updateBlinkTimer = function(){
+	this.blinkTimer++;
+}
+
+// Updates the timer for fidget animations
 PlayerFSM.prototype.updateIdleTimer = function(){
 	if(this.isMoving === true){
 		return;
