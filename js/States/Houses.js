@@ -14,19 +14,8 @@ Houses.prototype = {
         this.twoWin = false;    
     },
     create: function(){
-        /*var nextLevel = "Windows";
-        var ostFadeOut = false;
-        var tilemap = "levelThree";
-        var backgroundImage = "Houses";
-        var dialogNum = 4;
-        var howManyGlows = 2;
-        var redGlowCoords = [834, 428];
-        var blueGlowCoords = [839, 299];
-        var player1Coords = [640, 665];
-        var player2Coords = [640, 40];
-        var enableYarn = true;
-        var enableBarrier = true;*/
         var opts = {
+            currLevel: "Houses",
             nextLevel: "Windows",
             ostFadeOut: false,
             tilemap: "levelThree",
@@ -77,15 +66,4 @@ Houses.prototype = {
         this.flower = game.add.sprite(810, 299, null); //'flower'
         this.flower.alpha = 0;
     }
-
-    /*fade: function() {
-        //  You can set your own fade color and duration
-        game.camera.fade(0xffffff, 1000);
-    },
-    resetFade: function() {
-       if(this.fadeComplete == false) {
-            game.state.start('Windows', true, false, this.ost);
-            this.fadeComplete = true;
-        }
-    }*/
 }

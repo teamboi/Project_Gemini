@@ -21,6 +21,7 @@ Clouds.prototype = {
     },
    create: function(){
         var opts = {
+            currLevel: "Clouds",
             nextLevel: "Ending",
             ostFadeOut: true,
             tilemap: "levelSix",

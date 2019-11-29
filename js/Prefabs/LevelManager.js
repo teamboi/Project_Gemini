@@ -3,6 +3,7 @@
 
 // Constructor for LevelManager
 // game and gameplay are references to their respective things
+// currLevel; string; name of the current level
 // nextLevel; string; name of the next level
 // ostFadeout; true or false; does the music fade at the end of the level
 // backgroundImage; string; the background image
@@ -21,6 +22,7 @@ function LevelManager(game, gameplay, opts){
 	var gp = this.gameplay; // Shortens the reference
 
 	// Save init arguments
+    this.currLevel = opts.currLevel;
 	this.nextLevel = opts.nextLevel;
 	this.ostFadeOut = opts.ostFadeOut;
 	this.tilemap = opts.tilemap;
@@ -260,7 +262,7 @@ LevelManager.prototype.resetFade = function() {
 
     if(this.fadeComplete === false) {
         if(debugLoopLevel === true){
-            game.state.start(blah, true, false, gp.ost); // current level
+            game.state.start(this.currLevel, true, false, gp.ost); // current level
         }
         else{
             game.state.start(this.nextLevel, true, false, gp.ost);

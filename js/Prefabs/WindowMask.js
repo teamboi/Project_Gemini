@@ -30,8 +30,7 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 		this.anchor.setTo(0.5,1); // Sets anchor to the bottom of the window
 
 		var gdm = -1; // gravDirMultiplier; see Cloud.js or MovePlatform.js
-		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY);
-		console.log(sillY);
+		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY); // Y coord of the sill
 
 		this.rectMask.drawRect(x - (this.width/2), sillY-this.height, this.width, this.height); // Draws the appropriate rectangle
 	}
@@ -40,8 +39,7 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 		this.anchor.setTo(0.5,0); // Sets anchor to the top of the window
 
 		var gdm = 1; // gravDirMultiplier; see Cloud.js or MovePlatform.js
-		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY);
-		console.log(sillY);
+		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY); // Y coord of the sill
 
 		this.rectMask.drawRect(x - (this.width/2), sillY, this.width, this.height); // Draws the appropriate rectangle
 	}

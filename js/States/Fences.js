@@ -14,19 +14,8 @@ Fences.prototype = {
         this.twoWin = false;
     },
     create: function(){
-        /*var nextLevel = "Clouds";
-        var ostFadeOut = false;
-        var tilemap = "levelFive";
-        var backgroundImage = "Fences";
-        var dialogNum = 6;
-        var howManyGlows = 2;
-        var redGlowCoords = [0,0];
-        var blueGlowCoords = [0,0];
-        var player1Coords = [771, 501];
-        var player2Coords = [808, 257];
-        var enableYarn = true;
-        var enableBarrier = true;*/
         var opts = {
+            currLevel: "Fences",
             nextLevel: "Clouds",
             ostFadeOut: false,
             tilemap: "levelFive",
@@ -76,14 +65,4 @@ Fences.prototype = {
         this.fishBowl = game.add.sprite(79, 404, null);
         this.flower = game.add.sprite(79, 304, null);
     },
-    /*fade: function() {
-    //  You can set your own fade color and duration
-        game.camera.fade(0xffffff, 1000);
-    },
-    resetFade: function() {
-        if(this.fadeComplete == false) {
-            game.state.start('Clouds', true, false, this.ost);
-            this.fadeComplete = true;
-        }
-    },*/
 }

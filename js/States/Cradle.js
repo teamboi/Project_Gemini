@@ -18,19 +18,8 @@ Cradle.prototype = {
         this.controlsAlpha = 1;
 	},
 	create: function(){
-        /*var nextLevel = "Threads";
-        var ostFadeOut = false;
-        var tilemap = "levelTwo";
-        var backgroundImage = "Cradle";
-        var dialogNum = 2;
-        var howManyGlows = 1;
-        var redGlowCoords = [0,0];
-        var blueGlowCoords = [0,0];
-        var player1Coords = [game.width/2, 416];
-        var player2Coords = [game.width/2, 350];
-        var enableYarn = true;
-        var enableBarrier = false;*/
         var opts = {
+            currLevel: "Cradle",
             nextLevel: "Threads",
             ostFadeOut: false,
             tilemap: "levelTwo",

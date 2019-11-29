@@ -20,19 +20,8 @@ Cats.prototype = {
 		this.twoHasJumped = false;
 		this.controlsAlpha = 1;
 
-		/*var nextLevel = "Cradle";
-		var ostFadeOut = false;
-		var tilemap = "levelOne";
-		var backgroundImage = "Cats";
-		var dialogNum = 1;
-		var howManyGlows = 1;
-		var redGlowCoords = [0,0];
-		var blueGlowCoords = [0,0];
-		var player1Coords = [100, 516];
-		var player2Coords = [800, 199];
-		var enableYarn = false;
-		var enableBarrier = false;*/
         var opts = {
+            currLevel: "Cats",
             nextLevel: "Cradle",
             ostFadeOut: false,
             tilemap: "levelOne",

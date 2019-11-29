@@ -17,6 +17,7 @@ Windows.prototype = {
     },
     create: function(){
         var opts = {
+            currLevel: "Windows",
             nextLevel: "Tether",
             ostFadeOut: true,
             tilemap: "levelFour",
@@ -73,16 +74,4 @@ Windows.prototype = {
 
         this.window2 = new WindowMask(game, this, 661, 99, 'redWindow', 'redLatch', 99, 250, 'up');
     }
-
-    /*fade: function() {
-        //Fade camera and level theme
-        game.camera.fade(0xffffff, 2000);
-        this.ost.fadeOut(2500);
-    },
-    resetFade: function() {
-        if(this.fadeComplete == false) {
-            game.state.start('Tether', true, false, this.ost);
-            this.fadeComplete = true;
-        }
-    },*/
 }

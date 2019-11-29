@@ -15,19 +15,8 @@ Threads.prototype = {
         this.textVertOffset = 40;
 	},
 	create: function(){
-        /*var nextLevel = "Separate";
-        var ostFadeOut = true;
-        var tilemap = "levelTwoPointFive";
-        var backgroundImage = "Threads";
-        var dialogNum = 3;
-        var howManyGlows = 1;
-        var redGlowCoords = [0,0];
-        var blueGlowCoords = [0,0];
-        var player1Coords = [180, 469];
-        var player2Coords = [450, 55];
-        var enableYarn = true;
-        var enableBarrier = false;*/
         var opts = {
+            currLevel: "Threads",
             nextLevel: "Separate",
             ostFadeOut: true,
             tilemap: "levelTwoPointFive",
