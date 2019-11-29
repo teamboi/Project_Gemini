@@ -14,7 +14,7 @@ Houses.prototype = {
         this.twoWin = false;    
     },
     create: function(){
-        var nextLevel = "Windows";
+        /*var nextLevel = "Windows";
         var ostFadeOut = false;
         var tilemap = "levelThree";
         var backgroundImage = "Houses";
@@ -25,9 +25,23 @@ Houses.prototype = {
         var player1Coords = [640, 665];
         var player2Coords = [640, 40];
         var enableYarn = true;
-        var enableBarrier = true;
+        var enableBarrier = true;*/
+        var opts = {
+            nextLevel: "Windows",
+            ostFadeOut: false,
+            tilemap: "levelThree",
+            backgroundImage: "Houses",
+            dialogNum: 4,
+            howManyGlows: 2,
+            redGlowCoords: [834, 428],
+            blueGlowCoords: [839, 299],
+            player1Coords: [640, 665],
+            player2Coords: [640, 40],
+            enableYarn: true,
+            enableBarrier: true,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
     },
     update: function(){
         //Check for player one's win state

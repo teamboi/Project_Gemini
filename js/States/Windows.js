@@ -16,20 +16,22 @@ Windows.prototype = {
         this.twoCanWin = false;
     },
     create: function(){
-        var nextLevel = "Tether";
-        var ostFadeOut = true;
-        var tilemap = "levelFour";
-        var backgroundImage = "Windows";
-        var dialogNum = 5;
-        var howManyGlows = 2;
-        var redGlowCoords = [834, 428];
-        var blueGlowCoords = [839, 299];
-        var player1Coords = [273, 682];
-        var player2Coords = [170, 164];
-        var enableYarn = true;
-        var enableBarrier = true;
+        var opts = {
+            nextLevel: "Tether",
+            ostFadeOut: true,
+            tilemap: "levelFour",
+            backgroundImage: "Windows",
+            dialogNum: 5,
+            howManyGlows: 2,
+            redGlowCoords: [834, 428],
+            blueGlowCoords: [839, 299],
+            player1Coords: [273, 682],
+            player2Coords: [170, 164],
+            enableYarn: true,
+            enableBarrier: true,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
     },
     update: function(){
         //Check for player one's win state

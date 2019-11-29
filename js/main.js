@@ -22,11 +22,12 @@ var layerYarn = 100;
 var layerPlayer = 90;
 
 // variables for debugging
-var debugLevel = "Windows"; // replace with the name of the level to switch to; default to null
-var debugCollisionsObjects = true; // true or false; enable collisions with objects
+var debugLevel = null; // replace with the name of the level to switch to; default to null
+var debugCollisionsObjects = false; // true or false; enable collisions with objects
 var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
+var debugLoopLevel = false; // true or false; when a level is completed, loop the level instead of proceeding
 var debugAnimation = false; // true or false; prints out animation indices for the player, so I don't have to count, and it isn't calculated every time a level is loaded; Also enables debug on FSM
-var debugTransitions = true; // true or false; makes level transitions instant
+var debugTransitions = false; // true or false; makes level transitions instant
 
 //var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
 

@@ -15,7 +15,7 @@ Threads.prototype = {
         this.textVertOffset = 40;
 	},
 	create: function(){
-        var nextLevel = "Separate";
+        /*var nextLevel = "Separate";
         var ostFadeOut = true;
         var tilemap = "levelTwoPointFive";
         var backgroundImage = "Threads";
@@ -26,9 +26,23 @@ Threads.prototype = {
         var player1Coords = [180, 469];
         var player2Coords = [450, 55];
         var enableYarn = true;
-        var enableBarrier = false;
+        var enableBarrier = false;*/
+        var opts = {
+            nextLevel: "Separate",
+            ostFadeOut: true,
+            tilemap: "levelTwoPointFive",
+            backgroundImage: "Threads",
+            dialogNum: 3,
+            howManyGlows: 1,
+            redGlowCoords: [0,0],
+            blueGlowCoords: [0,0],
+            player1Coords: [180, 469],
+            player2Coords: [450, 55],
+            enableYarn: true,
+            enableBarrier: false,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
 	},
 	update: function(){
         if(this.complete == true) {

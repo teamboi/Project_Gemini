@@ -14,23 +14,18 @@
 // player2Coords; [int,int]; coordinates to spawn player 2
 // enableYarn; true or false; will there be yarn in this level
 // enableBarrier; true or false; will there be a barrier in this level
-function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY, player1X, player1Y, player2X, player2Y, enableYarn, enableBarrier){
+function LevelManager(game, gameplay, opts){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 	var gp = this.gameplay; // Shortens the reference
 
 	// Save init arguments
-	this.nextLevel = nextLevel;
-	this.ostFadeOut = ostFadeOut;
-	this.tilemap = tilemap;
-	this.howManyGlows = howManyGlows;
-	this.redGlowX = redGlowX;
-	this.redGlowY = redGlowY;
-	this.blueGlowX = blueGlowX;
-	this.blueGlowY = blueGlowY;
-	this.enableYarn = enableYarn;
-	this.enableBarrier = enableBarrier;
+	this.nextLevel = opts.nextLevel;
+	this.ostFadeOut = opts.ostFadeOut;
+	this.tilemap = opts.tilemap;
+	this.enableYarn = opts.enableYarn;
+	this.enableBarrier = opts.enableBarrier;
 
 	// Create level manager specific variables
 	this.heartSprite = "heart"; // Sprite of the objective glows
@@ -67,12 +62,12 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
         // Loads in the tilemap and static platforms
         this.createPlatforms();
         // Call the background image
-        gp.room = game.add.sprite(0,0,backgroundImage);
+        gp.room = game.add.sprite(0,0,opts.backgroundImage);
     }
     else{
         // Call the background image
-        gp.room = game.add.sprite(0,0,backgroundImage);
-        // Loads in the tilemap and static platforms
+        gp.room = game.add.sprite(0,0,opts.backgroundImage);
+        // Loads in the tilemap and static platforms on top of the background
         this.createPlatforms();
     }
 
@@ -81,15 +76,15 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
 
     // Add the story text
     gp.dialog = new DialogManager(game, gp);
-    gp.dialog.TypeIntro(dialogNum);
-    gp.dialog.TypeOutro(dialogNum);
+    gp.dialog.TypeIntro(opts.dialogNum);
+    gp.dialog.TypeOutro(opts.dialogNum);
 
     // Add in the players with the Player prefab constructor
-    gp.player1 = new Player(game, gp, player1X, player1Y, 1);
-    gp.player2 = new Player(game, gp, player2X, player2Y, 2);
+    gp.player1 = new Player(game, gp, opts.player1Coords[0], opts.player1Coords[1], 1);
+    gp.player2 = new Player(game, gp, opts.player2Coords[0], opts.player2Coords[1], 2);
 
     // Create the yarn if specified
-    this.createYarn(enableYarn);
+    this.createYarn(opts.enableYarn);
 
     // Create the world barriers
     this.createBarrier(game.width/2, game.height/2, game.width, 1);
@@ -101,7 +96,7 @@ function LevelManager(game, gameplay, nextLevel, ostFadeOut, tilemap, background
     this.tutorialText();
 
     //Add the objective glow
-    this.glow(howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY);
+    this.glow(opts.howManyGlows, opts.redGlowCoords[0], opts.redGlowCoords[1], opts.blueGlowCoords[0], opts.blueGlowCoords[1]);
 
     // Sort the z-masking groups
     gp.group.sort('zOrder', Phaser.Group.SORT_ASCENDING);
@@ -183,42 +178,42 @@ LevelManager.prototype.createPlatforms = function(){
 }
 
 // Adds in the yarn manager and the surrogate if specified
-LevelManager.prototype.createYarn = function(){
+LevelManager.prototype.createYarn = function(createBool){
 	var gp = this.gameplay; // renaming it to be shorter
 
 	// Only add them if we want to
-	if(this.enableYarn === true){
+	if(createBool === true){
     	// Add the surrogate player so our string plays nicely
     	gp.surrogate = new Player(game, gp, 300, 100, 3);
     	// Add in the yarn
     	gp.yarn = new Yarn(game, gp, gp.player1, gp.player2, gp.surrogate);
     }
     // Just in case of typos
-    else if(this.enableYarn != false){
+    else if(createBool != false){
     	console.log(this.enableYarn + " is not a valid state for enableYarn. Please use true or false");
     }
 }
 
 // Adds in the objective glows for the level
-LevelManager.prototype.glow = function() {
+LevelManager.prototype.glow = function(howManyGlows, redGlowX, redGlowY, blueGlowX, blueGlowY) {
 	var gp = this.gameplay; // renaming it to be shorter
 
 	// Add in the first glow
-    gp.redGlow = game.add.sprite(this.redGlowX, this.redGlowY, this.heartSprite); //gp.player1.x, gp.player2.y
+    gp.redGlow = game.add.sprite(redGlowX, redGlowY, this.heartSprite); //gp.player1.x, gp.player2.y
     gp.redGlow.anchor.setTo(0.5,0.5);
     gp.redGlow.scale.setTo(this.heartScale, this.heartScale);
     gp.redGlow.alpha = 0;
 
     // Add in the second glow if we need player-specific objectives
-    if(this.howManyGlows === 2){
-    	gp.blueGlow = game.add.sprite(this.blueGlowX, this.blueGlowY, this.heartSprite);
+    if(howManyGlows === 2){
+    	gp.blueGlow = game.add.sprite(blueGlowX, blueGlowY, this.heartSprite);
         gp.blueGlow.anchor.setTo(0.5,0.5);
         gp.blueGlow.scale.setTo(this.heartScale, -this.heartScale);
         gp.blueGlow.alpha = 0;
     }
     // Just in case of typos
-    else if(this.howManyGlows != 1){
-    	console.log("Cannot have " + this.howManyGlows + " glows. Please enter 1 or 2");
+    else if(howManyGlows != 1){
+    	console.log("Cannot have " + howManyGlows + " glows. Please enter 1 or 2");
     }
 }
 
@@ -263,8 +258,13 @@ LevelManager.prototype.fade = function() {
 LevelManager.prototype.resetFade = function() {
 	var gp = this.gameplay; // renaming it to be shorter
 
-    if(this.fadeComplete == false) {
-        game.state.start(this.nextLevel, true, false, gp.ost);
+    if(this.fadeComplete === false) {
+        if(debugLoopLevel === true){
+            game.state.start(blah, true, false, gp.ost); // current level
+        }
+        else{
+            game.state.start(this.nextLevel, true, false, gp.ost);
+        }
         this.fadeComplete = true;
     }
 }

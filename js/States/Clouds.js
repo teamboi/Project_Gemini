@@ -20,20 +20,22 @@ Clouds.prototype = {
             
     },
    create: function(){
-        var nextLevel = "Ending";
-        var ostFadeOut = true;
-        var tilemap = "levelSix";
-        var backgroundImage = "Clouds1";
-        var dialogNum = 7;
-        var howManyGlows = 1;
-        var redGlowCoords = [0,0];
-        var blueGlowCoords = [0,0];
-        var player1Coords = [85, 600];
-        var player2Coords = [32, 100];
-        var enableYarn = true;
-        var enableBarrier = true;
+        var opts = {
+            nextLevel: "Ending",
+            ostFadeOut: true,
+            tilemap: "levelSix",
+            backgroundImage: "Clouds1",
+            dialogNum: 7,
+            howManyGlows: 1,
+            redGlowCoords: [0,0],
+            blueGlowCoords: [0,0],
+            player1Coords: [85, 600],
+            player2Coords: [32, 100],
+            enableYarn: true,
+            enableBarrier: true,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
     },
     update: function(){
         //Check for player one's win state

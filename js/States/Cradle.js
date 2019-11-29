@@ -18,7 +18,7 @@ Cradle.prototype = {
         this.controlsAlpha = 1;
 	},
 	create: function(){
-        var nextLevel = "Threads";
+        /*var nextLevel = "Threads";
         var ostFadeOut = false;
         var tilemap = "levelTwo";
         var backgroundImage = "Cradle";
@@ -29,9 +29,23 @@ Cradle.prototype = {
         var player1Coords = [game.width/2, 416];
         var player2Coords = [game.width/2, 350];
         var enableYarn = true;
-        var enableBarrier = false;
+        var enableBarrier = false;*/
+        var opts = {
+            nextLevel: "Threads",
+            ostFadeOut: false,
+            tilemap: "levelTwo",
+            backgroundImage: "Cradle",
+            dialogNum: 2,
+            howManyGlows: 1,
+            redGlowCoords: [0,0],
+            blueGlowCoords: [0,0],
+            player1Coords: [game.width/2, 416],
+            player2Coords: [game.width/2, 350],
+            enableYarn: true,
+            enableBarrier: false,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
 	},
 	update: function(){
 

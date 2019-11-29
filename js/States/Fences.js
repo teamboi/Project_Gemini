@@ -14,7 +14,7 @@ Fences.prototype = {
         this.twoWin = false;
     },
     create: function(){
-        var nextLevel = "Clouds";
+        /*var nextLevel = "Clouds";
         var ostFadeOut = false;
         var tilemap = "levelFive";
         var backgroundImage = "Fences";
@@ -25,9 +25,23 @@ Fences.prototype = {
         var player1Coords = [771, 501];
         var player2Coords = [808, 257];
         var enableYarn = true;
-        var enableBarrier = true;
+        var enableBarrier = true;*/
+        var opts = {
+            nextLevel: "Clouds",
+            ostFadeOut: false,
+            tilemap: "levelFive",
+            backgroundImage: "Fences",
+            dialogNum: 6,
+            howManyGlows: 2,
+            redGlowCoords: [0,0],
+            blueGlowCoords: [0,0],
+            player1Coords: [771, 501],
+            player2Coords: [808, 257],
+            enableYarn: true,
+            enableBarrier: true,
+        }
 
-        this.levelManager = new LevelManager(game, this, nextLevel, ostFadeOut, tilemap, backgroundImage, dialogNum, howManyGlows, redGlowCoords[0], redGlowCoords[1], blueGlowCoords[0], blueGlowCoords[1], player1Coords[0], player1Coords[1], player2Coords[0], player2Coords[1], enableYarn, enableBarrier);
+        this.levelManager = new LevelManager(game, this, opts);
     },
     update: function(){
         //Check for player one's win state
