@@ -132,8 +132,8 @@ YarnVisual.prototype.drawYarn = function(){
 		handleOffsetMult = Phaser.Math.clamp(handleOffsetMult,0,slackMaxValue);
 
 		// Rotates the bezier handle offsets relative to the string
-		var handleXRotation = Math.sin(yp.yarnAngle) * handleOffsetMult;
-		var handleYRotation = Math.cos(yp.yarnAngle) * handleOffsetMult;
+		var handleXRotation = Math.cos(yp.yarnAngle + (1.5 * Math.PI)) * handleOffsetMult;
+		var handleYRotation = Math.sin(yp.yarnAngle + (1.5 * Math.PI)) * handleOffsetMult;
 
 		// Sets the bezier handles to the modifiers of everything
 		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff + handleXRotation, this.mpModifier.y - player1YDiff + handleYRotation);
