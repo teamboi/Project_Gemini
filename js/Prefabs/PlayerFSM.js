@@ -7,6 +7,9 @@
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
+	// Name of the file for animations
+	this.file = "PG Cat 6";
+
 	// Names of animation states
 	this.animNames = [
 	"walk",
@@ -47,7 +50,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		idle:			{length: 19,	end: 122,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
 
-		// single=cycle animations
+		// single cycle animations
 		idleToFall:		{length: "03",	end: 126,	fps: 30},
 		jumpToFall:		{length: 19,	end: 160,	fps: 30},
 		land:			{length: "03",	end: 164,	fps: 30},
@@ -98,13 +101,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 
 	// Add in the animation frames by name
-	var file = "PG Cat 6";
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
 		var data = this.animData[anim];
 		
 		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
-		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
+		this.animations.add(anim, Phaser.Animation.generateFrameNames(this.file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
 	}
 
 	// Creates a new FSM
@@ -375,13 +377,12 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
     var atlas = game.cache.getJSON('playerAnimations');
 	var frames = atlas.frames;
 
-	var file = "PG Cat 6";
 	var anyChanges = false;
 	for(let i = 0; i < frames.length; i++){
 		for(let j = 0; j < this.animNames.length; j++){
 			var anim = this.animNames[j];
 			var data = this.animData[anim];
-			if(frames[i].filename === file + "-" + anim + "-" + data.length){
+			if(frames[i].filename === this.file + "-" + anim + "-" + data.length){
 				var oldData = data.end;
 				data.end = i;
 
@@ -396,7 +397,7 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 		for(let j = 0; j < this.extraAnimPointNames.length; j++){
 			var anim = this.extraAnimPointNames[j];
 			var data = this.animData[anim];
-			if(frames[i].filename === file + "-" + data.anim + "-" + data.begin){
+			if(frames[i].filename === this.file + "-" + data.anim + "-" + data.begin){
 				var oldData = data.end;
 				data.end = i;
 
