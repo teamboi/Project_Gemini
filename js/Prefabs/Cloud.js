@@ -59,10 +59,12 @@ Cloud.prototype.update = function(){
 	if(this.cloud.isMoving === "locked"){ // checks if the cloud is locked
 		if(this.hasBeganTween === false){ // ... if it has then check if we need to tween the alpha
 			this.hasBeganTween === true; // Makes tween only happen once
-			game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // The actual tween
+			game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // Make the actual cloud more opaque
+			game.add.tween(this).to( { alpha: -.1 }, 150, Phaser.Easing.Linear.In, true, 0, 0, false); // Make the goal cloud fade to transparent
+			game.add.tween(this.scale).to( { x: 2, y: 2 }, 200, Phaser.Easing.Cubic.Out, true, 0, 0, false); // Make the goal cloud bigger
 		}
 	}
 	else if(distance < distanceThresh){
-		this.alpha = Phaser.Math.mapLinear(distance, 0, distanceThresh, 1, 0);
+		this.alpha = Phaser.Math.mapLinear(distance, 0, distanceThresh, .7, 0);
 	}
 }

@@ -57,7 +57,6 @@ window.onload = function(){
 	game.state.add('Ending', Ending);
 	game.state.add('Credits1', Credits1);
 	game.state.add('Credits2', Credits2);
-	//game.state.add('GameOver', GameOver);
-	//game.stage.backgroundColor = '#000000';
+	
 	game.state.start('Boot');
 }
