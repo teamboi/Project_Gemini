@@ -62,7 +62,7 @@ Cradle.prototype = {
 
        
         // Bonkers dynamic tutorial!
-        if(this.oneAnchoredLast == false) {
+        //if(this.oneAnchoredLast == false) {
             if(this.player1.checkIfCanJump()) {
                 this.p1Controls.destroy();
             	this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
@@ -78,8 +78,8 @@ Cradle.prototype = {
                 
             }
             //this.p2Controls.setText('', true);
-        }
-        else {
+      //  }
+       // else {
             if(this.player2.checkIfCanJump()) {
                 this.p2Controls.destroy();
            		this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
@@ -95,7 +95,7 @@ Cradle.prototype = {
                 
             }
             //this.p1Controls.setText('', true);
-        }
+       // }
         if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
             this.p1Controls.destroy();
             this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');

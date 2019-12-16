@@ -19,17 +19,17 @@
 	],
 	[
 		{
-			"x" : 160,
-			"y" : 216,
-			"width" : 550,
+			"x" : 180,
+			"y" : 221,
+			"width" : 340,
 			"text": "The bond between the two became something magical, as if tied together with string...",
 			"size" : 22,
 			"audio" : "narrate"
 		},
 		{
-			"x" : 237,
-			"y" : 622,
-			"width" : 550,
+			"x" : 725,
+			"y" : 401,
+			"width" : 250,
 			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
 			"size" : 22,
 			"audio" : "sfx_test_narration.mp3"
@@ -37,17 +37,17 @@
 	],
 	[
 		{
-			"x" : 437,
-			"y" : 86,
+			"x" : 295,
+			"y" : 136,
 			"width" : 550,
 			"text" : "They spent so much of their lives together, with love filling their hearts...",
 			"size" : 22,
 			"audio" : "narrate"
 		},
 		{
-			"x" : 437,
-			"y" : 622,
-			"width" : 550,
+			"x" : 395,
+			"y" : 522,
+			"width" : 150,
 			"text" : "...but one day, just like the gravities they live in, fate would pull them apart.",
 			"size" : 22,
 			"audio" : "sfx_test_narration.mp3"
@@ -73,16 +73,16 @@
 	],
 	[
 		{
-			"x" : 243,
-			"y" : 290,
+			"x" : 247,
+			"y" : 260,
 			"width" : 350,
 			"text" : "The two cats realized they could not reach each other with shelves alone...",
 			"size" : 22,
 			"audio" : "narrate"
 		},
 		{
-			"x" : 545,
-			"y" : 520,
+			"x" : 548,
+			"y" : 540,
 			"width" : 159,
 			"text" : "...sometimes you gotta open a window to get a better view of home.",
 			"size" : 22,
