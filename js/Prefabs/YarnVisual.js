@@ -36,7 +36,7 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.mpModifierAngle = 0;
 	this.justTightened = false; // Variable used to store if the yarn was just tightened; used in mpModifierAngle
 	this.mpModifierAngleDir = 0; // Variable used to track where mpModifierAngle should point, left or right
-	this.mpModifierAngleScalar = 0; // Variable used to control the magnitude of mpModifierAngle
+	this.mpModifierAngleScalar = 0; // Variable used to control the influence of mpModifierAngle
 	this.mpModifierDrop = 0; // Variable used to control the vertical drop of mpModifier
 	this.playerGravDir = 1; // Variable used to control which direction mpModifier drops, up or down
 
@@ -117,6 +117,10 @@ YarnVisual.prototype.drawYarn = function(){
 	var player2YDiff = (this.mpModifier.y - this.p2Y) * margin;
 
 	if(this.state === 'taut'){ // If the yarn is in its active state
+
+		// TODO: get slackLength / tautLength and make that the max of the offset
+		// Use angle and use that map that to how much to offset both handles
+
 		// Finds the difference between the current length and the length that the yarn was created at
 		var slackLength = yp.tautLength - yp.playerDist;
 
@@ -128,12 +132,17 @@ YarnVisual.prototype.drawYarn = function(){
 
 		// As the slackLength increases, the bezier Handles start moving more to the side
 		// Constructs a linear function slackLength as input and handleOffsetMult as output
+		// slackThreshold = slackMaxValue
+		// tautThreshold = 0
+		// handleOffsetMult is the horizontal magnitude of the offset
 		var handleOffsetMult = Phaser.Math.mapLinear(slackLength, slackThreshold, tautThreshold, slackMaxValue, 0);
 		handleOffsetMult = Phaser.Math.clamp(handleOffsetMult,0,slackMaxValue);
 
 		// Rotates the bezier handle offsets relative to the string
-		var handleXRotation = Math.cos(yp.yarnAngle + (1.5 * Math.PI)) * handleOffsetMult;
-		var handleYRotation = Math.sin(yp.yarnAngle + (1.5 * Math.PI)) * handleOffsetMult;
+		var yarnCos = Math.cos(yp.yarnAngle + (1.5 * Math.PI));
+		var yarnSin = Math.sin(yp.yarnAngle + (1.5 * Math.PI));
+		var handleXRotation = yarnCos * handleOffsetMult;
+		var handleYRotation = yarnSin * handleOffsetMult;
 
 		// Sets the bezier handles to the modifiers of everything
 		this.player1BAnchor.position.setTo(this.mpModifier.x - player1XDiff + handleXRotation, this.mpModifier.y - player1YDiff + handleYRotation);
