@@ -175,14 +175,12 @@ Player.prototype.move = function(direction){
 		moveDist *= -1;
 	}
 	if(this.anchorState != "beingAnchored"){ // If the player is the anchor or if no one is the anchor
-		console.log("regular movement");
 		if(!this.checkIfOnRoof()){
 			this.body.moveRight(moveDist);
 		}
 	}
 	// ... else if the player is being anchored...
 	else if(this.checkIfInAir()){ // If the player is being anchored and hanging in the air
-		console.log("in air");
 		var applyForce = true;
 
 		moveDist = Math.sign(moveDist)*this.swingVelocity;
@@ -191,7 +189,13 @@ Player.prototype.move = function(direction){
 
 		// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
 		// If the yarn is taut
-		if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
+		var yarnAngleCheck = Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale));
+		if(Math.abs(yarnAngleCheck - Math.PI) < .09){
+			yarnAngleCheck -= Math.PI;
+			yarnAngleCheck = Math.abs(yarnAngleCheck);
+		}
+		console.log(yarnAngleCheck);
+		if(yarnAngleCheck > .09 && yarn.isTaut === true){
 			force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
 			moveDist *= force; // Scales how much the player can move based on the angle of the yarn
 			if(force < .5){
@@ -205,10 +209,9 @@ Player.prototype.move = function(direction){
 		}	
 	}
 	else if(!this.checkIfCanJump() && Math.abs(this.body.velocity.y) < 5){
-		console.log("on roof");
+		//console.log("on roof");
 	}
 	else{ // on the ground
-		console.log("can move");
 		this.body.moveRight(moveDist);
 	}
 }
