@@ -174,22 +174,28 @@ Player.prototype.move = function(direction){
 	if(direction === "left"){ // Modifies the distance moved appropriately based on direction
 		moveDist *= -1;
 	}
-	if(this.anchorState === "beingAnchored" && !this.checkIfCanJump()){ // If the player is being anchored
+	if(this.anchorState != "beingAnchored"){ // If the player is the anchor or if no one is the anchor
+		console.log("regular movement");
+		if(!this.checkIfOnRoof()){
+			this.body.moveRight(moveDist);
+		}
+	}
+	// ... else if the player is being anchored...
+	else if(this.checkIfInAir()){ // If the player is being anchored and hanging in the air
+		console.log("in air");
 		var applyForce = true;
 
-		if(!this.checkIfCanJump()){ // ... and the player is hanging in the air
-			moveDist = Math.sign(moveDist)*this.swingVelocity;
-			var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
-			var force = 1;
+		moveDist = Math.sign(moveDist)*this.swingVelocity;
+		var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
+		var force = 1;
 
-			// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
-			// If the yarn is taut
-			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
-				force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
-				moveDist *= force; // Scales how much the player can move based on the angle of the yarn
-				if(force < .5){
-					applyForce = false;
-				}
+		// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
+		// If the yarn is taut
+		if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * this.body.data.gravityScale)) > .09 && yarn.isTaut === true){
+			force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
+			moveDist *= force; // Scales how much the player can move based on the angle of the yarn
+			if(force < .5){
+				applyForce = false;
 			}
 		}
 		// If we want to apply the force, move it
@@ -198,10 +204,13 @@ Player.prototype.move = function(direction){
 			this.body.force.x += moveDist;
 		}	
 	}
-	else{ // else just move the player normally
+	else if(!this.checkIfCanJump() && Math.abs(this.body.velocity.y) < 5){
+		console.log("on roof");
+	}
+	else{ // on the ground
+		console.log("can move");
 		this.body.moveRight(moveDist);
 	}
-	//console.log(moveDist);
 }
 
 // Makes the player face left
@@ -267,6 +276,15 @@ Player.prototype.checkVertCollision = function(){
 // Returns true if the player is on the ground
 Player.prototype.checkIfCanJump = function() {
 	if (this.vertCollision > 0.5){
+        return true;
+    }
+    return false;
+}
+
+// Checks if a player is not on the roof or the ground
+// returns true if the player is in the air
+Player.prototype.checkIfInAir = function() {
+	if (this.vertCollision > -.5 && this.vertCollision < 0.5){
         return true;
     }
     return false;

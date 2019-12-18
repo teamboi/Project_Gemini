@@ -22,7 +22,7 @@ var layerYarn = 100;
 var layerPlayer = 90;
 
 // variables for debugging
-var debugLevel				= "Cats"; // default to null; replace with the name of the level to switch to
+var debugLevel				= "Threads"; // default to null; replace with the name of the level to switch to
 var debugCollisionsObjects	= false; // true or false; enable collisions with objects
 var debugCollisionsLevel	= false; // true or false; enable collisions for the platforms
 var debugLoopLevel			= true; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
