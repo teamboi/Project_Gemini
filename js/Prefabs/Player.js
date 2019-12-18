@@ -194,7 +194,6 @@ Player.prototype.move = function(direction){
 			yarnAngleCheck -= Math.PI;
 			yarnAngleCheck = Math.abs(yarnAngleCheck);
 		}
-		console.log(yarnAngleCheck);
 		if(yarnAngleCheck > .09 && yarn.isTaut === true){
 			force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( Math.abs( yarn.yarnAngle * this.body.data.gravityScale ) ) + 0.35) ) - 0.5, 0, 1 );
 			moveDist *= force; // Scales how much the player can move based on the angle of the yarn
