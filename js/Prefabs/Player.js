@@ -180,7 +180,7 @@ Player.prototype.move = function(direction){
 		}
 	}
 	// ... else if the player is being anchored...
-	else if(this.checkIfInAir()){ // If the player is being anchored and hanging in the air
+	else if(!this.checkIfCanJump()){ // If the player is being anchored and hanging in the air
 		var applyForce = true;
 
 		moveDist = Math.sign(moveDist)*this.swingVelocity;
@@ -201,9 +201,6 @@ Player.prototype.move = function(direction){
 			//this.body.moveRight(moveDist); // Moves the player
 			this.body.force.x += moveDist;
 		}	
-	}
-	else if(!this.checkIfCanJump() && Math.abs(this.body.velocity.y) < 5){
-		//console.log("on roof");
 	}
 	else{ // on the ground
 		this.body.moveRight(moveDist);
