@@ -179,62 +179,10 @@ Player.prototype.move = function(direction){
 		if(!this.checkIfOnRoof()){
 			this.body.moveRight(moveDist);
 		}
+		// else, the player is on the roof and don't move
 	}
 	// ... else if the player is being anchored...
-	else if(!this.checkIfCanJump()){ // If the player is being anchored and hanging in the air
-		if(yarn.isTaut === true){
-			var applyForce = true;
-
-			moveDist = Math.sign(moveDist)*this.swingVelocity;
-			//var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
-			var force = 1;
-
-			// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
-			// If the yarn is taut
-			if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * gs)) > .09 && yarn.isTaut === true){
-				//let scaledAngle = Math.abs( Phaser.Math.mapLinear( yarn.yarnAngle * gs, 0, Math.PI, -1, 1) );
-				//force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( scaledAngle ) + 0.3) ) - 0.5, 0, 1 ); // takes in input 0 - 1
-				//moveDist *= force; // Scales how much the player can move based on the angle of the yarn
-				if(force < .2){
-					applyForce = false;
-				}
-			}
-			// If we want to apply the force, move it
-			if(applyForce === true){
-				//this.body.moveRight(moveDist); // Moves the player
-				this.body.force.x += Math.sin(yarn.yarnAngle * gs)*moveDist;
-				this.body.force.y += -gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist);
-				//console.log(Math.sin(yarn.yarnAngle * gs)*moveDist);
-				//console.log(-gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist));
-			}	
-			//console.log(moveDist);
-		}
-		else{
-			this.body.moveRight(moveDist);
-		}
-	}
-	else{ // on the ground
-		this.body.moveRight(moveDist);
-	}
-	/*	var moveDist = this.xVelocity;
-	var yarn = this.gameplay.yarn;
-	let gs = this.body.data.gravityScale;
-
-	if(direction === "left"){ // Modifies the distance moved appropriately based on direction
-		moveDist *= -1;
-	}
-	if(this.anchorState != "beingAnchored"){ // If the player is the anchor or if no one is the anchor
-		if(!this.checkIfOnRoof()){
-			if(!this.checkIfCanJump()){
-				this.body.force.x += moveDist;
-			}
-			else{
-				this.body.moveRight(moveDist);
-			}
-		}
-	}
-	// ... else if the player is being anchored...
-	else if(!this.checkIfCanJump()){ // If the player is being anchored and hanging in the air
+	else if(!this.checkIfCanJump() && yarn.isTaut === true){ // If the player is being anchored and hanging in the air
 		var applyForce = true;
 
 		moveDist = Math.sign(moveDist)*this.swingVelocity;
@@ -243,22 +191,19 @@ Player.prototype.move = function(direction){
 
 		// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
 		// If the yarn is taut
-		if(yarn.isTaut === true){ //Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * gs)) > .09 && 
+		if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * gs)) > .09 && yarn.isTaut === true){
 			//let scaledAngle = Math.abs( Phaser.Math.mapLinear( yarn.yarnAngle * gs, 0, Math.PI, -1, 1) );
 			//force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( scaledAngle ) + 0.3) ) - 0.5, 0, 1 ); // takes in input 0 - 1
 			//moveDist *= force; // Scales how much the player can move based on the angle of the yarn
 			if(force < .2){
 				applyForce = false;
 			}
-			if(applyForce === true){
-				this.body.force.x += Math.sin(yarn.yarnAngle * gs)*moveDist;
-				this.body.force.y += -gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist);
-			}
 		}
 		// If we want to apply the force, move it
 		if(applyForce === true){
 			//this.body.moveRight(moveDist); // Moves the player
-			this.body.force.x += moveDist;
+			this.body.force.x += Math.sin(yarn.yarnAngle * gs)*moveDist;
+			this.body.force.y += -gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist);
 			//console.log(Math.sin(yarn.yarnAngle * gs)*moveDist);
 			//console.log(-gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist));
 		}	
@@ -266,7 +211,7 @@ Player.prototype.move = function(direction){
 	}
 	else{ // on the ground
 		this.body.moveRight(moveDist);
-	}*/
+	}
 }
 
 // Makes the player face left
