@@ -182,7 +182,7 @@ Player.prototype.move = function(direction){
 		// else, the player is on the roof and don't move
 	}
 	// ... else if the player is being anchored...
-	else if(!this.checkIfCanJump() && yarn.isTaut === true){ // If the player is being anchored and hanging in the air
+	else if(!this.checkIfCanJump() && yarn.isTaut === true){ // and the player is hanging in the air and the yarn is taut
 
 		moveDist = Math.sign(moveDist)*this.swingVelocity;
 
@@ -195,7 +195,7 @@ Player.prototype.move = function(direction){
 		// Old formula to scale the angle to 0 - 1: Math.abs( Phaser.Math.mapLinear( yarn.yarnAngle * gs, 0, Math.PI, -1, 1) )
 		// Old formula to scale force: Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( scaledAngle ) + 0.3) ) - 0.5, 0, 1 )
 	}
-	else{ // on the ground
+	else{ // or else if the yarn isn't taut or the player is on the ground
 		this.body.moveRight(moveDist);
 	}
 }
