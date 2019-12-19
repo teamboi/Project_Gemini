@@ -183,31 +183,17 @@ Player.prototype.move = function(direction){
 	}
 	// ... else if the player is being anchored...
 	else if(!this.checkIfCanJump() && yarn.isTaut === true){ // If the player is being anchored and hanging in the air
-		var applyForce = true;
 
 		moveDist = Math.sign(moveDist)*this.swingVelocity;
-		//var relativeVel = this.body.velocity.x - this.gameplay.surrogate.body.velocity.x;
-		var force = 1;
+
+		this.body.force.x += Math.sin(yarn.yarnAngle * gs)*moveDist;
+		this.body.force.y += -gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist);
 
 		// If the yarn angle is not vertical ; -1.5 radians is vertical; 3, -3 is blue cat left of right cat
 		// If the yarn is taut
-		if(Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * gs)) > .09 && yarn.isTaut === true){
-			//let scaledAngle = Math.abs( Phaser.Math.mapLinear( yarn.yarnAngle * gs, 0, Math.PI, -1, 1) );
-			//force = Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( scaledAngle ) + 0.3) ) - 0.5, 0, 1 ); // takes in input 0 - 1
-			//moveDist *= force; // Scales how much the player can move based on the angle of the yarn
-			if(force < .2){
-				applyForce = false;
-			}
-		}
-		// If we want to apply the force, move it
-		if(applyForce === true){
-			//this.body.moveRight(moveDist); // Moves the player
-			this.body.force.x += Math.sin(yarn.yarnAngle * gs)*moveDist;
-			this.body.force.y += -gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist);
-			//console.log(Math.sin(yarn.yarnAngle * gs)*moveDist);
-			//console.log(-gs*Math.abs(Math.cos(yarn.yarnAngle * gs)*moveDist));
-		}	
-		//console.log(moveDist);
+		// Old equation to detect vertical yarn: Math.abs(yarn.yarnAngle + (-0.5 * Math.PI * gs)) > .09
+		// Old formula to scale the angle to 0 - 1: Math.abs( Phaser.Math.mapLinear( yarn.yarnAngle * gs, 0, Math.PI, -1, 1) )
+		// Old formula to scale force: Phaser.Math.clamp( Math.abs( 1 / ( 2 * Math.sin( scaledAngle ) + 0.3) ) - 0.5, 0, 1 )
 	}
 	else{ // on the ground
 		this.body.moveRight(moveDist);
