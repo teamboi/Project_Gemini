@@ -100,6 +100,11 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleTimer = 0; // var for the timer for being idle to trigger fidget animations
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 
+	this.fallVelocity = 5; // var for what velocity to check for if falling // It changes depending on context
+	this.fallTimer = 0; // var for the timer for changing the fallVelocity const
+	this.hasFinishedLanding = false; // var for if the player has finished landing
+	// The player when landing tends to have massive fluctuations in the y velocity
+
 	// Add in the animation frames by name
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
@@ -179,7 +184,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 			&& self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5 );
+		return ( self.player.checkIfOnRoof() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
 	});
 
 	self.createJumpAnimTransition("ceilingCollide");
@@ -234,7 +239,7 @@ PlayerFSM.prototype.update = function(){
 
 // If condition for if the player is falling
 PlayerFSM.prototype.checkIfFalling = function(){
-	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){
+	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){ // !this.player.checkIfCanJump()
 		this.resetIdleTimer();
 		return true;
 	}
@@ -431,10 +436,18 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 	}
 }
 
+PlayerFSM.prototype.resetFallTimer = function(){
+	this.fallTimer = 0;
+}
+
 // Resets the timer for idle animations
 PlayerFSM.prototype.resetIdleTimer = function(){
 	this.idleTimer = 0;
 	this.idleAnimPicked = 0;
+}
+
+PlayerFSM.prototype.updateFallTimer = function(){
+	this.fallTimer++;
 }
 
 // Updates the timer for idle animations
