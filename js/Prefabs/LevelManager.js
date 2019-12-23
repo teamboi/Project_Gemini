@@ -232,7 +232,9 @@ LevelManager.prototype.tutorialText = function(){
 // Win state function
 // Call this function inside the gameplay state to trigger the end of the level
 LevelManager.prototype.win = function(){
-	game.time.events.add(this.winTimerDelay, this.preFade, this);
+    if(debugWin === false){
+        game.time.events.add(this.winTimerDelay, this.preFade, this);
+    }
 }
 
 // Fade functions
