@@ -36,10 +36,20 @@ function YarnVisual(game, gameplay, yarn, player1, player2){
 	this.midpoint = game.add.sprite(this.x, this.y, key);
 	this.mpTaut = game.add.sprite(this.x, this.y, key);
 	this.mpSlack = game.add.sprite(this.x, this.y, key);
+	this.mpTension = 0;
+	this.mpBezierInfluence = 0;
+
+	this.mpTensionTransitionTime = 200;
+
+	this.mpDropTransitionTime = 1500;
+	this.mpTightenTransitionTime = 500;
+
+	this.mpBezierDropTransitionTime = 1500;
+	this.mpBezierTightenTransitionTime = 200;
 
 	this.justTightened = false; // Variable used to store if the yarn was just tightened; used in mpAngle
-	this.mpAngleDir = 0; // Variable used to track where mpAngle should point, left or right
-	this.mpAngleScalar = 0; // Variable used to control the influence of mpAngle
+	this.mpAngleLeftRight = 0; // Variable used to track where mpAngle should point, left or right
+	this.mpAngleInfluence = 0; // Variable used to control the influence of mpAngle
 	this.mpDrop = 0; // Variable used to control the vertical drop of midpoint
 	this.playerGravDir = 1; // Variable used to control which direction midpoint drops, up or down
 
@@ -70,43 +80,44 @@ YarnVisual.prototype.update = function(){
 	this.calcPlayerCoords();
 	// Calculates midpoint so other variables are correct
 	this.setMidpoint();
-
+	// Adds offset to the midpoint
 	this.updateMidpoint();
 
 	this.drawYarn();
 }
 
 YarnVisual.prototype.updateMidpoint = function(){
+	// TODO: See if I have to use disableMPModifier()
 	let yp = this.yarnParent;
 
-	// Determines by how much to scale the midpoint drop height based on player distance
-	let playerDistYMult = Phaser.Math.distance(this.p1X, this.p1Y, this.p2X, this.p2Y) / 400;
+	// Determines by how much to scale the midpoint drop height based on player distance (125 / 400)
+	let playerDistYMult = Phaser.Math.distance(this.p1X, this.p1Y, this.p2X, this.p2Y) * .3125;
 
 	// How much to offset the midpoint;
 	// midpoint will drop from the midpoint and modify itself according to the distance of the players and who last anchored and how much it has dropped
-	let mpDistVar = 125 * playerDistYMult * this.playerGravDir * this.mpDrop;
+	let mpDistVar = playerDistYMult * this.playerGravDir * this.mpDrop;
 
-	// mpAngle is perpendicular to yarnAngle, and the angle is controlled by mpAngleDir
-	let mpAngle = yp.yarnAngle + (Math.PI / 2 * this.mpAngleDir);
-
-	// 
-	let outputtedAngle = (mpAngle - (1.5 * Math.PI * this.playerGravDir)) * this.mpAngleScalar + (1.5 * Math.PI);
-
-	// If the yarn is just tightened, update the tighten animation
-	if(this.justTightened === true){
-		this.midpoint.x = this.x + Math.cos(outputtedAngle) * mpDistVar;
-		this.midpoint.y = this.y + Math.sin(outputtedAngle) * mpDistVar;
+	// mpTension 0 = Slack; 1 = Taut
+	if(this.mpTension != 1){
+		this.mpSlack.x = this.x;
+		this.mpSlack.y = this.y + mpDistVar;
 	}
-	else{
-		this.midpoint.x = this.x; // midpoint matches the midpoint's x
-		this.midpoint.y = this.y + mpDistVar;
+	if(this.mpTension != 0){
+		// mpAngle is perpendicular to yarnAngle, and the angle is controlled by mpAngleLeftRight
+		let mpAngle = yp.yarnAngle + (Math.PI / 2 * this.mpAngleLeftRight);
+
+		// subtract the downward angle from the desired angle, multiply by influence, and add back downward angle
+		let outputtedAngle = (mpAngle - (1.5 * Math.PI * this.playerGravDir)) * this.mpAngleInfluence + (1.5 * Math.PI * this.playerGravDir);
+
+		this.mpTaut.x = this.x + Math.cos(outputtedAngle) * mpDistVar;
+		this.mpTaut.y = this.y + Math.sin(outputtedAngle) * mpDistVar;
 	}
 
-	this.mpSlack.x = this.x;
-	this.mpSlack.y = this.y + mpDistVar;
+	let mpSlackInfluence = 1 - this.mpTension;
+	let mpTautInfluence = this.mpTension;
 
-	this.mpTaut.x = this.x;
-	this.mpTaut.y = this.y;
+	this.midpoint.x = this.mpSlack.x*mpSlackInfluence + this.mpTaut.x*mpTautInfluence;
+	this.midpoint.y = this.mpSlack.y*mpSlackInfluence + this.mpTaut.y*mpTautInfluence;
 }
 
 // Draws the yarn as a bezier curve
@@ -122,48 +133,32 @@ YarnVisual.prototype.drawYarn = function(){
 	var player2XDiff = (this.midpoint.x - this.p2X) * margin;
 	var player2YDiff = (this.midpoint.y - this.p2Y) * margin;
 
-	if(this.state === 'taut'){ // If the yarn is in its active state
+	// Finds the difference between the current length and the length that the yarn was created at
+	var slackLength = yp.tautLength - yp.playerDist;
 
-		// TODO: get slackLength / tautLength and make that the max of the offset
-		// Use angle and use that map that to how much to offset both handles
+	// As the slackLength increases, the bezier Handles start moving more to the side
+	// Constructs a linear function slackLength as input and handleOffsetMult as output
+	// slackThreshold = slackMaxValue
+	// tautThreshold = 0
+	// handleOffsetMult is the horizontal magnitude of the offset
+	var tautThreshold = 5;
+	var slackThreshold = .8 * yp.tautLength;
+	var slackMaxValue = 150;
 
-		// Finds the difference between the current length and the length that the yarn was created at
-		var slackLength = yp.tautLength - yp.playerDist;
+	var handleOffsetMult = Phaser.Math.mapLinear(slackLength, slackThreshold, tautThreshold, slackMaxValue, 0);
+	handleOffsetMult = Phaser.Math.clamp(handleOffsetMult,0,slackMaxValue);
 
-		// As the slackLength increases, the bezier Handles start moving more to the side
-		// Constructs a linear function slackLength as input and handleOffsetMult as output
-		// slackThreshold = slackMaxValue
-		// tautThreshold = 0
-		// handleOffsetMult is the horizontal magnitude of the offset
-		var tautThreshold = 5;
-		var slackThreshold = .8 * yp.tautLength;
-		var slackMaxValue = 150;
+	// Rotates the bezier handle offsets relative to the string
+	var yarnCos = Math.cos(yp.yarnAngle + (1.5 * Math.PI));
+	var yarnSin = Math.sin(yp.yarnAngle + (1.5 * Math.PI));
+	var handleXRotation = yarnCos * handleOffsetMult * this.mpBezierInfluence;
+	var handleYRotation = yarnSin * handleOffsetMult * this.mpBezierInfluence;
 
-		var handleOffsetMult = Phaser.Math.mapLinear(slackLength, slackThreshold, tautThreshold, slackMaxValue, 0);
-		handleOffsetMult = Phaser.Math.clamp(handleOffsetMult,0,slackMaxValue);
+	// Sets the bezier handles to the modifiers of everything
+	this.player1BAnchor.position.setTo(this.midpoint.x - player1XDiff + handleXRotation, this.midpoint.y - player1YDiff + handleYRotation);
+	this.player2BAnchor.position.setTo(this.midpoint.x - player2XDiff - handleXRotation, this.midpoint.y - player2YDiff - handleYRotation);
 
-		// Rotates the bezier handle offsets relative to the string
-		var yarnCos = Math.cos(yp.yarnAngle + (1.5 * Math.PI));
-		var yarnSin = Math.sin(yp.yarnAngle + (1.5 * Math.PI));
-		var handleXRotation = yarnCos * handleOffsetMult;
-		var handleYRotation = yarnSin * handleOffsetMult;
-
-		// for slackLength, 0 is taut, yp.tautLength means players are close to each other
-		var mpHorizOffset = Phaser.Math.mapLinear(slackLength, 0, yp.tautLength, 0, 100);
-		var mpHorizInfluence = Math.abs( Phaser.Math.mapLinear( yp.yarnAngle, 0, Math.PI, -1, 1));
-
-		// Sets the bezier handles to the modifiers of everything
-		this.player1BAnchor.position.setTo(this.midpoint.x - player1XDiff + handleXRotation, this.midpoint.y - player1YDiff + handleYRotation);
-		this.player2BAnchor.position.setTo(this.midpoint.x - player2XDiff - handleXRotation, this.midpoint.y - player2YDiff - handleYRotation);
-	}
-	else if(this.state === 'slack'){ // If the yarn is in the inactive state
-		// Sets the bezier handles to the correct positions
-		this.player1BAnchor.position.setTo(this.midpoint.x - player1XDiff, this.midpoint.y - player1YDiff);
-		this.player2BAnchor.position.setTo(this.midpoint.x - player2XDiff, this.midpoint.y - player2YDiff);
-	}
-	else{
-		console.log(this.state + " is not a valid state. taut or slack"); // In case I make a typo
-	}
+	console.log(handleOffsetMult);
 
 	// Draws the yarn
 	this.drawBezierYarn();
@@ -208,15 +203,17 @@ YarnVisual.prototype.disableMPAngle = function(){
 
 // Causes the midpoint to drop
 YarnVisual.prototype.dropMidpoint = function(){
-	if(this.mpAngleTween != null){
-		this.mpAngleTween.stop();
-	}
+	if(this.mpAngleTween != null) this.mpAngleTween.stop();
 	this.disableMPAngle();
 
-	if(this.mpTween != null){
-		this.mpTween.stop();
-	}
-	this.mpTween = game.add.tween(this).to( { mpDrop: 1 }, 1500, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+	if(this.mpTween != null) this.mpTween.stop();
+	this.mpTween = game.add.tween(this).to( { mpDrop: 1 }, this.mpDropTransitionTime, Phaser.Easing.Bounce.Out, true, 0, 0, false);
+
+	if(this.mpTensionTween != null) this.mpTensionTween.stop();
+	this.mpTensionTween = game.add.tween(this).to( { mpTension: 0 }, this.mpTensionTransitionTime, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
+
+	if(this.mpBezierTween != null) this.mpBezierTween.stop();
+	this.mpBezierTween = game.add.tween(this).to( { mpBezierInfluence: 0 }, this.mpBezierTransitionTime, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
 }
 
 // Sets appropriate variables for the state of the yarn
@@ -249,21 +246,25 @@ YarnVisual.prototype.setYarnState = function(state, color){
 YarnVisual.prototype.tightenMidpoint = function(){
 	var yp = this.yarnParent;
 
-	if(this.mpTween != null){
-		this.mpTween.stop();
-	}
-	this.mpTween = game.add.tween(this).to( { mpDrop: 0 }, 500, "Custom.elasticOut", true, 0, 0, false);
+	if(this.mpTween != null) this.mpTween.stop();
+	this.mpTween = game.add.tween(this).to( { mpDrop: 0 }, this.mpTightenTransitionTime, "Custom.elasticOut", true, 0, 0, false);
+
+	if(this.mpTensionTween != null) this.mpTensionTween.stop();
+	this.mpTensionTween = game.add.tween(this).to( { mpTension: 1 }, this.mpTensionTransitionTime, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
+
+	if(this.mpBezierTween != null) this.mpBezierTween.stop();
+	this.mpBezierTween = game.add.tween(this).to( { mpBezierInfluence: 1 }, this.mpBezierTransitionTime, "Custom.elasticOut", true, 0, 0, false);
 
 	// Introduces an X component to the tween so it can be seen when the yarn is vertical
 	this.justTightened = true;
 
 	if(yp.player1.x < yp.player2.x){
-		this.mpAngleDir = 1;
+		this.mpAngleLeftRight = 1;
 	}
 	else{
-		this.mpAngleDir = -1;
+		this.mpAngleLeftRight = -1;
 	}
-	this.mpAngleDir *= this.playerGravDir;
+	this.mpAngleLeftRight *= this.playerGravDir;
 
 	// Tweens the angle of the midpoint
 	if(this.mpAngleTween != null){
@@ -271,8 +272,8 @@ YarnVisual.prototype.tightenMidpoint = function(){
 	}
 
 	// Tweens the magnitude of the midpoint // Does it?
-	this.mpAngleScalar = 0;
-	this.mpAngleTween = game.add.tween(this).to( { mpAngleScalar: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
+	this.mpAngleInfluence = 0;
+	this.mpAngleTween = game.add.tween(this).to( { mpAngleInfluence: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
 
 	this.mpTween.onComplete.add(this.disableMPAngle, this);
 }

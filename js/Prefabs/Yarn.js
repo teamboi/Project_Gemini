@@ -187,8 +187,6 @@ Yarn.prototype.removeYarn = function(){
 	this.isYarn = false; // yarn is inactive
 	this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
 
-	this.tautLength = 0; // Resets the taut length for the yarn
-
 	// If constraint does exist, remove it
 	if(constraint != null){
 		game.physics.p2.removeConstraint(constraint);
