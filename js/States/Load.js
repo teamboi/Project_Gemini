@@ -99,8 +99,8 @@ Load.prototype = {
 		game.load.image('blueLatch', 'img/objects/blueLatch2.png');
 		game.load.image('cloud2', 'img/objects/cloud2.png');
 		game.load.image('cloud6', 'img/objects/cloud6.png');
-		game.load.image('purpCloud', 'img/objects/purpCloud.png');
-		game.load.image('purpCloud2', 'img/objects/purpCloud2.png');
+		game.load.image('purpCloud', 'img/objects/purpCloud3.png');
+		game.load.image('purpCloud2', 'img/objects/purpCloud4.png');
 		
 		//game.load.image('line', 'img/bg/line.png');
 		game.load.image('bubble', 'img/bg/bubble.png');

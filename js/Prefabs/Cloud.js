@@ -44,6 +44,11 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 	this.anchor.setTo(0.5,0.5);
 	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 	this.alpha = 0; // Goal Cloud will be transparent
+	// Move platform line 103 does not like this haha
+	this.cloud.scale.setTo(1.6);
+	//this.cloud.body.scale.setTo(0.6);
+	//this.cloud.MovePlatform.scale.setTo(0.6);
+	//this.cloud.anchor.setTo(0.5,0.5);	
 
 	this.hasBeganTween = false; // Boolean for if tween has begun, so it only fires once
 }

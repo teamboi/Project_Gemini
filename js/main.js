@@ -23,8 +23,8 @@ var layerPlayer = 90;
 
 // variables for debugging
 
-var debugLevel = null; // default to null; replace with the name of the level to switch to
-var debugCollisionsObjects = false; // true or false; enable collisions with objects
+var debugLevel = 'Clouds'; // default to null; replace with the name of the level to switch to
+var debugCollisionsObjects = true; // true or false; enable collisions with objects
 var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
 var debugLoopLevel = false; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
 var debugAnimation = false; // true or false; prints out animation indices for the player, so I don't have to count, and it isn't calculated every time a level is loaded; Also enables debug on FSM

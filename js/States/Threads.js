@@ -34,9 +34,9 @@ Threads.prototype = {
         this.levelManager = new LevelManager(game, this, opts);
 	},
 	update: function(){
-        if(this.complete == true) {
+       /* if(this.complete == true) {
             this.levelManager.win();
-        }
+        }*/
         if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
             this.complete = true;
             game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
@@ -47,5 +47,12 @@ Threads.prototype = {
             this.complete = false;
             game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
         }
-	}
+        if(this.complete == true) {
+            game.time.events.add(4000, this.progressTutorial, this);
+        }
+	},
+
+	progressTutorial: function() {
+        this.levelManager.win();
+    },
 }
