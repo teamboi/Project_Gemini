@@ -120,7 +120,7 @@
 			"x" : 683,
 			"y" : 484,
 			"width" : 250,
-			"text" : "...their eternal bond, this magical string, could lift the sky above.",
+			"text" : "...their eternal bond, this magical string, could lift the clouds above.",
 			"size" : 42,
 			"audio" : "sfx_test_narration.mp3"
 		}
