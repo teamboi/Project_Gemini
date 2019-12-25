@@ -23,15 +23,28 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 	this.gameplay = gameplay; // Obtain reference to gameplay state
 	this.player = player; // Obtain reference to the correct player
 
-	this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, 'poof'); // Creates the actual cloud that will be pushed
+	
+	//this.cloud = new MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, 'poof'); // Creates the actual cloud that will be pushed
 
 	// These are reversed from MovePlatform because coords are weird
 	let gravDirMultiplier;
 	if(gravityDir === "down"){ // If the gravity is down
 		gravDirMultiplier = -1;
+
+		//send in the hitbox sprite here
+		this.cloud = new MovePlatform(game, gameplay, x, y, 'purpCloud3', firstY, secondY, gravityDir, 'poof');
+		//create the visual sprite here
+		this.vizCloud = game.add.sprite(x,y,'purpCloud');
+
 	}
 	else if(gravityDir === "up"){ // If the gravity is up
 		gravDirMultiplier = 1;
+
+		//send in the hitbox sprite here
+		this.cloud = new MovePlatform(game, gameplay, x, y, 'purpCloud4', firstY, secondY, gravityDir, 'poof');
+		//create the visual sprite here
+		this.vizCloud = game.add.sprite(x,y,'purpCloud2');
+
 	}
 	else{
 		console.log("Invalid gravity direction"); // In case I make a typo
@@ -42,13 +55,10 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 	this.y = gravDirMultiplier*Phaser.Math.max(gravDirMultiplier * firstY, gravDirMultiplier * secondY) - (gravDirMultiplier*this.height);
 
 	this.anchor.setTo(0.5,0.5);
-	this.cloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
+	this.cloud.alpha = 0.0; // Cloud's hitbox sprite will be invisible
+	this.vizCloud.anchor.setTo(0.5,0.5);
+	this.vizCloud.alpha = 0.80; // Cloud's initial alpha will be a little transparent
 	this.alpha = 0; // Goal Cloud will be transparent
-	// Move platform line 103 does not like this haha
-	this.cloud.scale.setTo(1.6);
-	//this.cloud.body.scale.setTo(0.6);
-	//this.cloud.MovePlatform.scale.setTo(0.6);
-	//this.cloud.anchor.setTo(0.5,0.5);	
 
 	this.hasBeganTween = false; // Boolean for if tween has begun, so it only fires once
 }
@@ -64,7 +74,7 @@ Cloud.prototype.update = function(){
 	if(this.cloud.isMoving === "locked"){ // checks if the cloud is locked
 		if(this.hasBeganTween === false){ // ... if it has then check if we need to tween the alpha
 			this.hasBeganTween === true; // Makes tween only happen once
-			game.add.tween(this.cloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // Make the actual cloud more opaque
+			game.add.tween(this.vizCloud).to( { alpha: 1 }, 300, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false); // Make the actual cloud more opaque
 			game.add.tween(this).to( { alpha: -.1 }, 150, Phaser.Easing.Linear.In, true, 0, 0, false); // Make the goal cloud fade to transparent
 			game.add.tween(this.scale).to( { x: 2, y: 2 }, 200, Phaser.Easing.Cubic.Out, true, 0, 0, false); // Make the goal cloud bigger
 		}
@@ -72,4 +82,8 @@ Cloud.prototype.update = function(){
 	else if(distance < distanceThresh){
 		this.alpha = Phaser.Math.mapLinear(distance, 0, distanceThresh, .7, 0);
 	}
+
+	//keep the visual sprite on the object
+	this.vizCloud.x = this.cloud.x;
+	this.vizCloud.y = this.cloud.y;
 }

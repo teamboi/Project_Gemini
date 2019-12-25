@@ -84,10 +84,10 @@ Clouds.prototype = {
         this.room3.zOrder = layerBG;
         this.room3.alpha = 0;
         // Add the moveable clouds
-        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down', this.player1);
-        this.cloud1.scale.setTo(0.5);
-        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up', this.player2);
-        this.cloud2.scale.setTo(0.5);
+        this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 370, 'down', this.player1);
+        //this.cloud1.scale.setTo(0.5);
+        this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 330, 'up', this.player2);
+        //this.cloud2.scale.setTo(0.5);
     },
     // Destroy the world barrier
     destoyBarrier: function() {

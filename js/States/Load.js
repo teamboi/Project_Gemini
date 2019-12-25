@@ -104,8 +104,10 @@ Load.prototype = {
 		game.load.image('blueLatch', 'blueLatch2.png');
 		game.load.image('cloud2', 'cloud2.png');
 		game.load.image('cloud6', 'cloud6.png');
-		game.load.image('purpCloud', 'purpCloud3.png');
-		game.load.image('purpCloud2', 'purpCloud3.png');
+		game.load.image('purpCloud', 'purpCloud.png');
+		game.load.image('purpCloud2', 'purpCloud2.png');
+		game.load.image('purpCloud3', 'purpCloud3.png');
+		game.load.image('purpCloud4', 'purpCloud4.png');
 		game.load.image('textBlur', 'textBlur.png');
 
 		game.load.path = 'assets/tilemaps/';
