@@ -2,8 +2,8 @@
 "use strict";
 
 // Constructor for TextBubble
-function TextBubble(game, gameplay, key, x, y, width, text, size){
-	Phaser.Sprite.call(this, game, x, y, key);
+function TextBubble(game, gameplay, x, y, width, text, size){
+	Phaser.Sprite.call(this, game, x, y, "textBlur");
 	game.add.existing(this); // Adds to display list
 	this.anchor.setTo(0.5, 0.5); // Sets anchor to the center
 	this.zOrder = layerText; // Sets the bubble's z order for layer sorting
@@ -15,8 +15,18 @@ function TextBubble(game, gameplay, key, x, y, width, text, size){
 	this.text = game.add.text(x, y, text, style); // Creates specified text
 	this.text.zOrder = layerText; // Sets text's z order for layer sorting
 	this.text.anchor.setTo(0.5, 0.5); // Sets the anchor to the center of the text
-	this.alpha = 0; // Initial state for both bubble and text is transparent
+	this.alpha = .8; // Initial state for both bubble and text is transparent
 	this.text.alpha = 0;
+
+	// Begin scaling calcs here
+	this.scale.x = (width + 100)/this.width;
+	this.scale.y = (this.text.height + 100)/this.height;
+	if(this.y < game.height/2){
+		this.tint = 0xFED9D1;
+	}
+	else{
+		this.tint = 0xE1E3F4;
+	}
 
 	// Begins to fade in the text
 	//game.add.tween(this).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
