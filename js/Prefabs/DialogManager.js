@@ -49,7 +49,7 @@ DialogManager.prototype.TypeText = function(levelNum, textBubbleNum){
 	}
 
 	// Create the actual text
-	var currentText = new TextBubble(game, this.gameplay, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"], textBubble["size"]);
+	var currentText = new TextBubble(game, this.gameplay, textBubble);
 	this.gameplay.group.add(currentText); // Add the current text to be sorted
 	this.gameplay.group.add(currentText.text)
 

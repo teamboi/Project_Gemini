@@ -158,8 +158,6 @@ YarnVisual.prototype.drawYarn = function(){
 	this.player1BAnchor.position.setTo(this.midpoint.x - player1XDiff + handleXRotation, this.midpoint.y - player1YDiff + handleYRotation);
 	this.player2BAnchor.position.setTo(this.midpoint.x - player2XDiff - handleXRotation, this.midpoint.y - player2YDiff - handleYRotation);
 
-	console.log(handleOffsetMult);
-
 	// Draws the yarn
 	this.drawBezierYarn();
 }

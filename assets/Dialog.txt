@@ -5,16 +5,18 @@
 			"y" : 86,
 			"width" : 550,
 			"text" : "In a shelter of separate gravities, a special bond arose... ",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFFFFFF"
 		},
 		{
 			"x" : 437,
 			"y" : 622,
 			"width" : 550,
 			"text" : "...Though these cats were very different, they soon became very close.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xFFFFFF"
 		}
 	],
 	[
@@ -23,16 +25,18 @@
 			"y" : 221,
 			"width" : 340,
 			"text": "The bond between the two became something magical, as if tied together with string...",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFED9D1"
 		},
 		{
 			"x" : 725,
 			"y" : 401,
 			"width" : 250,
 			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE1E3F4"
 		}
 	],
 	[
@@ -41,16 +45,18 @@
 			"y" : 136,
 			"width" : 550,
 			"text" : "They spent so much of their lives together, with love filling their hearts...",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFED9D1"
 		},
 		{
 			"x" : 395,
 			"y" : 522,
 			"width" : 150,
 			"text" : "...but one day, just like the gravities they live in, fate would pull them apart.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE1E3F4"
 		}
 	],
 	[
@@ -59,16 +65,18 @@
 			"y" : 285,
 			"width" : 550,
 			"text" : "Adopted into separate homes, with the string still between themselves...",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFACCCD"
 		},
 		{
 			"x" : 520,
 			"y" : 500,
 			"width" : 430,
 			"text" : "...the physical barrier of distance couldn't prevent swinging onto higher shelves.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE8EEFA"
 		}
 	],
 	[
@@ -77,16 +85,18 @@
 			"y" : 260,
 			"width" : 350,
 			"text" : "The two cats realized they could not reach each other with shelves alone...",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFACCCD"
 		},
 		{
 			"x" : 548,
 			"y" : 540,
 			"width" : 159,
 			"text" : "...sometimes you gotta open a window to get a better view of home.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE8EEFA"
 		}
 	],
 	[
@@ -95,16 +105,18 @@
 			"y" : 139,
 			"width" : 350,
 			"text" : "Out of windows and onto rooftops, the cats looked towards the sky...",
-			"size" : 22,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFED9D1"
 		},
 		{
 			"x" : 560,
 			"y" : 600,
 			"width" : 350,
 			"text" : "...pulling each other towards the clouds meant they would never have to say goodbye.",
-			"size" : 22,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE1E3F4"
 		}
 	],
 	[
@@ -113,13 +125,15 @@
 			"y" : 236,
 			"width" : 250,
 			"text" : "Now high up in the cradling clouds, never stronger was their love...",
-			"size" : 42,
-			"audio" : "narrate"
+			"fontSize" : 22,
+			"audio" : "narrate",
+			"color" : "0xFED9D1"
 		},
 		{
 			"x" : 683,
 			"y" : 484,
 			"width" : 250,
+
 			"text" : "...their eternal bond, this magical string, could lift the clouds above.",
 			"size" : 42,
 			"audio" : "sfx_test_narration.mp3"
