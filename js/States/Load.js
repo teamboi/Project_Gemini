@@ -24,101 +24,107 @@ Load.prototype = {
         	game.load.json('playerAnimations', 'assets/img/cats/blueCat.json');
         }
 
-        game.load.path = 'assets/';
+        game.load.path = 'assets/audio/ost2/';
 		// Load in the soundtrack
-		game.load.audio('Cradle', 'audio/ost2/Cradle3.mp3');
-		game.load.audio('Together', 'audio/ost2/Together3.mp3');
-		game.load.audio('Separate', 'audio/ost2/Separate3.mp3');
-		game.load.audio('Tether', 'audio/ost2/Tether3.mp3');
+		game.load.audio('Cradle', 'Cradle3.mp3');
+		game.load.audio('Together', 'Together3.mp3');
+		game.load.audio('Separate', 'Separate3.mp3');
+		game.load.audio('Tether', 'Tether3.mp3');
 		
+		game.load.path = 'assets/audio/sfx/';
 		// Load in the sfx
-		game.load.audio('short_meow1', 'audio/sfx/Cat_1_Short.wav');
-		game.load.audio('short_meow2', 'audio/sfx/Cat_2_Short.wav');
-		game.load.audio('long_meow1', 'audio/sfx/Cat_1_Long.mp3');
-		game.load.audio('long_meow2', 'audio/sfx/Cat_2_Long.mp3');
+		game.load.audio('short_meow1', 'Cat_1_Short.wav');
+		game.load.audio('short_meow2', 'Cat_2_Short.wav');
+		game.load.audio('long_meow1', 'Cat_1_Long.mp3');
+		game.load.audio('long_meow2', 'Cat_2_Long.mp3');
 
 		//https://freesound.org/people/mhtaylor67/sounds/126041/
-		game.load.audio('windowClick', 'audio/sfx/126041__mhtaylor67__gate-latch.wav');
-		game.load.audio('poof', 'audio/sfx/poof.wav');
+		game.load.audio('windowClick', '126041__mhtaylor67__gate-latch.wav');
+		game.load.audio('poof', 'poof.wav');
 		
+		game.load.path = 'assets/img/menu/';
+		// Load in the menu items
+		game.load.image('title', 'titleScreen.png');
+		game.load.image('playButton', 'playButton.png');
+		game.load.image('credits1', 'credits1.png');
+		game.load.image('credits2', 'credits2.png');
+
+		game.load.path = 'assets/img/cats/';
 		// Load in the chapter title cards
-		game.load.image('title', 'img/menu/titleScreen.png');
-		game.load.image('playButton', 'img/menu/playButton.png');
-		game.load.image('theme', 'img/cats/theme.png');
-		game.load.image('gameOver', 'img/cats/gameOver.png');
-		game.load.image('togetherTitle', 'img/cats/togetherTitle.png');
-		game.load.image('housesTitle', 'img/cats/housesTitle.png');
-		game.load.image('tetherTitle', 'img/cats/tetherTitle.png');
-		game.load.image('endTitle', 'img/cats/endTitle.png');
-		game.load.image('credits1', 'img/menu/credits1.png');
-		game.load.image('credits2', 'img/menu/credits2.png');
+		game.load.image('theme', 'theme.png');
+		game.load.image('gameOver', 'gameOver.png');
+		game.load.image('togetherTitle', 'togetherTitle.png');
+		game.load.image('housesTitle', 'housesTitle.png');
+		game.load.image('tetherTitle', 'tetherTitle.png');
+		game.load.image('endTitle', 'endTitle.png');
 
 		// Load in object sprites
-		game.load.image('redBall', 'img/cats/redYarn.png');
-		game.load.image('blueBall', 'img/cats/blueYarn.png');
-		game.load.image('purpBall', 'img/cats/purpleYarn.png');
-		game.load.image('heart', 'img/cats/heart.png');
+		game.load.image('redBall', 'redYarn.png');
+		game.load.image('blueBall', 'blueYarn.png');
+		game.load.image('purpBall', 'purpleYarn.png');
+		game.load.image('heart', 'heart.png');
 
-		game.load.image('leftArrow', 'img/keys/leftKey.png');
-		game.load.image('rightArrow', 'img/keys/rightKey.png');
-		game.load.image('upArrow', 'img/keys/upKey.png');
-		game.load.image('downArrow', 'img/keys/downKey.png');
-		game.load.image('wKey', 'img/keys/wKey.png');
-		game.load.image('aKey', 'img/keys/aKey.png');
-		game.load.image('sKey', 'img/keys/sKey.png');
-		game.load.image('dKey', 'img/keys/dKey.png');
-		game.load.image('adKey', 'img/keys/adKey.png');
-		game.load.image('rightleftKey', 'img/keys/rightleftKey.png');
+		game.load.path = 'assets/img/keys/';
+		// Load in the keys
+		game.load.image('leftArrow', 'leftKey.png');
+		game.load.image('rightArrow', 'rightKey.png');
+		game.load.image('upArrow', 'upKey.png');
+		game.load.image('downArrow', 'downKey.png');
+		game.load.image('wKey', 'wKey.png');
+		game.load.image('aKey', 'aKey.png');
+		game.load.image('sKey', 'sKey.png');
+		game.load.image('dKey', 'dKey.png');
+		game.load.image('adKey', 'adKey.png');
+		game.load.image('rightleftKey', 'rightleftKey.png');
 		
-        
+        game.load.path = 'assets/img/cats/';
         //Load in the character sprites
-        game.load.atlas('cat1', 'img/cats/redCat.png', 'img/cats/redCat.json');
-        game.load.image('cat1Hitbox', 'img/cats/hitbox14.png');
+        game.load.atlas('cat1', 'redCat.png', 'redCat.json');
+        game.load.image('cat1Hitbox', 'hitbox14.png');
         //game.load.image('cat2', 'img/cats/cat2.png');
-        game.load.atlas('cat2', 'img/cats/blueCat.png', 'img/cats/blueCat.json');
+        game.load.atlas('cat2', 'blueCat.png', 'blueCat.json');
 
+        game.load.path = 'assets/img/bg/';
         //Load the platforms and background
-        game.load.image('Together', 'img/bg/Together.png');
-        game.load.image('bluePlat', 'img/objects/120 blue ledge 1.png');
-        game.load.image('backgroundInside', 'img/bg/background.png');
-        game.load.image('backgroundPlain', 'img/bg/small_both_sides.png');
-        game.load.image('Cats', 'img/bg/newer_Cats.png');
-        game.load.image('Cradle', 'img/bg/newer_Cradle.png');
-        game.load.image('Threads', 'img/bg/lvl3.png');
-		game.load.image('Houses', 'img/bg/new_Houses.png');
-		game.load.image('Windows', 'img/bg/new_Windows.png');
-		game.load.image('Fences', 'img/bg/newest_Fences.png');
-		game.load.image('Clouds1', 'img/bg/newest_cloud_puzzle2.png');
-		game.load.image('Clouds2', 'img/bg/newest_cloud_puzzle3.png');
-		game.load.image('Clouds3', 'img/bg/newest_cloud_puzzle4.png');
+        game.load.image('Together', 'Together.png');
+        game.load.image('backgroundInside', 'background.png');
+        game.load.image('backgroundPlain', 'small_both_sides.png');
+        game.load.image('Cats', 'newer_Cats.png');
+        game.load.image('Cradle', 'newer_Cradle.png');
+        game.load.image('Threads', 'lvl3.png');
+		game.load.image('Houses', 'new_Houses.png');
+		game.load.image('Windows', 'new_Windows.png');
+		game.load.image('Fences', 'newest_Fences.png');
+		game.load.image('Clouds1', 'newest_cloud_puzzle2.png');
+		game.load.image('Clouds2', 'newest_cloud_puzzle3.png');
+		game.load.image('Clouds3', 'newest_cloud_puzzle4.png');
 		
+		game.load.path = 'assets/img/objects/';
 		//Load in object sprites
-		game.load.image('redWindow', 'img/objects/redPullWindow.png');
-		game.load.image('blueWindow', 'img/objects/bluePullWindow.png');
-		game.load.image('redLatch', 'img/objects/redLatch2.png');
-		game.load.image('blueLatch', 'img/objects/blueLatch2.png');
-		game.load.image('cloud2', 'img/objects/cloud2.png');
-		game.load.image('cloud6', 'img/objects/cloud6.png');
-		game.load.image('purpCloud', 'img/objects/purpCloud.png');
-		game.load.image('purpCloud2', 'img/objects/purpCloud2.png');
-		
-		//game.load.image('line', 'img/bg/line.png');
-		game.load.image('bubble', 'img/bg/bubble.png');
+		game.load.image('bluePlat', '120 blue ledge 1.png');
+		game.load.image('redWindow', 'redPullWindow.png');
+		game.load.image('blueWindow', 'bluePullWindow.png');
+		game.load.image('redLatch', 'redLatch2.png');
+		game.load.image('blueLatch', 'blueLatch2.png');
+		game.load.image('cloud2', 'cloud2.png');
+		game.load.image('cloud6', 'cloud6.png');
+		game.load.image('purpCloud', 'purpCloud.png');
+		game.load.image('purpCloud2', 'purpCloud2.png');
+		game.load.image('textBlur', 'textBlur.png');
 
+		game.load.path = 'assets/tilemaps/';
 		// load in tilemaps
-        game.load.tilemap('levelOne','tilemaps/Cats.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelTwo','tilemaps/Cradle2.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelTwoPointFive','tilemaps/String.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelThree','tilemaps/NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelFour','tilemaps/Windows.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelFive','tilemaps/Fences.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.tilemap('levelSix','tilemaps/Clouds.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
-		game.load.spritesheet('visuals', 'tilesets/120_tileset.png', 32, 32);
-
-		
+        game.load.tilemap('levelOne','Cats.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelTwo','Cradle2.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelTwoPointFive','String.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelThree','NewHouses.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelFour','Windows.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelFive','Fences.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('levelSix','Clouds.json', null, Phaser.Tilemap.TILED_JSON);
 
         game.load.path = 'assets/';
+        game.load.spritesheet('mapTiles', 'img/objects/Pixel3.png', 8, 8);
+		game.load.spritesheet('visuals', 'tilesets/120_tileset.png', 32, 32);
 
 		// align the game to be centered in the window
 		game.scale.pageAlignHorizontally = true;
