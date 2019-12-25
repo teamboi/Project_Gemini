@@ -12,10 +12,6 @@ Load.prototype = {
 		loadingBar.anchor.setTo(0.5,1);
 		game.load.setPreloadSprite(loadingBar);
 		
-		
-
-		// For now, this merely loads in the music and the title image, but it'll be expanded later
-		
 		// Load in text
         game.load.text('dialog', 'assets/Dialog.txt');
 
