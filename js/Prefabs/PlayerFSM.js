@@ -379,7 +379,7 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 
 // Prints out the indices of the end of animation states
 PlayerFSM.prototype.debugPrintAnimationIndices = function(){
-    var atlas = game.cache.getJSON('playerAnimations');
+	var atlas = game.cache.getJSON('playerAnimations');
 	var frames = atlas.frames;
 
 	var anyChanges = false;

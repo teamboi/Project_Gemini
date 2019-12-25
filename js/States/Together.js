@@ -8,14 +8,14 @@ var Together = function(game){};
 Together.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
-        this.theme = ost;
-    },
+		this.theme = ost;
+	},
 	create: function(){
 		var opts = {
 			levelName: "Together",
-            titleCard: "togetherTitle",
-            ost : "Together",
-            narration : "oneIntro"
+			titleCard: "togetherTitle",
+			ost : "Together",
+			narration : "oneIntro"
 		}
 		this.transitionManager = new TransitionManager(game, this, opts);
 	}

@@ -6,17 +6,17 @@
 //Intantiate the Game over state
 var Ending = function(game){};
 Ending.prototype = {
-    init: function(ost){
-        // initialize variables for gameplay
-        this.theme = ost;
-    },
+	init: function(ost){
+		// initialize variables for gameplay
+		this.theme = ost;
+	},
 	create: function(){
-        var opts = {
-            levelName: "Ending",
-            titleCard: "endTitle",
-            ost : "Cradle",
-            narration : "narrate"
-        }
-        this.transitionManager = new TransitionManager(game, this, opts);
-    }
+		var opts = {
+			levelName: "Ending",
+			titleCard: "endTitle",
+			ost : "Cradle",
+			narration : "narrate"
+		}
+		this.transitionManager = new TransitionManager(game, this, opts);
+	}
 }

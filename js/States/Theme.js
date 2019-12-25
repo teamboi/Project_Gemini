@@ -7,10 +7,10 @@
 var Theme = function(game){};
 Theme.prototype = {
 	create: function(){
-	    // Prevent the keys from scrolling the page
-	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
-	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
-	    game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+		// Prevent the keys from scrolling the page
+		game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
+		game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
+		game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
 		
 		this.complete = false;
 		if(debugLevel === null){
@@ -48,11 +48,11 @@ Theme.prototype = {
 	},
 	startOST: function() {
 		this.ost.play('', 0, 0, true);
-        this.ost.fadeTo(this.ostFadeDuration, 0.5);
+		this.ost.fadeTo(this.ostFadeDuration, 0.5);
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	game.camera.fade(0xffffff, this.fadeDuration);
+		game.camera.fade(0xffffff, this.fadeDuration);
 
 	},
 	resetFade: function() {

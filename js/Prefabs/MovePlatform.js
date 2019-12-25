@@ -66,21 +66,21 @@ function MovePlatform(game, gameplay, x, y, key, firstY, secondY, gravityDir, so
 
 	// Sets the collision groups per body
 	this.body.setCollisionGroup(cloudCG);
-    this.body.collides([limiterCG, playerCG, surrogateCG, objectCG]);
+	this.body.collides([limiterCG, playerCG, surrogateCG, objectCG]);
 
-    this.min.body.setCollisionGroup(limiterCG);
-    this.min.body.collides([cloudCG]);
+	this.min.body.setCollisionGroup(limiterCG);
+	this.min.body.collides([cloudCG]);
 
-    this.max.body.setCollisionGroup(limiterCG);
-    this.max.body.collides([cloudCG]);
+	this.max.body.setCollisionGroup(limiterCG);
+	this.max.body.collides([cloudCG]);
 
-    this.leftLimit.body.setCollisionGroup(limiterCG);
-    this.leftLimit.body.collides([cloudCG]);
+	this.leftLimit.body.setCollisionGroup(limiterCG);
+	this.leftLimit.body.collides([cloudCG]);
 
-    this.rightLimit.body.setCollisionGroup(limiterCG);
-    this.rightLimit.body.collides([cloudCG]);
+	this.rightLimit.body.setCollisionGroup(limiterCG);
+	this.rightLimit.body.collides([cloudCG]);
 
-    //this.body.moveUp(-this.gravDirMultiplier*150);
+	//this.body.moveUp(-this.gravDirMultiplier*150);
 }
 
 // inherit prototype from Phaser.Sprite and set constructor to MovePlatform
@@ -105,8 +105,8 @@ MovePlatform.prototype.update = function(){
 			this.static = true; // Make the body static to stop checking for collisions
 
 			if(typeof this.lockNoise !== 'undefined') { // Plays the lock noise
-    			this.lockNoise.play('', 0, 1, false);
-    		}
+				this.lockNoise.play('', 0, 1, false);
+			}
 		}
 	}
 }

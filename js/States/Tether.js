@@ -8,14 +8,14 @@ var Tether = function(game){};
 Tether.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
-        this.theme = ost;
-    },
+		this.theme = ost;
+	},
 	create: function(){
 		var opts = {
 			levelName: "Tether",
-            titleCard: "tetherTitle",
-            ost : "Tether",
-            narration : "narrate"
+			titleCard: "tetherTitle",
+			ost : "Tether",
+			narration : "narrate"
 		}
 		this.transitionManager = new TransitionManager(game, this, opts);
 	}

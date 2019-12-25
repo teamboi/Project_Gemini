@@ -40,10 +40,10 @@ DialogManager.prototype.TypeText = function(levelNum, textBubbleNum){
 
 	// Plays the audio associated with the text
 	/*this.narrate = game.add.audio('narrate');
-    this.narrate.play('', 0, 1, false);
-    this.narrate.volume = 0.35;*/
+	this.narrate.play('', 0, 1, false);
+	this.narrate.volume = 0.35;*/
 
-    // If specified, make the previous text fade out
+	// If specified, make the previous text fade out
 	if(textBubble["destroyIntro"]){
 		this.intro.fadeOut();
 	}
