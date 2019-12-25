@@ -7,17 +7,22 @@
 // titleCard; string; name of the image to display
 // ost; string; music to play
 // narration; string; narration to play
-function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration){
+function TransitionManager(game, gameplay, opts){
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
 	var gp = this.gameplay; // Shortens the reference
 
     // Save init arguments
-    this.nextLevel = nextLevel;
-    this.titleCard = titleCard;
-    this.ostInput = ost;
-    this.narration = narration;
+    this.titleCard = opts.titleCard;
+    this.ostInput = opts.ost;
+    this.narration = opts.narration;
+
+    this.currLevel = opts.levelName;
+    let levelArrPosition = this.findLevelArrPosition(this.currLevel);
+    this.prevLevel = levelArr[levelArrPosition - 1];
+    this.nextLevel = levelArr[levelArrPosition + 1];
+    this.forceLevelChange = false;
 
     // Create level manager specific variables
     this.flashColor = 0xffffff; // Color of the camera fades
@@ -39,7 +44,7 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
     this.complete = false;
 
     // Fade out the title theme
-    if(gp.theme.isPlaying == true) {
+    if(gp.theme != null && gp.theme.isPlaying == true) {
         gp.theme.fadeOut(this.themeFadeOutDuration);
     }
 
@@ -66,6 +71,33 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
 TransitionManager.prototype = Object.create(Phaser.Sprite.prototype);
 TransitionManager.prototype.constructor = TransitionManager;
 
+TransitionManager.prototype.update = function(){
+    if(debugHotkeys === false){
+        return;
+    }
+    let gp = this.gameplay;
+    if(game.input.keyboard.isDown(Phaser.KeyCode["O"])){ // go to previous level
+        game.state.start(this.prevLevel, true, false, gp.ost);
+    }
+    if(game.input.keyboard.isDown(Phaser.KeyCode["P"])){ // go to next level
+        game.state.start(this.nextLevel, true, false, gp.ost);
+    }
+    if(game.input.keyboard.isDown(Phaser.KeyCode["L"])){ // restart the level
+        game.state.start(this.currLevel, true, false, gp.ost);
+    }
+}
+
+// finds the position of the specified level in the global levelArr
+TransitionManager.prototype.findLevelArrPosition = function(name) {
+    for(let i = 0; i < levelArr.length; ++i){
+        if(levelArr[i] === name){
+            return i;
+        }
+    }
+    console.log("Could not find " + name + " within levelArr");
+    return -1;
+}
+
 TransitionManager.prototype.startOST = function() {
     // Begin playing the level theme
     this.ost.play('', 0, 0, true);
@@ -74,7 +106,7 @@ TransitionManager.prototype.startOST = function() {
     //this.ost.volume = 0.5;    
 }
 TransitionManager.prototype.stopTheme = function() {
-    // Stop playaing prev theme
+    // Stop playing prev theme
     this.theme.stop();
     //this.ost.volume = 0.5;    
 }

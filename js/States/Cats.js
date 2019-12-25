@@ -21,8 +21,7 @@ Cats.prototype = {
 		this.controlsAlpha = 1;
 
         var opts = {
-            currLevel: "Cats",
-            nextLevel: "Cradle",
+            levelName: "Cats",
             ostFadeOut: false,
             tilemap: "levelOne",
             backgroundImage: "Cats",

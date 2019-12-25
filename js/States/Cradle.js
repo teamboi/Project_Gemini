@@ -19,8 +19,7 @@ Cradle.prototype = {
 	},
 	create: function(){
         var opts = {
-            currLevel: "Cradle",
-            nextLevel: "Threads",
+            levelName: "Cradle",
             ostFadeOut: false,
             tilemap: "levelTwo",
             backgroundImage: "Cradle",

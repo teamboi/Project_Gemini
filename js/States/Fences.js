@@ -15,8 +15,7 @@ Fences.prototype = {
     },
     create: function(){
         var opts = {
-            currLevel: "Fences",
-            nextLevel: "Clouds",
+            levelName: "Fences",
             ostFadeOut: false,
             tilemap: "levelFive",
             backgroundImage: "Fences",

@@ -11,10 +11,12 @@ Together.prototype = {
         this.theme = ost;
     },
 	create: function(){
-		var nextLevel = "Cats";
-		var titleCard = "togetherTitle";
-		var ost = "Together";
-		var narration = "oneIntro";
-		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		var opts = {
+			levelName: "Together",
+            titleCard: "togetherTitle",
+            ost : "Together",
+            narration : "oneIntro"
+		}
+		this.transitionManager = new TransitionManager(game, this, opts);
 	}
 };

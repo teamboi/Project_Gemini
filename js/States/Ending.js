@@ -11,10 +11,12 @@ Ending.prototype = {
         this.theme = ost;
     },
 	create: function(){
-        var nextLevel = "Credits1";
-        var titleCard = "endTitle";
-        var ost = "Cradle";
-        var narration = "narrate";
-        this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+        var opts = {
+            levelName: "Ending",
+            titleCard: "endTitle",
+            ost : "Cradle",
+            narration : "narrate"
+        }
+        this.transitionManager = new TransitionManager(game, this, opts);
     }
 }

@@ -11,10 +11,12 @@ Separate.prototype = {
         this.theme = ost;
     },
 	create: function(){
-		var nextLevel = "Houses";
-		var titleCard = "housesTitle";
-		var ost = "Separate";
-		var narration = "narrate";
-		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		var opts = {
+			levelName: "Separate",
+            titleCard: "housesTitle",
+            ost : "Separate",
+            narration : "narrate"
+		}
+		this.transitionManager = new TransitionManager(game, this, opts);
 	}
 };

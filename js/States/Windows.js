@@ -17,8 +17,7 @@ Windows.prototype = {
     },
     create: function(){
         var opts = {
-            currLevel: "Windows",
-            nextLevel: "Tether",
+            levelName: "Windows",
             ostFadeOut: true,
             tilemap: "levelFour",
             backgroundImage: "Windows",

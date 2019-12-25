@@ -27,7 +27,7 @@ Theme.prototype = {
 			this.ostFadeDuration = 1;
 			this.fadeDelay = 1;
 		}
-		if(debugTransitions === true){
+		if(debugTransitions === true || debugSkipIntro === true){
 			this.flashDuration = 1;
 			this.fadeDuration = 1;
 			this.ostFadeDuration = 1;

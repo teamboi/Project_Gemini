@@ -15,8 +15,7 @@ Houses.prototype = {
     },
     create: function(){
         var opts = {
-            currLevel: "Houses",
-            nextLevel: "Windows",
+            levelName: "Houses",
             ostFadeOut: false,
             tilemap: "levelThree",
             backgroundImage: "Houses",

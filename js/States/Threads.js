@@ -16,8 +16,7 @@ Threads.prototype = {
 	},
 	create: function(){
         var opts = {
-            currLevel: "Threads",
-            nextLevel: "Separate",
+            levelName: "Threads",
             ostFadeOut: true,
             tilemap: "levelTwoPointFive",
             backgroundImage: "Threads",

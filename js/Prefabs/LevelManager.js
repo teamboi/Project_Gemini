@@ -3,8 +3,7 @@
 
 // Constructor for LevelManager
 // game and gameplay are references to their respective things
-// currLevel; string; name of the current level
-// nextLevel; string; name of the next level
+// levelName; string; name of the current level
 // ostFadeout; true or false; does the music fade at the end of the level
 // backgroundImage; string; the background image
 // dialogNum; int; index of the text to display in Dialog.json; 1-indexed
@@ -16,27 +15,31 @@
 // enableYarn; true or false; will there be yarn in this level
 // enableBarrier; true or false; will there be a barrier in this level
 function LevelManager(game, gameplay, opts){
-	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
-	game.add.existing(this);
-	this.gameplay = gameplay; // Obtains reference to gameplay state
-	var gp = this.gameplay; // Shortens the reference
+    Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
+    game.add.existing(this);
+    this.gameplay = gameplay; // Obtains reference to gameplay state
+    var gp = this.gameplay; // Shortens the reference
 
-	// Save init arguments
-    this.currLevel = opts.currLevel;
-	this.nextLevel = opts.nextLevel;
-	this.ostFadeOut = opts.ostFadeOut;
-	this.tilemap = opts.tilemap;
-	this.enableYarn = opts.enableYarn;
-	this.enableBarrier = opts.enableBarrier;
+    // Save init arguments
+    this.ostFadeOut = opts.ostFadeOut;
+    this.tilemap = opts.tilemap;
+    this.enableYarn = opts.enableYarn;
+    this.enableBarrier = opts.enableBarrier;
 
-	// Create level manager specific variables
-	this.heartSprite = "heart"; // Sprite of the objective glows
-	this.heartScale = 1.7; // Scale of heartSprite //blue was set to 1.3?
-	this.flashColor = 0xffffff; // Color of the camera fades
-	this.winTimerDelay = 1500; // Delay from win condition to preFade
-	this.preFadeConst = 1000; // Delay from preFade to fade
-	this.fadeDuration = 2000; // How long the fade lasts
-	this.ostFadeOutDuration = 2500; // How long does the music fade out
+    this.currLevel = opts.levelName;
+    let levelArrPosition = this.findLevelArrPosition(this.currLevel);
+    this.prevLevel = levelArr[levelArrPosition - 1];
+    this.nextLevel = levelArr[levelArrPosition + 1];
+    this.forceLevelChange = false;
+
+    // Create level manager specific variables
+    this.heartSprite = "heart"; // Sprite of the objective glows
+    this.heartScale = 1.7; // Scale of heartSprite //blue was set to 1.3?
+    this.flashColor = 0xffffff; // Color of the camera fades
+    this.winTimerDelay = 1500; // Delay from win condition to preFade
+    this.preFadeConst = 1000; // Delay from preFade to fade
+    this.fadeDuration = 2000; // How long the fade lasts
+    this.ostFadeOutDuration = 2500; // How long does the music fade out
 
     if(debugTransitions === true){
         this.winTimerDelay = 1;
@@ -45,10 +48,10 @@ function LevelManager(game, gameplay, opts){
         this.ostFadeOutDuration = 1;
     }
 
-	// Create gameplay state specific variables
-	this.fadeComplete = false;
-	gp.complete = false;
-	gp.barrier;
+    // Create gameplay state specific variables
+    this.fadeComplete = false;
+    gp.complete = false;
+    gp.barrier;
 
     // Enable p2 physics
     game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
@@ -108,13 +111,29 @@ function LevelManager(game, gameplay, opts){
 LevelManager.prototype = Object.create(Phaser.Sprite.prototype);
 LevelManager.prototype.constructor = LevelManager;
 
+LevelManager.prototype.update = function(){
+    if(debugHotkeys === false){
+        return;
+    }
+    let gp = this.gameplay;
+    if(game.input.keyboard.isDown(Phaser.KeyCode["O"])){ // go to previous level
+        game.state.start(this.prevLevel, true, false, gp.ost);
+    }
+    if(game.input.keyboard.isDown(Phaser.KeyCode["P"])){ // go to next level
+        game.state.start(this.nextLevel, true, false, gp.ost);
+    }
+    if(game.input.keyboard.isDown(Phaser.KeyCode["L"])){ // restart the level
+        game.state.start(this.currLevel, true, false, gp.ost);
+    }
+}
+
 // Adds the barrier between the two halves of the screen
 LevelManager.prototype.createBarrier = function(x, y, width, height){
-	var gp = this.gameplay; // renaming it to be shorter
+    var gp = this.gameplay; // renaming it to be shorter
 
-	// Only add it if we specify it
-	if(this.enableBarrier === true){
-		var platform = game.add.sprite(x,y, "line");
+    // Only add it if we specify it
+    if(this.enableBarrier === true){
+        var platform = game.add.sprite(x,y, "line");
         gp.group.add(platform);
         //platform.scale.setTo(0.08,0.08);
         platform.anchor.setTo(0.5,1);
@@ -131,26 +150,26 @@ LevelManager.prototype.createBarrier = function(x, y, width, height){
     }
     // Just in case of typos
     else if(this.enableBarrier != false){
-    	console.log(this.enableBarrier + " is not a valid state for enableBarrier. Please use true or false");
+        console.log(this.enableBarrier + " is not a valid state for enableBarrier. Please use true or false");
     }
 }
 
 // Adds in the level-specific obstacles
 // Only runs if the gameplay state has a function "createLevelObstacles()"
 LevelManager.prototype.createLevelObstacles = function(){
-	var gp = this.gameplay; // renaming it to be shorter
+    var gp = this.gameplay; // renaming it to be shorter
 
-	if(typeof gp.createLevelObstacles === "function"){
-		gp.createLevelObstacles();
-	}
+    if(typeof gp.createLevelObstacles === "function"){
+        gp.createLevelObstacles();
+    }
 }
 
 // Loads in the tilemap and static platforms
 LevelManager.prototype.createPlatforms = function(){
-	var gp = this.gameplay; // renaming it to be shorter
+    var gp = this.gameplay; // renaming it to be shorter
 
-	// Load in tilemap
-	gp.testLevel = this.game.add.tilemap(this.tilemap);
+    // Load in tilemap
+    gp.testLevel = this.game.add.tilemap(this.tilemap);
     gp.testLevel.addTilesetImage('pixel3', 'mapTiles');
 
     // Load in the platforms layer
@@ -181,19 +200,30 @@ LevelManager.prototype.createPlatforms = function(){
 
 // Adds in the yarn manager and the surrogate if specified
 LevelManager.prototype.createYarn = function(createBool){
-	var gp = this.gameplay; // renaming it to be shorter
+    var gp = this.gameplay; // renaming it to be shorter
 
-	// Only add them if we want to
-	if(createBool === true){
-    	// Add the surrogate player so our string plays nicely
-    	gp.surrogate = new Player(game, gp, 300, 100, 3);
-    	// Add in the yarn
-    	gp.yarn = new Yarn(game, gp, gp.player1, gp.player2, gp.surrogate);
+    // Only add them if we want to
+    if(createBool === true){
+        // Add the surrogate player so our string plays nicely
+        gp.surrogate = new Player(game, gp, 300, 100, 3);
+        // Add in the yarn
+        gp.yarn = new Yarn(game, gp, gp.player1, gp.player2, gp.surrogate);
     }
     // Just in case of typos
     else if(createBool != false){
-    	console.log(this.enableYarn + " is not a valid state for enableYarn. Please use true or false");
+        console.log(this.enableYarn + " is not a valid state for enableYarn. Please use true or false");
     }
+}
+
+// finds the position of the specified level in the global levelArr
+LevelManager.prototype.findLevelArrPosition = function(name) {
+    for(let i = 0; i < levelArr.length; ++i){
+        if(levelArr[i] === name){
+            return i;
+        }
+    }
+    console.log("Could not find " + name + " within levelArr");
+    return -1;
 }
 
 // Adds in the objective glows for the level
@@ -252,7 +282,8 @@ LevelManager.prototype.fade = function() {
 
     game.camera.fade(this.flashColor, this.fadeDuration);
     if(this.ostFadeOut === true){
-    	gp.ost.fadeOut(this.ostFadeOutDuration);
+        if(gp.ost != null)
+            gp.ost.fadeOut(this.ostFadeOutDuration);
     }
     else if(this.ostFadeOut != false){
     	console.log(this.ostFadeOut + " is not a valid state for ostFadeOut. Please use true or false");

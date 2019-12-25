@@ -11,10 +11,12 @@ Tether.prototype = {
         this.theme = ost;
     },
 	create: function(){
-		var nextLevel = "Fences";
-		var titleCard = "tetherTitle";
-		var ost = "Tether";
-		var narration = "narrate";
-		this.transitionManager = new TransitionManager(game, this, nextLevel, titleCard, ost, narration);
+		var opts = {
+			levelName: "Tether",
+            titleCard: "tetherTitle",
+            ost : "Tether",
+            narration : "narrate"
+		}
+		this.transitionManager = new TransitionManager(game, this, opts);
 	}
 };

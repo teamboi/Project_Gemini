@@ -48,7 +48,7 @@ MainMenu.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(this.ostFadeDuration);
+		if(this.ost != null) this.ost.fadeOut(this.ostFadeDuration);
     	game.camera.fade(0xffffff, this.cameraFlashDuration);
 
 	},
