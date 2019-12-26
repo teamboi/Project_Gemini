@@ -43,6 +43,7 @@ TextBubble.prototype.update = function(){
 	this.tint = Phaser.Color.interpolateColor(this.firstColor, 0xE5D3FD, this.tintTotalSteps, this.tintCurrStep, 1, 0);
 }
 
+// Allows the update loop to update the color and starts the tween
 TextBubble.prototype.beginChangeToPurple = function(totalSteps){
 	this.changeColor = true;
 	this.tintTotalSteps = totalSteps;
@@ -53,6 +54,7 @@ TextBubble.prototype.beginChangeToPurple = function(totalSteps){
 	this.tintTween.onComplete.add(this.endChangeToPurple, this);
 }
 
+// Stops the update loop from updating the color
 TextBubble.prototype.endChangeToPurple = function(){
 	this.changeColor = false;
 }
