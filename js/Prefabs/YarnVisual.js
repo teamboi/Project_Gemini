@@ -194,11 +194,6 @@ YarnVisual.prototype.changePlayerGravDir = function(lastAnchored){
 	this.playerGravDir = lastAnchored.body.data.gravityScale;
 }
 
-// Prevents the tighten animation from updating
-YarnVisual.prototype.disableMPAngle = function(){
-	this.justTightened = false;
-}
-
 // Causes the midpoint to drop
 YarnVisual.prototype.dropMidpoint = function(){
 	if(this.mpAngleTween != null) this.mpAngleTween.stop();
@@ -253,9 +248,6 @@ YarnVisual.prototype.tightenMidpoint = function(){
 	if(this.mpBezierTween != null) this.mpBezierTween.stop();
 	this.mpBezierTween = game.add.tween(this).to( { mpBezierInfluence: 1 }, this.mpBezierTransitionTime, "Custom.elasticOut", true, 0, 0, false);
 
-	// Introduces an X component to the tween so it can be seen when the yarn is vertical
-	this.justTightened = true;
-
 	if(yp.player1.x < yp.player2.x){
 		this.mpAngleLeftRight = 1;
 	}
@@ -270,6 +262,4 @@ YarnVisual.prototype.tightenMidpoint = function(){
 	// Tweens the magnitude of the midpoint // Does it?
 	this.mpAngleInfluence = 0;
 	this.mpAngleTween = game.add.tween(this).to( { mpAngleInfluence: 1 }, 50, Phaser.Easing.Linear.In, true, 0, 0, false);
-
-	this.mpTween.onComplete.add(this.disableMPAngle, this);
 }
