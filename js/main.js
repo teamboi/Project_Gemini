@@ -29,8 +29,8 @@ var debugAnimation			= false; // true or false; prints out animation indices for
 var debugCollisionsObjects	= false; // true or false; enable collisions with objects
 var debugCollisionsLevel	= false; // true or false; enable collisions for the platforms
 var debugHotkeys			= false; // true or false; enables the use of hotkeys to navigate levels;
-									// [ for prev, ] for next;
-									// ' for restart;
+									// O for prev, P for next;
+									// L for restart;
 var debugLoopLevel			= false; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
 var debugSkipIntro			= false; // true or false; skips the Team Boy Intro
 var debugTransitions		= false; // true or false; makes level transitions instant
