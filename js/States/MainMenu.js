@@ -8,8 +8,8 @@ var MainMenu = function(game){};
 MainMenu.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
-        this.ost = ost;
-    },
+		this.ost = ost;
+	},
 	create: function(){
 		this.complete = false;
 		// Add in the title card
@@ -48,8 +48,8 @@ MainMenu.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(this.ostFadeDuration);
-    	game.camera.fade(0xffffff, this.cameraFlashDuration);
+		if(this.ost != null) this.ost.fadeOut(this.ostFadeDuration);
+		game.camera.fade(0xffffff, this.cameraFlashDuration);
 
 	},
 	resetFade: function() {

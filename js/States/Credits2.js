@@ -8,9 +8,9 @@ var Credits2 = function(game){};
 Credits2.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
-        this.ost = ost;
-        this.fadeComplete = false;
-    },
+		this.ost = ost;
+		this.fadeComplete = false;
+	},
 	create: function(){
 		// Add in the title card
 		this.menu = game.add.sprite(game.width/2,game.height/2,'credits2');
@@ -49,15 +49,15 @@ Credits2.prototype = {
 	},
 	fade: function() {
 		// Fade out the music and the camera
-    	this.ost.fadeOut(this.ostFadeDuration);
-    	game.camera.fade(0xffffff, this.cameraFlashDuration);
+		this.ost.fadeOut(this.ostFadeDuration);
+		game.camera.fade(0xffffff, this.cameraFlashDuration);
 
 	},
 	resetFade: function() {
 		 // Load in the next level once the fade is complete
 		if(this.fadeComplete == false) {
-            game.state.start('Theme', true, false, this.ost);
-            this.fadeComplete = true;
-        }
+			game.state.start('Theme', true, false, this.ost);
+			this.fadeComplete = true;
+		}
 	}
 };

@@ -21,6 +21,12 @@ function DialogManager(game, gameplay){
 DialogManager.prototype = Object.create(Phaser.Sprite.prototype);
 DialogManager.prototype.constructor = DialogManager;
 
+// Changes the color of both text blurs to purple
+DialogManager.prototype.changeBlurToPurple = function(totalSteps){
+	this.intro.beginChangeToPurple(totalSteps);
+	this.outro.beginChangeToPurple(totalSteps);
+}
+
 // Function to type the intro dialog; 1 indexed
 DialogManager.prototype.TypeIntro = function(levelNum){
 	this.intro = this.TypeText(levelNum-1,0);
@@ -40,16 +46,16 @@ DialogManager.prototype.TypeText = function(levelNum, textBubbleNum){
 
 	// Plays the audio associated with the text
 	/*this.narrate = game.add.audio('narrate');
-    this.narrate.play('', 0, 1, false);
-    this.narrate.volume = 0.35;*/
+	this.narrate.play('', 0, 1, false);
+	this.narrate.volume = 0.35;*/
 
-    // If specified, make the previous text fade out
+	// If specified, make the previous text fade out
 	if(textBubble["destroyIntro"]){
 		this.intro.fadeOut();
 	}
 
 	// Create the actual text
-	var currentText = new TextBubble(game, this.gameplay, this.key, textBubble["x"], textBubble["y"], textBubble["width"], textBubble["text"], textBubble["size"]);
+	var currentText = new TextBubble(game, this.gameplay, textBubble);
 	this.gameplay.group.add(currentText); // Add the current text to be sorted
 	this.gameplay.group.add(currentText.text)
 

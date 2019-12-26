@@ -22,13 +22,34 @@ var layerYarn = 100;
 var layerPlayer = 90;
 
 // variables for debugging
-var debugLevel = "Windows"; // replace with the name of the level to switch to; default to null
-var debugCollisionsObjects = false; // true or false; enable collisions with objects
-var debugCollisionsLevel = false; // true or false; enable collisions for the platforms
-var debugAnimation = false; // true or false; prints out animation indices for the player, so I don't have to count, and it isn't calculated every time a level is loaded; Also enables debug on FSM
-var debugTransitions = false; // true or false; makes level transitions instant
+var debugLevel				= null; // default to null; replace with the name of the level to switch to
+var debugAnimation			= false; // true or false; prints out animation indices for the player,
+									// so I don't have to count, and it isn't calculated every time a level is loaded;
+									// Also enables debug on FSM
+var debugCollisionsObjects	= false; // true or false; enable collisions with objects
+var debugCollisionsLevel	= false; // true or false; enable collisions for the platforms
+var debugHotkeys			= false; // true or false; enables the use of hotkeys to navigate levels;
+									// O for prev, P for next;
+									// L for restart;
+var debugLoopLevel			= false; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
+var debugSkipIntro			= false; // true or false; skips the Team Boy Intro
+var debugTransitions		= false; // true or false; makes level transitions instant
+var debugWin				= false; // true or false; prevents level from being able to be won
 
-//var levelArr = ['Together', 'Cats', 'Cradle', 'Threads', 'Separate', 'Houses', 'Windows', 'Tether', 'Fences', 'Clouds', 'Ending'];
+var levelArr = ['MainMenu',
+				'Together',
+				'Cats',
+				'Cradle',
+				'Threads',
+				'Separate',
+				'Houses',
+				'Windows',
+				'Tether',
+				'Fences',
+				'Clouds',
+				'Ending',
+				'Credits1',
+				'Credits2'];
 
 // when window loads, create the game
 window.onload = function(){
@@ -56,7 +77,6 @@ window.onload = function(){
 	game.state.add('Ending', Ending);
 	game.state.add('Credits1', Credits1);
 	game.state.add('Credits2', Credits2);
-	//game.state.add('GameOver', GameOver);
-	//game.stage.backgroundColor = '#000000';
+	
 	game.state.start('Boot');
 }

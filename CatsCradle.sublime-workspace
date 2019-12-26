@@ -1,0 +1,515 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"sin",
+				"string"
+			],
+			[
+				"cos",
+				"cos"
+			],
+			[
+				"begin",
+				"begin"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 2196,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/Prefabs/Player.js",
+			"settings":
+			{
+				"buffer_size": 12148,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/Prefabs/PlayerFSM.js",
+			"settings":
+			{
+				"buffer_size": 14172,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/Prefabs/Yarn.js",
+			"settings":
+			{
+				"buffer_size": 8151,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/Prefabs/YarnVisual.js",
+			"settings":
+			{
+				"buffer_size": 10170,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Cats.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/Cloud.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Clouds.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Fences.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Windows.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Houses.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Threads.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Cradle.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Together.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Separate.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Tether.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/WindowMask.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/MovePlatformLimiter.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/MovePlatform.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/arothStateMachine.js",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/Prefabs/Player.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Load.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/MainMenu.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Boot.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/TextBubble.js",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Scripts/ReplayScript.cs",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Theme.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Credits1.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Ending.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/Credits2.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/States/GameOver.js",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/Makefile",
+		"/C/Users/Herman/Documents/School/CSE 111/asg2-shell-fnptrs-oop/code/Makefile",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/HEADER.html",
+		"/C/Users/Herman/Documents/School/CSE 111/asg2-shell-fnptrs-oop/code/main.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg2-shell-fnptrs-oop/code/file_sys.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg2-shell-fnptrs-oop/code/commands.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg2-shell-fnptrs-oop/code/util.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/lab0-intro-unix/code/Makefile",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/debug.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/debug.h",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/DebugOutput",
+		"/C/Users/Herman/Documents/School/CSE 111/Sample Code/asg1-dc-bigint/code/ubigint.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/Sample Code/asg1-dc-bigint/code/bigint.cpp",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/FilmController.cs",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/ubigint.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/Sample Code/asg1-dc-bigint/code/ubigint.h",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Scripts/FilmController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/VideoPlay.cs",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Scripts/PauseButton.cs",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Oculus/SampleFramework/Core/DebugUI/Scripts/HandedInputSelector.cs",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/libfns.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/util.cpp",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/ubigint.o",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/ubigint.h",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/Makefile.dep",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/bigint.o",
+		"/C/Users/Herman/Documents/School/CSE 111/asg1-dc-bigint/code/bigint.h",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Scripts/MenuController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Scripts/CorrectEmotionController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/EmotionSelectController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/LogController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/endScreenManager.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/playerInput.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Images/Keys/Not Pressed/Keys copy.png.meta",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Images/Keys/Not Pressed/Keys copy 7.png.meta",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Images/Keys/Not Pressed/Keys copy 6.png.meta",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Images/Keys/Not Pressed/Keys copy 5.png.meta",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Images/Keys/Not Pressed/Keys copy 3.png.meta",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/.gitignore",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/playButtonHover.cs",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/YarnVisual.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/Yarn.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/PlayerFSM.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/Player.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/PlayButton.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/DialogManager.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/TransitionManager.js",
+		"/C/Users/Herman/Documents/Anime Projects/Blender Scripts/MixamoToBlenderBoneRename.py",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/globalScore.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/levelManager.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/timer.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/timer.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/CorrectEmotionDisplay.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/OculusControllerScript.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Assist Lab Test/Assets/Scripts/MenuController.cs",
+		"/C/Users/Herman/Documents/Unity Projects/ASSIST Lab 2019-2020/Assets/Manager.cs",
+		"/C/Users/Herman/Documents/Unity Projects/Untitled-Sharing-Game/Untitled Sharing Game/Assets/Scripts/menuManager.cs",
+		"/C/Users/Herman/Documents/Anime Projects/Project Gemini/redCat.json",
+		"/C/Users/Herman/Documents/Anime Projects/Project Gemini/blueCat.json",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/assets/img/cats/blueCat.json",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/assets/img/cats/blueCatOld.json",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/assets/img/cats/redCat.json",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/index.html",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/assets/Dialog.txt",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/Dialog.json",
+		"/C/Users/Herman/Documents/Anime Projects/Typocrypha/Icons/Test-01.png",
+		"/C/Users/Herman/Documents/Anime Projects/Project Gemini/Spritesheets/redCat.json",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/States/GamePlay.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/LevelManager.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/YarnMidPoint.js",
+		"/C/Users/Herman/Documents/Unity Projects/Global Game Jam Demo 2019/Assets/Scripts/move.cs",
+		"/C/Users/Herman/Documents/Phaser/typo-defender-master/src/index.html",
+		"/C/Users/Herman/Documents/Phaser/Tutorial Modified/index.html",
+		"/C/Users/Herman/Documents/Phaser/Tutorial/index.html",
+		"/C/Users/Herman/Documents/Phaser/Template/index.html",
+		"/C/Users/Herman/Documents/Phaser/Snowy States/index.html",
+		"/C/Users/Herman/Documents/Phaser/Paddle Parkour Redux/index.html",
+		"/C/Users/Herman/Documents/Phaser/LimaRunner/LimaRunner/index.html",
+		"/C/Users/Herman/Documents/Phaser/dialog/index.html",
+		"/C/Users/Herman/Documents/Phaser/08 - Pong/index.html",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/index.html",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/main.js",
+		"/C/Users/Herman/Documents/Phaser/typo-defender-master/src/LetterRocket.class.js",
+		"/C/Users/Herman/Documents/Phaser/typo-defender-master/src/Cannon.class.js",
+		"/C/Users/Herman/Documents/Phaser/Tutorial Modified/js/main.js",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/main.js",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/States/Load.js",
+		"/C/Users/Herman/Documents/School/CMPS 101/pa2/ListClient.c",
+		"/C/Users/Herman/Documents/School/CMPS 101/pa2/List.c",
+		"/C/Users/Herman/Documents/School/CMPS 101/pa5/FindComponents.c",
+		"/C/Users/Herman/Documents/School/CMPS 101/pa5/List.c",
+		"/C/Users/Herman/Documents/School/CMPS 101/pa2/Lex.c",
+		"/C/Users/Herman/Documents/Unity Projects/typocrypha-ii/Typocrypha II/Assets/Scripts/LoadingScreens/LoadingScreen.cs",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/States/MainMenu.js",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/States/Boot.js",
+		"/C/Users/Herman/AppData/Local/Temp/Temp1_Project_Gemini-1.zip/js/States/Clouds.js",
+		"/C/Users/Herman/AppData/Local/Temp/Temp1_Project_Gemini-1.zip/js/main.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/css/styles.css",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/States/GameOver.js",
+		"/C/Users/Herman/Documents/Phaser/Don't Be Late/js/Prefabs/Freshman.js",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/assets/img/cats/redCatHitbox.json",
+		"/C/Users/Herman/Documents/Phaser/Project_Gemini/js/Prefabs/MidYarnCage.js"
+	],
+	"find":
+	{
+		"height": 40.0
+	},
+	"find_in_files":
+	{
+		"height": 121.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2196,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/Prefabs/Player.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12148,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 660.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/Prefabs/PlayerFSM.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14172,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/Prefabs/Yarn.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/Prefabs/YarnVisual.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10170,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5746,
+								5746
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2618.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "CatsCradle.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

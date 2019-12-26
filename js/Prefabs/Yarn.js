@@ -100,9 +100,6 @@ Yarn.prototype.updateYarn = function(){
 		var otherCat = this.player1;
 	}
 
-	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
-	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
-
 	// Now we handle if the non-anchored (otherCat) cat is on a roof, thus becoming the anchor
 	// If the otherCat was not previously on the roof and is on the roof and the anchorCat is not on the ground
 	if(this.isOnRoof == false && otherCat.checkIfOnRoof() && !anchorCat.checkIfCanJump()){
@@ -136,6 +133,9 @@ Yarn.prototype.updateYarn = function(){
 			var otherCat = this.player2;
 		}
 	}
+
+	this.playerDist = Phaser.Math.distance(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtains the distance between the players
+	this.yarnAngle = Phaser.Math.angleBetween(anchorCat.x, anchorCat.y, otherCat.x, otherCat.y); // Obtain the angle of the yarn
 
 	// If the otherCat is falling upward, change the tautDeadband so that the cat can bounce up, instead of stiff yarn
 	if(otherCat.body.velocity.y*-1*otherCat.body.data.gravityScale > velDeadband){
@@ -186,8 +186,6 @@ Yarn.prototype.modifyAnchor = function(anchorCat,otherCat){
 Yarn.prototype.removeYarn = function(){
 	this.isYarn = false; // yarn is inactive
 	this.isOnRoof = false; // in case this is true, the cat is no longer on the roof
-
-	this.tautLength = 0; // Resets the taut length for the yarn
 
 	// If constraint does exist, remove it
 	if(constraint != null){

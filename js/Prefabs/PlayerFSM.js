@@ -7,6 +7,10 @@
 // Constructor for PlayerFSM
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
+	// Name of the file for animations
+	this.file = "PG Cat 6";
+
+	// Names of animation states
 	this.animNames = [
 	"walk",
 	"jump",
@@ -27,6 +31,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"fidgetYawn"
 	];
 
+	// Not actual animation states
+	// breakpoints within other animation states
 	this.extraAnimPointNames = [
 	"walk1",
 	"walk2",
@@ -44,7 +50,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		idle:			{length: 19,	end: 122,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
 
-		// single=cycle animations
+		// single cycle animations
 		idleToFall:		{length: "03",	end: 126,	fps: 30},
 		jumpToFall:		{length: 19,	end: 160,	fps: 30},
 		land:			{length: "03",	end: 164,	fps: 30},
@@ -66,20 +72,17 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		walk4:			{begin: 15,		end: 198, 	anim: "walk"}
 	}
 
-	var key, debugBool;
+	var key;
+	var debugBool = false;
 	if(whichPlayer === 1){
 		key = "cat1";
 		if(debugAnimation === true){
 			debugBool = true;
 			this.debugPrintAnimationIndices();
 		}
-		else{
-			debugBool = false;
-		}
 	}
 	else{
 		key = "cat2";
-		debugBool = false;
 	}
 
 	Phaser.Sprite.call(this, game, x, y, key);
@@ -98,14 +101,18 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 	this.blinkTimer = 0; // var for the timer for blinking
 
+	this.fallVelocity = 5; // var for what velocity to check for if falling // It changes depending on context
+	this.fallTimer = 0; // var for the timer for changing the fallVelocity const
+	this.hasFinishedLanding = false; // var for if the player has finished landing
+	// The player when landing tends to have massive fluctuations in the y velocity
+
 	// Add in the animation frames by name
-	var file = "PG Cat 6";
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
 		var data = this.animData[anim];
 		
 		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
-		this.animations.add(anim, Phaser.Animation.generateFrameNames(file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
+		this.animations.add(anim, Phaser.Animation.generateFrameNames(this.file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
 	}
 
 	// Creates a new FSM
@@ -119,6 +126,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		self.createAnimState(this.animNames[i]);
 	}
 
+	// create shorthand for this.animData
 	var data = this.animData;
 
 	// Create transitions
@@ -177,7 +185,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 			&& self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
-		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5 );
+		return ( self.player.checkIfOnRoof() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
 	});
 
 	self.createJumpAnimTransition("ceilingCollide");
@@ -232,7 +240,7 @@ PlayerFSM.prototype.update = function(){
 
 // If condition for if the player is falling
 PlayerFSM.prototype.checkIfFalling = function(){
-	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){
+	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){ // !this.player.checkIfCanJump()
 		this.resetIdleTimer();
 		return true;
 	}
@@ -372,16 +380,15 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 
 // Prints out the indices of the end of animation states
 PlayerFSM.prototype.debugPrintAnimationIndices = function(){
-    var atlas = game.cache.getJSON('playerAnimations');
+	var atlas = game.cache.getJSON('playerAnimations');
 	var frames = atlas.frames;
 
-	var file = "PG Cat 6";
 	var anyChanges = false;
 	for(let i = 0; i < frames.length; i++){
 		for(let j = 0; j < this.animNames.length; j++){
 			var anim = this.animNames[j];
 			var data = this.animData[anim];
-			if(frames[i].filename === file + "-" + anim + "-" + data.length){
+			if(frames[i].filename === this.file + "-" + anim + "-" + data.length){
 				var oldData = data.end;
 				data.end = i;
 
@@ -396,7 +403,7 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 		for(let j = 0; j < this.extraAnimPointNames.length; j++){
 			var anim = this.extraAnimPointNames[j];
 			var data = this.animData[anim];
-			if(frames[i].filename === file + "-" + data.anim + "-" + data.begin){
+			if(frames[i].filename === this.file + "-" + data.anim + "-" + data.begin){
 				var oldData = data.end;
 				data.end = i;
 
@@ -435,6 +442,10 @@ PlayerFSM.prototype.resetBlinkTimer = function(){
 	this.blinkTimer = 0;
 }
 
+PlayerFSM.prototype.resetFallTimer = function(){
+	this.fallTimer = 0;
+}
+
 // Resets the timer for idle animations
 PlayerFSM.prototype.resetIdleTimer = function(){
 	this.idleTimer = 0;
@@ -444,6 +455,10 @@ PlayerFSM.prototype.resetIdleTimer = function(){
 // Updates the timer for blink animations
 PlayerFSM.prototype.updateBlinkTimer = function(){
 	this.blinkTimer++;
+}
+
+PlayerFSM.prototype.updateFallTimer = function(){
+	this.fallTimer++;
 }
 
 // Updates the timer for fidget animations
