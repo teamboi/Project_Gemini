@@ -36,7 +36,6 @@ Houses.prototype = {
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
 			this.complete = true;
 			this.levelManager.win();
-			//game.time.events.add(1000, this.fade, this);
 		}
 		if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70) {
 			this.oneWin = true;

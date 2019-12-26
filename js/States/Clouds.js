@@ -42,6 +42,9 @@ Clouds.prototype = {
 		if(this.complete == true) {
 			this.levelManager.win();
 		}
+		else{
+			this.levelManager.cancelWin();
+		}
 		// When the first cloud is locked
 		if(this.cloud1.cloud.isMoving == 'locked'){
 			this.oneCanWin = true;

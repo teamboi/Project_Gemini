@@ -38,7 +38,6 @@ Windows.prototype = {
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
 			this.complete = true;
 			this.levelManager.win();
-			//game.time.events.add(1000, this.fade, this);
 		}
 		if(this.window1.latch.isMoving == 'locked'){
 			this.oneCanWin = true;
