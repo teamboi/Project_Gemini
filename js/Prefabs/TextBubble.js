@@ -15,7 +15,7 @@ function TextBubble(game, gameplay, data){
 	this.text = game.add.text(data.x, data.y, data.text, style); // Creates specified text
 	this.text.zOrder = layerText; // Sets text's z order for layer sorting
 	this.text.anchor.setTo(0.5, 0.5); // Sets the anchor to the center of the text
-	this.alpha = .8; // Initial state for both bubble and text is transparent
+	this.alpha = 0; // Initial state for both bubble and text is transparent
 	this.text.alpha = 0;
 
 	// Set the scaling of the text blur to the size of the text box
@@ -29,7 +29,7 @@ function TextBubble(game, gameplay, data){
 	this.tintCurrStep = 0;
 
 	// Begins to fade in the text
-	//game.add.tween(this).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
+	game.add.tween(this).to( { alpha: .8 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
 	game.add.tween(this.text).to( { alpha: 1 }, 1500, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
 }
 
@@ -58,7 +58,7 @@ TextBubble.prototype.endChangeToPurple = function(){
 }
 
 // Function for fading the text out
-TextBubble.prototype.fadeOut = function(){
-	game.add.tween(this).to( { alpha: 0 }, 1500, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
-	game.add.tween(this.text).to( { alpha: 0 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
+TextBubble.prototype.fadeOut = function(duration){
+	game.add.tween(this).to( { alpha: 0 }, duration*1.2, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
+	game.add.tween(this.text).to( { alpha: 0 }, duration, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
 }

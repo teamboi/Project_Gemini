@@ -39,11 +39,13 @@ function LevelManager(game, gameplay, opts){
 	this.winTimerDelay = 1500; // Delay from win condition to fade
 	this.fadeDuration = 2000; // How long the fade lasts
 	this.ostFadeOutDuration = 2500; // How long does the music fade out
+    this.textFadeDuration = 1500; // How long does the text fade in and out
 
 	if(debugTransitions === true){
 		this.winTimerDelay = 1;
 		this.fadeDuration = 1;
 		this.ostFadeOutDuration = 1;
+        this.textFadeDuration = 1;
 	}
 
 	// Create gameplay state specific variables
@@ -59,9 +61,7 @@ function LevelManager(game, gameplay, opts){
 	game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
 	// Fade into the scene
-	game.camera.flash(this.flashColor, 2000);
-	// Instantiate the fade events
-	game.camera.onFadeComplete.add(this.resetFade, this);
+	game.camera.flash(this.flashColor, this.fadeDuration);
 
 	if(debugCollisionsLevel === false){
 		// Loads in the tilemap and static platforms
@@ -278,7 +278,9 @@ LevelManager.prototype.fade = function() {
 	var gp = this.gameplay; // renaming it to be shorter
     if(gp.complete != true) return;
 
+    // Fade the camera
 	game.camera.fade(this.flashColor, this.fadeDuration);
+    game.camera.onFadeComplete.add(this.resetFade, this);
 
 	if(this.ostFadeOut === true){
 		if(gp.ost != null)
@@ -288,7 +290,7 @@ LevelManager.prototype.fade = function() {
 		console.log(this.ostFadeOut + " is not a valid state for ostFadeOut. Please use true or false");
 	}
 
-    gp.dialog.fadeText();
+    gp.dialog.fadeOutText(this.textFadeDuration);
 }
 // Call the next level
 LevelManager.prototype.resetFade = function() {
