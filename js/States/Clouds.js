@@ -40,24 +40,31 @@ Clouds.prototype = {
 	update: function(){
 		//Check for player one's win state
 		if(this.complete == true) {
-			//game.time.events.add(2000, this.preFade, this);
 			this.levelManager.win();
 		}
+		// When the first cloud is locked
 		if(this.cloud1.cloud.isMoving == 'locked'){
 			this.oneCanWin = true;
 			game.add.tween(this.room2).to( { alpha: 1 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0);
 		}
+		// When the second cloud is locked
 		if(this.cloud2.cloud.isMoving == 'locked'){
 			this.twoCanWin = true;
 		}
 
-		// Porgress the the level's second stage
+		// Progress the the level's second stage; when the background is purple
 		if(this.oneCanWin == true && this.twoCanWin == true) {
+			// Remove the barrier
 			if(this.barrierDestroyed == false) {
 				this.barrierDestroyed = true;
-				game.time.events.add(1000, this.destoyBarrier, this);
-				game.add.tween(this.barrier).to( { alpha: 0 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0);
-				game.add.tween(this.room3).to( { alpha: 1 }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0);
+
+				let delayConst = 1000;
+
+				game.time.events.add(delayConst, this.destroyBarrier, this);
+				game.add.tween(this.barrier).to( { alpha: 0 }, delayConst, Phaser.Easing.Sinusoidal.InOut, true, 0);
+				game.add.tween(this.room3).to( { alpha: 1 }, delayConst, Phaser.Easing.Sinusoidal.InOut, true, 0);
+
+				this.dialog.changeBlurToPurple(delayConst);
 			}
 			if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 && Phaser.Math.distance(this.player2.x, this.player2.y, game.width/2, game.height/2)){
 				this.complete = true;
@@ -87,7 +94,7 @@ Clouds.prototype = {
 		this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up', this.player2);
 	},
 	// Destroy the world barrier
-	destoyBarrier: function() {
+	destroyBarrier: function() {
 		this.barrier.destroy();
 	},
 }

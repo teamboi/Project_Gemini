@@ -21,6 +21,12 @@ function DialogManager(game, gameplay){
 DialogManager.prototype = Object.create(Phaser.Sprite.prototype);
 DialogManager.prototype.constructor = DialogManager;
 
+// Changes the color of both text blurs to purple
+DialogManager.prototype.changeBlurToPurple = function(totalSteps){
+	this.intro.beginChangeToPurple(totalSteps);
+	this.outro.beginChangeToPurple(totalSteps);
+}
+
 // Function to type the intro dialog; 1 indexed
 DialogManager.prototype.TypeIntro = function(levelNum){
 	this.intro = this.TypeText(levelNum-1,0);

@@ -265,9 +265,7 @@ YarnVisual.prototype.tightenMidpoint = function(){
 	this.mpAngleLeftRight *= this.playerGravDir;
 
 	// Tweens the angle of the midpoint
-	if(this.mpAngleTween != null){
-		this.mpAngleTween.stop();
-	}
+	if(this.mpAngleTween != null) this.mpAngleTween.stop();
 
 	// Tweens the magnitude of the midpoint // Does it?
 	this.mpAngleInfluence = 0;
