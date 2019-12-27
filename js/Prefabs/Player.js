@@ -63,7 +63,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 		// Sets collision group stuff
 		this.body.setCollisionGroup(playerCG);
-        this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
+		this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else if(whichPlayer == 2){
 		this.body.data.gravityScale = -1; // player2 will be on the roof and reverse gravity
@@ -79,7 +79,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 		// Sets collision group stuff
 		this.body.setCollisionGroup(playerCG);
-        this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
+		this.body.collides([playerCG, platformCG, objectCG, cloudCG]);
 	}
 	else{
 		this.controls = {left: 'LEFT', right: 'RIGHT', jump: 'DOWN', anchor: 'UP'}; // Populates the controls for the surrogate so it can be read
@@ -91,7 +91,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 
 		// Sets collision group stuff
 		this.body.setCollisionGroup(surrogateCG);
-        this.body.collides([platformCG, objectCG, cloudCG]);
+		this.body.collides([platformCG, objectCG, cloudCG]);
 	}
 }
 
@@ -116,26 +116,26 @@ Player.prototype.update = function(){
 			this.faceLeft();
 			this.move(this.facing, this.xVelocity);
 			this.catSprite.isMoving = true;
-	    }
-	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
-	    	this.faceRight();
-	    	this.move(this.facing, this.xVelocity);
-	    	this.catSprite.isMoving = true;
-	    }
-	    else{
-	    	this.catSprite.isMoving = false;
-	    }
+		}
+		else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
+			this.faceRight();
+			this.move(this.facing, this.xVelocity);
+			this.catSprite.isMoving = true;
+		}
+		else{
+			this.catSprite.isMoving = false;
+		}
 
-	    // Check for jumping
-	    if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls.jump]) && this.checkIfCanJump() ){
-	    	// Check for if the player is not the surrogate, then play a sound
-	    	if(this.whichPlayer == 1 || this.whichPlayer == 2) {
-	    		if(typeof this.meow1 !== 'undefined') {
-	    			this.meow1.play('', 0, 1, false);
-	    		}
-	    	}
-	    	// Makes the player jump in the appropriate direction
-	    	if(this.whichPlayer == 1){
+		// Check for jumping
+		if(game.input.keyboard.justPressed(Phaser.KeyCode[this.controls.jump]) && this.checkIfCanJump() ){
+			// Check for if the player is not the surrogate, then play a sound
+			if(this.whichPlayer == 1 || this.whichPlayer == 2) {
+				if(typeof this.meow1 !== 'undefined') {
+					this.meow1.play('', 0, 1, false);
+				}
+			}
+			// Makes the player jump in the appropriate direction
+			if(this.whichPlayer == 1){
 				this.body.moveUp(this.jumpVelocity);
 			}
 			else{
@@ -144,7 +144,7 @@ Player.prototype.update = function(){
 			// Tells the FSM that the player is jumping
 			// Reset in this.resetFsmVars(), so it acts as an "impulse"
 			this.catSprite.isJumping = true;
-	    }
+		}
 	}
 	// If this player is anchoring, copy the surrogate, which will be reading the appropriate controls
 	else{
@@ -154,15 +154,15 @@ Player.prototype.update = function(){
 		if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.left])) {
 			this.catSprite.isMoving = true;
 			this.faceLeft();
-	    }
-	    // If the player is moving to the right
-	    else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
-	    	this.catSprite.isMoving = true;
-	    	this.faceRight();
-	    }
-	    else{
-	    	this.catSprite.isMoving = false;
-	    }
+		}
+		// If the player is moving to the right
+		else if (game.input.keyboard.isDown(Phaser.KeyCode[this.controls.right])) {
+			this.catSprite.isMoving = true;
+			this.faceRight();
+		}
+		else{
+			this.catSprite.isMoving = false;
+		}
 	}
 }
 
@@ -238,43 +238,43 @@ Player.prototype.faceRight = function(){
 Player.prototype.checkVertCollision = function(){
 	var yAxis = p2.vec2.fromValues(0, 1);
 	
-    for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
-        var cE = game.physics.p2.world.narrowphase.contactEquations[i];
+	for (let i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++){
+		var cE = game.physics.p2.world.narrowphase.contactEquations[i];
 
-        if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
-            var d = p2.vec2.dot(cE.normalA, yAxis);
+		if (cE.bodyA === this.body.data || cE.bodyB === this.body.data){
+			var d = p2.vec2.dot(cE.normalA, yAxis);
 
-            if (cE.bodyA === this.body.data){
-                d *= -1;
-            }
+			if (cE.bodyA === this.body.data){
+				d *= -1;
+			}
 
-            if(this.jumpDirection == 'down'){ // If player2, then reverse the vector
-            	d *= -1;
-            }
+			if(this.jumpDirection == 'down'){ // If player2, then reverse the vector
+				d *= -1;
+			}
 
-            this.vertCollision = d;
-            return;
-        }
-    }
-    this.vertCollision = 0;
+			this.vertCollision = d;
+			return;
+		}
+	}
+	this.vertCollision = 0;
 }
 
 // Checks if the ground is under the player
 // Returns true if the player is on the ground
 Player.prototype.checkIfCanJump = function() {
 	if (this.vertCollision > 0.5){
-        return true;
-    }
-    return false;
+		return true;
+	}
+	return false;
 }
 
 // Checks if a player is not on the roof or the ground
 // returns true if the player is in the air
 Player.prototype.checkIfInAir = function() {
 	if (this.vertCollision > -.5 && this.vertCollision < 0.5){
-        return true;
-    }
-    return false;
+		return true;
+	}
+	return false;
 }
 
 // Checks if a platform is above the player
@@ -282,9 +282,9 @@ Player.prototype.checkIfInAir = function() {
 Player.prototype.checkIfOnRoof = function() {
 	var vert = -1*this.vertCollision;
 	if (vert > 0.5){
-        return true;
-    }
-    return false;
+		return true;
+	}
+	return false;
 }
 
 // surrogate player begins to copy the movement of a player

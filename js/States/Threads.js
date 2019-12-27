@@ -8,51 +8,46 @@ var Threads = function(game){};
 Threads.prototype = {
 	init: function(ost){
 		// initialize variables for gameplay
-        this.ost = ost;
-        this.oneWin = false;
-        this.twoWin = false;
-        this.outroPlaying = false;
-        this.textVertOffset = 40;
+		this.ost = ost;
+		this.oneWin = false;
+		this.twoWin = false;
+		this.outroPlaying = false;
+		this.textVertOffset = 40;
 	},
 	create: function(){
-        var opts = {
-            currLevel: "Threads",
-            nextLevel: "Separate",
-            ostFadeOut: true,
-            tilemap: "levelTwoPointFive",
-            backgroundImage: "Threads",
-            dialogNum: 3,
-            howManyGlows: 1,
-            redGlowCoords: [0,0],
-            blueGlowCoords: [0,0],
-            player1Coords: [180, 469],
-            player2Coords: [450, 55],
-            enableYarn: true,
-            enableBarrier: false,
-        }
+		var opts = {
+			levelName: "Threads",
+			ostFadeOut: true,
+			tilemap: "levelTwoPointFive",
+			backgroundImage: "Threads",
+			dialogNum: 3,
+			howManyGlows: 1,
+			redGlowCoords: [0,0],
+			blueGlowCoords: [0,0],
+			player1Coords: [180, 469],
+			player2Coords: [450, 55],
+			enableYarn: true,
+			enableBarrier: false,
+		}
 
-        this.levelManager = new LevelManager(game, this, opts);
+		this.levelManager = new LevelManager(game, this, opts);
 	},
 	update: function(){
-       /* if(this.complete == true) {
-            this.levelManager.win();
-        }*/
-        if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
-            this.complete = true;
-            game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
-            this.redGlow.x = (this.player1.x + this.player2.x)/2;
-            this.redGlow.y = (this.player1.y + this.player2.y)/2;
-        }
-        else { 
-            this.complete = false;
-            game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
-        }
-        if(this.complete == true) {
-            game.time.events.add(4000, this.progressTutorial, this);
-        }
-	},
-
-	progressTutorial: function() {
-        this.levelManager.win();
-    },
+		if(this.complete == true) {
+			this.levelManager.win();
+		}
+		else{
+			this.levelManager.cancelWin();
+		}
+		if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
+			this.complete = true;
+			game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
+			this.redGlow.x = (this.player1.x + this.player2.x)/2;
+			this.redGlow.y = (this.player1.y + this.player2.y)/2;
+		}
+		else { 
+			this.complete = false;
+			game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
+		}
+	}
 }
