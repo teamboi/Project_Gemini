@@ -26,6 +26,7 @@ function TransitionManager(game, gameplay, nextLevel, titleCard, ost, narration)
     this.fadeDuration = 2000; // Duration of the transition fading out
     this.themeFadeOutDuration = 2000; // How long does the music fade out
     this.ostFadeInDuration = 3000; // How long does the OST fade in
+    this.ostVolume = 0.5;
 
     if(debugTransitions === true){
         this.flashDuration = 1;
@@ -69,7 +70,7 @@ TransitionManager.prototype.constructor = TransitionManager;
 TransitionManager.prototype.startOST = function() {
     // Begin playing the level theme
     this.ost.play('', 0, 0, true);
-    this.ost.fadeTo(this.ostFadeInDuration, 0.5);
+    this.ost.fadeTo(this.ostFadeInDuration, this.ostVolume);
     //this.ost.loop = true;
     //this.ost.volume = 0.5;    
 }

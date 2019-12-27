@@ -18,6 +18,7 @@ MainMenu.prototype = {
 
 		this.cameraFlashDuration = 2000;
 		this.ostFadeDuration = 2500;
+		this.ostVolume = 0.5;
 
 		if(debugTransitions === true){
 			this.cameraFlashDuration = 1;
@@ -41,7 +42,7 @@ MainMenu.prototype = {
 		this.playButton = new PlayButton(game, this, game.world.centerX, game.world.centerY+75, 1, 1, 'playButton');
 	},
 	startOST: function() {
-		this.ost.fadeTo(500, 0.5);
+		this.ost.fadeTo(500, this.ostVolume);
 		this.ost.loop = true;
 		//this.ost.play('', 0, 1, true);	
 		//this.ost.volume = 0.5;

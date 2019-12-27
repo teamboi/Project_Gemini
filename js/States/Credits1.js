@@ -18,6 +18,7 @@ Credits1.prototype = {
 
 		this.cameraFlashDuration = 2000;
 		this.ostFadeDuration = 2500;
+		this.ostVolume = 0.5;
 
 		if(debugTransitions === true){
 			this.cameraFlashDuration = 1;
@@ -34,7 +35,7 @@ Credits1.prototype = {
 	},
 	// Start the soundtrack
 	startOST: function() {
-		this.ost.fadeTo(500, 0.5);
+		this.ost.fadeTo(500, this.ostVolume);
 		this.ost.loop = true;
 	},
 	// Fade out this scene
