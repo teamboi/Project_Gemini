@@ -8,6 +8,7 @@
 // ost; string; music to play
 // narration; string; narration to play
 function TransitionManager(game, gameplay, opts){
+	console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state

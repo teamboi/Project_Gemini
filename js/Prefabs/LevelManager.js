@@ -15,6 +15,7 @@
 // enableYarn; true or false; will there be yarn in this level
 // enableBarrier; true or false; will there be a barrier in this level
 function LevelManager(game, gameplay, opts){
+    console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
