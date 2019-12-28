@@ -35,7 +35,8 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 		this.cloud = new MovePlatform(game, gameplay, x, y, 'purpCloud3', firstY, secondY, gravityDir, 'poof');
 		//create the visual sprite here
 		this.vizCloud = game.add.sprite(x,y,'purpCloud');
-
+		this.hitCloud = game.add.sprite(x,y,'purpCloud3');
+		this.hitCloud.alpha = 0.0;
 	}
 	else if(gravityDir === "up"){ // If the gravity is up
 		gravDirMultiplier = 1;
@@ -44,15 +45,17 @@ function Cloud(game, gameplay, x, y, key, firstY, secondY, gravityDir, player){
 		this.cloud = new MovePlatform(game, gameplay, x, y, 'purpCloud4', firstY, secondY, gravityDir, 'poof');
 		//create the visual sprite here
 		this.vizCloud = game.add.sprite(x,y,'purpCloud2');
-
+		this.hitCloud = game.add.sprite(x,y,'purpCloud4');
+		this.hitCloud.alpha = 0.0;
 	}
 	else{
 		console.log("Invalid gravity direction"); // In case I make a typo
 	}
 
+
 	// Detects which y coordinate in the movement range is first
 	// And sets the references accordingly
-	this.y = gravDirMultiplier*Phaser.Math.max(gravDirMultiplier * firstY, gravDirMultiplier * secondY) - (gravDirMultiplier*this.height);
+	this.y = gravDirMultiplier*Phaser.Math.max(gravDirMultiplier * firstY, gravDirMultiplier * secondY) - (gravDirMultiplier*this.hitCloud.height);
 
 	this.anchor.setTo(0.5,0.5);
 	this.cloud.alpha = 0.0; // Cloud's hitbox sprite will be invisible
