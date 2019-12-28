@@ -90,7 +90,7 @@ Load.prototype = {
 		game.load.image('Threads', 'lvl3.png');
 		game.load.image('Houses', 'new_Houses.png');
 		game.load.image('Windows', 'new_Windows.png');
-		game.load.image('Fences', 'newest_Fences.png');
+		game.load.image('Fences', 'Fences4.png');
 		game.load.image('Clouds1', 'newest_cloud_puzzle2.png');
 		game.load.image('Clouds2', 'newest_cloud_puzzle3.png');
 		game.load.image('Clouds3', 'newest_cloud_puzzle4.png');

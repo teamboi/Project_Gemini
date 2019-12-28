@@ -31,7 +31,7 @@ function TransitionManager(game, gameplay, opts){
 	this.fadeDuration = 2000; // Duration of the transition fading out
 	this.themeFadeOutDuration = 2000; // How long does the music fade out
 	this.ostFadeInDuration = 3000; // How long does the OST fade in
-    this.ostVolume = 0.5;
+    this.ostVolume = 0.4;
 
 	if(debugTransitions === true){
 		this.flashDuration = 1;

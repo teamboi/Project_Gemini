@@ -18,7 +18,7 @@ MainMenu.prototype = {
 
 		this.cameraFlashDuration = 2000;
 		this.ostFadeDuration = 2500;
-		this.ostVolume = 0.5;
+		this.ostVolume = 0.4;
 
 		if(debugTransitions === true){
 			this.cameraFlashDuration = 1;

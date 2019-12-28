@@ -101,8 +101,8 @@
 	],
 	[
 		{
-			"x" : 500,
-			"y" : 139,
+			"x" : 510,
+			"y" : 125,
 			"width" : 350,
 			"text" : "Out of windows and onto rooftops, the cats looked towards the sky...",
 			"fontSize" : 22,
@@ -110,8 +110,8 @@
 			"color" : "0xFED9D1"
 		},
 		{
-			"x" : 560,
-			"y" : 600,
+			"x" : 270,
+			"y" : 575,
 			"width" : 350,
 			"text" : "...pulling each other towards the clouds meant they would never have to say goodbye.",
 			"fontSize" : 22,
@@ -135,8 +135,9 @@
 			"width" : 250,
 
 			"text" : "...their eternal bond, this magical string, could lift the clouds above.",
-			"size" : 42,
-			"audio" : "sfx_test_narration.mp3"
+			"fontSize" : 22,
+			"audio" : "sfx_test_narration.mp3",
+			"color" : "0xE1E3F4"
 		}
 	]
 ]
