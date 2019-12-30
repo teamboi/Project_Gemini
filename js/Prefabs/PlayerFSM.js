@@ -8,7 +8,7 @@
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// Name of the file for animations
-	this.file = "PG Cat 6";
+	this.file = "PG Cat This";
 
 	// Names of animation states
 	this.animNames = [
@@ -16,16 +16,17 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"jump",
 	"idle",
 	"fall",
+	"idleOnCeiling",
 	"idleToFall",
 	"jumpToFall",
 	"land",
 	"landToIdle",
 	"landToWalk",
 	"idleToWalk",
-	"walkToIdle1",
-	"walkToIdle2",
-	"walkToIdle3",
-	"walkToIdle4",
+	"walkToIdleA",
+	"walkToIdleB",
+	"walkToIdleC",
+	"walkToIdleD",
 	"ceilingCollide",
 	"fidgetStretch",
 	"fidgetYawn"
@@ -34,10 +35,10 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Not actual animation states
 	// breakpoints within other animation states
 	this.extraAnimPointNames = [
-	"walk1",
-	"walk2",
-	"walk3",
-	"walk4"
+	"walkA",
+	"walkB",
+	"walkC",
+	"walkD"
 	]
 
 	// Object storing various data on animation states
@@ -45,31 +46,32 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// for frame name data
 	this.animData = {
 		// looping animations
-		walk:			{length: 19,	end: 202,	fps: 50},
-		jump:			{length: "09",	end: 140,	fps: 30},
-		idle:			{length: 19,	end: 122,	fps: 30},
+		walk:			{length: 19,	end: 293,	fps: 50},
+		jump:			{length: "09",	end: 231,	fps: 30},
+		idle:			{length: 19,	end: 183,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
+		idleOnCeiling:	{length: 29,	end: 213,		fps: 30},
 
 		// single cycle animations
-		idleToFall:		{length: "03",	end: 126,	fps: 30},
-		jumpToFall:		{length: 19,	end: 160,	fps: 30},
-		land:			{length: "03",	end: 164,	fps: 30},
-		landToIdle:		{length: 11,	end: 176,	fps: 30},
-		landToWalk:		{length: "05",	end: 182,	fps: 30},
-		idleToWalk:		{length: "03",	end: 130,	fps: 30},
-		walkToIdle1:	{length: 25,	end: 228,	fps: 30},
-		walkToIdle2:	{length: 25,	end: 249,	fps: 30},
-		walkToIdle3:	{length: 25,	end: 267,	fps: 30},
-		walkToIdle4:	{length: 25,	end: 305,	fps: 30},
+		idleToFall:		{length: "03",	end: 217,	fps: 30},
+		jumpToFall:		{length: 19,	end: 251,	fps: 30},
+		land:			{length: "03",	end: 255,	fps: 30},
+		landToIdle:		{length: 11,	end: 267,	fps: 30},
+		landToWalk:		{length: "05",	end: 273,	fps: 30},
+		idleToWalk:		{length: "03",	end: 221,	fps: 30},
+		walkToIdleA:	{length: 25,	end: 319,	fps: 30},
+		walkToIdleB:	{length: 25,	end: 345,	fps: 30},
+		walkToIdleC:	{length: 25,	end: 371,	fps: 30},
+		walkToIdleD:	{length: 25,	end: 397,	fps: 30},
 		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
 		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
-		fidgetYawn:		{length: 39,	end: 102,	fps: 30},
+		fidgetYawn:		{length: 39,	end: 163,	fps: 30},
 
 		// walkToIdle beginning frames; these aren't actual states
-		walk1:			{begin: "00",	end: 183, 	anim: "walk"},
-		walk2:			{begin: "05",	end: 188, 	anim: "walk"},
-		walk3:			{begin: 10,		end: 193, 	anim: "walk"},
-		walk4:			{begin: 15,		end: 198, 	anim: "walk"}
+		walkA:			{begin: "00",	end: 274, 	anim: "walk"},
+		walkB:			{begin: "05",	end: 279, 	anim: "walk"},
+		walkC:			{begin: 10,		end: 284, 	anim: "walk"},
+		walkD:			{begin: 15,		end: 289, 	anim: "walk"}
 	}
 
 	var key;
@@ -144,40 +146,40 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createFallAnimTransition("idleToWalk");
 
 	// If the player stops moving when walking
-	this.fsm.transition('walk_to_walkToIdle1', 'walk', 'walkToIdle1', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk1.end );
+	this.fsm.transition('walk_to_walkToIdleA', 'walk', 'walkToIdleA', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkA.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle2', 'walk', 'walkToIdle2', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk2.end );
+	this.fsm.transition('walk_to_walkToIdleB', 'walk', 'walkToIdleB', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkB.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle3', 'walk', 'walkToIdle3', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk3.end );
+	this.fsm.transition('walk_to_walkToIdleC', 'walk', 'walkToIdleC', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkC.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle4', 'walk', 'walkToIdle4', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk4.end );
+	this.fsm.transition('walk_to_walkToIdleD', 'walk', 'walkToIdleD', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkD.end );
 	});
 	self.createJumpAnimTransition("walk");
 	self.createFallAnimTransition("walk");
 
-	self.createNextAnimTransition('walkToIdle1', 'idle');
-	self.createMoveAnimTransition('walkToIdle1');
-	self.createJumpAnimTransition("walkToIdle1");
-	self.createFallAnimTransition("walkToIdle1");
+	self.createNextAnimTransition('walkToIdleA', 'idle');
+	self.createMoveAnimTransition('walkToIdleA');
+	self.createJumpAnimTransition("walkToIdleA");
+	self.createFallAnimTransition("walkToIdleA");
 
-	self.createNextAnimTransition('walkToIdle2', 'idle');
-	self.createMoveAnimTransition('walkToIdle2');
-	self.createJumpAnimTransition("walkToIdle2");
-	self.createFallAnimTransition("walkToIdle2");
+	self.createNextAnimTransition('walkToIdleB', 'idle');
+	self.createMoveAnimTransition('walkToIdleB');
+	self.createJumpAnimTransition("walkToIdleB");
+	self.createFallAnimTransition("walkToIdleB");
 
-	self.createNextAnimTransition('walkToIdle3', 'idle');
-	self.createMoveAnimTransition('walkToIdle3');
-	self.createJumpAnimTransition("walkToIdle3");
-	self.createFallAnimTransition("walkToIdle3");
+	self.createNextAnimTransition('walkToIdleC', 'idle');
+	self.createMoveAnimTransition('walkToIdleC');
+	self.createJumpAnimTransition("walkToIdleC");
+	self.createFallAnimTransition("walkToIdleC");
 
-	self.createNextAnimTransition('walkToIdle4', 'idle');
-	self.createMoveAnimTransition('walkToIdle4');
-	self.createJumpAnimTransition("walkToIdle4");
-	self.createFallAnimTransition("walkToIdle4");
+	self.createNextAnimTransition('walkToIdleD', 'idle');
+	self.createMoveAnimTransition('walkToIdleD');
+	self.createJumpAnimTransition("walkToIdleD");
+	self.createFallAnimTransition("walkToIdleD");
 
 	// If the player reaches the peak of their jump when jumping
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
