@@ -27,6 +27,11 @@ DialogManager.prototype.changeBlurToPurple = function(totalSteps){
 	this.outro.beginChangeToPurple(totalSteps);
 }
 
+DialogManager.prototype.fadeOutText = function(duration){
+	this.intro.fadeOut(duration);
+	this.outro.fadeOut(duration);
+}
+
 // Function to type the intro dialog; 1 indexed
 DialogManager.prototype.TypeIntro = function(levelNum){
 	this.intro = this.TypeText(levelNum-1,0);

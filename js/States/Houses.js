@@ -33,10 +33,13 @@ Houses.prototype = {
 	},
 	update: function(){
 		//Check for player one's win state
-		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
+		if(this.oneWin == true && this.twoWin == true) {
 			this.complete = true;
 			this.levelManager.win();
-			//game.time.events.add(1000, this.fade, this);
+		}
+		else{
+			this.complete = false;
+			this.levelManager.cancelWin();
 		}
 		if(Phaser.Math.distance(this.fishBowl.x, this.fishBowl.y, this.player1.x, this.player1.y) < 70) {
 			this.oneWin = true;

@@ -77,6 +77,9 @@ Cats.prototype = {
 		if(this.complete == true) {
 			this.levelManager.win();
 		}
+		else{
+			this.levelManager.cancelWin();
+		}
 
 		// Check for players to be close to each other
 		if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){

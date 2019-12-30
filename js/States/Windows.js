@@ -38,7 +38,6 @@ Windows.prototype = {
 		if(this.oneWin == true && this.twoWin == true && this.complete == false) {
 			this.complete = true;
 			this.levelManager.win();
-			//game.time.events.add(1000, this.fade, this);
 		}
 		if(this.window1.latch.isMoving == 'locked'){
 			this.oneCanWin = true;
@@ -69,8 +68,8 @@ Windows.prototype = {
 	},
 
 	createLevelObstacles: function(){
-		this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 623, 481, 'down');
+		this.window1 = new WindowMask(game, this, 727, 623, 'blueWindow', 'blueLatch', 623, 481, 'down', 12);
 
-		this.window2 = new WindowMask(game, this, 661, 99, 'redWindow', 'redLatch', 99, 250, 'up');
+		this.window2 = new WindowMask(game, this, 661, 101, 'redWindow', 'redLatch', 101, 250, 'up', 21);
 	}
 }

@@ -36,6 +36,9 @@ Threads.prototype = {
 		if(this.complete == true) {
 			this.levelManager.win();
 		}
+		else{
+			this.levelManager.cancelWin();
+		}
 		if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 70){
 			this.complete = true;
 			game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);

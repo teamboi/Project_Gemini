@@ -21,18 +21,18 @@
 	],
 	[
 		{
-			"x" : 160,
-			"y" : 216,
-			"width" : 550,
+			"x" : 180,
+			"y" : 221,
+			"width" : 340,
 			"text": "The bond between the two became something magical, as if tied together with string...",
 			"fontSize" : 22,
 			"audio" : "narrate",
 			"color" : "0xFED9D1"
 		},
 		{
-			"x" : 237,
-			"y" : 622,
-			"width" : 550,
+			"x" : 725,
+			"y" : 401,
+			"width" : 250,
 			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
 			"fontSize" : 22,
 			"audio" : "sfx_test_narration.mp3",
@@ -41,8 +41,8 @@
 	],
 	[
 		{
-			"x" : 437,
-			"y" : 86,
+			"x" : 295,
+			"y" : 136,
 			"width" : 550,
 			"text" : "They spent so much of their lives together, with love filling their hearts...",
 			"fontSize" : 22,
@@ -50,9 +50,9 @@
 			"color" : "0xFED9D1"
 		},
 		{
-			"x" : 437,
-			"y" : 622,
-			"width" : 550,
+			"x" : 395,
+			"y" : 522,
+			"width" : 150,
 			"text" : "...but one day, just like the gravities they live in, fate would pull them apart.",
 			"fontSize" : 22,
 			"audio" : "sfx_test_narration.mp3",
@@ -81,8 +81,8 @@
 	],
 	[
 		{
-			"x" : 243,
-			"y" : 290,
+			"x" : 247,
+			"y" : 260,
 			"width" : 350,
 			"text" : "The two cats realized they could not reach each other with shelves alone...",
 			"fontSize" : 22,
@@ -90,8 +90,8 @@
 			"color" : "0xFACCCD"
 		},
 		{
-			"x" : 545,
-			"y" : 520,
+			"x" : 548,
+			"y" : 540,
 			"width" : 159,
 			"text" : "...sometimes you gotta open a window to get a better view of home.",
 			"fontSize" : 22,
@@ -101,8 +101,8 @@
 	],
 	[
 		{
-			"x" : 500,
-			"y" : 139,
+			"x" : 510,
+			"y" : 125,
 			"width" : 350,
 			"text" : "Out of windows and onto rooftops, the cats looked towards the sky...",
 			"fontSize" : 22,
@@ -110,8 +110,8 @@
 			"color" : "0xFED9D1"
 		},
 		{
-			"x" : 560,
-			"y" : 600,
+			"x" : 270,
+			"y" : 575,
 			"width" : 350,
 			"text" : "...pulling each other towards the clouds meant they would never have to say goodbye.",
 			"fontSize" : 22,
@@ -133,7 +133,8 @@
 			"x" : 683,
 			"y" : 484,
 			"width" : 250,
-			"text" : "...their eternal bond, this magical string, could lift the sky above.",
+
+			"text" : "...their eternal bond, this magical string, could lift the clouds above.",
 			"fontSize" : 22,
 			"audio" : "sfx_test_narration.mp3",
 			"color" : "0xE1E3F4"

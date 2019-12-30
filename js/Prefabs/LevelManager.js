@@ -15,6 +15,7 @@
 // enableYarn; true or false; will there be yarn in this level
 // enableBarrier; true or false; will there be a barrier in this level
 function LevelManager(game, gameplay, opts){
+    console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
@@ -36,22 +37,24 @@ function LevelManager(game, gameplay, opts){
 	this.heartSprite = "heart"; // Sprite of the objective glows
 	this.heartScale = 1.7; // Scale of heartSprite //blue was set to 1.3?
 	this.flashColor = 0xffffff; // Color of the camera fades
-	this.winTimerDelay = 1500; // Delay from win condition to preFade
-	this.preFadeConst = 1000; // Delay from preFade to fade
+	this.winTimerDelay = 1500; // Delay from win condition to fade
 	this.fadeDuration = 2000; // How long the fade lasts
 	this.ostFadeOutDuration = 2500; // How long does the music fade out
+    this.textFadeDuration = 1500; // How long does the text fade in and out
 
 	if(debugTransitions === true){
 		this.winTimerDelay = 1;
-		this.preFadeConst = 1;
 		this.fadeDuration = 1;
 		this.ostFadeOutDuration = 1;
+        this.textFadeDuration = 1;
 	}
 
 	// Create gameplay state specific variables
 	this.fadeComplete = false;
+    this.hasTriggeredWin = false;
 	gp.complete = false;
 	gp.barrier;
+    this.winTimer;
 
 	// Enable p2 physics
 	game.physics.startSystem(Phaser.Physics.P2JS); // Begin the P2 physics
@@ -59,9 +62,7 @@ function LevelManager(game, gameplay, opts){
 	game.physics.p2.world.defaultContactMaterial.friction = 1; // Set global friction, unless it's just friction with the world bounds
 
 	// Fade into the scene
-	game.camera.flash(this.flashColor, 2000);
-	// Instantiate the fade events
-	game.camera.onFadeComplete.add(this.resetFade, this);
+	game.camera.flash(this.flashColor, this.fadeDuration);
 
 	if(debugCollisionsLevel === false){
 		// Loads in the tilemap and static platforms
@@ -259,28 +260,29 @@ LevelManager.prototype.tutorialText = function(){
 	}
 }
 
+// If the goal is not met, then allow the timer to be checked again
+LevelManager.prototype.cancelWin = function(){
+    this.hasTriggeredWin = false;
+}
+
 // Win state function
 // Call this function inside the gameplay state to trigger the end of the level
 LevelManager.prototype.win = function(){
-	if(debugWin === false){
-		game.time.events.add(this.winTimerDelay, this.preFade, this);
-	}
+	if(debugWin === true || this.hasTriggeredWin === true) return;
+    this.hasTriggeredWin = true;
+
+	this.winTimer = game.time.events.add(this.winTimerDelay, this.fade, this);
 }
 
-// Fade functions
-// End the level if the cats are still close
-LevelManager.prototype.preFade = function() {
-	var gp = this.gameplay; // renaming it to be shorter
-
-	if(gp.complete == true) {
-		game.time.events.add(this.preFadeConst, this.fade, this);
-	}
-}
-// Fade out the level
+// Fade out the level only if the players have maintained the goal
 LevelManager.prototype.fade = function() {
 	var gp = this.gameplay; // renaming it to be shorter
+    if(gp.complete != true) return;
 
+    // Fade the camera
 	game.camera.fade(this.flashColor, this.fadeDuration);
+    game.camera.onFadeComplete.add(this.resetFade, this);
+
 	if(this.ostFadeOut === true){
 		if(gp.ost != null)
 			gp.ost.fadeOut(this.ostFadeOutDuration);
@@ -288,6 +290,8 @@ LevelManager.prototype.fade = function() {
 	else if(this.ostFadeOut != false){
 		console.log(this.ostFadeOut + " is not a valid state for ostFadeOut. Please use true or false");
 	}
+
+    gp.dialog.fadeOutText(this.textFadeDuration);
 }
 // Call the next level
 LevelManager.prototype.resetFade = function() {

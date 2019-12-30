@@ -41,6 +41,9 @@ Cradle.prototype = {
 		if(this.complete == true) {
 			this.levelManager.win();
 		}
+		else{
+			this.levelManager.cancelWin();
+		}
 		if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 ){
 			if(this.player2.anchorState == "isAnchor" || this.player1.anchorState == "isAnchor") {
 				this.complete = true;
@@ -60,7 +63,7 @@ Cradle.prototype = {
 		}
 
 		// Bonkers dynamic tutorial!
-		if(this.oneAnchoredLast == false) {
+		//if(this.oneAnchoredLast == false) {
 			if(this.player1.checkIfCanJump()) {
 				this.p1Controls.destroy();
 				this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
@@ -76,8 +79,8 @@ Cradle.prototype = {
 				
 			}
 			//this.p2Controls.setText('', true);
-		}
-		else {
+		//}
+		//else {
 			if(this.player2.checkIfCanJump()) {
 				this.p2Controls.destroy();
 				this.p2Controls = game.add.image(this.player2.body.x, this.player2.body.y  + this.twoVertOffset, 'downArrow');
@@ -93,7 +96,7 @@ Cradle.prototype = {
 				
 			}
 			//this.p1Controls.setText('', true);
-		}
+		//}
 		if(this.progress == true && this.player1.checkIfCanJump() && this.player2.checkIfCanJump()) {
 			this.p1Controls.destroy();
 			this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');

@@ -22,6 +22,7 @@ var layerYarn = 100;
 var layerPlayer = 90;
 
 // variables for debugging
+
 var debugLevel				= null; // default to null; replace with the name of the level to switch to
 var debugAnimation			= false; // true or false; prints out animation indices for the player,
 									// so I don't have to count, and it isn't calculated every time a level is loaded;

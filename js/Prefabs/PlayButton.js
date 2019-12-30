@@ -14,12 +14,14 @@ function PlayButton(game, gameplay, x, y, xscale, yscale,key){
 	this.button = game.add.button(x, y, key, actionOnClick, this, 2,1,0); // Creates clickable button
 	this.button.anchor.setTo(0.5, 0.5); // Sets anchor to the center
 	this.button.scale.setTo(xscale,yscale); // Scales button to specified scale
+	this.meow1 = game.add.audio('short_meow1');
 
 	//this.onInputOver.add(over, this);
 }
 
 // If clicked, will call the gameplay's fade function to move onto next state
 function actionOnClick(){
+	this.meow1.play('', 0, 1, false);
 	this.gameplay.fade();
 }
 

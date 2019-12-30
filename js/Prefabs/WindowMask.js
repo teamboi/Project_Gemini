@@ -11,7 +11,7 @@
 // key = sprite
 // firstY, secondY = range in which the moving platform can move
 // gravityDir = direction of gravity imposed on platform
-function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, gravityDir){
+function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, gravityDir, maskTopOffset){
 	Phaser.Sprite.call(this, game, x, y, windowKey); // This sprite will be the graphical windowpane
 	game.add.existing(this); // Adds to display list
 	this.zOrder = layerWindow; // Sets z order for layer sorting
@@ -32,7 +32,7 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 		var gdm = -1; // gravDirMultiplier; see Cloud.js or MovePlatform.js
 		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY); // Y coord of the sill
 
-		this.rectMask.drawRect(x - (this.width/2), sillY-this.height, this.width, this.height); // Draws the appropriate rectangle
+		this.rectMask.drawRect(x - (this.width/2), sillY-this.height + maskTopOffset, this.width, this.height - maskTopOffset); // Draws the appropriate rectangle
 	}
 	// If the window will be pulled down
 	else if(gravityDir == "up"){
@@ -41,7 +41,7 @@ function WindowMask(game, gameplay, x, y, windowKey, latchKey, firstY, secondY, 
 		var gdm = 1; // gravDirMultiplier; see Cloud.js or MovePlatform.js
 		var sillY = gdm*Phaser.Math.min(gdm * firstY, gdm * secondY); // Y coord of the sill
 
-		this.rectMask.drawRect(x - (this.width/2), sillY, this.width, this.height); // Draws the appropriate rectangle
+		this.rectMask.drawRect(x - (this.width/2), sillY, this.width, this.height - maskTopOffset); // Draws the appropriate rectangle
 	}
 	else{
 		console.log(gravityDir + " is not a valid direction. 'up' or 'down'"); // In case I make a typo

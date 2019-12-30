@@ -8,6 +8,7 @@
 // ost; string; music to play
 // narration; string; narration to play
 function TransitionManager(game, gameplay, opts){
+	console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
@@ -31,6 +32,7 @@ function TransitionManager(game, gameplay, opts){
 	this.fadeDuration = 2000; // Duration of the transition fading out
 	this.themeFadeOutDuration = 2000; // How long does the music fade out
 	this.ostFadeInDuration = 3000; // How long does the OST fade in
+    this.ostVolume = 0.4;
 
 	if(debugTransitions === true){
 		this.flashDuration = 1;
@@ -99,11 +101,11 @@ TransitionManager.prototype.findLevelArrPosition = function(name) {
 }
 
 TransitionManager.prototype.startOST = function() {
-	// Begin playing the level theme
-	this.ost.play('', 0, 0, true);
-	this.ost.fadeTo(this.ostFadeInDuration, 0.5);
-	//this.ost.loop = true;
-	//this.ost.volume = 0.5;	
+    // Begin playing the level theme
+    this.ost.play('', 0, 0, true);
+    this.ost.fadeTo(this.ostFadeInDuration, this.ostVolume);
+    //this.ost.loop = true;
+    //this.ost.volume = 0.5;    
 }
 TransitionManager.prototype.stopTheme = function() {
 	// Stop playing prev theme

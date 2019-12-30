@@ -42,6 +42,9 @@ Clouds.prototype = {
 		if(this.complete == true) {
 			this.levelManager.win();
 		}
+		else{
+			this.levelManager.cancelWin();
+		}
 		// When the first cloud is locked
 		if(this.cloud1.cloud.isMoving == 'locked'){
 			this.oneCanWin = true;
@@ -90,8 +93,8 @@ Clouds.prototype = {
 		this.room3.zOrder = layerBG;
 		this.room3.alpha = 0;
 		// Add the moveable clouds
-		this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 350, 'down', this.player1);
-		this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 350, 'up', this.player2);
+		this.cloud1 = new Cloud(game, this, 450, 607, 'purpCloud', 607, 370, 'down', this.player1);
+		this.cloud2 = new Cloud(game, this, 450, 99, 'purpCloud2', 99, 330, 'up', this.player2);
 	},
 	// Destroy the world barrier
 	destroyBarrier: function() {

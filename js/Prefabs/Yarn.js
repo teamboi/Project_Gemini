@@ -49,12 +49,14 @@ Yarn.prototype.update = function(){
 		// Check if player1 is anchoring
 		if( game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
 			// Then create the yarn and mark who is anchoring
+			this.yarnVisual.changePlayerGravDir(this.player1);
 			this.createYarn(this.player1, this.player2);
 			this.anchored = 1;
 		}
 		// Check if player2 is anchoring
 		else if( game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
 			// Then create the yarn and mark who is anchoring
+			this.yarnVisual.changePlayerGravDir(this.player2);
 			this.createYarn(this.player2, this.player1);
 			this.anchored = 2;
 		}
@@ -63,7 +65,6 @@ Yarn.prototype.update = function(){
 		// Now check if player1 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p1Key]) ){
 			// Then destroy the yarn
-			this.yarnVisual.changePlayerGravDir(this.player1);
 			this.removeYarn();
 			//this.player1.body.data.gravityScale = 1;
 			this.anchored = 0;
@@ -73,7 +74,6 @@ Yarn.prototype.update = function(){
 		// Now check if player2 is continueing to anchor
 		if( !game.input.keyboard.isDown(Phaser.KeyCode[this.p2Key]) ){
 			// Then destroy the yarn
-			this.yarnVisual.changePlayerGravDir(this.player2);
 			this.removeYarn();
 			//this.player2.body.data.gravityScale = -1;
 			this.anchored = 0;

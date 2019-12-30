@@ -89,8 +89,8 @@ Load.prototype = {
 		game.load.image('Cradle', 'newer_Cradle.png');
 		game.load.image('Threads', 'lvl3.png');
 		game.load.image('Houses', 'new_Houses.png');
-		game.load.image('Windows', 'new_Windows.png');
-		game.load.image('Fences', 'newest_Fences.png');
+		game.load.image('Windows', 'Windows3.png');
+		game.load.image('Fences', 'Fences4.png');
 		game.load.image('Clouds1', 'newest_cloud_puzzle2.png');
 		game.load.image('Clouds2', 'newest_cloud_puzzle3.png');
 		game.load.image('Clouds3', 'newest_cloud_puzzle4.png');
@@ -106,9 +106,12 @@ Load.prototype = {
 		game.load.image('cloud6', 'cloud6.png');
 		game.load.image('purpCloud', 'purpCloud.png');
 		game.load.image('purpCloud2', 'purpCloud2.png');
+		game.load.image('purpCloud3', 'purpCloud3.png');
+		game.load.image('purpCloud4', 'purpCloud4.png');
 		game.load.image('textBlur', 'textBlur.png');
 
 		game.load.path = 'assets/tilemaps/';
+
 		// load in tilemaps
 		game.load.tilemap('levelOne','Cats.json', null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap('levelTwo','Cradle2.json', null, Phaser.Tilemap.TILED_JSON);
