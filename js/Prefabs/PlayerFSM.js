@@ -50,7 +50,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		jump:			{length: "09",	end: 231,	fps: 30},
 		idle:			{length: 19,	end: 183,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
-		idleOnCeiling:	{length: 29,	end: 213,		fps: 30},
+		idleOnCeiling:	{length: 29,	end: 213,	fps: 30},
 
 		// single cycle animations
 		idleToFall:		{length: "03",	end: 217,	fps: 30},
@@ -67,7 +67,8 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
 		fidgetYawn:		{length: 39,	end: 163,	fps: 30},
 
-		// walkToIdle beginning frames; these aren't actual states
+		// cycle animation interuption beginning frames
+		// these aren't actual states
 		walkA:			{begin: "00",	end: 274, 	anim: "walk"},
 		walkB:			{begin: "05",	end: 279, 	anim: "walk"},
 		walkC:			{begin: 10,		end: 284, 	anim: "walk"},
@@ -132,20 +133,22 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	var data = this.animData;
 
 	// Create transitions
-	// If the player is moving when idle
+	// Idle
 	self.createMoveAnimTransition('idle');
 	self.createJumpAnimTransition("idle");
 	this.fsm.transition('idle_to_idleToFall', 'idle', 'idleToFall', function(){
 		return ( self.checkIfFalling() );
 	});
 
+	// idleToFall
 	self.createNextAnimTransition('idleToFall', 'fall');
 
+	// idleToWalk
 	self.createNextAnimTransition('idleToWalk', 'walk');
 	self.createJumpAnimTransition("idleToWalk");
 	self.createFallAnimTransition("idleToWalk");
 
-	// If the player stops moving when walking
+	// walk
 	this.fsm.transition('walk_to_walkToIdleA', 'walk', 'walkToIdleA', function(){
 		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkA.end );
 	});
@@ -161,6 +164,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createJumpAnimTransition("walk");
 	self.createFallAnimTransition("walk");
 
+	// walkToIdle
 	self.createNextAnimTransition('walkToIdleA', 'idle');
 	self.createMoveAnimTransition('walkToIdleA');
 	self.createJumpAnimTransition("walkToIdleA");
@@ -181,27 +185,39 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createJumpAnimTransition("walkToIdleD");
 	self.createFallAnimTransition("walkToIdleD");
 
-	// If the player reaches the peak of their jump when jumping
+	// jump
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
 		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 40
 			&& self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
-		return ( self.player.checkIfOnRoof() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
+		return ( self.checkIfOnCeiling() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
 	});
 
+	// ceilingCollide
 	self.createJumpAnimTransition("ceilingCollide");
 	self.createNextAnimTransition("ceilingCollide", "fall");
 	self.createLandAnimTransition("ceilingCollide");
 
+	// jumpToFall
 	// If the player reaches the end of the jumpToFall animation
 	self.createNextAnimTransition('jumpToFall', 'fall');
 	// If the player touches the ground before the end of the jumpToFall animation
 	self.createLandAnimTransition("jumpToFall");
 
+	// fall
 	// If the player touches the ground when falling
 	self.createLandAnimTransition("fall");
+	this.fsm.transition('fall_to_idleOnCeiling', 'fall', 'idleOnCeiling', function(){
+		return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored);
+	});
 
+	// idleOnCeiling
+	this.fsm.transition('idleOnCeiling_to_fall', 'idleOnCeiling', 'fall', function(){
+		return ( self.checkIfFalling() );
+	});
+
+	// land
 	// If the player jumps before the end of the land animation
 	self.createJumpAnimTransition("land");
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
@@ -213,11 +229,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		return ( self.animations.frame === data.land.end && self.checkIfMoving() );
 	});
 
+	// landToIdle
 	self.createNextAnimTransition('landToIdle', 'idle')
 	self.createMoveAnimTransition("landToIdle");
 	self.createJumpAnimTransition("landToIdle");
 	self.createFallAnimTransition("landToIdle");
 
+	// landToWalk
 	self.createNextAnimTransition('landToWalk', 'walk')
 	self.createJumpAnimTransition("landToWalk");
 	self.createFallAnimTransition("landToWalk");
@@ -289,6 +307,15 @@ PlayerFSM.prototype.checkIfLanded = function(){
 // If condition for if the player is moving
 PlayerFSM.prototype.checkIfMoving = function(){
 	if( this.isMoving === true ){
+		this.resetIdleTimer();
+		return true;
+	}
+	return false;
+}
+
+// If condition for if the player is on the ceiling
+PlayerFSM.prototype.checkIfOnCeiling = function(){
+	if( this.player.checkIfOnRoof() ){
 		this.resetIdleTimer();
 		return true;
 	}
