@@ -17,6 +17,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"idle",
 	"fall",
 	"idleOnCeiling",
+	"walkOnCeiling",
 	"idleToFall",
 	"jumpToFall",
 	"land",
@@ -46,47 +47,46 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// for frame name data
 	this.animData = {
 		// looping animations
-		walk:			{length: 19,	end: 293,	fps: 50},
-		jump:			{length: "09",	end: 231,	fps: 30},
-		idle:			{length: 19,	end: 183,	fps: 30},
+		walk:			{length: 19,	end: 359,	fps: 50},
+		jump:			{length: "09",	end: 223,	fps: 30},
+		idle:			{length: 19,	end: 198,	fps: 30},
 		fall:			{length: "09",	end: 17,	fps: 30},
-		idleOnCeiling:	{length: 29,	end: 213,	fps: 30},
+		idleOnCeiling:	{length: 29,	end: 231,	fps: 30},
+		walkOnCeiling:	{length: 11,	end: 363,	fps: 30},
 
 		// single cycle animations
-		idleToFall:		{length: "03",	end: 217,	fps: 30},
-		jumpToFall:		{length: 19,	end: 251,	fps: 30},
-		land:			{length: "03",	end: 255,	fps: 30},
-		landToIdle:		{length: 11,	end: 267,	fps: 30},
-		landToWalk:		{length: "05",	end: 273,	fps: 30},
-		idleToWalk:		{length: "03",	end: 221,	fps: 30},
-		walkToIdleA:	{length: 25,	end: 319,	fps: 30},
-		walkToIdleB:	{length: 25,	end: 345,	fps: 30},
-		walkToIdleC:	{length: 25,	end: 371,	fps: 30},
-		walkToIdleD:	{length: 25,	end: 397,	fps: 30},
+		idleToFall:		{length: "03",	end: 213,	fps: 30},
+		jumpToFall:		{length: 19,	end: 348,	fps: 30},
+		land:			{length: "03",	end: 257,	fps: 30},
+		landToIdle:		{length: 11,	end: 170,	fps: 30},
+		landToWalk:		{length: "05",	end: 177,	fps: 30},
+		idleToWalk:		{length: "03",	end: 217,	fps: 30},
+		walkToIdleA:	{length: 25,	end: 378,	fps: 30},
+		walkToIdleB:	{length: 25,	end: 390,	fps: 30},
+		walkToIdleC:	{length: 25,	end: 405,	fps: 30},
+		walkToIdleD:	{length: 25,	end: 321,	fps: 30},
 		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
-		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
-		fidgetYawn:		{length: 39,	end: 163,	fps: 30},
+		fidgetStretch:	{length: 44,	end: 162,	fps: 30},
+		fidgetYawn:		{length: 39,	end: 166,	fps: 30},
 
 		// cycle animation interuption beginning frames
 		// these aren't actual states
-		walkA:			{begin: "00",	end: 274, 	anim: "walk"},
-		walkB:			{begin: "05",	end: 279, 	anim: "walk"},
-		walkC:			{begin: 10,		end: 284, 	anim: "walk"},
-		walkD:			{begin: 15,		end: 289, 	anim: "walk"}
+		walkA:			{begin: "00",	end: 207, 	anim: "walk"},
+		walkB:			{begin: "05",	end: 209, 	anim: "walk"},
+		walkC:			{begin: 10,		end: 355, 	anim: "walk"},
+		walkD:			{begin: 15,		end: 357, 	anim: "walk"}
 	}
 
-	var key;
-	var debugBool = false;
+	var key, animJson;
 	if(whichPlayer === 1){
 		key = "cat1";
-		if(debugAnimation === true){
-			debugBool = true;
-			this.debugPrintAnimationIndices();
-		}
+		animJson = "redCatAnimations";
 	}
 	else{
 		key = "cat2";
+		animJson = "blueCatAnimations";
 	}
+	this.updateAnimationIndices(animJson);
 
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
@@ -109,23 +109,19 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.hasFinishedLanding = false; // var for if the player has finished landing
 	// The player when landing tends to have massive fluctuations in the y velocity
 
-	// Add in the animation frames by name
+	// Creates a new FSM
+	this.fsm = new StateMachine(this, {debug: debugAnimation});
+
+	// Reference to self that can be referenced in FSM
+	var self = this;
+
+	// Add in the animation frames by name and create the anim States
 	for(let i = 0; i < this.animNames.length; i++){
 		var anim = this.animNames[i];
 		var data = this.animData[anim];
 		
 		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
 		this.animations.add(anim, Phaser.Animation.generateFrameNames(this.file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
-	}
-
-	// Creates a new FSM
-	this.fsm = new StateMachine(this, {debug: debugBool});
-
-	// Reference to self that can be referenced in FSM
-	var self = this;
-
-	// Create states
-	for(let i = 0; i < this.animNames.length; i++){
 		self.createAnimState(this.animNames[i]);
 	}
 
@@ -214,7 +210,18 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// idleOnCeiling
 	this.fsm.transition('idleOnCeiling_to_fall', 'idleOnCeiling', 'fall', function(){
-		return ( self.checkIfFalling() );
+		return ( !self.checkIfOnCeiling() );
+	});
+	this.fsm.transition('idleOnCeiling_to_walkOnCeiling', 'idleOnCeiling', 'walkOnCeiling', function(){
+		return ( self.checkIfMoving() );
+	});
+
+	//walkOnCeiling
+	this.fsm.transition('walkOnCeiling_to_fall', 'walkOnCeiling', 'fall', function(){
+		return ( !self.checkIfOnCeiling() );
+	});
+	this.fsm.transition('walkOnCeiling_to_idleOnCeiling', 'walkOnCeiling', 'idleOnCeiling', function(){
+		return ( !self.checkIfMoving() );
 	});
 
 	// land
@@ -407,65 +414,6 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 	});
 }
 
-// Prints out the indices of the end of animation states
-PlayerFSM.prototype.debugPrintAnimationIndices = function(){
-	var atlas = game.cache.getJSON('playerAnimations');
-	var frames = atlas.frames;
-
-	var anyChanges = false;
-	for(let i = 0; i < frames.length; i++){
-		for(let j = 0; j < this.animNames.length; j++){
-			var anim = this.animNames[j];
-			var data = this.animData[anim];
-			if(frames[i].filename === this.file + "-" + anim + "-" + data.length){
-				var oldData = data.end;
-				data.end = i;
-
-				if(oldData != data.end){
-					console.log("changed " + anim + " from " + oldData + " to " + data.end);
-					anyChanges = true;
-				}
-
-				break;
-			}
-		}
-		for(let j = 0; j < this.extraAnimPointNames.length; j++){
-			var anim = this.extraAnimPointNames[j];
-			var data = this.animData[anim];
-			if(frames[i].filename === this.file + "-" + data.anim + "-" + data.begin){
-				var oldData = data.end;
-				data.end = i;
-
-				if(oldData != data.end){
-					console.log("changed " + anim + " from " + oldData + " to " + data.end);
-					anyChanges = true;
-				}
-
-				break;
-			}
-		}
-	}
-
-	if(anyChanges === false){
-		console.log("All end indices up to date");
-		return;
-	}
-
-	for(let i = 0; i < this.animNames.length; i++){
-		var anim = this.animNames[i];
-		var data = this.animData[anim];
-		
-		console.log(anim + " = " + data.end);
-	}
-
-	for(let i = 0; i < this.extraAnimPointNames.length; i++){
-		var anim = this.extraAnimPointNames[i];
-		var data = this.animData[anim];
-		
-		console.log(anim + " = " + data.end);
-	}
-}
-
 // Resets the timer for blink animations
 PlayerFSM.prototype.resetBlinkTimer = function(){
 	this.blinkTimer = 0;
@@ -503,4 +451,65 @@ PlayerFSM.prototype.updateIdleTimer = function(){
 	}
 
 	this.idleTimer++;
+}
+
+// Updates the indices of the end of animation states
+PlayerFSM.prototype.updateAnimationIndices = function(animJson){
+	var atlas = game.cache.getJSON(animJson);
+	var frames = atlas.frames;
+
+	var anyChanges = false;
+	for(let i = 0; i < frames.length; i++){
+		for(let j = 0; j < this.animNames.length; j++){
+			var anim = this.animNames[j];
+			var data = this.animData[anim];
+			if(frames[i].filename === this.file + "-" + anim + "-" + data.length){
+				var oldData = data.end;
+				data.end = i;
+
+				if(oldData != data.end){
+					if(debugAnimation) console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					anyChanges = true;
+				}
+
+				break;
+			}
+		}
+		for(let j = 0; j < this.extraAnimPointNames.length; j++){
+			var anim = this.extraAnimPointNames[j];
+			var data = this.animData[anim];
+			if(frames[i].filename === this.file + "-" + data.anim + "-" + data.begin){
+				var oldData = data.end;
+				data.end = i;
+
+				if(oldData != data.end){
+					if(debugAnimation) console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					anyChanges = true;
+				}
+
+				break;
+			}
+		}
+	}
+
+	if(!debugAnimation) return;
+
+	if(anyChanges === false){
+		console.log("All end indices up to date");
+		return;
+	}
+
+	for(let i = 0; i < this.animNames.length; i++){
+		var anim = this.animNames[i];
+		var data = this.animData[anim];
+		
+		console.log(anim + " = " + data.end);
+	}
+
+	for(let i = 0; i < this.extraAnimPointNames.length; i++){
+		var anim = this.extraAnimPointNames[i];
+		var data = this.animData[anim];
+		
+		console.log(anim + " = " + data.end);
+	}
 }

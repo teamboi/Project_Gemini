@@ -24,7 +24,7 @@ var layerPlayer = 90;
 // variables for debugging
 
 var debugLevel				= "Windows"; // default to null; replace with the name of the level to switch to
-var debugAnimation			= true; // true or false; prints out animation indices for the player,
+var debugAnimation			= false; // true or false; prints out animation indices for the player,
 									// so I don't have to count, and it isn't calculated every time a level is loaded;
 									// Also enables debug on FSM
 var debugCollisionsObjects	= false; // true or false; enable collisions with objects
