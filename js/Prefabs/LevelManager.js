@@ -41,6 +41,8 @@ function LevelManager(game, gameplay, opts){
 	this.fadeDuration = 2000; // How long the fade lasts
 	this.ostFadeOutDuration = 2500; // How long does the music fade out
     this.textFadeDuration = 1500; // How long does the text fade in and out
+    this.bell = game.add.audio('bell');
+    this.bellPlayed = false;
 
 	if(debugTransitions === true){
 		this.winTimerDelay = 1;
@@ -279,6 +281,10 @@ LevelManager.prototype.fade = function() {
 	var gp = this.gameplay; // renaming it to be shorter
     if(gp.complete != true) return;
 
+    if(typeof this.bell !== 'undefined' && this.bellPlayed == false) {
+		this.bell.play('', 0, 1, false);
+		this.bellPlayed = true;
+	}
     // Fade the camera
 	game.camera.fade(this.flashColor, this.fadeDuration);
     game.camera.onFadeComplete.add(this.resetFade, this);
