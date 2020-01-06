@@ -37,6 +37,9 @@ Load.prototype = {
 		//https://freesound.org/people/mhtaylor67/sounds/126041/
 		game.load.audio('windowClick', '126041__mhtaylor67__gate-latch.wav');
 		game.load.audio('poof', 'poof.wav');
+
+		//https://freesound.org/people/HerbertBoland/sounds/30161/
+		game.load.audio('bell', 'belltinystrike.wav');
 		
 		game.load.path = 'assets/img/menu/';
 		// Load in the menu items
