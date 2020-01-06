@@ -279,6 +279,10 @@ LevelManager.prototype.fade = function() {
 	var gp = this.gameplay; // renaming it to be shorter
     if(gp.complete != true) return;
 
+    if(typeof this.bell !== 'undefined' && this.bellPlayed == false) {
+		this.bell.play('', 0, 1, false);
+		this.bellPlayed = true;
+	}
     // Fade the camera
 	game.camera.fade(this.flashColor, this.fadeDuration);
     game.camera.onFadeComplete.add(this.resetFade, this);
