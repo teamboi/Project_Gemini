@@ -58,9 +58,6 @@ Load.prototype = {
 		game.load.image('endTitle', 'endTitle.png');
 
 		// Load in object sprites
-		game.load.image('redBall', 'redYarn.png');
-		game.load.image('blueBall', 'blueYarn.png');
-		game.load.image('purpBall', 'purpleYarn.png');
 		game.load.image('heart', 'heart.png');
 
 		game.load.path = 'assets/img/keys/';
@@ -88,9 +85,6 @@ Load.prototype = {
 
 		game.load.path = 'assets/img/bg/';
 		//Load the platforms and background
-		game.load.image('Together', 'Together.png');
-		game.load.image('backgroundInside', 'background.png');
-		game.load.image('backgroundPlain', 'small_both_sides.png');
 		game.load.image('Cats', 'newer_Cats.png');
 		game.load.image('Cradle', 'newer_Cradle.png');
 		game.load.image('Threads', 'lvl3.png');
@@ -109,8 +103,6 @@ Load.prototype = {
 		game.load.image('blueWindow', 'bluePullWindow.png');
 		game.load.image('redLatch', 'redLatch2.png');
 		game.load.image('blueLatch', 'blueLatch2.png');
-		game.load.image('cloud2', 'cloud2.png');
-		game.load.image('cloud6', 'cloud6.png');
 		game.load.image('purpCloud', 'purpCloud.png');
 		game.load.image('purpCloud2', 'purpCloud2.png');
 		game.load.image('purpCloud3', 'purpCloud3.png');
