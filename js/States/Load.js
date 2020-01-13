@@ -117,6 +117,8 @@ Load.prototype = {
 		game.load.image('purpCloud4', 'purpCloud4.png');
 		game.load.image('textBlur', 'textBlur.png');
 
+		game.load.atlas('motionGraphic1', "motionGraphic1.png", "motionGraphic1.json");
+
 		game.load.path = 'assets/tilemaps/';
 
 		// load in tilemaps
