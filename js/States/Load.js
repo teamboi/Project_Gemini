@@ -16,9 +16,9 @@ Load.prototype = {
 		game.load.text('dialog', 'assets/Dialog.txt');
 
 		// Used in printing out the animation indices
-		if(debugAnimation === true){
-			game.load.json('playerAnimations', 'assets/img/cats/blueCat.json');
-		}
+		/*if(debugAnimation === true){
+			game.load.json('playerAnimations', 'assets/img/cats/redCat.json');
+		}*/
 
 		game.load.path = 'assets/audio/ost2/';
 		// Load in the soundtrack
@@ -79,6 +79,9 @@ Load.prototype = {
 		game.load.image('cat1Hitbox', 'hitbox14.png');
 		//game.load.image('cat2', 'img/cats/cat2.png');
 		game.load.atlas('cat2', 'blueCat.png', 'blueCat.json');
+		// for animation data
+		game.load.json('redCatAnimations', 'redCat.json');
+		game.load.json('blueCatAnimations', 'blueCat.json');
 
 		game.load.path = 'assets/img/bg/';
 		//Load the platforms and background

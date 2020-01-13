@@ -8,7 +8,7 @@
 function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 	// Name of the file for animations
-	this.file = "PG Cat 6";
+	this.file = "PG Cat This";
 
 	// Names of animation states
 	this.animNames = [
@@ -16,28 +16,43 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	"jump",
 	"idle",
 	"fall",
+	"idleOnCeiling",
+	"walkOnCeiling",
 	"idleToFall",
 	"jumpToFall",
 	"land",
 	"landToIdle",
 	"landToWalk",
 	"idleToWalk",
-	"walkToIdle1",
-	"walkToIdle2",
-	"walkToIdle3",
-	"walkToIdle4",
+	"walkToIdleA",
+	"walkToIdleB",
+	"walkToIdleC",
+	"walkToIdleD",
+	"idleToWalkOnCeiling",
+	"walkToIdleOnCeilingA",
+	"walkToIdleOnCeilingB",
+	"idleOnCeilingToFall",
+	"walkOnCeilingToFall",
+	"fallToIdleOnCeiling",
+	"fallToWalkOnCeiling",
+	"ceilingCollideToIdleOnCeiling",
+	"ceilingCollideToWalkOnCeiling",
 	"ceilingCollide",
 	"fidgetStretch",
-	"fidgetYawn"
+	"fidgetYawn",
+	"fidgetTippyTaps"
 	];
 
 	// Not actual animation states
 	// breakpoints within other animation states
 	this.extraAnimPointNames = [
-	"walk1",
-	"walk2",
-	"walk3",
-	"walk4"
+	"ceilingCollideA",
+	"walkA",
+	"walkB",
+	"walkC",
+	"walkD",
+	"walkOnCeilingA",
+	"walkOnCeilingB"
 	]
 
 	// Object storing various data on animation states
@@ -45,45 +60,61 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// for frame name data
 	this.animData = {
 		// looping animations
-		walk:			{length: 19,	end: 202,	fps: 50},
-		jump:			{length: "09",	end: 140,	fps: 30},
-		idle:			{length: 19,	end: 122,	fps: 30},
-		fall:			{length: "09",	end: 17,	fps: 30},
+		walk:							{length: 19,	end: 359,	fps: 50},
+		jump:							{length: "09",	end: 223,	fps: 30},
+		idle:							{length: 19,	end: 198,	fps: 30},
+		fall:							{length: "09",	end: 17,	fps: 30},
+		idleOnCeiling:					{length: 29,	end: 231,	fps: 30},
+		walkOnCeiling:					{length: 11,	end: 363,	fps: 30},
 
 		// single cycle animations
-		idleToFall:		{length: "03",	end: 126,	fps: 30},
-		jumpToFall:		{length: 19,	end: 160,	fps: 30},
-		land:			{length: "03",	end: 164,	fps: 30},
-		landToIdle:		{length: 11,	end: 176,	fps: 30},
-		landToWalk:		{length: "05",	end: 182,	fps: 30},
-		idleToWalk:		{length: "03",	end: 130,	fps: 30},
-		walkToIdle1:	{length: 25,	end: 228,	fps: 30},
-		walkToIdle2:	{length: 25,	end: 249,	fps: 30},
-		walkToIdle3:	{length: 25,	end: 267,	fps: 30},
-		walkToIdle4:	{length: 25,	end: 305,	fps: 30},
-		ceilingCollide:	{length: "07",	end: 7,		fps: 30},
-		fidgetStretch:	{length: 44,	end: 62,	fps: 30},
-		fidgetYawn:		{length: 39,	end: 102,	fps: 30},
+		idleToFall:						{length: "03",	end: 213,	fps: 30},
+		jumpToFall:						{length: 19,	end: 348,	fps: 30},
+		land:							{length: "03",	end: 257,	fps: 30},
+		landToIdle:						{length: 11,	end: 170,	fps: 30},
+		landToWalk:						{length: "05",	end: 177,	fps: 30},
+		idleToWalk:						{length: "03",	end: 217,	fps: 30},
+		walkToIdleA:					{length: 25,	end: 378,	fps: 30},
+		walkToIdleB:					{length: 25,	end: 390,	fps: 30},
+		walkToIdleC:					{length: 25,	end: 405,	fps: 30},
+		walkToIdleD:					{length: 25,	end: 321,	fps: 30},
+		idleToWalkOnCeiling:			{length: "03",	end: 10,	fps: 30},
+		walkToIdleOnCeilingA:			{length: 29,	end: 10,	fps: 30},
+		walkToIdleOnCeilingB:			{length: 29,	end: 10,	fps: 30},
+		idleOnCeilingToFall:			{length: "03",	end: 10,	fps: 30},
+		walkOnCeilingToFall:			{length: "03",	end: 10,	fps: 30},
+		fallToIdleOnCeiling:			{length: 29,	end: 10,	fps: 30},
+		fallToWalkOnCeiling:			{length: "03",	end: 10,	fps: 30},
+		ceilingCollideToIdleOnCeiling:	{length: 29,	end: 10,	fps: 30},
+		ceilingCollideToWalkOnCeiling:	{length: "03",	end: 10,	fps: 30},
+		ceilingCollide:					{length: "07",	end: 7,		fps: 30},
+		fidgetStretch:					{length: 44,	end: 162,	fps: 30},
+		fidgetYawn:						{length: 39,	end: 166,	fps: 30},
+		fidgetTippyTaps:				{length: 59,	end: 166,	fps: 30},
 
-		// walkToIdle beginning frames; these aren't actual states
-		walk1:			{begin: "00",	end: 183, 	anim: "walk"},
-		walk2:			{begin: "05",	end: 188, 	anim: "walk"},
-		walk3:			{begin: 10,		end: 193, 	anim: "walk"},
-		walk4:			{begin: 15,		end: 198, 	anim: "walk"}
+		// cycle animation interuption beginning frames
+		// these aren't actual states
+		ceilingCollideA:{begin: "02",	end: 207, 	anim: "ceilingCollide"},
+		walkA:			{begin: "00",	end: 207, 	anim: "walk"},
+		walkB:			{begin: "05",	end: 209, 	anim: "walk"},
+		walkC:			{begin: 10,		end: 355, 	anim: "walk"},
+		walkD:			{begin: 15,		end: 357, 	anim: "walk"},
+		walkOnCeilingA:	{begin: "00",	end: 357, 	anim: "walkOnCeiling"},
+		walkOnCeilingB:	{begin: "06",	end: 357, 	anim: "walkOnCeiling"}
 	}
 
-	var key;
+	var key, animJson;
 	var debugBool = false;
 	if(whichPlayer === 1){
 		key = "cat1";
-		if(debugAnimation === true){
-			debugBool = true;
-			this.debugPrintAnimationIndices();
-		}
+		animJson = "redCatAnimations";
+		debugBool = debugAnimation;
 	}
 	else{
 		key = "cat2";
+		animJson = "blueCatAnimations";
 	}
+	this.updateAnimationIndices(animJson);
 
 	Phaser.Sprite.call(this, game, x, y, key);
 	game.add.existing(this); // Adds to display list
@@ -99,20 +130,14 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.isJumping = false; // var for if the player just jumped
 	this.idleTimer = 0; // var for the timer for being idle to trigger fidget animations
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
+	this.blinkTimer = 0; // var for the timer for blinking
 
-	this.fallVelocity = 5; // var for what velocity to check for if falling // It changes depending on context
+	this.lowFallVelocity = 20;
+	this.highFallVelocity = 80;
+	this.fallVelocity = this.lowFallVelocity; // var for what velocity to check for if falling // It changes depending on context
 	this.fallTimer = 0; // var for the timer for changing the fallVelocity const
 	this.hasFinishedLanding = false; // var for if the player has finished landing
 	// The player when landing tends to have massive fluctuations in the y velocity
-
-	// Add in the animation frames by name
-	for(let i = 0; i < this.animNames.length; i++){
-		var anim = this.animNames[i];
-		var data = this.animData[anim];
-		
-		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
-		this.animations.add(anim, Phaser.Animation.generateFrameNames(this.file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
-	}
 
 	// Creates a new FSM
 	this.fsm = new StateMachine(this, {debug: debugBool});
@@ -120,8 +145,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	// Reference to self that can be referenced in FSM
 	var self = this;
 
-	// Create states
+	// Add in the animation frames by name and create the anim States
 	for(let i = 0; i < this.animNames.length; i++){
+		var anim = this.animNames[i];
+		var data = this.animData[anim];
+		
+		// generateFrameNames(prefix, start, stop, suffix, howManyDigitsForIndices)
+		this.animations.add(anim, Phaser.Animation.generateFrameNames(this.file + '-' + anim + '-',0, data.length,'',2), data.fps, true);
 		self.createAnimState(this.animNames[i]);
 	}
 
@@ -129,76 +159,176 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	var data = this.animData;
 
 	// Create transitions
-	// If the player is moving when idle
-	self.createMoveAnimTransition('idle');
+	// Idle
+	self.createMoveAnimTransition('idle', "idleToWalk");
 	self.createJumpAnimTransition("idle");
-	this.fsm.transition('idle_to_idleToFall', 'idle', 'idleToFall', function(){
-		return ( self.checkIfFalling() );
-	});
+	self.createFallAnimTransition('idle', 'idleToFall');
 
-	self.createNextAnimTransition('idleToFall', 'fall');
+		// idleToFall
+		self.createNextAnimTransition('idleToFall', 'fall');
 
-	self.createNextAnimTransition('idleToWalk', 'walk');
-	self.createJumpAnimTransition("idleToWalk");
-	self.createFallAnimTransition("idleToWalk");
+		// idleToWalk
+		self.createNextAnimTransition('idleToWalk', 'walk');
+		self.createJumpAnimTransition("idleToWalk");
+		self.createFallAnimTransition("idleToWalk", "fall");
 
-	// If the player stops moving when walking
-	this.fsm.transition('walk_to_walkToIdle1', 'walk', 'walkToIdle1', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk1.end );
+	// walk
+	this.fsm.transition('walk_to_walkToIdleA', 'walk', 'walkToIdleA', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkA.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle2', 'walk', 'walkToIdle2', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk2.end );
+	this.fsm.transition('walk_to_walkToIdleB', 'walk', 'walkToIdleB', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkB.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle3', 'walk', 'walkToIdle3', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk3.end );
+	this.fsm.transition('walk_to_walkToIdleC', 'walk', 'walkToIdleC', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkC.end );
 	});
-	this.fsm.transition('walk_to_walkToIdle4', 'walk', 'walkToIdle4', function(){
-		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walk4.end );
+	this.fsm.transition('walk_to_walkToIdleD', 'walk', 'walkToIdleD', function(){
+		return ( self.checkIfStopMoving() &&  self.animations.frame === data.walkD.end );
 	});
 	self.createJumpAnimTransition("walk");
-	self.createFallAnimTransition("walk");
+	self.createFallAnimTransition("walk", "fall");
 
-	self.createNextAnimTransition('walkToIdle1', 'idle');
-	self.createMoveAnimTransition('walkToIdle1');
-	self.createJumpAnimTransition("walkToIdle1");
-	self.createFallAnimTransition("walkToIdle1");
+		// walkToIdle
+		self.createNextAnimTransition('walkToIdleA', 'idle');
+		self.createMoveAnimTransition('walkToIdleA', "idleToWalk");
+		self.createJumpAnimTransition("walkToIdleA");
+		self.createFallAnimTransition("walkToIdleA", "idleToFall");
 
-	self.createNextAnimTransition('walkToIdle2', 'idle');
-	self.createMoveAnimTransition('walkToIdle2');
-	self.createJumpAnimTransition("walkToIdle2");
-	self.createFallAnimTransition("walkToIdle2");
+		self.createNextAnimTransition('walkToIdleB', 'idle');
+		self.createMoveAnimTransition('walkToIdleB', "idleToWalk");
+		self.createJumpAnimTransition("walkToIdleB");
+		self.createFallAnimTransition("walkToIdleB", "idleToFall");
 
-	self.createNextAnimTransition('walkToIdle3', 'idle');
-	self.createMoveAnimTransition('walkToIdle3');
-	self.createJumpAnimTransition("walkToIdle3");
-	self.createFallAnimTransition("walkToIdle3");
+		self.createNextAnimTransition('walkToIdleC', 'idle');
+		self.createMoveAnimTransition('walkToIdleC', "idleToWalk");
+		self.createJumpAnimTransition("walkToIdleC");
+		self.createFallAnimTransition("walkToIdleC", "idleToFall");
 
-	self.createNextAnimTransition('walkToIdle4', 'idle');
-	self.createMoveAnimTransition('walkToIdle4');
-	self.createJumpAnimTransition("walkToIdle4");
-	self.createFallAnimTransition("walkToIdle4");
+		self.createNextAnimTransition('walkToIdleD', 'idle');
+		self.createMoveAnimTransition('walkToIdleD', "idleToWalk");
+		self.createJumpAnimTransition("walkToIdleD");
+		self.createFallAnimTransition("walkToIdleD", "idleToFall");
 
-	// If the player reaches the peak of their jump when jumping
+	// jump
 	this.fsm.transition('jump_to_jumpToFall', 'jump', 'jumpToFall', function(){
 		return ( self.player.body.velocity.y*-1*self.player.body.data.gravityScale < 40
 			&& self.player.body.velocity.y*-1*self.player.body.data.gravityScale > 5 );
 	});
 	this.fsm.transition('jump_to_ceilingCollide', 'jump', 'ceilingCollide', function(){
-		return ( self.player.checkIfOnRoof() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
+		return ( self.checkIfOnCeiling() ); //self.player.body.velocity.y*-1*self.player.body.data.gravityScale <= 5
 	});
 
-	self.createJumpAnimTransition("ceilingCollide");
+	// ceilingCollide
 	self.createNextAnimTransition("ceilingCollide", "fall");
 	self.createLandAnimTransition("ceilingCollide");
+	this.fsm.transition('ceilingCollide_to_ceilingCollideToIdleOnCeiling', 'ceilingCollide', 'ceilingCollideToIdleOnCeiling', function(){
+		return ( self.checkIfOnCeiling() &&
+				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 !self.checkIfMoving() &&
+				 self.animations.frame === data.ceilingCollideA.end);
+	});
+	this.fsm.transition('ceilingCollide_to_ceilingCollideToWalkOnCeiling', 'ceilingCollide', 'ceilingCollideToWalkOnCeiling', function(){
+		return ( self.checkIfOnCeiling() &&
+				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfMoving() &&
+				 self.animations.frame === data.ceilingCollideA.end);
+	});
 
-	// If the player reaches the end of the jumpToFall animation
-	self.createNextAnimTransition('jumpToFall', 'fall');
-	// If the player touches the ground before the end of the jumpToFall animation
-	self.createLandAnimTransition("jumpToFall");
+		// jumpToFall
+		// If the player reaches the end of the jumpToFall animation
+		self.createNextAnimTransition('jumpToFall', 'fall');
+		// If the player touches the ground before the end of the jumpToFall animation
+		self.createLandAnimTransition("jumpToFall");
+		this.fsm.transition('jumpToFall_to_fallToIdleOnCeiling', 'jumpToFall', 'fallToIdleOnCeiling', function(){
+			return ( self.checkIfOnCeiling() &&
+					 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+					 !self.checkIfMoving());
+		});
+		this.fsm.transition('jumpToFall_to_fallToWalkOnCeiling', 'jumpToFall', 'fallToWalkOnCeiling', function(){
+			return ( self.checkIfOnCeiling() &&
+					 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+					 self.checkIfMoving());
+		});
 
+	// fall
 	// If the player touches the ground when falling
 	self.createLandAnimTransition("fall");
+	this.fsm.transition('fall_to_fallToIdleOnCeiling', 'fall', 'fallToIdleOnCeiling', function(){
+		return ( self.checkIfOnCeiling() &&
+				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 !self.checkIfMoving());
+	});
+	this.fsm.transition('fall_to_fallToWalkOnCeiling', 'fall', 'fallToWalkOnCeiling', function(){
+		return ( self.checkIfOnCeiling() &&
+				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfMoving());
+	});
 
+	// idleOnCeiling
+	this.fsm.transition('idleOnCeiling_to_idleOnCeilngToFall', 'idleOnCeiling', 'idleOnCeilingToFall', function(){
+		return ( !self.checkIfOnCeiling() );
+	});
+	self.createMoveAnimTransition('idleOnCeiling', 'idleToWalkOnCeiling');
+
+	//walkOnCeiling
+	this.fsm.transition('walkOnCeiling_to_walkOnCeilingToFall', 'walkOnCeiling', 'walkOnCeilingToFall', function(){
+		return ( !self.checkIfOnCeiling() );
+	});
+	this.fsm.transition('walkOnCeiling_to_walkToIdleOnCeilingA', 'walkOnCeiling', 'walkToIdleOnCeilingA', function(){
+		return ( !self.checkIfMoving() && self.animations.frame === data.walkOnCeilingA.end);
+	});
+	this.fsm.transition('walkOnCeiling_to_walkToIdleOnCeilingB', 'walkOnCeiling', 'walkToIdleOnCeilingB', function(){
+		return ( !self.checkIfMoving() && self.animations.frame === data.walkOnCeilingB.end);
+	});
+
+		//States that enter onCeiling
+		// fallToIdleOnCeiling
+		self.createNextAnimTransition("fallToIdleOnCeiling", "idleOnCeiling");
+		self.createFallAnimTransition("fallToIdleOnCeiling", "idleOnCeilingToFall");
+		self.createMoveAnimTransition('fallToIdleOnCeiling', 'idleToWalkOnCeiling');
+
+		// fallToWalkOnCeiling
+		self.createNextAnimTransition("fallToWalkOnCeiling", "walkOnCeiling");
+		self.createFallAnimTransition("fallToWalkOnCeiling", "walkOnCeilingToFall");
+
+		// ceilingCollideToIdleOnCeiling
+		self.createNextAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeiling");
+		self.createFallAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeilingToFall");
+		self.createMoveAnimTransition('ceilingCollideToIdleOnCeiling', 'idleToWalkOnCeiling');
+
+		// ceilingCollideToWalkOnCeiling
+		self.createNextAnimTransition("ceilingCollideToWalkOnCeiling", "walkOnCeiling");
+		self.createFallAnimTransition("ceilingCollideToWalkOnCeiling", "walkOnCeilingToFall");
+
+		// onCeiling states
+		// idleToWalkOnCeiling
+		self.createNextAnimTransition("idleToWalkOnCeiling", "walkOnCeiling");
+		self.createFallAnimTransition("idleToWalkOnCeiling", "walkOnCeilingToFall");
+
+		// walkToIdleOnCeilingA
+		self.createNextAnimTransition("walkToIdleOnCeilingA", "idleOnCeiling");
+		self.createFallAnimTransition("walkToIdleOnCeilingA", "idleOnCeilingToFall");
+		self.createMoveAnimTransition('walkToIdleOnCeilingA', 'idleToWalkOnCeiling');
+
+		// walkToIdleOnCeilingB
+		self.createNextAnimTransition("walkToIdleOnCeilingB", "idleOnCeiling");
+		self.createFallAnimTransition("walkToIdleOnCeilingB", "idleOnCeilingToFall");
+		self.createMoveAnimTransition('walkToIdleOnCeilingB', 'idleToWalkOnCeiling');
+
+		// states that exit onCeiling
+		// idleOnCeilngToFall
+		self.createNextAnimTransition("idleOnCeilingToFall", "fall");
+		this.fsm.transition("idleOnCeilingToFall_to_idleOnCeiling", "idleOnCeilingToFall", "idleOnCeiling", function(){
+			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+		});
+
+		// walkOnCeilingToFall
+		self.createNextAnimTransition("walkOnCeilingToFall", "fall");
+		this.fsm.transition("walkOnCeilingToFall_to_walkOnCeiling", "walkOnCeilingToFall", "walkOnCeiling", function(){
+			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+		});
+
+	// land
 	// If the player jumps before the end of the land animation
 	self.createJumpAnimTransition("land");
 	// If the player reaches the end of the land animation and doesn't provide keyboard input
@@ -210,17 +340,20 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		return ( self.animations.frame === data.land.end && self.checkIfMoving() );
 	});
 
-	self.createNextAnimTransition('landToIdle', 'idle')
-	self.createMoveAnimTransition("landToIdle");
-	self.createJumpAnimTransition("landToIdle");
-	self.createFallAnimTransition("landToIdle");
+		// landToIdle
+		self.createNextAnimTransition('landToIdle', 'idle')
+		self.createMoveAnimTransition("landToIdle", "idleToWalk");
+		self.createJumpAnimTransition("landToIdle");
+		self.createFallAnimTransition("landToIdle", "idleToFall");
 
-	self.createNextAnimTransition('landToWalk', 'walk')
-	self.createJumpAnimTransition("landToWalk");
-	self.createFallAnimTransition("landToWalk");
+		// landToWalk
+		self.createNextAnimTransition('landToWalk', 'walk')
+		self.createJumpAnimTransition("landToWalk");
+		self.createFallAnimTransition("landToWalk", "fall");
 
 	self.createFidgetAnimTransitions("fidgetStretch", 1);
 	self.createFidgetAnimTransitions("fidgetYawn", 2);
+	self.createFidgetAnimTransitions("fidgetTippyTaps", 3);
 
 	// Plays the initial state
 	this.animations.play(self.fsm.initialState);
@@ -235,11 +368,12 @@ PlayerFSM.prototype.update = function(){
 	this.fsm.update();
 
 	this.updateIdleTimer();
+	this.updateFallTimer();
 }
 
 // If condition for if the player is falling
 PlayerFSM.prototype.checkIfFalling = function(){
-	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){ // !this.player.checkIfCanJump()
+	if(Math.abs( this.player.body.velocity.y ) > this.fallVelocity && this.isJumping === false){ // !this.player.checkIfCanJump()
 		this.resetIdleTimer();
 		return true;
 	}
@@ -278,6 +412,7 @@ PlayerFSM.prototype.checkIfJumping = function(){
 PlayerFSM.prototype.checkIfLanded = function(){
 	if( this.player.checkIfCanJump() ){
 		this.resetIdleTimer();
+		this.resetFallTimer();
 		return true;
 	}
 	return false;
@@ -286,6 +421,15 @@ PlayerFSM.prototype.checkIfLanded = function(){
 // If condition for if the player is moving
 PlayerFSM.prototype.checkIfMoving = function(){
 	if( this.isMoving === true ){
+		this.resetIdleTimer();
+		return true;
+	}
+	return false;
+}
+
+// If condition for if the player is on the ceiling
+PlayerFSM.prototype.checkIfOnCeiling = function(){
+	if( this.player.checkIfOnRoof() ){
 		this.resetIdleTimer();
 		return true;
 	}
@@ -333,10 +477,10 @@ PlayerFSM.prototype.createFidgetAnimTransitions = function(animName, animID){
 }
 
 // Creates the animation transition from animName to fall
-PlayerFSM.prototype.createFallAnimTransition = function(animName){
+PlayerFSM.prototype.createFallAnimTransition = function(animName, fallAnimName){
 	var self = this;
 
-	this.fsm.transition(animName + '_to_fall', animName, 'fall', function(){
+	this.fsm.transition(animName + '_to_' + fallAnimName, animName, fallAnimName, function(){
 		return ( self.checkIfFalling() );
 	});
 }
@@ -360,10 +504,10 @@ PlayerFSM.prototype.createLandAnimTransition = function(animName){
 }
 
 // Creates the animation transition from animName to idleToWalk
-PlayerFSM.prototype.createMoveAnimTransition = function(animName){
+PlayerFSM.prototype.createMoveAnimTransition = function(animName, moveAnimName){
 	var self = this;
 
-	this.fsm.transition(animName + '_to_idleToWalk', animName, 'idleToWalk', function(){
+	this.fsm.transition(animName + '_to_' + moveAnimName, animName, moveAnimName, function(){
 		return ( self.checkIfMoving() );
 	});
 }
@@ -377,9 +521,54 @@ PlayerFSM.prototype.createNextAnimTransition = function(firstAnimName, nextAnimN
 	});
 }
 
-// Prints out the indices of the end of animation states
-PlayerFSM.prototype.debugPrintAnimationIndices = function(){
-	var atlas = game.cache.getJSON('playerAnimations');
+// Resets the timer for blink animations
+PlayerFSM.prototype.resetBlinkTimer = function(){
+	this.blinkTimer = 0;
+}
+
+PlayerFSM.prototype.resetFallTimer = function(){
+	this.fallTimer = 0;
+	this.fallVelocity = this.highFallVelocity;
+}
+
+// Resets the timer for idle animations
+PlayerFSM.prototype.resetIdleTimer = function(){
+	this.idleTimer = 0;
+	this.idleAnimPicked = 0;
+}
+
+// Updates the timer for blink animations
+PlayerFSM.prototype.updateBlinkTimer = function(){
+	this.blinkTimer++;
+}
+
+PlayerFSM.prototype.updateFallTimer = function(){
+	let timerCheck = 50;
+	if(this.fallTimer > timerCheck) return;
+
+	this.fallTimer++;
+
+	if(this.fallTimer > timerCheck){
+		this.fallVelocity = this.lowFallVelocity;
+	}
+}
+
+// Updates the timer for fidget animations
+PlayerFSM.prototype.updateIdleTimer = function(){
+	if(this.isMoving === true) return;
+
+	var idleAnimTotal = 3;
+	if(this.idleTimer > 200){
+		this.idleAnimPicked = Math.ceil( Math.random() * idleAnimTotal );
+		this.idleTimer = 0;
+	}
+
+	this.idleTimer++;
+}
+
+// Updates the indices of the end of animation states
+PlayerFSM.prototype.updateAnimationIndices = function(animJson){
+	var atlas = game.cache.getJSON(animJson);
 	var frames = atlas.frames;
 
 	var anyChanges = false;
@@ -387,12 +576,13 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 		for(let j = 0; j < this.animNames.length; j++){
 			var anim = this.animNames[j];
 			var data = this.animData[anim];
+
 			if(frames[i].filename === this.file + "-" + anim + "-" + data.length){
 				var oldData = data.end;
 				data.end = i;
 
 				if(oldData != data.end){
-					console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					if(debugAnimation) console.log("changed " + anim + " from " + oldData + " to " + data.end);
 					anyChanges = true;
 				}
 
@@ -407,7 +597,7 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 				data.end = i;
 
 				if(oldData != data.end){
-					console.log("changed " + anim + " from " + oldData + " to " + data.end);
+					if(debugAnimation) console.log("changed " + anim + " from " + oldData + " to " + data.end);
 					anyChanges = true;
 				}
 
@@ -415,6 +605,8 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 			}
 		}
 	}
+
+	if(!debugAnimation) return;
 
 	if(anyChanges === false){
 		console.log("All end indices up to date");
@@ -434,33 +626,4 @@ PlayerFSM.prototype.debugPrintAnimationIndices = function(){
 		
 		console.log(anim + " = " + data.end);
 	}
-}
-
-PlayerFSM.prototype.resetFallTimer = function(){
-	this.fallTimer = 0;
-}
-
-// Resets the timer for idle animations
-PlayerFSM.prototype.resetIdleTimer = function(){
-	this.idleTimer = 0;
-	this.idleAnimPicked = 0;
-}
-
-PlayerFSM.prototype.updateFallTimer = function(){
-	this.fallTimer++;
-}
-
-// Updates the timer for idle animations
-PlayerFSM.prototype.updateIdleTimer = function(){
-	if(this.isMoving === true){
-		return;
-	}
-
-	var idleAnimTotal = 2;
-	if(this.idleTimer > 200){
-		this.idleAnimPicked = Math.ceil( Math.random() * idleAnimTotal );
-		this.idleTimer = 0;
-	}
-
-	this.idleTimer++;
 }

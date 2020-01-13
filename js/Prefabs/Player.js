@@ -37,7 +37,7 @@ function Player(game, gameplay, x, y, whichPlayer){
 	this.facing = "left"; // where the cat is facing
 
 	this.yarnAnchorScaleX = .14; // Constants for where the yarn anchor point should be held
-	this.yarnAnchorScaleY = .41;
+	this.yarnAnchorScaleY = .50;
 	this.yarnAnchorOffsetX = this.yarnAnchorScaleX*this.width; // Calculate how many pixels to offset
 	this.yarnAnchorOffsetY = this.yarnAnchorScaleY*this.height;
 	this.yarnAnchorOffsetXInit = this.yarnAnchorOffsetX; // Storing initial value for tweening use
