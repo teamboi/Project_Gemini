@@ -94,7 +94,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 
 		// cycle animation interuption beginning frames
 		// these aren't actual states
-		ceilingCollideA:{begin: "04",	end: 207, 	anim: "ceilingCollide"},
+		ceilingCollideA:{begin: "02",	end: 207, 	anim: "ceilingCollide"},
 		walkA:			{begin: "00",	end: 207, 	anim: "walk"},
 		walkB:			{begin: "05",	end: 209, 	anim: "walk"},
 		walkC:			{begin: 10,		end: 355, 	anim: "walk"},
@@ -279,6 +279,7 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		return ( !self.checkIfMoving() && self.animations.frame === data.walkOnCeilingB.end);
 	});
 
+		//States that enter onCeiling
 		// fallToIdleOnCeiling
 		self.createNextAnimTransition("fallToIdleOnCeiling", "idleOnCeiling");
 		self.createFallAnimTransition("fallToIdleOnCeiling", "idleOnCeilingToFall");
@@ -288,21 +289,19 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		self.createNextAnimTransition("fallToWalkOnCeiling", "walkOnCeiling");
 		self.createFallAnimTransition("fallToWalkOnCeiling", "walkOnCeilingToFall");
 
-		// idleOnCeilngToFall
-		self.createNextAnimTransition("idleOnCeilingToFall", "fall");
-		this.fsm.transition("idleOnCeilingToFall_to_idleOnCeiling", "idleOnCeilingToFall", "idleOnCeiling", function(){
-			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
-		});
+		// ceilingCollideToIdleOnCeiling
+		self.createNextAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeiling");
+		self.createFallAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeilingToFall");
+		self.createMoveAnimTransition('ceilingCollideToIdleOnCeiling', 'idleToWalkOnCeiling');
 
+		// ceilingCollideToWalkOnCeiling
+		self.createNextAnimTransition("ceilingCollideToWalkOnCeiling", "walkOnCeiling");
+		self.createFallAnimTransition("ceilingCollideToWalkOnCeiling", "walkOnCeilingToFall");
+
+		// onCeiling states
 		// idleToWalkOnCeiling
 		self.createNextAnimTransition("idleToWalkOnCeiling", "walkOnCeiling");
 		self.createFallAnimTransition("idleToWalkOnCeiling", "walkOnCeilingToFall");
-
-		// walkOnCeilingToFall
-		self.createNextAnimTransition("walkOnCeilingToFall", "fall");
-		this.fsm.transition("walkOnCeilingToFall_to_walkOnCeiling", "walkOnCeilingToFall", "walkOnCeiling", function(){
-			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
-		});
 
 		// walkToIdleOnCeilingA
 		self.createNextAnimTransition("walkToIdleOnCeilingA", "idleOnCeiling");
@@ -314,14 +313,18 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		self.createFallAnimTransition("walkToIdleOnCeilingB", "idleOnCeilingToFall");
 		self.createMoveAnimTransition('walkToIdleOnCeilingB', 'idleToWalkOnCeiling');
 
-		// ceilingCollideToIdleOnCeiling
-		self.createNextAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeiling");
-		self.createFallAnimTransition("ceilingCollideToIdleOnCeiling", "idleOnCeilingToFall");
-		self.createMoveAnimTransition('ceilingCollideToIdleOnCeiling', 'idleToWalkOnCeiling');
+		// states that exit onCeiling
+		// idleOnCeilngToFall
+		self.createNextAnimTransition("idleOnCeilingToFall", "fall");
+		this.fsm.transition("idleOnCeilingToFall_to_idleOnCeiling", "idleOnCeilingToFall", "idleOnCeiling", function(){
+			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+		});
 
-		// ceilingCollideToWalkOnCeiling
-		self.createNextAnimTransition("ceilingCollideToWalkOnCeiling", "walkOnCeiling");
-		self.createFallAnimTransition("ceilingCollideToWalkOnCeiling", "idleOnCeilingToFall");
+		// walkOnCeilingToFall
+		self.createNextAnimTransition("walkOnCeilingToFall", "fall");
+		this.fsm.transition("walkOnCeilingToFall_to_walkOnCeiling", "walkOnCeilingToFall", "walkOnCeiling", function(){
+			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+		});
 
 	// land
 	// If the player jumps before the end of the land animation
