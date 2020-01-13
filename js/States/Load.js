@@ -94,12 +94,13 @@ Load.prototype = {
 		game.load.image('Cats', 'newer_Cats.png');
 		game.load.image('Cradle', 'newer_Cradle.png');
 		game.load.image('Threads', 'lvl3.png');
-		game.load.image('Houses', 'new_Houses.png');
+		game.load.image('Houses', 'newer_Houses.png');
 		game.load.image('Windows', 'Windows3.png');
 		game.load.image('Fences', 'Fences4.png');
 		game.load.image('Clouds1', 'newest_cloud_puzzle2.png');
 		game.load.image('Clouds2', 'newest_cloud_puzzle3.png');
 		game.load.image('Clouds3', 'newest_cloud_puzzle4.png');
+		game.load.image('floor', 'cloud_floor.png');
 		
 		game.load.path = 'assets/img/objects/';
 		//Load in object sprites

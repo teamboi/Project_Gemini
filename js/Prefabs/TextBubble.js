@@ -15,6 +15,7 @@ function TextBubble(game, gameplay, data){
 	this.text = game.add.text(data.x, data.y, data.text, style); // Creates specified text
 	this.text.zOrder = layerText; // Sets text's z order for layer sorting
 	this.text.anchor.setTo(0.5, 0.5); // Sets the anchor to the center of the text
+	this.text.lineSpacing = data.lineSpacing; // Sets the spacing between the text lines
 	this.alpha = 0; // Initial state for both bubble and text is transparent
 	this.text.alpha = 0;
 

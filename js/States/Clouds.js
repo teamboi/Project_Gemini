@@ -36,6 +36,8 @@ Clouds.prototype = {
 		}
 
 		this.levelManager = new LevelManager(game, this, opts);
+        this.border = game.add.sprite(game.width/2,game.height/2,'floor');
+        this.border.anchor.setTo(0.5,0.5);
 	},
 	update: function(){
 		//Check for player one's win state
