@@ -25,18 +25,18 @@ var layerYarn = 100;
 
 // variables for debugging
 
-var debugLevel				= "Cradle"; // default to null; replace with the name of the level to switch to
+var debugLevel				= null; // default to null; replace with the name of the level to switch to
 var debugAnimation			= false; // true or false; prints out animation indices for the player,
 									// so I don't have to count, and it isn't calculated every time a level is loaded;
 									// Also enables debug on FSM
 var debugCollisionsObjects	= false; // true or false; enable collisions with objects
 var debugCollisionsLevel	= false; // true or false; enable collisions for the platforms
-var debugHotkeys			= true; // true or false; enables the use of hotkeys to navigate levels;
+var debugHotkeys			= false; // true or false; enables the use of hotkeys to navigate levels;
 									// O for prev, P for next;
 									// L for restart;
 var debugLoopLevel			= false; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
 var debugSkipIntro			= false; // true or false; skips the Team Boy Intro
-var debugTransitions		= true; // true or false; makes level transitions instant
+var debugTransitions		= false; // true or false; makes level transitions instant
 var debugWin				= false; // true or false; prevents level from being able to be won
 
 var levelArr = ['MainMenu',
