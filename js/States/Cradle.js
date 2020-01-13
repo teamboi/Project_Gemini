@@ -152,7 +152,7 @@ Cradle.prototype = {
 	},
 	// Create the tutorial text
 	tutorialText: function() {
-		 this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
+		this.p1Controls = game.add.image(this.player1.body.x, this.player1.body.y  - this.oneVertOffset, 'wKey');
 		this.p1Controls.x = this.player1.x;
 		this.p1Controls.y = this.player1.y - this.textVertOffset;
 		this.p1Controls.anchor.set(0.5);
@@ -169,4 +169,13 @@ Cradle.prototype = {
 		this.exit.anchor.set(0.5);
 		this.exit.inputEnabled = true;
 	},
+	createLevelObstacles: function(){
+		this.motionGraphic = game.add.sprite(game.width/2,game.height/2,"motionGraphic1");
+		this.motionGraphic.animations.add("anim_motionGraphic", Phaser.Animation.generateFrameNames('cat motion gaphic-tutorial motion graphic-',0, 49,'',2), 30, true);
+		this.motionGraphic.animations.play("anim_motionGraphic");
+		this.motionGraphic.anchor.set(0.5,0.5);
+		game.add.existing(this.motionGraphic);
+		this.motionGraphic.zOrder = layerMotionGraphic;
+		this.group.add(this.motionGraphic);
+	}
 }
