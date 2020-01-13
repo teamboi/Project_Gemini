@@ -24,11 +24,11 @@
 	[
 		{
 			"x" : 180,
-			"y" : 221,
+			"y" : 201,
 			"width" : 340,
 			"text": "The bond between the two became something magical, as if tied together with string...",
-			"fontSize" : 22,
-			"lineSpacing" : 0,
+			"fontSize" : 20,
+			"lineSpacing" : -8,
 			"audio" : "narrate",
 			"color" : "0xFED9D1"
 		},
@@ -37,8 +37,8 @@
 			"y" : 401,
 			"width" : 250,
 			"text" : "..when both cats jumped, and one held on tight, the other could hang and swing.",
-			"fontSize" : 22,
-			"lineSpacing" : 0,
+			"fontSize" : 20,
+			"lineSpacing" : -8,
 			"audio" : "sfx_test_narration.mp3",
 			"color" : "0xE1E3F4"
 		}

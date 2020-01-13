@@ -43,6 +43,7 @@ function LevelManager(game, gameplay, opts){
     this.textFadeDuration = 1500; // How long does the text fade in and out
     this.bell = game.add.audio('bell');
     this.bellPlayed = false;
+    this.bell.volume = 0.45;
 
 	if(debugTransitions === true){
 		this.winTimerDelay = 1;
