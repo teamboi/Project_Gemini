@@ -132,7 +132,9 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	this.idleAnimPicked = 0; // var for which idle animation to play; 0 is none
 	this.blinkTimer = 0; // var for the timer for blinking
 
-	this.fallVelocity = 5; // var for what velocity to check for if falling // It changes depending on context
+	this.lowFallVelocity = 20;
+	this.highFallVelocity = 80;
+	this.fallVelocity = this.lowFallVelocity; // var for what velocity to check for if falling // It changes depending on context
 	this.fallTimer = 0; // var for the timer for changing the fallVelocity const
 	this.hasFinishedLanding = false; // var for if the player has finished landing
 	// The player when landing tends to have massive fluctuations in the y velocity
@@ -366,11 +368,12 @@ PlayerFSM.prototype.update = function(){
 	this.fsm.update();
 
 	this.updateIdleTimer();
+	this.updateFallTimer();
 }
 
 // If condition for if the player is falling
 PlayerFSM.prototype.checkIfFalling = function(){
-	if(Math.abs( this.player.body.velocity.y ) > 80 && this.isJumping === false){ // !this.player.checkIfCanJump()
+	if(Math.abs( this.player.body.velocity.y ) > this.fallVelocity && this.isJumping === false){ // !this.player.checkIfCanJump()
 		this.resetIdleTimer();
 		return true;
 	}
@@ -409,6 +412,7 @@ PlayerFSM.prototype.checkIfJumping = function(){
 PlayerFSM.prototype.checkIfLanded = function(){
 	if( this.player.checkIfCanJump() ){
 		this.resetIdleTimer();
+		this.resetFallTimer();
 		return true;
 	}
 	return false;
@@ -524,6 +528,7 @@ PlayerFSM.prototype.resetBlinkTimer = function(){
 
 PlayerFSM.prototype.resetFallTimer = function(){
 	this.fallTimer = 0;
+	this.fallVelocity = this.highFallVelocity;
 }
 
 // Resets the timer for idle animations
@@ -538,14 +543,19 @@ PlayerFSM.prototype.updateBlinkTimer = function(){
 }
 
 PlayerFSM.prototype.updateFallTimer = function(){
+	let timerCheck = 50;
+	if(this.fallTimer > timerCheck) return;
+
 	this.fallTimer++;
+
+	if(this.fallTimer > timerCheck){
+		this.fallVelocity = this.lowFallVelocity;
+	}
 }
 
 // Updates the timer for fidget animations
 PlayerFSM.prototype.updateIdleTimer = function(){
-	if(this.isMoving === true){
-		return;
-	}
+	if(this.isMoving === true) return;
 
 	var idleAnimTotal = 3;
 	if(this.idleTimer > 200){

@@ -29,7 +29,7 @@ var debugAnimation			= false; // true or false; prints out animation indices for
 									// Also enables debug on FSM
 var debugCollisionsObjects	= false; // true or false; enable collisions with objects
 var debugCollisionsLevel	= false; // true or false; enable collisions for the platforms
-var debugHotkeys			= false; // true or false; enables the use of hotkeys to navigate levels;
+var debugHotkeys			= true; // true or false; enables the use of hotkeys to navigate levels;
 									// O for prev, P for next;
 									// L for restart;
 var debugLoopLevel			= false; // true or false; when a level is completed, loop the level instead of proceeding; only works with levels, not transitions
