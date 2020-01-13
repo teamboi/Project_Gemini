@@ -249,7 +249,7 @@ YarnVisual.prototype.setYarnState = function(state, color){
 		this.dropMidpoint();
 	}
 	else{
-		console.log(state + " is not a valid state. taut or slack"); // In case I make a typo
+		throw new Error(state + " is not a valid state. taut or slack"); // In case I make a typo
 	}
 }
 
