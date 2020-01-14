@@ -27,8 +27,8 @@ Cradle.prototype = {
 			howManyGlows: 1,
 			redGlowCoords: [0,0],
 			blueGlowCoords: [0,0],
-			player1Coords: [game.width/2, 416],
-			player2Coords: [game.width/2, 350],
+			player1Coords: [4*game.width/5, 416],
+			player2Coords: [4*game.width/5, 350],
 			enableYarn: true,
 			enableBarrier: false,
 		}
@@ -170,10 +170,12 @@ Cradle.prototype = {
 		this.exit.inputEnabled = true;
 	},
 	createLevelObstacles: function(){
-		this.motionGraphic = game.add.sprite(game.width/2,game.height/2,"motionGraphic1");
+		this.motionGraphic = game.add.sprite(game.width/2,game.height/2 + 60,"motionGraphic1");
 		this.motionGraphic.animations.add("anim_motionGraphic", Phaser.Animation.generateFrameNames('cat motion gaphic-tutorial motion graphic-',0, 49,'',2), 30, true);
 		this.motionGraphic.animations.play("anim_motionGraphic");
 		this.motionGraphic.anchor.set(0.5,0.5);
+		this.motionGraphic.scale.setTo(0.6);
+		this.motionGraphic.scale.x *= -1;
 		game.add.existing(this.motionGraphic);
 		this.motionGraphic.zOrder = layerMotionGraphic;
 		this.group.add(this.motionGraphic);
