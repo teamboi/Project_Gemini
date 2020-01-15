@@ -223,13 +223,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createLandAnimTransition("ceilingCollide");
 	this.fsm.transition('ceilingCollide_to_ceilingCollideToIdleOnCeiling', 'ceilingCollide', 'ceilingCollideToIdleOnCeiling', function(){
 		return ( self.checkIfOnCeiling() &&
-				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfBeingAnchored() &&
 				 !self.checkIfMoving() &&
 				 self.animations.frame === data.ceilingCollideA.end);
 	});
 	this.fsm.transition('ceilingCollide_to_ceilingCollideToWalkOnCeiling', 'ceilingCollide', 'ceilingCollideToWalkOnCeiling', function(){
 		return ( self.checkIfOnCeiling() &&
-				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfBeingAnchored() &&
 				 self.checkIfMoving() &&
 				 self.animations.frame === data.ceilingCollideA.end);
 	});
@@ -241,12 +241,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		self.createLandAnimTransition("jumpToFall");
 		this.fsm.transition('jumpToFall_to_fallToIdleOnCeiling', 'jumpToFall', 'fallToIdleOnCeiling', function(){
 			return ( self.checkIfOnCeiling() &&
-					 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+					 self.checkIfBeingAnchored() &&
 					 !self.checkIfMoving());
 		});
 		this.fsm.transition('jumpToFall_to_fallToWalkOnCeiling', 'jumpToFall', 'fallToWalkOnCeiling', function(){
 			return ( self.checkIfOnCeiling() &&
-					 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+					 self.checkIfBeingAnchored() &&
 					 self.checkIfMoving());
 		});
 
@@ -255,12 +255,12 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 	self.createLandAnimTransition("fall");
 	this.fsm.transition('fall_to_fallToIdleOnCeiling', 'fall', 'fallToIdleOnCeiling', function(){
 		return ( self.checkIfOnCeiling() &&
-				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfBeingAnchored() &&
 				 !self.checkIfMoving());
 	});
 	this.fsm.transition('fall_to_fallToWalkOnCeiling', 'fall', 'fallToWalkOnCeiling', function(){
 		return ( self.checkIfOnCeiling() &&
-				 self.player.whichPlayer != self.gameplay.yarn.anchored &&
+				 self.checkIfBeingAnchored() &&
 				 self.checkIfMoving());
 	});
 
@@ -319,13 +319,13 @@ function PlayerFSM(game, gameplay, player, x, y, whichPlayer){
 		// idleOnCeilngToFall
 		self.createNextAnimTransition("idleOnCeilingToFall", "fall");
 		this.fsm.transition("idleOnCeilingToFall_to_idleOnCeiling", "idleOnCeilingToFall", "idleOnCeiling", function(){
-			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+			return ( self.checkIfOnCeiling() && self.checkIfBeingAnchored() );
 		});
 
 		// walkOnCeilingToFall
 		self.createNextAnimTransition("walkOnCeilingToFall", "fall");
 		this.fsm.transition("walkOnCeilingToFall_to_walkOnCeiling", "walkOnCeilingToFall", "walkOnCeiling", function(){
-			return ( self.checkIfOnCeiling() && self.player.whichPlayer != self.gameplay.yarn.anchored );
+			return ( self.checkIfOnCeiling() && self.checkIfBeingAnchored() );
 		});
 
 	// land
@@ -369,6 +369,15 @@ PlayerFSM.prototype.update = function(){
 
 	this.updateIdleTimer();
 	this.updateFallTimer();
+}
+
+// If condition for if the player is being anchored
+PlayerFSM.prototype.checkIfBeingAnchored = function(){
+	if(this.gameplay.yarn == null) return false;
+	if(this.player.whichPlayer != this.gameplay.yarn.anchored){
+		return true;
+	}
+	return false;
 }
 
 // If condition for if the player is falling
