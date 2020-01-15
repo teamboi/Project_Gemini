@@ -24,8 +24,8 @@ Threads.prototype = {
 			howManyGlows: 1,
 			redGlowCoords: [0,0],
 			blueGlowCoords: [0,0],
-			player1Coords: [180, 469],
-			player2Coords: [450, 55],
+			player1Coords: [750, 469],
+			player2Coords: [100, 55],
 			enableYarn: true,
 			enableBarrier: false,
 		}
@@ -49,5 +49,16 @@ Threads.prototype = {
 			this.complete = false;
 			game.add.tween(this.redGlow).to( { alpha: 0 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
 		}
+	},
+	createLevelObstacles: function(){
+		this.motionGraphic = game.add.sprite(game.width/2 +110,game.height/4 + 40,"motionGraphic2");
+		this.motionGraphic.animations.add("anim_motionGraphic", Phaser.Animation.generateFrameNames('motion graphic 2-Untitled-',0, 60,'',2), 30, true);
+		this.motionGraphic.animations.play("anim_motionGraphic");
+		this.motionGraphic.anchor.set(0.5,0.5);
+		this.motionGraphic.scale.setTo(0.6);
+		this.motionGraphic.scale.x *= -1;
+		game.add.existing(this.motionGraphic);
+		this.motionGraphic.zOrder = layerMotionGraphic;
+		this.group.add(this.motionGraphic);
 	}
 }

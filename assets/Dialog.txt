@@ -30,7 +30,7 @@
 			"fontSize" : 20,
 			"lineSpacing" : -8,
 			"audio" : "narrate",
-			"color" : "0xFED9D1"
+			"color" : "0xE1E3F4"
 		},
 		{
 			"x" : 725,
@@ -52,7 +52,7 @@
 			"fontSize" : 22,
 			"lineSpacing" : 0,
 			"audio" : "narrate",
-			"color" : "0xFED9D1"
+			"color" : "0xE1E3F4"
 		},
 		{
 			"x" : 395,
