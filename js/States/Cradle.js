@@ -174,7 +174,7 @@ Cradle.prototype = {
 		this.motionGraphic.animations.add("anim_motionGraphic", Phaser.Animation.generateFrameNames('cat motion gaphic-tutorial motion graphic-',0, 49,'',2), 30, true);
 		this.motionGraphic.animations.play("anim_motionGraphic");
 		this.motionGraphic.anchor.set(0.5,0.5);
-		this.motionGraphic.scale.setTo(0.6);
+		//this.motionGraphic.scale.setTo(0.6);
 		this.motionGraphic.scale.x *= -1;
 		game.add.existing(this.motionGraphic);
 		this.motionGraphic.zOrder = layerMotionGraphic;
