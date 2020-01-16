@@ -30,7 +30,7 @@ Load.prototype = {
 		game.load.path = 'assets/audio/sfx/';
 		// Load in the sfx
 		game.load.audio('short_meow1', 'Cat_1_Short.wav');
-		game.load.audio('short_meow2', 'Cat_2_Short.wav');
+		game.load.audio('short_meow2', 'Cat_2_Short_new.wav');
 		game.load.audio('long_meow1', 'Cat_1_Long.mp3');
 		game.load.audio('long_meow2', 'Cat_2_Long.mp3');
 

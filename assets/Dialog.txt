@@ -46,7 +46,7 @@
 	[
 		{
 			"x" : 295,
-			"y" : 136,
+			"y" : 120,
 			"width" : 470,
 			"text" : "They spent so much of their lives together, with love filling their hearts...",
 			"fontSize" : 20,
