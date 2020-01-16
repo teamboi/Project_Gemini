@@ -47,19 +47,19 @@
 		{
 			"x" : 295,
 			"y" : 136,
-			"width" : 550,
+			"width" : 470,
 			"text" : "They spent so much of their lives together, with love filling their hearts...",
-			"fontSize" : 22,
+			"fontSize" : 20,
 			"lineSpacing" : 0,
 			"audio" : "narrate",
 			"color" : "0xE1E3F4"
 		},
 		{
 			"x" : 395,
-			"y" : 522,
+			"y" : 542,
 			"width" : 150,
 			"text" : "...but one day, just like the gravities they live in, fate would pull them apart.",
-			"fontSize" : 22,
+			"fontSize" : 18,
 			"lineSpacing" : 0,
 			"audio" : "sfx_test_narration.mp3",
 			"color" : "0xE1E3F4"

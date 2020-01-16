@@ -45,9 +45,9 @@ Cradle.prototype = {
 			this.levelManager.cancelWin();
 		}
 		if(Phaser.Math.distance(this.player2.x, this.player2.y, this.player1.x, this.player1.y) < 90 ){
-			if(this.player2.anchorState == "isAnchor" || this.player1.anchorState == "isAnchor") {
+			//if(this.player2.anchorState == "isAnchor" || this.player1.anchorState == "isAnchor") {
 				this.complete = true;
-			}
+			//}
 			game.add.tween(this.redGlow).to( { alpha: 0.5 }, 100, Phaser.Easing.Sinusoidal.InOut, true, 0);
 			this.redGlow.x = (this.player1.x + this.player2.x)/2;
 			this.redGlow.y = (this.player1.y + this.player2.y)/2;
