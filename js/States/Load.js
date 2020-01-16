@@ -98,7 +98,6 @@ Load.prototype = {
 		
 		game.load.path = 'assets/img/objects/';
 		//Load in object sprites
-		game.load.image('bluePlat', '120 blue ledge 1.png');
 		game.load.image('redWindow', 'redPullWindow.png');
 		game.load.image('blueWindow', 'bluePullWindow.png');
 		game.load.image('redLatch', 'redLatch2.png');
@@ -110,6 +109,8 @@ Load.prototype = {
 		game.load.image('textBlur', 'textBlur.png');
 
 		game.load.atlas('motionGraphic1', "motionGraphic1.png", "motionGraphic1.json");
+		game.load.atlas('motionGraphic2', "motionGraphic2.png", "motionGraphic2.json");
+
 
 		game.load.path = 'assets/tilemaps/';
 
