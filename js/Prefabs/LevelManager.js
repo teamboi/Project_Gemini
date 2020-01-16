@@ -15,7 +15,7 @@
 // enableYarn; true or false; will there be yarn in this level
 // enableBarrier; true or false; will there be a barrier in this level
 function LevelManager(game, gameplay, opts){
-    console.log(opts);
+    //console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
@@ -226,7 +226,7 @@ LevelManager.prototype.findLevelArrPosition = function(name) {
 			return i;
 		}
 	}
-	console.log("Could not find " + name + " within levelArr");
+	//console.log("Could not find " + name + " within levelArr");
 	return -1;
 }
 
@@ -249,7 +249,7 @@ LevelManager.prototype.glow = function(howManyGlows, redGlowX, redGlowY, blueGlo
 	}
 	// Just in case of typos
 	else if(howManyGlows != 1){
-		console.log("Cannot have " + howManyGlows + " glows. Please enter 1 or 2");
+		//console.log("Cannot have " + howManyGlows + " glows. Please enter 1 or 2");
 	}
 }
 

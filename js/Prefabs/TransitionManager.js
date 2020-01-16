@@ -8,7 +8,7 @@
 // ost; string; music to play
 // narration; string; narration to play
 function TransitionManager(game, gameplay, opts){
-	console.log(opts);
+	//console.log(opts);
 	Phaser.Sprite.call(this, game, game.width/2, game.height/2, null);
 	game.add.existing(this);
 	this.gameplay = gameplay; // Obtains reference to gameplay state
@@ -96,7 +96,7 @@ TransitionManager.prototype.findLevelArrPosition = function(name) {
 			return i;
 		}
 	}
-	console.log("Could not find " + name + " within levelArr");
+	//console.log("Could not find " + name + " within levelArr");
 	return -1;
 }
 
